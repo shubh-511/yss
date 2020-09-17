@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
-
+Route::get('/get/countries', 'API\CountryController@index');
 // Route::group(['middleware' => 'AuthBasic'], function(){
 // 	Route::post('login', 'API\UserController@login');
 // });
