@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('login', 'API\UserController@login');
+Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::get('/get/countries', 'API\CountryController@index');
 Route::get('get/access_tokens', 'API\GrantAccessTokenController@index');
