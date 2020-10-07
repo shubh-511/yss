@@ -31,6 +31,7 @@ class User extends Authenticatable
         'registered_date',
         'last_login_date',
         'email_verified_at',
+        'user_nicename',
         'display_name',
         'account_enabled',
         'migrated_id',

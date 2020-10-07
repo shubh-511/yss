@@ -12,9 +12,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('login', 'API\UserController@login');
+Route::get('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::get('/get/countries', 'API\CountryController@index');
+Route::get('get/access_tokens', 'API\GrantAccessTokenController@index');
+Route::post('verify/access_token', 'API\GrantAccessTokenController@verifyAccessToken');
+Route::post('import/user', 'API\UserController@importUser');
+
 // Route::group(['middleware' => 'AuthBasic'], function(){
 // 	Route::post('login', 'API\UserController@login');
 // });

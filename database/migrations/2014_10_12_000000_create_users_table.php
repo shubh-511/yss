@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration
             $table->integer('updated_by')->default(0);
             $table->string('user_type')->nullable();
             $table->integer('avatar_id')->nullable();
+            $table->integer('role_id');
             $table->rememberToken();
             $table->timestamps();
         });
