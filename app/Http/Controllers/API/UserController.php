@@ -22,21 +22,7 @@ class UserController extends Controller
     	
     	try{
 
-            // the message
-            $msg = "First line of text\nSecond line of text";
-
-            // use wordwrap() if lines are longer than 70 characters
-            $msg = wordwrap($msg,70);
-
-            // send email
-            $to='deepaksaini6413@gmail.com';
-            $subject = "My subject";
-            $txt = "Hello world!";
-            $headers = "From: deepaksaini6413@gmail.com";
-
-            mail($to,$subject,$txt,$headers);
-            exit;
-    		$input = [];
+            $input = [];
 
     		if($request->getUser() || $request->getPassword()){
     			$input['name'] 	= $request->getUser();
@@ -77,6 +63,7 @@ class UserController extends Controller
     public function register(Request $request) 
     {
     	try{
+
     		$validator = Validator::make($request->all(), [ 
 	            'name' => 'required|unique:users',  
 	            'email' => 'required|email|unique:users', 
