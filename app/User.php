@@ -36,7 +36,8 @@ class User extends Authenticatable
         'account_enabled',
         'migrated_id',
         'user_type',
-        'avatar_id'
+        'avatar_id',
+        'role_id'
     ];
 
     /**
@@ -56,4 +57,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles(){
+        return $this->belongsTo(Role::class, 'role_id','id');
+    }
 }

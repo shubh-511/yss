@@ -23,6 +23,8 @@ Route::post('import/user', 'API\UserController@importUser');
 
 
 Route::group(['middleware' => 'auth:api'], function(){
+	Route::post('profile-update', 'API\UserController@updateProfile');
+
 	Route::post('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
 	Route::post('create-package', 'API\PackageController@createPackage');
 	Route::post('edit-package', 'API\PackageController@editPackage');
