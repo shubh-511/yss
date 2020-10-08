@@ -25,7 +25,6 @@ class PackageController extends Controller
     	try
         {
     		$validator = Validator::make($request->all(), [ 
-                'user_id' => 'required', 
 	            'package_name' => 'required',  
 	            'package_description' => 'required', 
 	            'session_minutes' => 'required', 
@@ -37,8 +36,10 @@ class PackageController extends Controller
             { 
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
 			}
+            $user = Auth::user()->id;
 
 			$input = $request->all(); 
+            $input['user_id'] = $user;
 	        $package = Package::create($input); 
 
 	        return response()->json(['success' => true,
@@ -119,6 +120,7 @@ class PackageController extends Controller
             $package->save();
 
             return response()->json(['success' => true,
+                                     'message' => 'Package updated',
                                      'package' => $package,
                                     ], $this->successStatus); 
 
@@ -141,7 +143,7 @@ class PackageController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [ 
-                'user_id' => 'required', 
+                //'user_id' => 'required', 
                 'package_id' => 'required', 
             ]);
 
@@ -150,8 +152,8 @@ class PackageController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
 
-            
-            $package = Package::where(['id'=> $request->package_id, 'user_id'=> $request->user_id])->delete();
+            $user = Auth::user()->id;
+            $package = Package::where(['id'=> $request->package_id, 'user_id'=> $user])->delete();
 
             if($package)
             {

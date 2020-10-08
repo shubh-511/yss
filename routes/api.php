@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('create-package', 'API\PackageController@createPackage');
 	Route::post('edit-package', 'API\PackageController@editPackage');
 	Route::post('delete-package', 'API\PackageController@deletePackage');
+	Route::post('add-availability', 'API\AvailabilityController@addAvailability');
+
 	Route::post('details', 'API\UserController@details');
 });
 

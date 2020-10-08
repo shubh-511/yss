@@ -77,7 +77,6 @@ class UserController extends Controller
 
 			$input = $request->all(); 
 			$input['password'] = bcrypt(md5($input['password'])); 
-            $input['role_id'] = 2;
 			$input['otp'] = rand(0000,9999);
 	        $user = User::create($input); 
 	        
