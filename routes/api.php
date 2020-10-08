@@ -19,11 +19,14 @@ Route::get('get/access_tokens', 'API\GrantAccessTokenController@index');
 Route::post('verify/access_token', 'API\GrantAccessTokenController@verifyAccessToken');
 Route::post('import/user', 'API\UserController@importUser');
 
-// Route::group(['middleware' => 'AuthBasic'], function(){
-// 	Route::post('login', 'API\UserController@login');
-// });
+
+
 
 Route::group(['middleware' => 'auth:api'], function(){
+	Route::post('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
+	Route::post('create-package', 'API\PackageController@createPackage');
+	Route::post('edit-package', 'API\PackageController@editPackage');
+	Route::post('delete-package', 'API\PackageController@deletePackage');
 	Route::post('details', 'API\UserController@details');
 });
 
