@@ -38,10 +38,9 @@ class UserController extends Controller
 	            return response()->json(['errors'=>$validator->errors(),'success' => false], $this->successStatus);
 			}
 
-            if (Auth::attempt(array('name' => $request->getUser(), 'password' => $request->getPassword()), true)){
+            if (Auth::attempt(array('name' => $request->getUser(), 'password' => md5($request->getPassword())), true)){
                 $user = Auth::user(); 
-                Auth::user()->roles;
-                $token =  $user->createToken('MyApp')->accessToken; 
+	            $token =  $user->createToken('MyApp')->accessToken; 
 
 	            return response()->json(['success' => true,
 	            						 'user' => $user,
@@ -73,14 +72,12 @@ class UserController extends Controller
 	        ]);
 
 			if ($validator->fails()) { 
-	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
 			}
 
 			$input = $request->all(); 
-			$input['password'] = bcrypt($input['password']); 
-            $input['role_id'] = (array_key_exists('role_id',$input)) ? $input['role_id'] : 3;
-			$input['otp'] = $this->generateOTP();
-            $input['account_enabled'] = 3; // Not verified user
+			$input['password'] = bcrypt(md5($input['password'])); 
+			$input['otp'] = rand(0000,9999);
 	        $user = User::create($input); 
 	        
 	        //Send Otp Over Mail or Phone
@@ -96,16 +93,6 @@ class UserController extends Controller
         
     }
 
-    /** 
-     * details api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */ 
-    public function generateOTP(){
-        $otp = mt_rand(1000,9999);
-        return $otp;
-    }
-
 	/** 
      * details api 
      * 
@@ -117,43 +104,6 @@ class UserController extends Controller
         return response()->json(['success' => $user], $this->successStatus); 
     }
 
-    /** 
-     * Update User Profile
-     * 
-     */
-    public function updateProfile(Request $request){
-        try{
-
-            $input = $request->all();
-
-            if(array_key_exists('first_name',$input) ||
-               array_key_exists('last_name', $input) ||
-               array_key_exists('middle_name', $input) ||
-               array_key_exists('location', $input)){
-
-                $user = User::where('id', Auth::user()->id)->update($input);
-
-                if($user){
-                    $user = User::where('id',Auth::user()->id)->with('roles')->first(); 
-                    return response()->json(['success' => true,
-                                     'user' => $user,
-                                    ], $this->successStatus); 
-                }else{
-                    return response()->json(['success' => false,
-                                     'errors' => [ 'error' => 'Wrong parameters sent'],
-                                    ], $this->successStatus);
-                }
-                
-            }
-
-            return response()->json(['success' => false,
-                                     'errors' => [ 'error' => 'Wrong parameters sent'],
-                                    ], $this->successStatus); 
-
-        }catch(\Exception $e){
-            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } 
-    }
     /** 
      * Import User Api
      * 
