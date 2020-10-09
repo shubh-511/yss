@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('country_code')->nullable();
             $table->string('phone')->nullable();
             $table->integer('otp')->nullable();
+            $table->string('location')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('postal_code')->nullable();
@@ -35,7 +36,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('user_activation_key')->nullable();
             $table->string('display_name')->nullable();
-            $table->enum('account_enabled',[0,1,2])->default(0)->comment("1=Active,0=Inactive,2=Expired");
+            $table->enum('account_enabled',[0,1,2,3])->default(0)->comment("1=Active,0=Inactive,2=Expired,3=Not Verified");
             $table->enum('subscription_type',[0,1])->default(0)->comment("0=Trial,1=Subscription");
             $table->enum('social_user',[0,1])->default(0)->comment("0=No,1=Yes");
             $table->string('social_provider')->nullable();
