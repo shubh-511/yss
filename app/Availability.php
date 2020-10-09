@@ -8,7 +8,7 @@ class Availability extends Model
 {
     /*public function availaibleHours
     {
-    	return $this->hasMany('App/AvailaibleHours','availability_id','id');
+    	return $this->hasMany('App\AvailaibleHours','availability_id','id');
     }*/
 
     protected $fillable = [

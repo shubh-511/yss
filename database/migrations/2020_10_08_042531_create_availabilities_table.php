@@ -16,7 +16,7 @@ class CreateAvailabilitiesTable extends Migration
         Schema::create('availabilities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->integer('availaible_days')->comment("1=Mon,2=tue,3=wed,4=thu,5=fri,6=sat,7=sun")->nullable();
+            $table->string('availaible_days')->nullable();
             $table->string('breaks')->nullable();
             $table->timestamps();
         });

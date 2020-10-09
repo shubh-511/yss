@@ -17,7 +17,7 @@ class AvailabilityController extends Controller
 
     /** 
      * Create availability
-     * 
+     *  
      * @return \Illuminate\Http\Response 
      */ 
     public function addAvailability(Request $request) 
@@ -36,9 +36,68 @@ class AvailabilityController extends Controller
 
 			$user = Auth::user()->id;
 			$input = $request->all(); 
-			 
 
-			$availableDays = explode(",", $request->availaible_days);
+			$days = $request->availaible_days;
+
+			switch ($days) 
+			{
+			  case "sunday":
+			    
+			    break;
+			  case "monday":
+			    
+			    break;
+			  case "tuesday":
+			    
+			    break;
+			  case "wednesday":
+			    
+			    break;
+			  case "thursday":
+			    
+			    break;
+			  case "friday":
+			   
+			    break;
+			  case "saturday":
+			    
+			    break;
+			  case "sunday":
+			    
+			    break;
+			  default:
+			    echo "";
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			/*$availableDays = explode(",", $request->availaible_days);
 			foreach($availableDays as $availableDay)
 			{
 				//saving availability days
@@ -52,40 +111,44 @@ class AvailabilityController extends Controller
 				$availableFrom = explode(",", $request->from_time);
 
 				foreach($availableFrom as $availableHour)
-				{ 	
-					//echo $availableHour;
+				{ 						
 					$availableSlots = explode("@", $availableHour);
 					foreach($availableSlots as $availableSlot)
 					{
 						$hoursAvail = new AvailaibleHours;
 						$hoursAvail->availability_id = $availability->id;
-						$hoursAvail->from_time = $availableSlot;
+						$hoursAvail->from_time = $availableSlot;*/
+
+
+
 						//$hoursAvail->to_time  = $request->to_time;
-						$hoursAvail->save();
+						//$hoursAvail->save();
 
 
 
-						/******/
-						$availableTo = explode(",", $request->to_time);
-						foreach($availableTo as $availableToTime)
-						{
-							$availableSlotsTo = explode("@", $availableToTime);
-							foreach($availableSlotsTo as $availableSlotTo)
-							{
-								$toTimes = AvailaibleHours::where('id', $hoursAvail->id)->first();
-								$toTimes->availability_id = $availability->id;
-								//$toTimes->from_time = $availableSlot;
-								$toTimes->to_time  = $availableSlotTo;
-								$toTimes->save();
-							}
-						}
+						// ***
+						// $availableTo = explode(",", $request->to_time);
+						// foreach($availableTo as $availableToTime)
+						// {
+						// 	$availableSlotsTo = explode("@", $availableToTime);
+						// 	foreach($availableSlotsTo as $availableSlotTo)
+						// 	{
+						// 		$toTimes = AvailaibleHours::where('id', $hoursAvail->id)->first();
+						// 		$toTimes->availability_id = $availability->id;
+						// 		//$toTimes->from_time = $availableSlot;
+						// 		$toTimes->to_time  = $availableSlotTo;
+						// 		$toTimes->save();
+						// 	}
+						// }*
 
 
-					}
+					//}
+					
 
-				} 
+
+				//} 
 				
-			}
+			//}
 
 
 
