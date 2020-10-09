@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Event;
 use App\Events\UserRegisterEvent;
+use App\Events\ForgotPasswordEvent;
 
 class UserController extends Controller
 {
@@ -92,6 +93,173 @@ class UserController extends Controller
     	} 
         
     }
+
+    /** 
+     * Forgot password api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function forgotPassword(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [  
+                'email' => 'required|email', 
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $userDetail = User::where('email', $request->email)->first();
+            if(!empty($userDetail))
+            {
+                
+                $otp = rand(0000,9999);
+                $userDetail->otp = $otp;
+                $userDetail->save();
+
+                //Send Otp Over Mail
+                
+                event(new ForgotPasswordEvent($userDetail->id,$otp));
+
+                return response()->json(['success' => true,
+                                         'otp' => $otp,
+                                        ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid email']]], $this->successStatus); 
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
+    /** 
+     * Verify Forgot Otp api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function verifyForgotPasswordOtp(Request $request) 
+    { 
+        try
+        {
+            $validator = Validator::make($request->all(), [  
+                'email' => 'required|email', 
+                'otp' => 'required',
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $userDetail = User::where('email', $request->email)->where('otp', $request->otp)->first();
+            if(!empty($userDetail))
+            {
+                $userDetail->otp = null;
+                $userDetail->save();
+
+
+                return response()->json(['success' => true,
+                                         'message' => 'OTP verified!',
+                                        ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid email or otp']]], $this->successStatus); 
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }
+    }
+
+    /** 
+     * Reset Password after Otp verified api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function resetPassword(Request $request) 
+    { 
+        try
+        {
+            $validator = Validator::make($request->all(), [  
+                'email' => 'required|email', 
+                'password' => 'required', 
+                'c_password' => 'required|same:password',
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $userDetail = User::where('email', $request->email)->first();
+            if(!empty($userDetail))
+            {
+                
+                $userDetail->password = bcrypt(md5($request->password)); 
+                $userDetail->save();
+
+
+                return response()->json(['success' => true,
+                                         'message' => 'Your password has been reset',
+                                        ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid email']]], $this->successStatus); 
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }
+    }
+
+    /** 
+     * Update Profile Picture api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function updateProfileImage(Request $request) 
+    {
+        try{
+
+            $validator = Validator::make($request->all(), [ 
+                'image' => 'required||mimes:jpeg,png,jpg|max:2048',  
+                
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $fileName = time().'.'.$request->image->extension();  
+            
+            $request->image->move(public_path('uploads'), $fileName);
+            
+            
+            $user = Auth::user()->id;
+            $updateImage = User::where('id', $user)->first();
+
+            return response()->json(['success' => true,
+                                     'user' => $user,
+                                    ], $this->successStatus); 
+
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
 
 	/** 
      * details api 
