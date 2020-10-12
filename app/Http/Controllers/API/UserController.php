@@ -39,7 +39,7 @@ class UserController extends Controller
 	            return response()->json(['errors'=>$validator->errors(),'success' => false], $this->successStatus);
 			}
 
-            if (Auth::attempt(array('name' => $request->getUser(), 'password' => $request->getPassword()), true)){
+            if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
                 $user = Auth::user(); 
                 Auth::user()->roles;
                 $token =  $user->createToken('MyApp')->accessToken; 
