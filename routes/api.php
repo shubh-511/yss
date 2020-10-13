@@ -19,7 +19,8 @@ Route::get('get/access_tokens', 'API\GrantAccessTokenController@index');
 Route::post('verify/access_token', 'API\GrantAccessTokenController@verifyAccessToken');
 Route::post('import/user', 'API\UserController@importUser');
 Route::post('forgot-password', 'API\UserController@forgotPassword');
-Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
+
+//Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
 Route::post('reset/password', 'API\UserController@resetPassword');
 
 
@@ -28,7 +29,7 @@ Route::post('reset/password', 'API\UserController@resetPassword');
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('profile-update', 'API\UserController@updateProfile');
 
-	Route::post('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
+	Route::get('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
 	Route::post('create-package', 'API\PackageController@createPackage');
 	Route::post('edit-package', 'API\PackageController@editPackage');
 	Route::post('delete-package', 'API\PackageController@deletePackage');
