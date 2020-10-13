@@ -119,16 +119,19 @@ class UserController extends Controller
             if(!empty($userDetail))
             {
                 
-                $otp = $this->generateOTP();
-                $userDetail->otp = $otp;
+                $forgotKey = md5($request->email);
+
+                //$otp = $this->generateOTP();
+                //$userDetail->otp = $otp;
+                $userDetail->key = $forgotKey;
                 $userDetail->save();
 
                 //Send Otp Over Mail
                 
-                event(new ForgotPasswordEvent($userDetail->id,$otp));
+                //event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
                 return response()->json(['success' => true,
-                                         'otp' => $otp,
+                                         'otp' => $forgotKey,
                                         ], $this->successStatus); 
             }
             else
@@ -143,6 +146,8 @@ class UserController extends Controller
         } 
         
     }
+
+    
 
     /** 
      * Verify Forgot Otp api 
@@ -195,7 +200,7 @@ class UserController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [  
-                'email' => 'required|email', 
+                'key' => 'required', 
                 'password' => 'required', 
                 'c_password' => 'required|same:password',
             ]);
@@ -204,7 +209,7 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
 
-            $userDetail = User::where('email', $request->email)->first();
+            $userDetail = User::where('email', md5($request->key))->first();
             if(!empty($userDetail))
             {
                 
@@ -218,7 +223,7 @@ class UserController extends Controller
             }
             else
             {
-                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid email']]], $this->successStatus); 
+                return response()->json(['success'=>false,'errors' =>['exception' => ['The token has been expired']]], $this->successStatus); 
             }
 
         }

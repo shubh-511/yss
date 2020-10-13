@@ -19,7 +19,8 @@ Route::get('get/access_tokens', 'API\GrantAccessTokenController@index');
 Route::post('verify/access_token', 'API\GrantAccessTokenController@verifyAccessToken');
 Route::post('import/user', 'API\UserController@importUser');
 Route::post('forgot-password', 'API\UserController@forgotPassword');
-Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
+
+//Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
 Route::post('reset/password', 'API\UserController@resetPassword');
 
 

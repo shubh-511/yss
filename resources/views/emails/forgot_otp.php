@@ -1,1 +1,0 @@
-<p>OTP is {{ $user['otp'] }}</p>

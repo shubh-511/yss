@@ -19,10 +19,10 @@ class ForgotPasswordEvent
      *
      * @return void
      */
-    public function __construct($userDetail, $otp)
+    public function __construct($userDetail, $forgotKey)
     {
         $this->userDetail = $userDetail;
-        $this->otp = $otp;
+        $this->forgotKey = $forgotKey;
     }
 
     /**
