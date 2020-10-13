@@ -212,7 +212,7 @@ class UserController extends Controller
             $userDetail = User::where('email', md5($request->key))->first();
             if(!empty($userDetail))
             {
-                
+                $userDetail->key = null;
                 $userDetail->password = bcrypt($request->password); 
                 $userDetail->save();
 
