@@ -29,7 +29,7 @@ Route::post('reset/password', 'API\UserController@resetPassword');
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('profile-update', 'API\UserController@updateProfile');
 
-	Route::post('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
+	Route::get('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
 	Route::post('create-package', 'API\PackageController@createPackage');
 	Route::post('edit-package', 'API\PackageController@editPackage');
 	Route::post('delete-package', 'API\PackageController@deletePackage');
