@@ -23,6 +23,7 @@ Route::post('login/admin-login', 'Admin\AdminController@adminLogin');
 Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(){
 
 	Route::get('/dashboard', 'Admin\AdminController@dashboard');
+	Route::get('/users', 'Admin\UserController@index');
 
 });
 

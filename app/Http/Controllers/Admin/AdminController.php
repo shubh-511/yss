@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User; 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 //use App\Events\UserRegisterEvent;
@@ -69,7 +70,8 @@ class AdminController extends Controller
     ***/
     public function dashboard(Request $request)
     {
-        return view('admin.home');
+        $userCount = User::where('role_id','!=',1)->count();
+        return view('admin.home',compact('userCount'));
     }
 
 

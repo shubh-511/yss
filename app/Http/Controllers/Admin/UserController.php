@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 
 use Illuminate\Http\Request;
@@ -21,8 +21,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
+        $users = User::where('role_id','!=',1)->orderBy('id','DESC')->paginate(25);
+        return view('admin.users.index',compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
