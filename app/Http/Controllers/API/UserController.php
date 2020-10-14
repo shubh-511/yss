@@ -119,7 +119,7 @@ class UserController extends Controller
             if(!empty($userDetail))
             {
                 
-                $forgotKey = base64_decode($request->email);
+                $forgotKey = base64_encode($request->email);
 
                 //$otp = $this->generateOTP();
                 //$userDetail->otp = $otp;
