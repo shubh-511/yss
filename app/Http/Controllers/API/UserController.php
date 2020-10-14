@@ -209,7 +209,7 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
 
-            $userDetail = User::where('email', md5($request->key))->first();
+            $userDetail = User::where('key', md5($request->key))->first();
             if(!empty($userDetail))
             {
                 $userDetail->key = null;
