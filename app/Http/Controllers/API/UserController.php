@@ -119,7 +119,7 @@ class UserController extends Controller
             if(!empty($userDetail))
             {
                 
-                $forgotKey = md5($request->email);
+                $forgotKey = base64_decode($request->email);
 
                 //$otp = $this->generateOTP();
                 //$userDetail->otp = $otp;
@@ -209,7 +209,7 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
 
-            $userDetail = User::where('key', md5($request->key))->first();
+            $userDetail = User::where('key', base64_decode($request->key))->first();
             if(!empty($userDetail))
             {
                 $userDetail->key = null;
