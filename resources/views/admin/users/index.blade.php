@@ -19,10 +19,7 @@
                        
                     </div>
                 </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 text-center">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                        <a href="" class="btn btn-primary btnblack">Clear</a>
-                </div>
+                
             </div>
           </form>
           <div class="row ">
@@ -61,24 +58,23 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Role</th>
-                      <th>Featured</th>
-                      <th>Display Status</th>
-                      <th>Action</th>
+                      <th>Featured Image</th>
                     </tr>
                   </thead>
                   <tbody>
                       @forelse($users as $user)
-                        <tr id='artist{{$user->id}}'>
-                          <th><input type="checkbox" class='sub_chk' data-id="{{$user->id}}" name="artist_id[]"></th>
+                        <tr id='user{{$user->id}}'>
+                          <th><input type="checkbox" class='sub_chk' data-id="{{$user->id}}" name="user_id[]"></th>
                           <td>{{ $user->name}}</td>
                           
                           <td>{{ $user->email}}</td>
                           <td>@if($user->role_id == 2){{'Counsellor'}} @elseif($user->role_id == 3){{'Consumer'}} @else {{'Admin'}} @endif</td>
-                          <!--<td>{{ ($user->display_status == 1) ? 'Active' : 'Inactive' }}</td>-->
                           <td>
-                            <a href="" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                           
-                             
+                            @if(isset($user->avtar_id))
+                              <img src="{{ asset('$user->avtar_id') }}" style="height:50px;width: 50px">
+                            @else
+                              <img src="{{ asset('uploads/default.png') }}" style="height:50px;width: 50px">
+                            @endif
                           </td>
                           
                         </tr>
