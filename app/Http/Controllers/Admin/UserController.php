@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Spatie\Permission\Models\Role;
 use DB;
+use Auth;
 use Hash;
 use Validator;
 
@@ -75,9 +76,21 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    { 
         $user = User::find($id);
-        return view('users.show',compact('user'));
+        return view('admin.users.show',compact('user'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function profile()
+    { 
+        $user = Auth::user();
+        return view('admin.users.profile',compact('user'));
     }
 
 
@@ -115,13 +128,14 @@ class UserController extends Controller
         }
 
         $user = User::find($id);
+        //return $user;
         $user->name = $request->name;
         $user->first_name = $request->first_name;
         $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->save();
 
-
+        return redirect('login/users')->with('success', 'Successfully updated');
         
     }
 
