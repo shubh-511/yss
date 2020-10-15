@@ -1,14 +1,14 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Edit New User</h2>
+            <h2>Edit User</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ url('login/users') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -24,45 +24,54 @@
     </ul>
   </div>
 @endif
+@if(Session::has('err_message'))
+<div class="alert alert-danger">
+  <strong>{{ Session::get('err_message') }}</strong>
+</div>
+@endif
 
 
-{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+<form action="{{url('login/users/update',[$user->id])}}" method="post">
+    @csrf
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Name:</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+            <label>Name:</label>
+            <input type="text" class="form-control" value="{{$user->name}}" name="name" required placeholder="Name"> 
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Email:</strong>
-            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+            <label>Email:</label>
+            <input type="email" class="form-control" value="{{$user->email}}" disabled name="email" required placeholder="Email">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Password:</strong>
-            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+            <label>First Name:</label>
+            <input type="text" class="form-control" value="{{$user->first_name}}" name="first_name" placeholder="First Name">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Confirm Password:</strong>
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+            <label>Middle Name:</label>
+            <input type="text" class="form-control" value="{{$user->middle_name}}" name="middle_name" placeholder="Middle Name">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Role:</strong>
-            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+            <label>Last Name:</label>
+            <input type="text" class="form-control" value="{{$user->last_name}}" name="last_name" placeholder="Last Name">
         </div>
     </div>
+    
+     
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>
-{!! Form::close() !!}
+</form>
+
 
 
 @endsection

@@ -165,7 +165,11 @@
     <script src="{{ asset('assets/bower_components/ckeditor/ckeditor.js')}}"></script>
     <script src="{{ asset('assets/dist/js/adminlte.min.js')}}"></script>
     <script src="{{ asset('assets/js/main.js')}}"></script>
-
+    $( document ).ready(function(){
+            $('.alert').fadeIn('slow', function(){
+               $('.alert').delay(5000).fadeOut(); 
+            });
+        });
     @yield('footer_scripts')
     
     

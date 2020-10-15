@@ -33,7 +33,7 @@
           </div>
           <div class="box-body">
             <div class="row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <label class="control-label nopadding col-sm-3 " for="inputEmail">Bulk
                     Action </label>
                   <div class="col-sm-3 nopadding">
@@ -44,7 +44,7 @@
                       <option value="2">Delete</option>
                     </select>
                   </div>
-                </div>
+                </div> -->
                 <div class="col-md-6">
                   <!--<a href="" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Create Artist</a>-->
                 </div>
@@ -58,7 +58,7 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Role</th>
-                      <th>Featured Image</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -69,12 +69,9 @@
                           
                           <td>{{ $user->email}}</td>
                           <td>@if($user->role_id == 2){{'Counsellor'}} @elseif($user->role_id == 3){{'Consumer'}} @else {{'Admin'}} @endif</td>
-                          <td>
-                            @if(isset($user->avtar_id))
-                              <img src="{{ asset('$user->avtar_id') }}" style="height:50px;width: 50px">
-                            @else
-                              <img src="{{ asset('uploads/default.png') }}" style="height:50px;width: 50px">
-                            @endif
+                           <td>
+                             <a class="btn btn-info" href="{{ url('login/users/show',$user->id) }}">Show</a>
+                             <a class="btn btn-primary" href="{{ url('login/users/edit',$user->id) }}">Edit</a>
                           </td>
                           
                         </tr>

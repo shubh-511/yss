@@ -10,7 +10,7 @@ use App\User;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
-
+use Validator;
 
 class UserController extends Controller
 {
@@ -90,11 +90,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-
-
-        return view('users.edit',compact('user','roles','userRole'));
+        return view('admin.users.edit',compact('user','userRole'));
     }
 
 
@@ -106,33 +103,26 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $this->validate($request, [
+    { 
+        $validator = Validator::make($request->all(), [ 
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
+            //'email' => 'required|email|unique:users,email,'.$id,
         ]);
 
-
-        $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = array_except($input,array('password'));    
+        if ($validator->fails()) 
+        { 
+            return redirect()->back()->with('err_message',$validator->messages()->first());
         }
 
-
         $user = User::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->save();
 
 
-        $user->assignRole($request->input('roles'));
-
-
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+        
     }
 
 

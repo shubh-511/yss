@@ -24,6 +24,8 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 
 	Route::get('/dashboard', 'Admin\AdminController@dashboard');
 	Route::get('/users', 'Admin\UserController@index');
+	Route::get('/users/edit/{id}', 'Admin\UserController@edit');
+	Route::post('/users/update/{id}', 'Admin\UserController@update');
 
 });
 

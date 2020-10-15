@@ -128,7 +128,7 @@ class UserController extends Controller
 
                 //Send Otp Over Mail
                 
-                //event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
+                event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
                 return response()->json(['success' => true,
                                          'otp' => $forgotKey,
