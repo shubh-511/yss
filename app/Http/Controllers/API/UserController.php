@@ -131,7 +131,7 @@ class UserController extends Controller
                 event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
                 return response()->json(['success' => true,
-                                         'otp' => $forgotKey,
+                                         'message' => 'Reset password link has been sent on your email',
                                         ], $this->successStatus); 
             }
             else
