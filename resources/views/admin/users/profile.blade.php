@@ -13,8 +13,8 @@
 
 
 
-<form>
-    
+<form method="post" action="{{url('login/profile/update')}}">
+    @csrf
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
@@ -49,7 +49,7 @@
     
      
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </div>
 </div>
 </form>

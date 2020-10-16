@@ -28,6 +28,7 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 	Route::post('/users/update/{id}', 'Admin\UserController@update');
 	Route::get('/users/show/{id}', 'Admin\UserController@show');
 	Route::get('/profile', 'Admin\UserController@profile');
+	Route::post('/profile/update', 'Admin\UserController@profileUpdate');
 
 });
 

@@ -93,6 +93,37 @@ class UserController extends Controller
         return view('admin.users.profile',compact('user'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function profileUpdate(Request $request)
+    { 
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required',
+            //'email' => 'required|email|unique:users,email,'.$id,
+        ]);
+
+        if ($validator->fails()) 
+        { 
+            return redirect()->back()->with('err_message',$validator->messages()->first());
+        }
+
+        $user = Auth::user();
+        //return $user;
+        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->save();
+
+        return redirect('login/profile')->with('success', 'Successfully updated');
+        
+    }
+
 
     /**
      * Show the form for editing the specified resource.
