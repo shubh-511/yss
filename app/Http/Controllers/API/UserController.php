@@ -258,7 +258,7 @@ class UserController extends Controller
             
             $user = Auth::user()->id;
             $updateImage = User::where('id', $user)->first();
-            $updateImage->avatar_id = 'public/uploads/'$fileName;
+            $updateImage->avatar_id = "public/uploads/".$fileName;
             $updateImage->save();
 
             return response()->json(['success' => true,
