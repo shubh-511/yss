@@ -243,7 +243,7 @@ class UserController extends Controller
         try{
 
             $validator = Validator::make($request->all(), [ 
-                'image' => 'required||mimes:jpeg,png,jpg|max:2048',  
+                'image' => 'required|mimes:jpeg,png,jpg|max:2048',  
                 
             ]);
 
@@ -300,14 +300,23 @@ class UserController extends Controller
     public function updateProfile(Request $request){
         try{
 
+            $validator = Validator::make($request->all(), [ 
+                'name' => 'required',  
+                
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
             $input = $request->all();
 
-            if(array_key_exists('first_name',$input) ||
-               array_key_exists('last_name', $input) ||
-               array_key_exists('middle_name', $input) ||
-               array_key_exists('location', $input)){
+            // if(array_key_exists('first_name',$input) ||
+            //    array_key_exists('last_name', $input) ||
+            //    array_key_exists('middle_name', $input) ||
+            //    array_key_exists('location', $input)){
 
-                $user = User::where('id', Auth::user()->id)->update($input);
+                $user = User::where('id', Auth::user()->id)->update(['name'=>$request->name]);
 
                 if($user){
                     $user = User::where('id',Auth::user()->id)->with('roles')->first(); 
@@ -320,11 +329,11 @@ class UserController extends Controller
                                     ], $this->successStatus);
                 }
                 
-            }
+            //}
 
-            return response()->json(['success' => false,
-                                     'errors' => [ 'error' => 'Wrong parameters sent'],
-                                    ], $this->successStatus); 
+            // return response()->json(['success' => false,
+            //                          'errors' => [ 'error' => 'Wrong parameters sent'],
+            //                         ], $this->successStatus); 
 
         }catch(\Exception $e){
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
