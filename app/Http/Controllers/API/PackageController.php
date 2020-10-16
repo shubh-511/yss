@@ -98,11 +98,11 @@ class PackageController extends Controller
         {
             $validator = Validator::make($request->all(), [ 
                 'package_id' => 'required', 
-                // 'package_name' => 'required',  
-                // 'package_description' => 'required', 
-                // 'session_minutes' => 'required', 
-                // 'session_hours' => 'required', 
-                // 'amount' => 'required',
+                'package_name' => 'required',  
+                'package_description' => 'required', 
+                'session_minutes' => 'required', 
+                'session_hours' => 'required', 
+                'amount' => 'required',
             ]);
 
             if ($validator->fails()) 
@@ -112,26 +112,11 @@ class PackageController extends Controller
 
             
             $package = Package::where('id', $request->package_id)->first();
-            if(isset($request->package_name) && !empty($request->package_name))
-            {
-                $package->package_name = $request->package_name; 
-            }
-            if(isset($request->package_description) && !empty($request->package_description))
-            {
-                $package->package_description = $request->package_description; 
-            }
-            if(isset($request->session_minutes) && !empty($request->session_minutes))
-            {
-                $package->session_minutes = $request->session_minutes; 
-            }
-            if(isset($request->session_hours) && !empty($request->session_hours))
-            {
-                $package->session_hours = $request->session_hours; 
-            }
-            if(isset($request->amount) && !empty($request->amount))
-            {
-                $package->amount = $request->amount; 
-            }
+            $package->package_name = $request->package_name; 
+            $package->package_description = $request->package_description; 
+            $package->session_minutes = $request->session_minutes; 
+            $package->session_hours = $request->session_hours; 
+            $package->amount = $request->amount; 
             $package->save();
 
             return response()->json(['success' => true,
