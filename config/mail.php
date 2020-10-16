@@ -134,10 +134,6 @@ return [
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
 
-    /*
-    |mail configuration
-    */
-
     'stream' => [
         'ssl' => [
             'allow_self_signed' => true,
