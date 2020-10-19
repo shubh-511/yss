@@ -389,5 +389,47 @@ class UserController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
     }
+
+    /** 
+     * Reset Password after Otp verified api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function changePassword(Request $request) 
+    { 
+        try
+        {
+            $validator = Validator::make($request->all(), [  
+                'old_password' => 'required', 
+                'new_password' => 'required', 
+                'c_password' => 'required|same:new_password',
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $user = Auth()->user()->id;
+            if(!empty($user))
+            {
+                $user->password = bcrypt($request->new_password); 
+                $user->save();
+
+
+                return response()->json(['success' => true,
+                                         'message' => 'Your password has been reset',
+                                        ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }
+    }
      
 }
