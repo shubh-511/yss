@@ -133,20 +133,6 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
-<<<<<<< HEAD
-=======
 
-    /*
-    |mail configuration
-    */
-
->>>>>>> a8832f10432e11cb836308cd5f762253d998eb46
-    'stream' => [
-        'ssl' => [
-            'allow_self_signed' => true,
-            'verify_peer'       => false,
-            'verify_peer_name'  => false,
-        ],
-    ],
 
 ];
