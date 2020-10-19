@@ -396,8 +396,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response 
      */ 
     public function changePassword(Request $request) 
-    { 
-        try
+    {  
+        try 
         {
             $validator = Validator::make($request->all(), [  
                 'old_password' => 'required', 
