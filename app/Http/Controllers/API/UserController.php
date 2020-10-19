@@ -119,7 +119,7 @@ class UserController extends Controller
             if(!empty($userDetail))
             {
                 
-                $forgotKey = md5($request->email);
+                $forgotKey = base64_encode($request->email);
 
                 //$otp = $this->generateOTP();
                 //$userDetail->otp = $otp;
@@ -128,10 +128,10 @@ class UserController extends Controller
 
                 //Send Otp Over Mail
                 
-                //event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
+                event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
                 return response()->json(['success' => true,
-                                         'otp' => $forgotKey,
+                                         'message' => 'Reset password link has been sent on your email',
                                         ], $this->successStatus); 
             }
             else
@@ -209,10 +209,10 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
 
-            $userDetail = User::where('email', md5($request->key))->first();
+            $userDetail = User::where('email', base64_decode($request->key))->first();
             if(!empty($userDetail))
             {
-                
+                $userDetail->key = null;
                 $userDetail->password = bcrypt($request->password); 
                 $userDetail->save();
 
@@ -243,7 +243,7 @@ class UserController extends Controller
         try{
 
             $validator = Validator::make($request->all(), [ 
-                'image' => 'required||mimes:jpeg,png,jpg|max:2048',  
+                'image' => 'required|mimes:jpeg,png,jpg|max:2048',  
                 
             ]);
 
@@ -258,9 +258,11 @@ class UserController extends Controller
             
             $user = Auth::user()->id;
             $updateImage = User::where('id', $user)->first();
+            $updateImage->avatar_id = "public/uploads/".$fileName;
+            $updateImage->save();
 
             return response()->json(['success' => true,
-                                     'user' => $user,
+                                     'user' => $updateImage,
                                     ], $this->successStatus); 
 
         }catch(\Exception $e){
@@ -298,14 +300,23 @@ class UserController extends Controller
     public function updateProfile(Request $request){
         try{
 
+            $validator = Validator::make($request->all(), [ 
+                'name' => 'required',  
+                
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
             $input = $request->all();
 
-            if(array_key_exists('first_name',$input) ||
-               array_key_exists('last_name', $input) ||
-               array_key_exists('middle_name', $input) ||
-               array_key_exists('location', $input)){
+            // if(array_key_exists('first_name',$input) ||
+            //    array_key_exists('last_name', $input) ||
+            //    array_key_exists('middle_name', $input) ||
+            //    array_key_exists('location', $input)){
 
-                $user = User::where('id', Auth::user()->id)->update($input);
+                $user = User::where('id', Auth::user()->id)->update(['name'=>$request->name]);
 
                 if($user){
                     $user = User::where('id',Auth::user()->id)->with('roles')->first(); 
@@ -318,11 +329,11 @@ class UserController extends Controller
                                     ], $this->successStatus);
                 }
                 
-            }
+            //}
 
-            return response()->json(['success' => false,
-                                     'errors' => [ 'error' => 'Wrong parameters sent'],
-                                    ], $this->successStatus); 
+            // return response()->json(['success' => false,
+            //                          'errors' => [ 'error' => 'Wrong parameters sent'],
+            //                         ], $this->successStatus); 
 
         }catch(\Exception $e){
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
@@ -377,6 +388,48 @@ class UserController extends Controller
         }catch(\Exception $e){
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
+    }
+
+    /** 
+     * Reset Password after Otp verified api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function changePassword(Request $request) 
+    { 
+        try
+        {
+            $validator = Validator::make($request->all(), [  
+                'old_password' => 'required', 
+                'new_password' => 'required', 
+                'c_password' => 'required|same:new_password',
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $user = Auth()->user()->id;
+            if(!empty($user))
+            {
+                $user->password = bcrypt($request->new_password); 
+                $user->save();
+
+
+                return response()->json(['success' => true,
+                                         'message' => 'Your password has been reset',
+                                        ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }
     }
      
 }

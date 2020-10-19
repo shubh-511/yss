@@ -1,1 +1,1 @@
-<p>Your reset password link is: <a>{{env('LIVE_URL')}}{{ $user['key'] }}</a></p>
+<p>Your reset password link is: <a href="{{env('LIVE_URL')}}{{ $user['key'] }}">{{env('LIVE_URL')}}{{ $user['key'] }}</a></p>

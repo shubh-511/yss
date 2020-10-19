@@ -15,6 +15,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
+Route::get('login', 'Admin\AdminController@login');
+Route::get('/logout', 'Admin\AdminController@logout');
+Route::post('login/admin-login', 'Admin\AdminController@adminLogin');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(){
+
+	Route::get('/dashboard', 'Admin\AdminController@dashboard');
+	Route::get('/users', 'Admin\UserController@index');
+	Route::get('/users/edit/{id}', 'Admin\UserController@edit');
+	Route::post('/users/update/{id}', 'Admin\UserController@update');
+	Route::get('/users/show/{id}', 'Admin\UserController@show');
+	Route::get('/profile', 'Admin\UserController@profile');
+	Route::post('/profile/update', 'Admin\UserController@profileUpdate');
+
+});
+
+	
+
+// Route::group(['middleware'=>['web','isAdminLoggedOut']],function(){
+//     Route::any('/login', ['uses'=>'HomeController@login', 'as'=>'admin-login']);
+// });
+// 	Route::group(['middleware'=>['web','isAdminLoggedOut']],function(){
+//     Route::any('/', ['uses'=>'HomeController@login', 'as'=>'admin-login']);
+//     Route::any('/login', ['uses'=>'HomeController@login', 'as'=>'admin-login']);
+// });
