@@ -59,7 +59,7 @@ class UserController extends Controller
                 } 
                 else
                 {
-                    $url = env('WORDPRESS_LOGIN_API')."?email=".$request->getUser()."&password=".$request->getPassword();
+                    $url = env('WORDPRESS_LOGIN_URL')."?email=".$request->getUser()."&password=".$request->getPassword();
                     $json = file_get_contents($url);
                     $json_a = json_decode($json, true);
 
