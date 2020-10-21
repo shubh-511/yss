@@ -554,7 +554,7 @@ class UserController extends Controller
         $message = $client->messages->create(
           '+919871094607', // Text this number
           [
-            'from' => '+15005550000', // From a valid Twilio number
+            'from' => '+15005550006', // From a valid Twilio number
             'body' => $message
           ]
         );
