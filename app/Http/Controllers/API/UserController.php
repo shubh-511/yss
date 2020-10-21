@@ -562,10 +562,6 @@ class UserController extends Controller
             'body' => $message
           ]
         );
-
-        return response()->json(['success' => true,
-                                         'message' => 'OTP has been sent!',
-                                        ], $this->successStatus);
     }
      
 }
