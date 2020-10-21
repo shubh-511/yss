@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('update/profile/image', 'API\UserController@updateProfileImage');
 
 	Route::post('update/phone', 'API\UserController@updatePhone');
+	Route::post('verify/phone', 'API\UserController@verifyPhone');
 	
 
 	Route::post('details', 'API\UserController@details');

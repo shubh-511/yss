@@ -501,7 +501,7 @@ class UserController extends Controller
     }
 
     /** 
-     * Verify phone number api 
+     * Update phone number api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
@@ -511,7 +511,7 @@ class UserController extends Controller
         {
             $validator = Validator::make($request->all(), [  
                 'country_code' => 'required', 
-                'phone' => 'required', 
+                'phone' => 'required|unique:users', 
             ]);
 
             if ($validator->fails()) { 
@@ -548,6 +548,54 @@ class UserController extends Controller
         }
     }
 
+    /** 
+     * Verify phone number api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function verifyPhone(Request $request) 
+    {  
+        try 
+        {
+            $validator = Validator::make($request->all(), [  
+                'otp' => 'required', 
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $user = Auth()->user()->id;
+            if(!empty($user))
+            {
+                $userUpdate = User::where('id', $user)->first();
+                if($userUpdate->otp == $request->otp)
+                {
+                    $userUpdate->otp = null; 
+                    $userUpdate->save();
+
+                    return response()->json(['success' => true,
+                                         'message' => 'Your phone number has been verified!',
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid OTP']]], $this->successStatus); 
+                }
+
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }
+    }
+
     public function sendSMS($otp, $countryCode, $phone)
     {
         $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
@@ -562,7 +610,6 @@ class UserController extends Controller
             'body' => $message
           ]
         );
-        dd($message);
     }
      
 }
