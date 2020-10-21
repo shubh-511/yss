@@ -117,9 +117,9 @@ class UserController extends Controller
         }else{
             $url_get_contents_data = false;
         }
-            //return $url_get_contents_data;
-            $userData = json_decode($url_get_contents_data, true);
-            return $userData;
+            return $url_get_contents_data;
+            //$userData = json_decode($url_get_contents_data, true);
+            //return $userData;
         
     }
 
