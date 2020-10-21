@@ -511,7 +511,7 @@ class UserController extends Controller
         {
             $validator = Validator::make($request->all(), [  
                 'country_code' => 'required', 
-                'phone' => 'required|unique:users'.Auth()->user()->id, 
+                'phone' => 'required|unique:users,phone,'.Auth()->user()->id, 
             ]);
 
             if ($validator->fails()) { 
