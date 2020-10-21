@@ -550,7 +550,7 @@ class UserController extends Controller
         $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
         $message = $otp." is one time otp to verify your phone number";
 
-        $client = new Client($sid, $token);
+        $client = new Client('AC92c1af86777b81446df44fec44c7067a', '05971a60983424d310086dbdd1671204');
         $message = $client->messages->create(
           '+919871094607', // Text this number
           [
