@@ -546,7 +546,7 @@ class UserController extends Controller
 
     public function sendSMS($otp, $countryCode, $phone)
     {
-        return env('ACCOUNT_SID'); die;
+        return env('WORDPRESS_LOGIN_URL'); die;
         $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
         $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
         $message = $otp." is one time otp to verify your phone number";
