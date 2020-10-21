@@ -111,7 +111,7 @@ class UserController extends Controller
         if ($retcode == 200) {
             //return $data;
             $responseData = json_decode($data, TRUE);
-            return $responseData
+            return $responseData;
         } else {
             return null;
     }
