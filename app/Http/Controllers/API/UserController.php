@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use Event;
-use Twilio\Rest\Client;
+use Client;
 use App\Events\UserRegisterEvent;
 use App\Events\ForgotPasswordEvent;
 
@@ -531,9 +531,6 @@ class UserController extends Controller
                 $this->sendSMS($otp, $request->country_code, $request->phone);
 
 
-                return response()->json(['success' => true,
-                                         'message' => '',
-                                        ], $this->successStatus); 
             }
             else
             {
