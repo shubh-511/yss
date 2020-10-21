@@ -65,7 +65,7 @@ class UserController extends Controller
                     //$json = file_get_contents($url);
                     $json_a = json_decode($cURL, true);
 
-                    if($json_a['status'] == true) 
+                    if($json_a['status'] == 1) 
                     {
                         if(Auth::loginUsingId($checkUserRoles->id))
                         {
@@ -81,7 +81,7 @@ class UserController extends Controller
                     }
                     else
                     {
-                        /*return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); */
+                        return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
                     }
 
                     
