@@ -562,6 +562,7 @@ class UserController extends Controller
             'body' => $message
           ]
         );
+        return $message;
     }
      
 }
