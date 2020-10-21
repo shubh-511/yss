@@ -475,10 +475,11 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
 
-            $user = Auth()->user()->id;
-            if(!empty($user))
+            $userEmail = Auth()->user()->email;
+            if (Auth::attempt(array('email' => $userEmail, 'password' => $request->old_password), true))
             {
-                $userUpdate = User::where('id', $user)->first();
+            
+                $userUpdate = User::where('email', $userEmail)->first();
                 $userUpdate->password = bcrypt($request->new_password); 
                 $userUpdate->save();
 
