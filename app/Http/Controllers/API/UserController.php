@@ -64,7 +64,7 @@ class UserController extends Controller
 
                     $cURL = $this->url_get_contents($url); 
 
-                    echo $cURL['status']; die;
+                    echo $cURL['statuss']; die;
 
                     //$json = file_get_contents($url);
                     //$cURL = json_decode($json, true);
