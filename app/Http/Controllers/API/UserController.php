@@ -475,11 +475,10 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
 
-            $userEmail = Auth()->user()->email;
-            if (Auth::attempt(array('email' => $userEmail, 'password' => $request->old_password), true))
+            $user = Auth()->user()->id;
+            if(!empty($user))
             {
-            
-                $userUpdate = User::where('email', $userEmail)->first();
+                $userUpdate = User::where('id', $user)->first();
                 $userUpdate->password = bcrypt($request->new_password); 
                 $userUpdate->save();
 
@@ -490,7 +489,7 @@ class UserController extends Controller
             }
             else
             {
-                return response()->json(['success'=>false,'errors' =>['exception' => ['Old password is incorrect']]], $this->successStatus); 
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
             }
 
         }
