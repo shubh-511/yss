@@ -490,7 +490,7 @@ class UserController extends Controller
             }
             else
             {
-                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Old password is incorrect']]], $this->successStatus); 
             }
 
         }
