@@ -478,8 +478,9 @@ class UserController extends Controller
             $user = Auth()->user()->id;
             if(!empty($user))
             {
-                $user->password = bcrypt($request->new_password); 
-                $user->save();
+                $userUpdate = User::where('id', $user)->first();
+                $userUpdate->password = bcrypt($request->new_password); 
+                $userUpdate->save();
 
 
                 return response()->json(['success' => true,
