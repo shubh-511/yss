@@ -60,9 +60,10 @@ class UserController extends Controller
                 else
                 {
                     $url = env('WORDPRESS_LOGIN_URL')."?email=".$request->getUser()."&password=".$request->getPassword();
-                    
-                    $json = file_get_contents($url);
-                    $json_a = json_decode($json, true);
+
+                    $cURL = $this->url_get_contents($url);
+                    //$json = file_get_contents($url);
+                    $json_a = json_decode($cURL, true);
 
                     if($json_a['status'] == true) 
                     {
@@ -93,6 +94,20 @@ class UserController extends Controller
     	}catch(\Exception $e){
     		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus);
     	}
+    }
+
+    public function url_get_contents($Url) 
+    {
+        if (!function_exists('curl_init'))
+        { 
+            die('CURL is not installed!');
+        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
     }
 
     /** 
