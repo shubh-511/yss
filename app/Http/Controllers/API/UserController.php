@@ -63,9 +63,9 @@ class UserController extends Controller
 
                     $cURL = $this->url_get_contents($url);
                     //$json = file_get_contents($url);
-                    $json_a = json_decode($cURL, true);
+                    //$json_a = json_decode($cURL, true);
 
-                    if($json_a['status'] == 1) 
+                    if($cURL['status'] == 1) 
                     {
                         if(Auth::loginUsingId($checkUserRoles->id))
                         {
@@ -109,7 +109,8 @@ class UserController extends Controller
         $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         if ($retcode == 200) {
-            return $data;
+            //return $data;
+            return $responseData = json_decode($data, TRUE);
         } else {
             return null;
     }
