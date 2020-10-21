@@ -14,7 +14,7 @@ class AddNameColumnInUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('name')->default(null)->after('id')->change();
+            $table->string('name')->default(null);
         });
     }
 
