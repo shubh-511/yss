@@ -572,6 +572,7 @@ class UserController extends Controller
                 if($userUpdate->otp == $request->otp)
                 {
                     $userUpdate->otp = null; 
+                    $userUpdate->is_phone_verified = 1;
                     $userUpdate->save();
 
                     return response()->json(['success' => true,
