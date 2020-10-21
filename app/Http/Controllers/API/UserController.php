@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use Event;
-use Client;
+use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\ForgotPasswordEvent;
 
@@ -550,7 +550,7 @@ class UserController extends Controller
         $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
         $message = $otp." is one time otp to verify your phone number";
 
-        $client = new Twilio\Rest\Client($sid, $token);
+        $client = new Client($sid, $token);
         $message = $client->messages->create(
           '+919871094607', // Text this number
           [
