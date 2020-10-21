@@ -81,7 +81,7 @@ class UserController extends Controller
                     }
                     else
                     {
-                        return response()->json(['error'=> ['login_failed' => ['ssUsername or Password is not correct']]], 401); 
+                        return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
                     }
 
                     
