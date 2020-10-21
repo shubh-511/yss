@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use Event;
+use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\ForgotPasswordEvent;
 
@@ -497,6 +498,73 @@ class UserController extends Controller
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         }
+    }
+
+    /** 
+     * Verify phone number api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function updatePhone(Request $request) 
+    {  
+        try 
+        {
+            $validator = Validator::make($request->all(), [  
+                'country_code' => 'required', 
+                'phone' => 'required', 
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            $user = Auth()->user()->id;
+            if(!empty($user))
+            {
+                $otp = $this->generateOTP();
+                $userUpdate = User::where('id', $user)->first();
+                $userUpdate->otp = $otp; 
+                $userUpdate->country_code = $request->country_code;
+                $userUpdate->phone = $request->phone;
+                $userUpdate->save();
+
+                $this->sendSMS($otp, $request->country_code, $request->phone);
+
+
+                return response()->json(['success' => true,
+                                         'message' => '',
+                                        ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }
+    }
+
+    public function sendSMS($otp, $countryCode, $phone)
+    {
+        $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
+        $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
+        $message = $otp." is one time otp to verify your phone number";
+
+        $client = new Twilio\Rest\Client($sid, $token);
+        $message = $client->messages->create(
+          '+919871094607', // Text this number
+          [
+            'from' => '+15005550000', // From a valid Twilio number
+            'body' => $message
+          ]
+        );
+
+        return response()->json(['success' => true,
+                                         'message' => 'OTP has been sent!',
+                                        ], $this->successStatus);
     }
      
 }
