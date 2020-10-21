@@ -530,6 +530,10 @@ class UserController extends Controller
 
                 $this->sendSMS($otp, $request->country_code, $request->phone);
 
+                return response()->json(['success' => true,
+                                         'message' => 'OTP has been sent!',
+                                        ], $this->successStatus);
+
 
             }
             else
