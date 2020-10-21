@@ -110,7 +110,8 @@ class UserController extends Controller
         curl_close($ch);
         if ($retcode == 200) {
             //return $data;
-            return $responseData = json_decode($data, TRUE);
+            $responseData = json_decode($data, TRUE);
+            return $responseData
         } else {
             return null;
     }
