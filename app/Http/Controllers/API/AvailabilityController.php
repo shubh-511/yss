@@ -60,26 +60,114 @@ class AvailabilityController extends Controller
 
 			    break;
 			  case "monday":
-			    
+			    	
+			  		$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = 'monday';
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			  		foreach ($days[1] as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
 			    break;
 			  case "tuesday":
 			    
+			  		$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = 'tuesday';
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			  		foreach ($days[2] as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
 			    break;
 			  case "wednesday":
-			    
+			    	
+			  		$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = 'wednesday';
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			  		foreach ($days[3] as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
 			    break;
 			  case "thursday":
-			    
+			    	
+			  		$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = 'thursday';
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			  		foreach ($days[4] as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
 			    break;
 			  case "friday":
-			   
+			   		
+			  		$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = 'friday';
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			  		foreach ($days[5] as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
 			    break;
 			  case "saturday":
-			    
+			    	
+			  		$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = 'saturday';
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			  		foreach ($days[6] as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
 			    break;
-			  case "sunday":
-			    
-			    break;
+
 			  default:
 			    echo "";
 			}
