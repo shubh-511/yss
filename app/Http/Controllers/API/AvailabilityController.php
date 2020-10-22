@@ -40,15 +40,15 @@ class AvailabilityController extends Controller
 			$days = $request->availaible_days;
 			$reqJSON = json_decode($days, true);
 
-			// echo "<pre>";
-			// print_r($reqJSON);
-			// exit;
-
-			return $reqJSON;
+			echo "<pre>";
+			print_r($reqJSON);
+			exit;
 
 
-			foreach ($reqJSON as $key => $reqJSONs) 
-			{
+
+
+			//foreach ($reqJSON as $key => $reqJSONs) 
+			//{
 				/*switch ($key) 
 				{
 				  	case "sunday":
@@ -189,7 +189,7 @@ class AvailabilityController extends Controller
 				}*/
 
 				
-			}	
+			//}	
 
 			
 
