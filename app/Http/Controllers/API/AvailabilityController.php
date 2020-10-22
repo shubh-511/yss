@@ -40,18 +40,182 @@ class AvailabilityController extends Controller
 			$days = $request->availaible_days;
 			$reqJSON = json_decode($days, true);
 
-			echo "<pre>";
-			print_r($reqJSON);
-			exit;
+			// echo "<pre>";
+			// print_r($reqJSON);
+			// exit;
 
-			return response()->json(['success' => false,
-	            					 'data' => $request->availaible_days,
-	            					], $this->successStatus);
+
+			foreach ($reqJSON as $key => $reqJSONs) 
+			{
+				switch ($key) 
+				{
+				  	case "sunday":
+
+					$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = $key;
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			    	foreach ($reqJSONs as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
+			    	break;
+
+			    	case "monday":
+
+					$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = $key;
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			    	foreach ($reqJSONs as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
+			    	break;
+
+			    	case "tuesday":
+
+					$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = $key;
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			    	foreach ($reqJSONs as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
+			    	break;
+
+			    	case "wednesday":
+
+					$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = $key;
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			    	foreach ($reqJSONs as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
+			    	break;
+
+			    	case "thursday":
+
+					$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = $key;
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			    	foreach ($reqJSONs as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
+			    	break;
+
+			    	case "friday":
+
+					$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = $key;
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			    	foreach ($reqJSONs as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
+			    	break;
+
+			    	case "saturday":
+
+					$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = $key;
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			    	foreach ($reqJSONs as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
+			    	break;
+
+			  	default:
+			    echo "";
+				}
+
+				
+			}	
 
 			
-			$requestJSON = $reqJSON['timings'];
 
-			switch ($requestJSON) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			/*switch ($requestJSON) 
 			{
 			  case "sunday":
 
@@ -182,7 +346,7 @@ class AvailabilityController extends Controller
 
 			  default:
 			    echo "";
-			}
+			}*/
 
 
 
@@ -194,7 +358,7 @@ class AvailabilityController extends Controller
 
 
 	        return response()->json(['success' => true,
-	            					 //'data' => '',
+	            					 'message' => 'Timings Added!',
 	            					], $this->successStatus); 
 
     	}
