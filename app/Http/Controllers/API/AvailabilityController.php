@@ -42,7 +42,22 @@ class AvailabilityController extends Controller
 			switch ($days) 
 			{
 			  case "sunday":
-			    
+
+			    	$availDay = new Availability;
+			    	$availDay->user_id = $user;
+			    	$availDay->availaible_days = 'sunday';
+			    	$availDay->breaks = $request->breaks;
+			    	$availDay->save();
+
+			  		foreach ($days[0] as $hours) 
+			  		{
+			  			$availHour = new AvailaibleHours;
+			  			$availHour->availability_id = $availDay->id;
+			  			$availHour->from_time = $hours->open;
+			  			$availHour->to_time = $hours->close;
+			  			$availHour->save();
+			  		}
+
 			    break;
 			  case "monday":
 			    
