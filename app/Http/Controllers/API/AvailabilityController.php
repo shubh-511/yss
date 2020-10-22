@@ -38,12 +38,13 @@ class AvailabilityController extends Controller
 			$input = $request->all(); 
 
 			$days = $request->availaible_days;
+			$reqJSON = json_decode($days, true);
 
 			return response()->json(['success' => false,
-	            					 'data' => $days,
+	            					 'data' => $reqJSON,
 	            					], $this->successStatus);
 
-			$reqJSON = json_decode($days, true);
+			
 			$requestJSON = $reqJSON['timings'];
 
 			switch ($requestJSON) 
