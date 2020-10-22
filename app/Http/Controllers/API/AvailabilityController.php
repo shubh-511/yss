@@ -59,11 +59,16 @@ class AvailabilityController extends Controller
 
 			    	foreach ($reqJSONs as $hours) 
 			  		{
-			  			$availHour = new AvailaibleHours;
-			  			$availHour->availability_id = $availDay->id;
-			  			$availHour->from_time = $hours->open;
-			  			$availHour->to_time = $hours->close;
-			  			$availHour->save();
+			  			foreach($hours as $k => $hour)
+			  			{
+			  				$availHour = new AvailaibleHours;
+				  			$availHour->availability_id = $availDay->id;
+				  			if($k == 'open')
+				  			$availHour->from_time = $hour;
+				  			elseif($k == 'close')
+				  			$availHour->to_time = $hour;
+				  			$availHour->save();
+			  			}
 			  		}
 
 			    	break;
