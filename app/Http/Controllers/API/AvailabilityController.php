@@ -38,8 +38,10 @@ class AvailabilityController extends Controller
 			$input = $request->all(); 
 
 			$days = $request->availaible_days;
+			$reqJSON = json_decode($days, true);
+			$requestJSON = $reqJSON['timings'];
 
-			switch ($days) 
+			switch ($requestJSON) 
 			{
 			  case "sunday":
 
@@ -262,7 +264,7 @@ class AvailabilityController extends Controller
 	        //$package = Availability::create($input); 
 
 	        return response()->json(['success' => true,
-	            					 //'package' => $package,
+	            					 'data' => $package,
 	            					], $this->successStatus); 
 
     	}
