@@ -50,139 +50,189 @@ class AvailabilityController extends Controller
 				switch ($key) 
 				{
 				  	case "sunday":
+				  	if(count($reqJSONs) > 0)
+				  	{
+						$availDay = new Availability;
+				    	$availDay->user_id = $user;
+				    	$availDay->availaible_days = $key;
+				    	$availDay->breaks = $request->breaks;
+				    	$availDay->save();
 
-					$availDay = new Availability;
-			    	$availDay->user_id = $user;
-			    	$availDay->availaible_days = $key;
-			    	$availDay->breaks = $request->breaks;
-			    	$availDay->save();
-
-			    	foreach ($reqJSONs as $hours) 
-			  		{
-			  			foreach($hours as $k => $hour)
-			  			{
-			  				$availHour = new AvailaibleHours;
-				  			$availHour->availability_id = $availDay->id;
-				  			if($k == 'open')
-				  			$availHour->from_time = $hour;
-				  			elseif($k == 'close')
-				  			$availHour->to_time = $hour;
-				  			$availHour->save();
-			  			}
+				    	foreach ($reqJSONs as $hours) 
+				  		{
+				  			foreach($hours as $k => $hour)
+				  			{
+				  				$availHour = new AvailaibleHours;
+					  			$availHour->availability_id = $availDay->id;
+					  			if($k == 'open')
+					  			$availHour->from_time = $hour;
+					  			elseif($k == 'close')
+					  			$availHour->to_time = $hour;
+					  			$availHour->save();
+				  			}
+				  		}
 			  		}
 
 			    	break;
 
 			    	case "monday":
 
-					$availDay = new Availability;
-			    	$availDay->user_id = $user;
-			    	$availDay->availaible_days = $key;
-			    	$availDay->breaks = $request->breaks;
-			    	$availDay->save();
+					if(count($reqJSONs) > 0)
+				  	{
+						$availDay = new Availability;
+				    	$availDay->user_id = $user;
+				    	$availDay->availaible_days = $key;
+				    	$availDay->breaks = $request->breaks;
+				    	$availDay->save();
 
-			    	foreach ($reqJSONs as $hours) 
-			  		{
-			  			$availHour = new AvailaibleHours;
-			  			$availHour->availability_id = $availDay->id;
-			  			$availHour->from_time = $hours->open;
-			  			$availHour->to_time = $hours->close;
-			  			$availHour->save();
+				    	foreach ($reqJSONs as $hours) 
+				  		{
+				  			foreach($hours as $k => $hour)
+				  			{
+				  				$availHour = new AvailaibleHours;
+					  			$availHour->availability_id = $availDay->id;
+					  			if($k == 'open')
+					  			$availHour->from_time = $hour;
+					  			elseif($k == 'close')
+					  			$availHour->to_time = $hour;
+					  			$availHour->save();
+				  			}
+				  		}
 			  		}
 
 			    	break;
 
 			    	case "tuesday":
 
-					$availDay = new Availability;
-			    	$availDay->user_id = $user;
-			    	$availDay->availaible_days = $key;
-			    	$availDay->breaks = $request->breaks;
-			    	$availDay->save();
+					if(count($reqJSONs) > 0)
+				  	{
+						$availDay = new Availability;
+				    	$availDay->user_id = $user;
+				    	$availDay->availaible_days = $key;
+				    	$availDay->breaks = $request->breaks;
+				    	$availDay->save();
 
-			    	foreach ($reqJSONs as $hours) 
-			  		{
-			  			$availHour = new AvailaibleHours;
-			  			$availHour->availability_id = $availDay->id;
-			  			$availHour->from_time = $hours->open;
-			  			$availHour->to_time = $hours->close;
-			  			$availHour->save();
+				    	foreach ($reqJSONs as $hours) 
+				  		{
+				  			foreach($hours as $k => $hour)
+				  			{
+				  				$availHour = new AvailaibleHours;
+					  			$availHour->availability_id = $availDay->id;
+					  			if($k == 'open')
+					  			$availHour->from_time = $hour;
+					  			elseif($k == 'close')
+					  			$availHour->to_time = $hour;
+					  			$availHour->save();
+				  			}
+				  		}
 			  		}
 
 			    	break;
 
 			    	case "wednesday":
 
-					$availDay = new Availability;
-			    	$availDay->user_id = $user;
-			    	$availDay->availaible_days = $key;
-			    	$availDay->breaks = $request->breaks;
-			    	$availDay->save();
+					if(count($reqJSONs) > 0)
+				  	{
+						$availDay = new Availability;
+				    	$availDay->user_id = $user;
+				    	$availDay->availaible_days = $key;
+				    	$availDay->breaks = $request->breaks;
+				    	$availDay->save();
 
-			    	foreach ($reqJSONs as $hours) 
-			  		{
-			  			$availHour = new AvailaibleHours;
-			  			$availHour->availability_id = $availDay->id;
-			  			$availHour->from_time = $hours->open;
-			  			$availHour->to_time = $hours->close;
-			  			$availHour->save();
+				    	foreach ($reqJSONs as $hours) 
+				  		{
+				  			foreach($hours as $k => $hour)
+				  			{
+				  				$availHour = new AvailaibleHours;
+					  			$availHour->availability_id = $availDay->id;
+					  			if($k == 'open')
+					  			$availHour->from_time = $hour;
+					  			elseif($k == 'close')
+					  			$availHour->to_time = $hour;
+					  			$availHour->save();
+				  			}
+				  		}
 			  		}
 
 			    	break;
 
 			    	case "thursday":
 
-					$availDay = new Availability;
-			    	$availDay->user_id = $user;
-			    	$availDay->availaible_days = $key;
-			    	$availDay->breaks = $request->breaks;
-			    	$availDay->save();
+					if(count($reqJSONs) > 0)
+				  	{
+						$availDay = new Availability;
+				    	$availDay->user_id = $user;
+				    	$availDay->availaible_days = $key;
+				    	$availDay->breaks = $request->breaks;
+				    	$availDay->save();
 
-			    	foreach ($reqJSONs as $hours) 
-			  		{
-			  			$availHour = new AvailaibleHours;
-			  			$availHour->availability_id = $availDay->id;
-			  			$availHour->from_time = $hours->open;
-			  			$availHour->to_time = $hours->close;
-			  			$availHour->save();
+				    	foreach ($reqJSONs as $hours) 
+				  		{
+				  			foreach($hours as $k => $hour)
+				  			{
+				  				$availHour = new AvailaibleHours;
+					  			$availHour->availability_id = $availDay->id;
+					  			if($k == 'open')
+					  			$availHour->from_time = $hour;
+					  			elseif($k == 'close')
+					  			$availHour->to_time = $hour;
+					  			$availHour->save();
+				  			}
+				  		}
 			  		}
 
 			    	break;
 
 			    	case "friday":
 
-					$availDay = new Availability;
-			    	$availDay->user_id = $user;
-			    	$availDay->availaible_days = $key;
-			    	$availDay->breaks = $request->breaks;
-			    	$availDay->save();
+					if(count($reqJSONs) > 0)
+				  	{
+						$availDay = new Availability;
+				    	$availDay->user_id = $user;
+				    	$availDay->availaible_days = $key;
+				    	$availDay->breaks = $request->breaks;
+				    	$availDay->save();
 
-			    	foreach ($reqJSONs as $hours) 
-			  		{
-			  			$availHour = new AvailaibleHours;
-			  			$availHour->availability_id = $availDay->id;
-			  			$availHour->from_time = $hours->open;
-			  			$availHour->to_time = $hours->close;
-			  			$availHour->save();
+				    	foreach ($reqJSONs as $hours) 
+				  		{
+				  			foreach($hours as $k => $hour)
+				  			{
+				  				$availHour = new AvailaibleHours;
+					  			$availHour->availability_id = $availDay->id;
+					  			if($k == 'open')
+					  			$availHour->from_time = $hour;
+					  			elseif($k == 'close')
+					  			$availHour->to_time = $hour;
+					  			$availHour->save();
+				  			}
+				  		}
 			  		}
 
 			    	break;
 
 			    	case "saturday":
 
-					$availDay = new Availability;
-			    	$availDay->user_id = $user;
-			    	$availDay->availaible_days = $key;
-			    	$availDay->breaks = $request->breaks;
-			    	$availDay->save();
+					if(count($reqJSONs) > 0)
+				  	{
+						$availDay = new Availability;
+				    	$availDay->user_id = $user;
+				    	$availDay->availaible_days = $key;
+				    	$availDay->breaks = $request->breaks;
+				    	$availDay->save();
 
-			    	foreach ($reqJSONs as $hours) 
-			  		{
-			  			$availHour = new AvailaibleHours;
-			  			$availHour->availability_id = $availDay->id;
-			  			$availHour->from_time = $hours->open;
-			  			$availHour->to_time = $hours->close;
-			  			$availHour->save();
+				    	foreach ($reqJSONs as $hours) 
+				  		{
+				  			foreach($hours as $k => $hour)
+				  			{
+				  				$availHour = new AvailaibleHours;
+					  			$availHour->availability_id = $availDay->id;
+					  			if($k == 'open')
+					  			$availHour->from_time = $hour;
+					  			elseif($k == 'close')
+					  			$availHour->to_time = $hour;
+					  			$availHour->save();
+				  			}
+				  		}
 			  		}
 
 			    	break;
