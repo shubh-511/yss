@@ -357,6 +357,7 @@ class UserController extends Controller
     public function details() 
     { 
         $user = Auth::user(); 
+        Auth::user()->roles;
         return response()->json(['success' => $user], $this->successStatus); 
     }
 
