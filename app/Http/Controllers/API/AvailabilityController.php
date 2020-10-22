@@ -264,7 +264,7 @@ class AvailabilityController extends Controller
 	        //$package = Availability::create($input); 
 
 	        return response()->json(['success' => true,
-	            					 'data' => $package,
+	            					 //'data' => $package,
 	            					], $this->successStatus); 
 
     	}
