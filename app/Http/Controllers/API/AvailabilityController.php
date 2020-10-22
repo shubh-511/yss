@@ -31,14 +31,18 @@ class AvailabilityController extends Controller
 
 			if ($validator->fails()) 
             { 
-	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
 			}
 
 			$user = Auth::user()->id;
-			$input = $request->all(); 
+			
 
 			$days = $request->availaible_days;
 			$reqJSON = json_decode($days, true);
+
+			echo "<pre>";
+			print_r($reqJSON);
+			exit;
 
 			return response()->json(['success' => false,
 	            					 'data' => $request->availaible_days,
@@ -189,88 +193,8 @@ class AvailabilityController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			/*$availableDays = explode(",", $request->availaible_days);
-			foreach($availableDays as $availableDay)
-			{
-				//saving availability days
-				$availability = new Availability;
-				$availability->user_id = $user;
-				$availability->availaible_days = $availableDay;
-				$availability->breaks = $request->breaks;
-				$availability->save();
-
-				//saving available hours
-				$availableFrom = explode(",", $request->from_time);
-
-				foreach($availableFrom as $availableHour)
-				{ 						
-					$availableSlots = explode("@", $availableHour);
-					foreach($availableSlots as $availableSlot)
-					{
-						$hoursAvail = new AvailaibleHours;
-						$hoursAvail->availability_id = $availability->id;
-						$hoursAvail->from_time = $availableSlot;*/
-
-
-
-						//$hoursAvail->to_time  = $request->to_time;
-						//$hoursAvail->save();
-
-
-
-						// ***
-						// $availableTo = explode(",", $request->to_time);
-						// foreach($availableTo as $availableToTime)
-						// {
-						// 	$availableSlotsTo = explode("@", $availableToTime);
-						// 	foreach($availableSlotsTo as $availableSlotTo)
-						// 	{
-						// 		$toTimes = AvailaibleHours::where('id', $hoursAvail->id)->first();
-						// 		$toTimes->availability_id = $availability->id;
-						// 		//$toTimes->from_time = $availableSlot;
-						// 		$toTimes->to_time  = $availableSlotTo;
-						// 		$toTimes->save();
-						// 	}
-						// }*
-
-
-					//}
-					
-
-
-				//} 
-				
-			//}
-
-
-
-
-
-
-			//$input['user_id'] = $user;
-	        //$package = Availability::create($input); 
-
 	        return response()->json(['success' => true,
-	            					 //'data' => $package,
+	            					 //'data' => '',
 	            					], $this->successStatus); 
 
     	}
