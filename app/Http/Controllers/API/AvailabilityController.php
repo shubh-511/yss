@@ -44,6 +44,8 @@ class AvailabilityController extends Controller
 			// print_r($reqJSON);
 			// exit;
 
+			return $reqJSON;
+
 
 			foreach ($reqJSON as $key => $reqJSONs) 
 			{
