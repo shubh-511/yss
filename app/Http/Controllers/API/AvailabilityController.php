@@ -40,12 +40,13 @@ class AvailabilityController extends Controller
 			$days = $request->availaible_days;
 			$reqJSON = json_decode($days, true);
 
-			// echo "<pre>";
-			// print_r($reqJSON);
-			// exit;
-			return $reqJSON['monday'];
+			echo "<pre>";
+			print_r($reqJSON);
+			exit;
 
-			
+			return response()->json(['success' => false,
+	            					 'data' => $request->availaible_days,
+	            					], $this->successStatus);
 
 			
 			$requestJSON = $reqJSON['timings'];
