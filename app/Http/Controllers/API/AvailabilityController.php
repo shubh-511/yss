@@ -45,11 +45,9 @@ class AvailabilityController extends Controller
 			exit;
 
 
-
-
-			//foreach ($reqJSON as $key => $reqJSONs) 
-			//{
-				/*switch ($key) 
+			foreach ($reqJSON as $key => $reqJSONs) 
+			{
+				switch ($key) 
 				{
 				  	case "sunday":
 
@@ -186,10 +184,10 @@ class AvailabilityController extends Controller
 
 			  	default:
 			    echo "";
-				}*/
+				}
 
 				
-			//}	
+			}	
 
 			
 
