@@ -41,7 +41,7 @@ class AvailabilityController extends Controller
 			$reqJSON = json_decode($days, true);
 
 			return response()->json(['success' => false,
-	            					 'data' => $reqJSON,
+	            					 'data' => $request->availaible_days,
 	            					], $this->successStatus);
 
 			
