@@ -25,7 +25,7 @@ class AvailabilityController extends Controller
     	try
         {
     		$validator = Validator::make($request->all(), [ 
-	            'availaible_days' => 'required',  
+	            'timings' => 'required',  
 	            'breaks' => 'required',
 	        ]);
 
@@ -37,7 +37,7 @@ class AvailabilityController extends Controller
 			$user = Auth::user()->id;
 			
 
-			$days = $request->availaible_days;
+			$days = $request->timings;
 			$reqJSON = json_decode($days, true);
 
 			echo "<pre>";
