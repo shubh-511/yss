@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('edit-package', 'API\PackageController@editPackage');
 	Route::post('delete-package', 'API\PackageController@deletePackage');
 	Route::post('add-availability', 'API\AvailabilityController@addAvailability');
+	Route::get('get/counsellor/availability', 'API\AvailabilityController@getCounsellorAvailability');
+	
 	Route::post('change-password', 'API\UserController@changePassword');
 	Route::post('update/profile/image', 'API\UserController@updateProfileImage');
 
