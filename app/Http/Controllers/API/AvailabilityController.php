@@ -60,9 +60,10 @@ class AvailabilityController extends Controller
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
+				  			$availHour = new AvailaibleHours;
 				  			foreach($hours as $k => $hour)
 				  			{
-				  				$availHour = new AvailaibleHours;
+				  				
 					  			$availHour->availability_id = $availDay->id;
 					  			if($k == 'open')
 					  			$availHour->from_time = $hour;
@@ -87,9 +88,10 @@ class AvailabilityController extends Controller
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
+				  			$availHour = new AvailaibleHours;
 				  			foreach($hours as $k => $hour)
 				  			{
-				  				$availHour = new AvailaibleHours;
+				  				
 					  			$availHour->availability_id = $availDay->id;
 					  			if($k == 'open')
 					  			$availHour->from_time = $hour;
@@ -114,9 +116,10 @@ class AvailabilityController extends Controller
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
+				  			$availHour = new AvailaibleHours;
 				  			foreach($hours as $k => $hour)
 				  			{
-				  				$availHour = new AvailaibleHours;
+				  				
 					  			$availHour->availability_id = $availDay->id;
 					  			if($k == 'open')
 					  			$availHour->from_time = $hour;
@@ -141,9 +144,10 @@ class AvailabilityController extends Controller
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
+				  			$availHour = new AvailaibleHours;
 				  			foreach($hours as $k => $hour)
 				  			{
-				  				$availHour = new AvailaibleHours;
+				  				
 					  			$availHour->availability_id = $availDay->id;
 					  			if($k == 'open')
 					  			$availHour->from_time = $hour;
@@ -168,9 +172,10 @@ class AvailabilityController extends Controller
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
+				  			$availHour = new AvailaibleHours;
 				  			foreach($hours as $k => $hour)
 				  			{
-				  				$availHour = new AvailaibleHours;
+				  				
 					  			$availHour->availability_id = $availDay->id;
 					  			if($k == 'open')
 					  			$availHour->from_time = $hour;
@@ -195,9 +200,10 @@ class AvailabilityController extends Controller
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
+				  			$availHour = new AvailaibleHours;
 				  			foreach($hours as $k => $hour)
 				  			{
-				  				$availHour = new AvailaibleHours;
+				  				
 					  			$availHour->availability_id = $availDay->id;
 					  			if($k == 'open')
 					  			$availHour->from_time = $hour;
@@ -222,9 +228,10 @@ class AvailabilityController extends Controller
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
+				  			$availHour = new AvailaibleHours;
 				  			foreach($hours as $k => $hour)
 				  			{
-				  				$availHour = new AvailaibleHours;
+				  				
 					  			$availHour->availability_id = $availDay->id;
 					  			if($k == 'open')
 					  			$availHour->from_time = $hour;
