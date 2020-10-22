@@ -41,5 +41,5 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('verify/phone', 'API\UserController@verifyPhone');
 	
 
-	Route::post('details', 'API\UserController@details');
+	Route::get('details', 'API\UserController@details');
 });
