@@ -86,6 +86,48 @@ class PackageController extends Controller
         
     }
 
+    /** 
+     * Get Package api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getCounsellorPackages(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'user_id' => 'required',
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+            }
+            $user = Auth::user()->id;
+            $allPackages = Package::where('user_id', $request->user_id)->get(); 
+
+            if(count($allPackages) > 0)
+            {
+                return response()->json(['success' => true,
+                                     'packages' => $allPackages,
+                                    ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'message' => 'No package found for this counsellor',
+                                    ], $this->successStatus); 
+            }
+            
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
 
     /** 
      * Edit Package api 
