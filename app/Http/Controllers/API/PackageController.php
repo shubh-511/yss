@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Package; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use App\Events\AvailaibleHours;
+use App\Events\Availability;
 use Event;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
