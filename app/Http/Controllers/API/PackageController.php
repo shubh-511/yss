@@ -103,7 +103,7 @@ class PackageController extends Controller
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
-            $user = Auth::user()->id;
+            //$user = Auth::user()->id;
             $allPackages = Package::where('user_id', $request->user_id)->get(); 
 
             if(count($allPackages) > 0)
