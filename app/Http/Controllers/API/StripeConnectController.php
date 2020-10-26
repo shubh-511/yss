@@ -31,9 +31,9 @@ class StripeConnectController extends Controller
             { 
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
 			}
+			$user = Auth::user()->id;
 
 			$checkExist = StripeConnect::where('user_id', $user)->first();
-			$user = Auth::user()->id;
 			
 			if(empty($checkExist))
 			{
