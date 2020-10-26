@@ -255,20 +255,21 @@ class PackageController extends Controller
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
-
+            //$user = Auth::user()->id;
+            
             $selectedDate = Carbon::parse($request->date)->format('l');
             $day = strtolower($selectedDate);
-            $user = Auth::user()->id;
-            $getAvailability = Availability::where('user_id', $user)->where('availaible_days', $day)->first(); 
+            
+            $getAvailability = Availability::where('user_id', $request->user_id)->where('availaible_days', $day)->first(); 
 
-            $package = Package::where(['id'=> $request->package_id, 'user_id'=> $user])->first();
+            $package = Package::where(['id'=> $request->package_id, 'user_id'=> $request->user_id])->first();
 
             $breakTime = $getAvailability->breaks;
             $sessionTime = $package->session_minutes;
 
 
             $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
-            
+
             foreach ($myAvailableHours as $hours) 
             {
                 $fromTime = $hours->from_time;
