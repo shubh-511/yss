@@ -279,12 +279,13 @@ class AvailabilityController extends Controller
 			foreach($myAvailability as $availability)
 			{
 				$r++;
+				$arr = [];
 				$myAvailableHours = AvailaibleHours::select('id','from_time as open','to_time as close')->where('availability_id', $availability->id)->get();
 				
 				//$common[$r]['id'] = $availability->id;
 				//$common[$r]['user_id'] = $availability->user_id;
-				$common['availaible_days'] = $availability->availaible_days;
-				$common[$r]['hours'] = $myAvailableHours;
+				$common[$arr][$r]['availaible_days'] = $availability->availaible_days;
+				$common[$arr][$r]['hours'] = $myAvailableHours;
 
 				
 			}
