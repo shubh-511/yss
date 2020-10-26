@@ -278,25 +278,20 @@ class AvailabilityController extends Controller
 			$r = -1;
 			foreach($myAvailability as $availability)
 			{
-				$r++;
-				$arr = [];
 				$myAvailableHours = AvailaibleHours::select('id','from_time as open','to_time as close')->where('availability_id', $availability->id)->get();
 				
-				//$common[$r]['id'] = $availability->id;
-				//$common[$r]['user_id'] = $availability->user_id;
-				//$common[$availability->availaible_days]= $availability->availaible_days;
 				$common[$availability->availaible_days] = $myAvailableHours;
 
 				
 			}
 
-			return json_encode($common);
+			//return json_encode($common);
 
 			
 			if(count($myAvailability) > 0)
 			{
 				return response()->json(['success' => true,
-	            					 //'data' => json_encode($common),
+	            					 'data' => $common,
 	            					], $this->successStatus);
 			}
 			else
