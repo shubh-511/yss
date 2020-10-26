@@ -245,8 +245,7 @@ class PackageController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [ 
-                'user_id' => 'required',
-                'session' => 'required',
+                'package_id' => 'required',
                 'date' => 'required',
             ]);
 
@@ -255,20 +254,37 @@ class PackageController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
 
-            $day = Carbon::parse($request->date)->format('l');
-            return strtolower($day);
-            //$user = Auth::user()->id;
-            $allPackages = Package::where('user_id', $request->user_id)->get(); 
+            $selectedDate = Carbon::parse($request->date)->format('l');
+            $day = strtolower($selectedDate);
+            $user = Auth::user()->id;
+            $getAvailability = Availability::where('user_id', $user)->where('availaible_days', $day)->first(); 
+
+            $package = Package::where(['id'=> $request->package_id, 'user_id'=> $user])->first();
+
+            $breakTime = $getAvailability->breaks;
+            $sessionTime = $package->session_minutes;
+
+
+            $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
+
+            foreach ($myAvailableHours as $hours) 
+            {
+                $fromTime = $hours->from_time;
+                $toTime = $hours->to_time;
+
+                $toTimeExplode = explode(':', $toTime);
+                $fromTimeExplode = explode(':', $fromTime);
+
+                echo $toTimeExplode[0].'<br>'; 
+                echo $fromTimeExplode[1]; die;
+            }
+
+                
+
+
 
             if(count($allPackages) > 0)
             {
-
-                $string = "5 times 8";
-                $var = explode(' times ', $string);
-                echo $var[0]; 
-                echo $var[1];
-
-
                 return response()->json(['success' => true,
                                      'packages' => $allPackages,
                                     ], $this->successStatus); 

@@ -27,7 +27,7 @@ Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackag
 
 
 
-Route::get('breaks-packages', 'API\PackageController@getPackagesWithBreaks');
+Route::get('break-packages', 'API\PackageController@getPackagesWithBreaks');
 
 
 
