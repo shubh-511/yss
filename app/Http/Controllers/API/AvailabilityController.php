@@ -273,13 +273,22 @@ class AvailabilityController extends Controller
         {
 			$user = Auth::user()->id;
 			$myAvailability = Availability::where('user_id', $user)->get();
+			$common = [];
+			$r = -1;
 			foreach($myAvailability as $availability)
 			{
 				$day = null;
+				$r++;
 				$myAvailableHours = AvailaibleHours::where('availability_id', $availability->id)->get();
+				
+				$common[$r]['id'] = $availability->id;
+				$common[$r]['user_id'] = $availability->user_id;
+				$common[$r]['availaible_days'] = $availability->availaible_days;
+				$common[$r]['hours'] = $myAvailableHours;
 
-
+				
 			}
+			return $common;
 
 			
 			if(count($myAvailability) > 0)
