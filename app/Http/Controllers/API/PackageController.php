@@ -268,6 +268,7 @@ class PackageController extends Controller
 
 
             $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
+            return $myAvailableHours;
 
             /*foreach ($myAvailableHours as $hours) 
             {
