@@ -288,7 +288,7 @@ class AvailabilityController extends Controller
 
 				
 			}
-			return json_decode($common);
+			return json_decode($common, true);
 
 			
 			if(count($myAvailability) > 0)
