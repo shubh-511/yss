@@ -284,11 +284,12 @@ class AvailabilityController extends Controller
 				
 				//$common[$r]['id'] = $availability->id;
 				//$common[$r]['user_id'] = $availability->user_id;
-				$common[$r]['availaible_days'] = $availability->availaible_days;
-				$common[$r]['hours'] = $myAvailableHours;
+				//$common[$availability->availaible_days]= $availability->availaible_days;
+				$common[$availability->availaible_days] = $myAvailableHours;
 
 				
 			}
+
 			return json_encode($common);
 
 			
