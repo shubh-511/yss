@@ -43,8 +43,10 @@ class AvailabilityController extends Controller
 			// echo "<pre>";
 			// print_r($reqJSON);
 			// exit;
+			$checkExisting = Availability::where('user_id', $user)->count();
 
-
+			if($checkExisting == 0)
+			{
 			foreach ($reqJSON as $key => $reqJSONs) 
 			{
 				switch ($key) 
@@ -247,11 +249,20 @@ class AvailabilityController extends Controller
 			  	default:
 			    echo "";
 				}
-			}	
+			}
 
-	        return response()->json(['success' => true,
+				return response()->json(['success' => true,
 	            					 'message' => 'Timings Added!',
 	            					], $this->successStatus); 
+			}
+			else
+			{
+				return response()->json(['success' => false,
+	            					 'message' => 'You have already added your availability',
+	            					], $this->successStatus); 
+			}	
+
+	        
 
     	}
         catch(\Exception $e)
