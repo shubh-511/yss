@@ -346,7 +346,7 @@ class AvailabilityController extends Controller
 			$myAvailableHours = [];
 			foreach($myAvailability as $availability)
 			{
-				array_push($myAvailableHours, $availability->id)
+				array_push($myAvailableHours, $availability->id);
 			}
 
 			Availability::where('user_id', $user)->delete();
@@ -565,7 +565,8 @@ class AvailabilityController extends Controller
         {
     		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
     	} 
-        
     }
+        
+
 
 }
