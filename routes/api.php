@@ -23,12 +23,14 @@ Route::get('forgot-password', 'API\UserController@forgotPassword');
 //Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
 Route::get('reset/password', 'API\UserController@resetPassword');
 
+Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackages');
+
 
 
 
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('profile-update', 'API\UserController@updateProfile');
-	Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackages');
+	
 	
 	Route::get('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
 	Route::post('create-package', 'API\PackageController@createPackage');
