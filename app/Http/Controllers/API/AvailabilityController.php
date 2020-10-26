@@ -288,13 +288,13 @@ class AvailabilityController extends Controller
 
 				
 			}
-			return json_encode($common);
+			//return json_encode($common);
 
 			
 			if(count($myAvailability) > 0)
 			{
 				return response()->json(['success' => true,
-	            					 'data' => '',
+	            					 'data' => json_encode($common),
 	            					], $this->successStatus);
 			}
 			else
