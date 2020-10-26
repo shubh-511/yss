@@ -279,10 +279,10 @@ class AvailabilityController extends Controller
 			{
 				$day = null;
 				$r++;
-				$myAvailableHours = AvailaibleHours::where('availability_id', $availability->id)->get();
+				$myAvailableHours = AvailaibleHours::select('id','from_time as open','to_time as close')->where('availability_id', $availability->id)->get();
 				
-				$common[$r]['id'] = $availability->id;
-				$common[$r]['user_id'] = $availability->user_id;
+				//$common[$r]['id'] = $availability->id;
+				//$common[$r]['user_id'] = $availability->user_id;
 				$common[$r]['availaible_days'] = $availability->availaible_days;
 				$common[$r]['hours'] = $myAvailableHours;
 
