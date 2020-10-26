@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 
 	Route::post('update/phone', 'API\UserController@updatePhone');
 	Route::post('verify/phone', 'API\UserController@verifyPhone');
+
+	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	
 
 	Route::get('details', 'API\UserController@details');
