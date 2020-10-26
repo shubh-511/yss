@@ -32,16 +32,27 @@ class StripeConnectController extends Controller
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
 			}
 
+			$checkExist = StripeConnect::where('user_id', $user)->first();
 			$user = Auth::user()->id;
 			
-			$connectAct = new StripeConnect;
-			$connectAct->user_id = $user;
-			$connectAct->stripe_id = $request->stripe_id;
-			$connectAct->save();
+			if(empty($checkExist))
+			{
+				$connectAct = new StripeConnect;
+				$connectAct->user_id = $user;
+				$connectAct->stripe_id = $request->stripe_id;
+				$connectAct->save();
 
-	        return response()->json(['success' => true,
+				return response()->json(['success' => true,
 	            					 'message' => 'Stripe account has been linked',
-	            					], $this->successStatus); 
+	            					], $this->successStatus);
+			}
+			else
+			{
+				return response()->json(['success' => false,
+	            					 'message' => 'Your account is already linked',
+	            					], $this->successStatus);
+			}
+			
 
     	}
         catch(\Exception $e)
