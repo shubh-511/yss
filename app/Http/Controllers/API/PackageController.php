@@ -256,13 +256,13 @@ class PackageController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
             //$user = Auth::user()->id;
-            
+
             $selectedDate = Carbon::parse($request->date)->format('l');
             $day = strtolower($selectedDate);
             
             $getAvailability = Availability::where('user_id', $request->user_id)->where('availaible_days', $day)->first(); 
 
-            $package = Package::where(['id'=> $request->package_id, 'user_id'=> $request->user_id])->first();
+            $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
 
             $breakTime = $getAvailability->breaks;
             $sessionTime = $package->session_minutes;
@@ -272,14 +272,25 @@ class PackageController extends Controller
 
             foreach ($myAvailableHours as $hours) 
             {
-                $fromTime = $hours->from_time;
-                $toTime = $hours->to_time;
+                $fromTime = date("H:i", strtotime($hours->from_time));
+                $toTime = date("H:i", strtotime($hours->to_time));
 
-                $toTimeExplode = explode(':', $toTime);
+                /*$toTimeExplode = explode(':', $toTime);
                 $fromTimeExplode = explode(':', $fromTime);
 
                 echo $toTimeExplode[0].'<br>'; 
-                echo $fromTimeExplode[1]; die;
+                echo $fromTimeExplode[1]; */
+
+                $to = Carbon::createFromFormat('H:i', $toTime);
+                $from = Carbon::createFromFormat('H:i', $fromTime);
+
+                $diff_in_minutes = $to->diffInMinutes($from);
+                echo $diff_in_minutes;
+
+
+                
+
+                die;
             }
 
                 
