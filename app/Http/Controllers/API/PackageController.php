@@ -242,7 +242,7 @@ class PackageController extends Controller
      */ 
     public function getPackagesWithBreaks(Request $request) 
     {
-         $day = Carbon::now()->format('D');
+         $day = Carbon::now()->format('d');
          return $day;
         try
         {
