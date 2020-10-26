@@ -242,8 +242,6 @@ class PackageController extends Controller
      */ 
     public function getPackagesWithBreaks(Request $request) 
     {
-         $day = Carbon::now()->format('l');
-         return $day;
         try
         {
             $validator = Validator::make($request->all(), [ 
@@ -256,6 +254,9 @@ class PackageController extends Controller
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
+
+            $day = Carbon::parse($request->date)->format('l');
+            return $day;
             //$user = Auth::user()->id;
             $allPackages = Package::where('user_id', $request->user_id)->get(); 
 
