@@ -268,9 +268,8 @@ class PackageController extends Controller
 
 
             $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
-            return $myAvailableHours;
-
-            /*foreach ($myAvailableHours as $hours) 
+            
+            foreach ($myAvailableHours as $hours) 
             {
                 $fromTime = $hours->from_time;
                 $toTime = $hours->to_time;
@@ -280,7 +279,7 @@ class PackageController extends Controller
 
                 echo $toTimeExplode[0].'<br>'; 
                 echo $fromTimeExplode[1]; die;
-            }*/
+            }
 
                 
 
