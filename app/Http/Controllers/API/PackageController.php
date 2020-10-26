@@ -249,7 +249,7 @@ class PackageController extends Controller
             $validator = Validator::make($request->all(), [ 
                 'user_id' => 'required',
                 'session' => 'required',
-                'day' => 'required',
+                'date' => 'required',
             ]);
 
             if ($validator->fails()) 
