@@ -272,7 +272,7 @@ class AvailabilityController extends Controller
     	try
         {
 			$user = Auth::user()->id;
-			$myAvailability = Availability::where('user_id', $user)->get();
+			$myAvailability = Availability::where('user_id', $user)->get()->toArray();
 			$common = [];
 			$r = -1;
 			foreach($myAvailability as $availability)
