@@ -8,6 +8,7 @@ use App\Package;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use Event;
+use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 
 class PackageController extends Controller
@@ -224,6 +225,60 @@ class PackageController extends Controller
                                      'message' => 'This package does not exist',
                                     ], $this->successStatus);
             }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
+
+    /** 
+     * Get Package with breaks 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getPackagesWithBreaks(Request $request) 
+    {
+         $day = Carbon::now()->format('D');
+         return $day;
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'user_id' => 'required',
+                'session' => 'required',
+                'day' => 'required',
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+            }
+            //$user = Auth::user()->id;
+            $allPackages = Package::where('user_id', $request->user_id)->get(); 
+
+            if(count($allPackages) > 0)
+            {
+
+                $string = "5 times 8";
+                $var = explode(' times ', $string);
+                echo $var[0]; 
+                echo $var[1];
+
+
+                return response()->json(['success' => true,
+                                     'packages' => $allPackages,
+                                    ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'message' => 'No package found for this counsellor',
+                                    ], $this->successStatus); 
+            }
+            
 
         }
         catch(\Exception $e)
