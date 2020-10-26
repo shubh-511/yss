@@ -267,7 +267,7 @@ class AvailabilityController extends Controller
      *  
      * @return \Illuminate\Http\Response 
      */ 
-    public function getCounsellorAvailability(Request $request) 
+    public function getAvailability(Request $request) 
     {
     	try
         {
