@@ -267,7 +267,7 @@ class PackageController extends Controller
 
             $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
-            foreach ($myAvailableHours as $hours) 
+            /*foreach ($myAvailableHours as $hours) 
             {
                 $fromTime = $hours->from_time;
                 $toTime = $hours->to_time;
@@ -277,13 +277,13 @@ class PackageController extends Controller
 
                 echo $toTimeExplode[0].'<br>'; 
                 echo $fromTimeExplode[1]; die;
-            }
+            }*/
 
                 
 
 
 
-            if(count($allPackages) > 0)
+            /*if(count($allPackages) > 0)
             {
                 return response()->json(['success' => true,
                                      'packages' => $allPackages,
@@ -294,7 +294,7 @@ class PackageController extends Controller
                 return response()->json(['success' => false,
                                      'message' => 'No package found for this counsellor',
                                     ], $this->successStatus); 
-            }
+            }*/
             
 
         }
