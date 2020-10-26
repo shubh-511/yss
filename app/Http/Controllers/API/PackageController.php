@@ -256,7 +256,7 @@ class PackageController extends Controller
             }
 
             $day = Carbon::parse($request->date)->format('l');
-            return $day;
+            return strtolower($day);
             //$user = Auth::user()->id;
             $allPackages = Package::where('user_id', $request->user_id)->get(); 
 
