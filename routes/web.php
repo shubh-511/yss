@@ -30,14 +30,8 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 	Route::get('/profile', 'Admin\UserController@profile');
 	Route::post('/profile/update', 'Admin\UserController@profileUpdate');
 
+	Route::get('/users/destroy/{id}', 'Admin\UserController@destroy');
+
 });
 
-	
 
-// Route::group(['middleware'=>['web','isAdminLoggedOut']],function(){
-//     Route::any('/login', ['uses'=>'HomeController@login', 'as'=>'admin-login']);
-// });
-// 	Route::group(['middleware'=>['web','isAdminLoggedOut']],function(){
-//     Route::any('/', ['uses'=>'HomeController@login', 'as'=>'admin-login']);
-//     Route::any('/login', ['uses'=>'HomeController@login', 'as'=>'admin-login']);
-// });
