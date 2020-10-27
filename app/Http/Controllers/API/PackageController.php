@@ -270,28 +270,26 @@ class PackageController extends Controller
 
             $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
+            $arr = [];
+            $r = -1;
+            $totalTime = 0;
             foreach ($myAvailableHours as $hours) 
             {
+                $r++;
                 $fromTime = date("H:i", strtotime($hours->from_time));
                 $toTime = date("H:i", strtotime($hours->to_time));
 
-                /*$toTimeExplode = explode(':', $toTime);
-                $fromTimeExplode = explode(':', $fromTime);
-
-                echo $toTimeExplode[0].'<br>'; 
-                echo $fromTimeExplode[1]; */
-
-                $to = Carbon::createFromFormat('H:i', $toTime);
-                $from = Carbon::createFromFormat('H:i', $fromTime);
-
-                $diff_in_minutes = $to->diffInMinutes($from);
-                echo $diff_in_minutes;
+                $time = Carbon::parse($fromTime);
+                $endTime = $time->addMinutes($sessionTime+$breakTime);
+                
+                $fTime = date("H:i A", strtotime($endTime));
+                $arr[$r] = $fTime;
 
 
                 
-
-                die;
             }
+            
+            return $arr;
 
                 
 
@@ -300,13 +298,13 @@ class PackageController extends Controller
             /*if(count($allPackages) > 0)
             {
                 return response()->json(['success' => true,
-                                     'packages' => $allPackages,
+                                     'data' => ,
                                     ], $this->successStatus); 
             }
             else
             {
                 return response()->json(['success' => false,
-                                     'message' => 'No package found for this counsellor',
+                                     'message' => '',
                                     ], $this->successStatus); 
             }*/
             

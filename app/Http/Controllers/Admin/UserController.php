@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::where('role_id','!=',1)->orderBy('id','DESC')->paginate(2);
+        $users = User::where('role_id','!=',1)->orderBy('id','DESC')->paginate(25);
         return view('admin.users.index',compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }

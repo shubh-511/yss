@@ -165,11 +165,13 @@
     <script src="{{ asset('assets/bower_components/ckeditor/ckeditor.js')}}"></script>
     <script src="{{ asset('assets/dist/js/adminlte.min.js')}}"></script>
     <script src="{{ asset('assets/js/main.js')}}"></script>
-    $( document ).ready(function(){
+    <script type="text/javascript">
+      $( document ).ready(function(){
             $('.alert').fadeIn('slow', function(){
-               $('.alert').delay(5000).fadeOut(); 
+               $('.alert').delay(4000).fadeOut(); 
             });
         });
+      </script>
     @yield('footer_scripts')
     
     

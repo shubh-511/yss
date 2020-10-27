@@ -68,7 +68,7 @@
                           <td>{{ $user->name}}</td>
                           
                           <td>{{ $user->email}}</td>
-                          <td>@if($user->role_id == 2){{'Counsellor'}} @elseif($user->role_id == 3){{'Consumer'}} @else {{'Admin'}} @endif</td>
+                          <td>@if($user->role_id == 2){{'Counsellor'}} @elseif($user->role_id == 3){{'Consumer'}} @endif</td>
                            <td>
                              <a class="btn btn-info" href="{{ url('login/users/show',$user->id) }}">Show</a>
                              <a class="btn btn-primary" href="{{ url('login/users/edit',$user->id) }}">Edit</a>
