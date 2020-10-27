@@ -264,47 +264,37 @@ class PackageController extends Controller
 
             $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
 
-            $breakTime = $getAvailability->breaks;
             $sessionTime = $package->session_minutes;
 
 
             $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
             $arr = [];
-            $r = -1;
+            
             $totalTime = 0;
             foreach ($myAvailableHours as $hours) 
             {
-                $r++;
                 $fromTime = date("H:i", strtotime($hours->from_time));
                 $toTime = date("H:i", strtotime($hours->to_time));
 
-                $time = Carbon::parse($fromTime);
-                $endTime = $time->addMinutes($sessionTime+$breakTime);
-                
-                $fTime = date("H:i A", strtotime($endTime));
-                $arr[$r] = $fTime;
+                $Data = $this->SplitTime($fromTime, $toTime, $sessionTime=23);
 
+print_r($Data);
 
-                
             }
             
-            return $arr;
+            
 
-                
-
-
-
-            /*if(count($allPackages) > 0)
+            /*if(!empty($getAvailability))
             {
                 return response()->json(['success' => true,
-                                     'data' => ,
+                                     'data' => '',
                                     ], $this->successStatus); 
             }
             else
             {
                 return response()->json(['success' => false,
-                                     'message' => '',
+                                     'message' => 'Availability not found',
                                     ], $this->successStatus); 
             }*/
             
@@ -315,6 +305,27 @@ class PackageController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
         
+    }
+
+    public function SplitTime($StartTime, $EndTime, $Duration){
+    $ReturnArray = [];
+    $StartTime    = strtotime ($StartTime); 
+    $EndTime      = strtotime ($EndTime); 
+
+    $AddMins  = $Duration * 60;
+    $i = 0;
+    while ((($StartTime) < ($EndTime-$AddMins))) 
+    {
+        $ReturnArray[$i] = date ("G:i A", $StartTime);
+        
+        $fromTime = date("H:i A", strtotime($ReturnArray[$i]));
+        $fromTime = strtotime(($fromTime));
+
+            $StartTime += $AddMins; 
+            $i++;
+        
+    }
+    return $ReturnArray;
     }
      
      
