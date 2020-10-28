@@ -32,6 +32,8 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 
 	Route::get('/users/destroy/{id}', 'Admin\UserController@destroy');
 
+	Route::get('/bookings', 'Admin\BookingController@bookingList');
+
 });
 
 
