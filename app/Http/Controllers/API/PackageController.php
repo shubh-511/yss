@@ -279,10 +279,10 @@ class PackageController extends Controller
                 $data = $this->SplitTime($fromTime, $toTime, $sessionTime);
 
                     //print_r($data);
-                    foreach($data as $i => $datas)
+                    foreach($data as $datas)
                     {
                      
-                        $arr[] = $datas;
+                        $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
                     
                     }
 
