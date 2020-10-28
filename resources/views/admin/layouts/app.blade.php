@@ -115,6 +115,11 @@
                     <i class="fa fa-user"></i> <span>Users</span>
                   </a>
                 </li>
+                <li class="">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+                </li>
                 
                 
               </ul>
