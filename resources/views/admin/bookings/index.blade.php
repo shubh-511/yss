@@ -60,7 +60,7 @@
                       <th>Package Name</th>
                       <th>Booking Date</th>
                       <th>Slot</th>
-                      <th>Action</th>
+                      
                     </tr>
                   </thead>
                   <tbody>
