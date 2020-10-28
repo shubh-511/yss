@@ -77,8 +77,16 @@ class BookingController extends Controller
             $allBookings = Booking::where('counsellor_id', $user)->get(); 
             if(count($allBookings) > 0)
             {
+                $todayDate = Carbon::today();
+                echo $todayDate;
+                $pastBookings = Booking::where('counsellor_id', $user)->get();
+                $todaysBooking = Booking::where('counsellor_id', $user)->get();
+                $upcomingBooking = Booking::where('counsellor_id', $user)->get();
+
                 return response()->json(['success' => true,
-                                     'packages' => $allBookings,
+                                     'past' => $pastBookings,
+                                     'todays' => $todaysBooking,
+                                     'upcoming' => $upcomingBooking,
                                     ], $this->successStatus);
             }
             else
