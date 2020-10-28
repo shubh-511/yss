@@ -8,6 +8,7 @@ use App\Package;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use App\AvailaibleHours;
+use App\Booking;
 use App\Availability;
 use Event;
 use Carbon\Carbon;
@@ -256,8 +257,8 @@ class PackageController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
             //$user = Auth::user()->id;
-
-            $selectedDate = Carbon::parse($request->date)->format('l');
+            $date = $request->date;
+            $selectedDate = Carbon::parse($date)->format('l');
             $day = strtolower($selectedDate);
             
             $getAvailability = Availability::where('user_id', $request->user_id)->where('availaible_days', $day)->first(); 
@@ -276,20 +277,42 @@ class PackageController extends Controller
                 $fromTime = date("H:i", strtotime($hours->from_time));
                 $toTime = date("H:i", strtotime($hours->to_time));
 
-                $data = $this->SplitTime($fromTime, $toTime, $sessionTime);
+                //$data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
+                $fromTime    = strtotime ($fromTime); 
+                $toTime      = strtotime ($toTime); 
 
-                    //print_r($data);
-                    foreach($data as $datas)
+                $AddMins  = $sessionTime * 60;
+                $i = 0;
+                while ((($fromTime) < ($toTime-$AddMins))) 
+                {
+                    $data[$i] = date ("G:i A", $fromTime);
+                    
+                    $fromTime = date("H:i A", strtotime($data[$i]));
+                    $fromTime = strtotime(($fromTime));
+
+                        $fromTime += $AddMins; 
+                        $i++;
+                    
+                }
+
+                    foreach($data as $key => $datas)
                     {
-                     
-                        $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
+                        $bookingSlot = Booking::where('booking_date', $date)->first();
+                        //return $bookingSlot;
+                        if(!empty($bookingSlot))
+                        {
+                            $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
+                        }
+                        else
+                        {
+                            $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
+                        }
+                        
                     
                     }
 
             }
 
-            //return $arr;
-            
 
             if(!empty($getAvailability))
             {
@@ -313,7 +336,7 @@ class PackageController extends Controller
         
     }
 
-    public function SplitTime($StartTime, $EndTime, $Duration){
+    /*public function SplitTime($StartTime, $EndTime, $Duration, $date){
     $ReturnArray = [];
     $StartTime    = strtotime ($StartTime); 
     $EndTime      = strtotime ($EndTime); 
@@ -332,7 +355,7 @@ class PackageController extends Controller
         
     }
     return $ReturnArray;
-    }
+    }*/
      
      
 }
