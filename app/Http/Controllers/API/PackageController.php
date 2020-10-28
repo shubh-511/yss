@@ -269,26 +269,30 @@ class PackageController extends Controller
 
             $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
-            $arr = [];
             
-            $totalTime = 0;
+            $arr = [];
             foreach ($myAvailableHours as $hours) 
             {
                 $fromTime = date("H:i", strtotime($hours->from_time));
                 $toTime = date("H:i", strtotime($hours->to_time));
 
-                $Data = $this->SplitTime($fromTime, $toTime, $sessionTime=23);
+                $data = $this->SplitTime($fromTime, $toTime, $sessionTime=23);
 
-print_r($Data);
+                    //print_r($data);
+                    foreach($data as $datas)
+                    {
+                        array_push($arr, $datas);
+                    }
 
             }
-            
+
+            //return $arr;
             
 
-            /*if(!empty($getAvailability))
+            if(!empty($getAvailability))
             {
                 return response()->json(['success' => true,
-                                     'data' => '',
+                                     'data' => $arr,
                                     ], $this->successStatus); 
             }
             else
@@ -296,7 +300,7 @@ print_r($Data);
                 return response()->json(['success' => false,
                                      'message' => 'Availability not found',
                                     ], $this->successStatus); 
-            }*/
+            }
             
 
         }
