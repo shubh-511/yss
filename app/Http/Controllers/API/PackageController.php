@@ -276,12 +276,14 @@ class PackageController extends Controller
                 $fromTime = date("H:i", strtotime($hours->from_time));
                 $toTime = date("H:i", strtotime($hours->to_time));
 
-                $data = $this->SplitTime($fromTime, $toTime, $sessionTime=23);
+                $data = $this->SplitTime($fromTime, $toTime, $sessionTime);
 
                     //print_r($data);
-                    foreach($data as $datas)
+                    foreach($data as $i => $datas)
                     {
-                        array_push($arr, $datas);
+                     
+                        $arr[] = $datas;
+                    
                     }
 
             }
