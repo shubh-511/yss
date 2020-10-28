@@ -57,6 +57,7 @@
                       <th><input type="checkbox" id="check_all_checkbox"></th>
                       <th>Counsellor Name</th>
                       <th>User Name</th>
+                      <th>Package Name</th>
                       <th>Booking Date</th>
                       <th>Slot</th>
                       <th>Action</th>
@@ -69,9 +70,9 @@
                           <td>{{ $booking->counsellor->name}}</td>
                           <td>{{ $booking->user->name}}</td>
                           <td>{{ $booking->package->package_name}}</td>
+                          <td>{{ date('j F, Y', strtotime($booking->booking_date)) }}</td>
                           <td>{{ $booking->slot}}</td>
-                          
-                          
+                                                    
                         </tr>
                       @empty
                           <tr>
