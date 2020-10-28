@@ -19,20 +19,19 @@ class BookingController extends Controller
 	
 
     /** 
-     * Create Package api 
+     * Make booking api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function bookingList(Request $request) 
+    public function makeBooking(Request $request) 
     {
     	try
         {
     		$validator = Validator::make($request->all(), [ 
-	            /*'package_name' => 'required',  
-	            'package_description' => 'required', 
-	            'session_minutes' => 'required', 
-                'session_hours' => 'required', 
-                'amount' => 'required',*/
+	            'counsellor_id' => 'required',  
+                'package_id' => 'required', 
+	            'slot' => 'required', 
+	            'booking_date' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -42,8 +41,15 @@ class BookingController extends Controller
             $user = Auth::user()->id;
 
 			$input = $request->all(); 
-            $input['user_id'] = $user;
-	        $package = Package::create($input); 
+            
+	        $booking = new Booking; 
+            $booking->user_id = $user;
+            $booking->counsellor_id = $request->counsellor_id;
+            $booking->slot = $request->slot;
+            $booking->booking_date = $request->booking_date;
+            $booking->package_id = $request->package_id;
+            $booking->save();
+
 
 	        return response()->json(['success' => true,
 	            					 'package' => $package,
@@ -58,28 +64,30 @@ class BookingController extends Controller
     }
 
     /** 
-     * Get Package api 
+     * Get Booking api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function getPackagesByCounsellorId(Request $request) 
+    public function getBooking(Request $request) 
     {
         try
         {
             $user = Auth::user()->id;
-            /*$validator = Validator::make($request->all(), [ 
-                'user_id' => 'required',
-            ]);
-
-            if ($validator->fails()) 
-            { 
-                return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
-            }*/
-            $allPackages = Package::where('user_id', $user)->get(); 
-
-            return response()->json(['success' => true,
-                                     'packages' => $allPackages,
-                                    ], $this->successStatus); 
+            
+            $allBookings = Booking::where('counsellor_id', $user)->get(); 
+            if(count($allBookings) > 0)
+            {
+                return response()->json(['success' => true,
+                                     'packages' => $allBookings,
+                                    ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'message' => 'No bookings found',
+                                    ], $this->successStatus);
+            }
+             
 
         }
         catch(\Exception $e)
