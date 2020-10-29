@@ -58,6 +58,7 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Role</th>
+                      <th>Account Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -72,7 +73,7 @@
                            <td>
                              <a class="fa fa-desktop" href="{{ url('login/users/show',$user->id) }}"></a>
                              <a class="fa fa-edit" href="{{ url('login/users/edit',$user->id) }}"></a>
-                             <a class="fa fa-trash" href="{{ url('login/users/destroy',$user->id) }}" title="Delete"></a>
+                             <a class="fa fa-trash" onClick="deleteMe({{$user->id}})" title="Delete"></a>
                           </td>
                           
                         </tr>

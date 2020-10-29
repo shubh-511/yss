@@ -176,6 +176,22 @@
                $('.alert').delay(4000).fadeOut(); 
             });
         });
+      function deleteMe(id)
+      {
+        if (confirm("Are you sure you want to delete?") == true) {
+        $.ajax({
+        url:"{{url('login/users/destroy')}}",
+        type:'post',
+        data:{'id':id,'_token':'{{ csrf_token() }}'},
+        success: function(path){
+        location.reload();
+        }
+        });
+        } else {
+        return false;
+        }
+      }
+
       </script>
     @yield('footer_scripts')
     

@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 //Auth::routes();
-Route::get('login', 'Admin\AdminController@login');
+//Route::get('login', 'Admin\AdminController@login');
 Route::get('/logout', 'Admin\AdminController@logout');
 Route::post('login/admin-login', 'Admin\AdminController@adminLogin');
 
@@ -30,7 +30,7 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 	Route::get('/profile', 'Admin\UserController@profile');
 	Route::post('/profile/update', 'Admin\UserController@profileUpdate');
 
-	Route::get('/users/destroy/{id}', 'Admin\UserController@destroy');
+	Route::post('/users/destroy/{id?}', 'Admin\UserController@destroy');
 
 	Route::get('/bookings', 'Admin\BookingController@bookingList');
 
