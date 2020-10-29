@@ -38,7 +38,7 @@ class StripeConnectController extends Controller
 			
 			if(empty($checkExist))
 			{
-				Stripe::setApiKey(env('STRIPE_SECRET'));
+				\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 				$response = \Stripe\OAuth::token([
 				  'grant_type' => 'authorization_code',
 				  'code' => $request->stripe_id,
