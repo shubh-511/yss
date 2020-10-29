@@ -24,18 +24,26 @@ class StripeConnectController extends Controller
     {
     	try
         {
+        	\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+				$response = \Stripe\OAuth::token([
+				  'grant_type' => 'authorization_code',
+				  'code' => 'ac_II5Rpjd6JtwHCjid4Wi89QYoHygQGuIJ' //$request->stripe_id,
+				]);
+				echo "<pre>";
+				print_r($response);
+				exit;
         	//retrun $request->stripe_id;
-        	return response()->json(['success' => true,
-	            					 'message' => $request->stripe_id,
-	            					], $this->successStatus);
-    		$validator = Validator::make($request->all(), [ 
-	            'stripe_id' => 'required',
-	        ]);
+        	// return response()->json(['success' => true,
+	        //     					 'message' => $request->stripe_id,
+	        //     					], $this->successStatus);
+   //  		$validator = Validator::make($request->all(), [ 
+	  //           'stripe_id' => 'required',
+	  //       ]);
 
-			if ($validator->fails()) 
-            { 
-	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
-			}
+			// if ($validator->fails()) 
+   //          { 
+	  //           return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
+			// }
 			$user = Auth::user()->id;
 
 			$checkExist = StripeConnect::where('user_id', $user)->first();
@@ -45,7 +53,7 @@ class StripeConnectController extends Controller
 				\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 				$response = \Stripe\OAuth::token([
 				  'grant_type' => 'authorization_code',
-				  'code' => $request->stripe_id,
+				  'code' => 'ac_II5Rpjd6JtwHCjid4Wi89QYoHygQGuIJ' //$request->stripe_id,
 				]);
 
 				// Access the connected account id in the response
