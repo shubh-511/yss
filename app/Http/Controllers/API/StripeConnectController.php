@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\StripeConnect;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use Stripe;
 use Event;
 
 class StripeConnectController extends Controller
@@ -37,9 +38,19 @@ class StripeConnectController extends Controller
 			
 			if(empty($checkExist))
 			{
+				Stripe::setApiKey(env('STRIPE_SECRET'));
+				$response = \Stripe\OAuth::token([
+				  'grant_type' => 'authorization_code',
+				  'code' => $request->stripe_id,
+				]);
+
+				// Access the connected account id in the response
+				$connected_account_id = $response->stripe_user_id;
+
+
 				$connectAct = new StripeConnect;
 				$connectAct->user_id = $user;
-				$connectAct->stripe_id = $request->stripe_id;
+				$connectAct->stripe_id = $connected_account_id;
 				$connectAct->save();
 
 				return response()->json(['success' => true,
