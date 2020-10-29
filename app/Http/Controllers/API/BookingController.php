@@ -31,7 +31,9 @@ class BookingController extends Controller
 	            'counsellor_id' => 'required',  
                 'package_id' => 'required', 
 	            'slot' => 'required', 
-	            'booking_date' => 'required', 
+	            'booking_date' => 'required',
+                'token' => 'required',
+                'status' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -40,21 +42,29 @@ class BookingController extends Controller
 			}
             $user = Auth::user()->id;
 
-			$input = $request->all(); 
+			if($request->status == 1)
+            {
+                $booking = new Booking; 
+                $booking->user_id = $user;
+                $booking->counsellor_id = $request->counsellor_id;
+                $booking->slot = $request->slot;
+                $booking->booking_date = $request->booking_date;
+                $booking->package_id = $request->package_id;
+                $booking->status = 1;
+                $booking->save();
+
+
+                return response()->json(['success' => true,
+                                         'package' => $package,
+                                        ], $this->successStatus); 
+            } 
+            else
+            {
+                return response()->json(['success' => false,
+                                         'message' => 'Something went wrong while making payment',
+                                        ], $this->successStatus); 
+            }
             
-	        $booking = new Booking; 
-            $booking->user_id = $user;
-            $booking->counsellor_id = $request->counsellor_id;
-            $booking->slot = $request->slot;
-            $booking->booking_date = $request->booking_date;
-            $booking->package_id = $request->package_id;
-            $booking->save();
-
-
-	        return response()->json(['success' => true,
-	            					 'package' => $package,
-	            					], $this->successStatus); 
-
     	}
         catch(\Exception $e)
         {
