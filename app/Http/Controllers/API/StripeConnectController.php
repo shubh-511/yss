@@ -24,7 +24,10 @@ class StripeConnectController extends Controller
     {
     	try
         {
-        	retrun $request->stripe_id;
+        	//retrun $request->stripe_id;
+        	return response()->json(['success' => true,
+	            					 'message' => $request->stripe_id,
+	            					], $this->successStatus);
     		$validator = Validator::make($request->all(), [ 
 	            'stripe_id' => 'required',
 	        ]);
