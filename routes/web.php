@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.auth.login');
 });
 
 //Auth::routes();
-//Route::get('login', 'Admin\AdminController@login');
+Route::get('login', 'Admin\AdminController@login');
 Route::get('/logout', 'Admin\AdminController@logout');
 Route::post('login/admin-login', 'Admin\AdminController@adminLogin');
 
