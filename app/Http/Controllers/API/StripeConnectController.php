@@ -23,7 +23,7 @@ class StripeConnectController extends Controller
     public function connectUserAccount(Request $request) 
     {
     	try
-        {        	
+    	{
     		$validator = Validator::make($request->all(), [ 
 	            'stripe_id' => 'required',
 	        ]);
@@ -38,12 +38,12 @@ class StripeConnectController extends Controller
 			
 			if(empty($checkExist))
 			{
-				\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+				Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
+    	
 				$response = \Stripe\OAuth::token([
 				  'grant_type' => 'authorization_code',
-				  'code' => 'ac_II5Rpjd6JtwHCjid4Wi89QYoHygQGuIJ' //$request->stripe_id,
+				  'code' => $request->stripe_id,
 				]);
-
 				// Access the connected account id in the response
 				$connected_account_id = $response->stripe_user_id;
 
@@ -60,7 +60,7 @@ class StripeConnectController extends Controller
 			else
 			{
 				return response()->json(['success' => false,
-	            					 'message' => 'Your account is already linked',
+	            					 'message' => 'Your account is already linked with us',
 	            					], $this->successStatus);
 			}
 			
