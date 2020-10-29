@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('admin.auth.login');
+    //return view('welcome');
+    return redirect('public/login');
 });
 
 //Auth::routes();
