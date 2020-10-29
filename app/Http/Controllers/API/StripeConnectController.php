@@ -24,6 +24,7 @@ class StripeConnectController extends Controller
     {
     	try
         {
+        	retrun $request->stripe_id;
     		$validator = Validator::make($request->all(), [ 
 	            'stripe_id' => 'required',
 	        ]);
