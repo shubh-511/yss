@@ -284,7 +284,7 @@ class PackageController extends Controller
 
                 $AddMins  = $sessionTime * 60;
                 $i = 0;
-                while ((($fromTime) < ($toTime))) 
+                while ((($fromTime) < ($toTime-$AddMins))) 
                 {
                     $data[$i] = date ("G:i A", $fromTime);
                     
