@@ -33,7 +33,7 @@ class BookingController extends Controller
 	            'slot' => 'required', 
 	            'booking_date' => 'required',
                 'token' => 'required',
-                'status' => 'required', 
+                //'status' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -42,8 +42,8 @@ class BookingController extends Controller
 			}
             $user = Auth::user()->id;
 
-			if($request->status == 1)
-            {
+			/*if($request->status == 1)
+            {*/
                 $booking = new Booking; 
                 $booking->user_id = $user;
                 $booking->counsellor_id = $request->counsellor_id;
@@ -55,15 +55,15 @@ class BookingController extends Controller
 
 
                 return response()->json(['success' => true,
-                                         'package' => $package,
+                                         'message' => 'Your payment has been made successfully!',
                                         ], $this->successStatus); 
-            } 
+            /*} 
             else
             {
                 return response()->json(['success' => false,
                                          'message' => 'Something went wrong while making payment',
                                         ], $this->successStatus); 
-            }
+            }*/
             
     	}
         catch(\Exception $e)
