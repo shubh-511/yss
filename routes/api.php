@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	Route::get('get/bookings', 'API\BookingController@getBooking');
+	Route::post('make/booking', 'API\BookingController@makeBooking');
 	
 
 	
