@@ -67,9 +67,9 @@
                       @forelse($bookings as $booking)
                         <tr id='booking{{$booking->id}}'>
                           <th><input type="checkbox" class='sub_chk' data-id="{{$booking->id}}" name="user_id[]"></th>
-                          <td>{{ $booking->counsellor->name}}</td>
-                          <td>{{ $booking->user->name}}</td>
-                          <td>{{ $booking->package->package_name}}</td>
+                          <td>{{ $booking->counsellor->name ?? ''}}</td>
+                          <td>{{ $booking->user->name ?? ''}}</td>
+                          <td>{{ $booking->package->package_name ?? ''}}</td>
                           <td>{{ date('j F, Y', strtotime($booking->booking_date)) }}</td>
                           <td>{{ $booking->slot}}</td>
                                                     
