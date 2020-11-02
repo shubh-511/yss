@@ -43,6 +43,7 @@ class BookingController extends Controller
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
 			}
             $user = Auth::user();
+             
             //$user = $request->user_id;
 
             $packageAmt = Package::where('id', $request->package_id)->first();
@@ -57,7 +58,7 @@ class BookingController extends Controller
 
 
             $customer = \Stripe\Customer::create(array(
-                'name' => $user->name,
+                'name' => $user->name ?? '',
                 'email' => $user->email,
             ));
            
@@ -104,7 +105,7 @@ class BookingController extends Controller
             
 
                 $booking = new Booking; 
-                $booking->user_id = $user;
+                //$booking->user_id = $user;
                 $booking->counsellor_id = $request->counsellor_id;
                 $booking->slot = $request->slot;
                 $booking->booking_date = $request->booking_date;
