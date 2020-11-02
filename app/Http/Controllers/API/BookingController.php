@@ -42,11 +42,12 @@ class BookingController extends Controller
             { 
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
 			}
-            $user = Auth::user()->id;
+            $user = Auth::user();
             //$user = $request->user_id;
 
             $packageAmt = Package::where('id', $request->package_id)->first();
-            $connectedActID = StripeConnect::where('user_id', $user)->first();
+
+            $connectedActID = StripeConnect::where('user_id', $request->counsellor_id)->first();
 
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
