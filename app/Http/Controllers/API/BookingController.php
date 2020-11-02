@@ -35,7 +35,7 @@ class BookingController extends Controller
 	            'slot' => 'required', 
 	            'booking_date' => 'required',
                 'token' => 'required',
-                'card_id' => 'required', 
+                //'card_id' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -82,7 +82,7 @@ class BookingController extends Controller
               'description' => 'test payment',
               'customer' => $customer->id,
               'currency' => 'INR',
-              'source' => $request->card_id, 
+              'source' => 'card_1HiwFlDONzaKgGcKMQabSv7G', 
               //'application_fee_amount' => 50,
               'transfer_data' => [
                 'amount' => 50*100,
@@ -95,7 +95,9 @@ class BookingController extends Controller
               ['payment_method' => 'pm_card_visa_debit']
             );
             
-            return $conf;
+            return response()->json(['success' => true,
+                                         'message' => $conf,
+                                        ], $this->successStatus); 
 
            
             
