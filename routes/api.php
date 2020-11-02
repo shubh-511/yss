@@ -25,7 +25,7 @@ Route::post('reset/password', 'API\UserController@resetPassword');
 
 Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackages');
 
-Route::post('make/booking', 'API\BookingController@makeBooking');
+
 
 Route::get('break-packages', 'API\PackageController@getPackagesWithBreaks');
 Route::group(['middleware' => 'auth:api'], function(){
@@ -46,6 +46,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('update/phone', 'API\UserController@updatePhone');
 	Route::post('verify/phone', 'API\UserController@verifyPhone');
 
+	Route::post('make/booking', 'API\BookingController@makeBooking');
+	
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	Route::get('get/bookings', 'API\BookingController@getBooking');
 	

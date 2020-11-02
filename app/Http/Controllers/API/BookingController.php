@@ -59,8 +59,8 @@ class BookingController extends Controller
 
 
             $customer = \Stripe\Customer::create(array(
-                'name' => 'shubh',
-                'email' => 'shubh@gmail.com',
+                'name' => $user->name,
+                'email' => $user->email,
             ));
            
             /*$token = $stripe->tokens->create([
@@ -103,13 +103,13 @@ class BookingController extends Controller
             {
 
                 $booking = new Booking; 
-                //$booking->user_id = $user;
+                $booking->user_id = $user->id;
                 $booking->counsellor_id = $request->counsellor_id;
                 $booking->slot = $request->slot;
                 $booking->booking_date = $request->booking_date;
                 $booking->package_id = $request->package_id;
                 $booking->status = 1;
-                //$booking->save();
+                $booking->save();
 
 
                 return response()->json(['success' => true,
