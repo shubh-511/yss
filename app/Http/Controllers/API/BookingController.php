@@ -103,7 +103,7 @@ class BookingController extends Controller
             {
 
                 $booking = new Booking; 
-                $booking->user_id = $user->id;
+                //$booking->user_id = $user;
                 $booking->counsellor_id = $request->counsellor_id;
                 $booking->slot = $request->slot;
                 $booking->booking_date = $request->booking_date;
