@@ -35,7 +35,7 @@ class BookingController extends Controller
 	            'slot' => 'required', 
 	            'booking_date' => 'required',
                 'token' => 'required',
-                //'card_id' => 'required', 
+                'card_id' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -103,13 +103,13 @@ class BookingController extends Controller
             {
 
                 $booking = new Booking; 
-                //$booking->user_id = $user;
+                $booking->user_id = $user->id;
                 $booking->counsellor_id = $request->counsellor_id;
                 $booking->slot = $request->slot;
                 $booking->booking_date = $request->booking_date;
                 $booking->package_id = $request->package_id;
                 $booking->status = 1;
-                //$booking->save();
+                $booking->save();
 
 
                 return response()->json(['success' => true,
