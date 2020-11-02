@@ -8,8 +8,10 @@ use App\Package;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use App\Booking;
+use App\StripeConnect;
 use App\Availability;
 use Event;
+use Stripe;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 
@@ -33,7 +35,7 @@ class BookingController extends Controller
 	            'slot' => 'required', 
 	            'booking_date' => 'required',
                 'token' => 'required',
-                //'status' => 'required', 
+                'card_id' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -41,9 +43,63 @@ class BookingController extends Controller
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
 			}
             $user = Auth::user()->id;
+            //$user = $request->user_id;
 
-			/*if($request->status == 1)
-            {*/
+            $packageAmt = Package::where('id', $request->package_id)->first();
+            $connectedActID = StripeConnect::where('user_id', $user)->first();
+
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+            /*Stripe\Stripe::setApiKey('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');
+            $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
+
+
+            $customer = \Stripe\Customer::create(array(
+                'name' => $user->name,
+                'email' => $user->email,
+            ));
+           
+            /*$token = $stripe->tokens->create([
+              'card' => [
+                'number' => '4242424242424242',
+                'exp_month' => 11,
+                'exp_year' => 2021,
+                'cvc' => '314',
+              ],
+            ]);*/
+          
+
+            $source = \Stripe\Customer::createSource(
+            $customer->id,
+            ['source' => $request->token]);
+
+            //return $source;
+
+            $payment_intent = \Stripe\PaymentIntent::create([
+              'payment_method_types' => ['card'],
+              'amount' => $packageAmt->amount*100,
+              'description' => 'test payment',
+              'customer' => $customer->id,
+              'currency' => 'INR',
+              'source' => $request->card_id, 
+              //'application_fee_amount' => 50,
+              'transfer_data' => [
+                'amount' => 50*100,
+                'destination' => $connectedActID->stripe_id
+              ],
+            ]);
+
+            $conf = $stripe->paymentIntents->confirm(
+              $payment_intent->id,
+              ['payment_method' => 'pm_card_visa_debit']
+            );
+            
+            return $conf;
+
+           
+            
+
                 $booking = new Booking; 
                 $booking->user_id = $user;
                 $booking->counsellor_id = $request->counsellor_id;
@@ -57,13 +113,7 @@ class BookingController extends Controller
                 return response()->json(['success' => true,
                                          'message' => 'Your payment has been made successfully!',
                                         ], $this->successStatus); 
-            /*} 
-            else
-            {
-                return response()->json(['success' => false,
-                                         'message' => 'Something went wrong while making payment',
-                                        ], $this->successStatus); 
-            }*/
+           
             
     	}
         catch(\Exception $e)
