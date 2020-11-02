@@ -197,8 +197,11 @@ class UserController extends Controller
                 
                 event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
+                $url = env('LIVE_URL').''.$userDetail['key'];
+
                 return response()->json(['success' => true,
                                          'message' => 'Reset password link has been sent on your email',
+                                         'url' => $url,
                                         ], $this->successStatus); 
             }
             else
