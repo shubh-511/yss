@@ -51,15 +51,16 @@ class BookingController extends Controller
             $connectedActID = StripeConnect::where('user_id', $request->counsellor_id)->first();
 
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            
+            $stripe = new Stripe\StripeClient(env('STRIPE_SECRET'));
 
             /*Stripe\Stripe::setApiKey('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
 
 
             $customer = \Stripe\Customer::create(array(
-                'name' => $user->name ?? '',
-                'email' => $user->email,
+                'name' => 'shubh',
+                'email' => 'shubh@gmail.com',
             ));
            
             /*$token = $stripe->tokens->create([
@@ -83,8 +84,8 @@ class BookingController extends Controller
               'amount' => $packageAmt->amount*100,
               'description' => 'test payment',
               'customer' => $customer->id,
-              'currency' => 'INR',
-              'source' => 'card_1HiwFlDONzaKgGcKMQabSv7G', 
+              'currency' => 'GBP',
+              'source' => $request->card_id, 
               //'application_fee_amount' => 50,
               'transfer_data' => [
                 'amount' => 50*100,
@@ -97,12 +98,9 @@ class BookingController extends Controller
               ['payment_method' => 'pm_card_visa_debit']
             );
             
-            return response()->json(['success' => true,
-                                         'message' => $conf,
-                                        ], $this->successStatus); 
-
            
-            
+            if($conf->status == 'succeeded')
+            {
 
                 $booking = new Booking; 
                 //$booking->user_id = $user;
@@ -117,7 +115,11 @@ class BookingController extends Controller
                 return response()->json(['success' => true,
                                          'message' => 'Your payment has been made successfully!',
                                         ], $this->successStatus); 
-           
+           }
+           else
+           {
+                return response()->json(['success'=>false,'errors' =>['exception' => [$conf->status]]], $this->successStatus); 
+           }
             
     	}
         catch(\Exception $e)
