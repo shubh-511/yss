@@ -21,7 +21,7 @@ Route::post('import/user', 'API\UserController@importUser');
 Route::post('forgot-password', 'API\UserController@forgotPassword');
 
 //Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
-Route::get('reset/password', 'API\UserController@resetPassword');
+Route::post('reset/password', 'API\UserController@resetPassword');
 
 Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackages');
 
