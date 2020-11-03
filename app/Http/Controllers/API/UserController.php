@@ -70,7 +70,7 @@ class UserController extends Controller
                     //$json = file_get_contents($url);
                     //$cURL = json_decode($json, true);
 
-                    if($cURL['status'] == true) 
+                    if($cURL['status'] == false) 
                     {
                         if(Auth::loginUsingId($checkUserRoles->id))
                         {
