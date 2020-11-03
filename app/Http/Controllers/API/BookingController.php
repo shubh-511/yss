@@ -97,7 +97,7 @@ class BookingController extends Controller
 
             $conf = $stripe->paymentIntents->confirm(
               $payment_intent->id,
-              ['payment_method' => 'card']
+              ['payment_method' => $payment_intent->payment_method]
             );
             
             $payment = new Payment;
