@@ -51,9 +51,9 @@ class BookingController extends Controller
 
             $connectedActID = StripeConnect::where('user_id', $request->counsellor_id)->first();
 
-            Stripe\Stripe::setApiKey('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');
+            Stripe\Stripe::setApiKey('sk_live_ZnJs1EudLzYjghd5zGm3WAkY00jT2Q2d1U');
             
-            $stripe = new Stripe\StripeClient('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');
+            $stripe = new Stripe\StripeClient('sk_live_ZnJs1EudLzYjghd5zGm3WAkY00jT2Q2d1U');
 
             /*Stripe\Stripe::setApiKey('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
