@@ -51,9 +51,9 @@ class BookingController extends Controller
 
             $connectedActID = StripeConnect::where('user_id', $request->counsellor_id)->first();
 
-            Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET_LIVE'));
             
-            $stripe = new Stripe\StripeClient('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
+            $stripe = new Stripe\StripeClient(env('STRIPE_SECRET_LIVE'));
 
             /*Stripe\Stripe::setApiKey('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
@@ -82,14 +82,15 @@ class BookingController extends Controller
 
             $payment_intent = \Stripe\PaymentIntent::create([
               'payment_method_types' => ['card'],
-              'amount' => $packageAmt->amount*100,
+              //'amount' => $packageAmt->amount*100,
+              'amount' => 1*100,
               'description' => 'test payment',
               'customer' => $customer->id,
-              'currency' => 'GBP',
+              'currency' => 'INR',
               'source' => $request->card_id, 
               //'application_fee_amount' => 50,
               'transfer_data' => [
-                'amount' => 50*100,
+                'amount' => 1*100,
                 'destination' => $connectedActID->stripe_id
               ],
             ]);
