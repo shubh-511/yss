@@ -83,14 +83,14 @@ class BookingController extends Controller
             $payment_intent = \Stripe\PaymentIntent::create([
               'payment_method_types' => ['card'],
               //'amount' => $packageAmt->amount*100,
-              'amount' => 2,
+              'amount' => 10,
               'description' => 'test payment',
               'customer' => $customer->id,
               'currency' => 'INR',
               'source' => $request->card_id, 
               //'application_fee_amount' => 50,
               'transfer_data' => [
-                'amount' => 1,
+                'amount' => 3,
                 'destination' => $connectedActID->stripe_id
               ],
             ]);
