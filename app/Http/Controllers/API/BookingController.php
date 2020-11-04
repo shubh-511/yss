@@ -138,7 +138,7 @@ class BookingController extends Controller
 
             $conf = $stripe->paymentIntents->confirm(
               $payment_intent->id,
-              ['return_url' => env('APP_URL').'api/confirm/booking?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'booking_date='.$request->booking_date.'package_id='.$request->package_id]
+              ['return_url' => 'http://178.62.24.141/dev/api/confirm/booking?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'booking_date='.$request->booking_date.'package_id='.$request->package_id]
               //['payment_method' => $method->id]
             );
             //return $conf;
