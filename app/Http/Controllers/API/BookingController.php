@@ -248,7 +248,7 @@ class BookingController extends Controller
                 $booking->slot = $request->slot;
                 $booking->booking_date = $request->booking_date;
                 $booking->package_id = $request->package_id;
-                $booking->status = 1;
+                $booking->status = '1';
                 $booking->save();
 
 
