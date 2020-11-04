@@ -60,7 +60,8 @@ class UserController extends Controller
                 } 
                 else
                 {
-                    $url = env('WORDPRESS_LOGIN_URL')."?email=".$request->getUser()."&password=".$request->getPassword();
+                    /*$url = env('WORDPRESS_LOGIN_URL')."?email=".$request->getUser()."&password=".$request->getPassword();*/
+                    $url = "https://yoursafespaceonline.com/login.php?email=".$request->getUser()."&password=".$request->getPassword();
                     //echo $url; die; 
 
                     $cURL = $this->url_get_contents($url); 
@@ -70,7 +71,7 @@ class UserController extends Controller
                     //$json = file_get_contents($url);
                     //$cURL = json_decode($json, true);
 
-                    if($cURL['status'] == false) 
+                    if($cURL['status'] == true) 
                     {
                         if(Auth::loginUsingId($checkUserRoles->id))
                         {
