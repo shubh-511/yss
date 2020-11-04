@@ -75,20 +75,6 @@ class BookingController extends Controller
 
             return $pI;*/
 
-            /*$token = $stripe->tokens->create([
-              'card' => [
-                'number' => '4018060831027863',
-                'exp_month' => '05',
-                'exp_year' => '2022',
-                'cvc' => '859',
-              ],
-            ]);*/
-
-
-
-
-
-
             $customer = \Stripe\Customer::create(array(
                 'name' => 'shubham',
                 'email' => 'shubham12@gmail.com',
