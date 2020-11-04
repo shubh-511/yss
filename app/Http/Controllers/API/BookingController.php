@@ -124,7 +124,7 @@ class BookingController extends Controller
 
             $conf = $stripe->paymentIntents->confirm(
               $payment_intent->id,
-              ['return_url' => 'http://178.62.24.141/dev/api/confirm/booking?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'&booking_date='.$request->booking_date.'&package_id='.$request->package_id.'&user='.$user->id]
+              ['return_url' => 'http://178.62.24.141/dev/api/hook/callback?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'&booking_date='.$request->booking_date.'&package_id='.$request->package_id.'&user='.$user->id]
               //['payment_method' => $method->id]
             );
             //return $conf;
@@ -145,11 +145,11 @@ class BookingController extends Controller
 
 
     /** 
-     * Confirm Booking api 
+     * WebHook Callback api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function confirmBooking(Request $request) 
+    public function hookCallback(Request $request) 
     {
         try
         {
@@ -322,6 +322,52 @@ class BookingController extends Controller
             
              
 
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
+    /** 
+     * Confirm Booking
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function confirmBooking(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'booking_id' => 'required',
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+            }
+
+            $user = Auth::user();
+            
+            $booking = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first(); 
+            
+            if(!empty($booking))
+            {
+                $booking->status = '3'; 
+                $booking->save();
+
+                return response()->json(['success' => true,
+                                         'message' => 'Booking confirmed!',
+                                        ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                         'message' => 'No bookings found with this booking ID',
+                                        ], $this->successStatus);
+            }
+                
         }
         catch(\Exception $e)
         {
