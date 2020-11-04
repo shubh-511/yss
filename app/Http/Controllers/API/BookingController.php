@@ -233,7 +233,7 @@ class BookingController extends Controller
             $payment->refunded = $conf->charges->data[0]->refunded;
             $payment->review = $conf->charges->data[0]->review;
             $payment->shipping = $conf->charges->data[0]->shipping;
-            $payment->source = $conf->charges->data[0]->source;
+            $payment->source = $conf->charges->data[0]->source->id;
             $payment->source_transfer = $conf->charges->data[0]->source_transfer;
             $payment->statement_descriptor = $conf->charges->data[0]->statement_descriptor;
             $payment->statement_descriptor_suffix = $conf->charges->data[0]->statement_descriptor_suffix;
