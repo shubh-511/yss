@@ -289,30 +289,51 @@ class BookingController extends Controller
             if($user->role_id == 2)
             {
                 $allBookings = Booking::where('counsellor_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                    $pastBookings = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '<', Carbon::today())->get();
+                    $todaysBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', Carbon::today())->get();
+                    $upcomingBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '>', Carbon::today())->get();
+
+                    return response()->json(['success' => true,
+                                         'past' => $pastBookings,
+                                         'todays' => $todaysBooking,
+                                         'upcoming' => $upcomingBooking,
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success' => false,
+                                         'message' => 'No bookings found',
+                                        ], $this->successStatus);
+                }
             }
             else
             {
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
-            }
-            return $allBookings;
-            if(count($allBookings) > 0)
-            { return 1;
-                $pastBookings = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '<', Carbon::today())->get();
-                $todaysBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', Carbon::today())->get();
-                $upcomingBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '>', Carbon::today())->get();
 
-                return response()->json(['success' => true,
-                                     'past' => $pastBookings,
-                                     'todays' => $todaysBooking,
-                                     'upcoming' => $upcomingBooking,
-                                    ], $this->successStatus);
+                if(count($allBookings) > 0)
+                { 
+                    $pastBookings = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '<', Carbon::today())->get();
+                    $todaysBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', Carbon::today())->get();
+                    $upcomingBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '>', Carbon::today())->get();
+
+                    return response()->json(['success' => true,
+                                         'past' => $pastBookings,
+                                         'todays' => $todaysBooking,
+                                         'upcoming' => $upcomingBooking,
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success' => false,
+                                         'message' => 'No bookings found',
+                                        ], $this->successStatus);
+                }
             }
-            else
-            {
-                return response()->json(['success' => false,
-                                     'message' => 'No bookings found',
-                                    ], $this->successStatus);
-            }
+            
+            
              
 
         }
