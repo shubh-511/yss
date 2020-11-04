@@ -138,7 +138,7 @@ class BookingController extends Controller
 
             $conf = $stripe->paymentIntents->confirm(
               $payment_intent->id,
-              ['return_url' => 'http://178.62.24.141/dev/api/confirm/booking?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'booking_date='.$request->booking_date.'package_id='.$request->package_id.'&user='.$user->id]
+              ['return_url' => 'http://178.62.24.141/dev/api/confirm/booking?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'&booking_date='.$request->booking_date.'&package_id='.$request->package_id.'&user='.$user->id]
               //['payment_method' => $method->id]
             );
             //return $conf;
@@ -170,7 +170,7 @@ class BookingController extends Controller
             $validator = Validator::make($request->all(), [ 
                 'payment_intent' => 'required',
                 'counsellor_id' => 'required',  
-                'package_id' => 'required', 
+                //'package_id' => 'required', 
                 'slot' => 'required', 
                 'booking_date' => 'required',  
                 'user' => 'required',
@@ -187,7 +187,12 @@ class BookingController extends Controller
             
             $stripe = new Stripe\StripeClient('sk_live_ZnJs1EudLzYjghd5zGm3WAkY00jT2Q2d1U');
 
-            $conf = $stripe->paymentIntents->retrieve(
+            /*$conf = $stripe->paymentIntents->retrieve(
+              $request->payment_intent,
+              []
+            );*/
+
+            $conf = $stripe->paymentIntents->confirm(
               $request->payment_intent,
               []
             );
