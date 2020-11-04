@@ -143,6 +143,10 @@ class BookingController extends Controller
             );
             //return $conf;
 
+            return response()->json(['success' => true,
+                                         'data' => $conf,
+                                        ], $this->successStatus);
+
             
             
     	}
