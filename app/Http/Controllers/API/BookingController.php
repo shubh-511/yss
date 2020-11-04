@@ -10,6 +10,7 @@ use Validator;
 use App\Booking;
 use App\StripeConnect;
 use App\Availability;
+use App\User;
 use App\Payment;
 use Event;
 use Stripe;
@@ -44,7 +45,7 @@ class BookingController extends Controller
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
 			}
             $user = Auth::user();
-             
+            //$user = User::where('id', $request->user_id)->first();
             //$user = $request->user_id;
 
             $packageAmt = Package::where('id', $request->package_id)->first();
@@ -57,47 +58,133 @@ class BookingController extends Controller
 
             /*Stripe\Stripe::setApiKey('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
+             /*$token = $stripe->tokens->create([
+              'card' => [
+                'number' => '5126522005865259',
+                'exp_month' => '09',
+                'exp_year' => '2024',
+                'cvc' => '070',
+              ],
+            ]);*/
+
+
+            /*$pI = $stripe->paymentIntents->retrieve(
+              'pi_1HjdaiDONzaKgGcKY6VGFo22',
+              []
+            );
+
+            return $pI;*/
+
+            $token = $stripe->tokens->create([
+              'card' => [
+                'number' => '4018060831027863',
+                'exp_month' => '05',
+                'exp_year' => '2022',
+                'cvc' => '859',
+              ],
+            ]);
+
+
+
+
 
 
             $customer = \Stripe\Customer::create(array(
-                'name' => $user->name,
-                'email' => $user->email,
+                'name' => 'shubham',
+                'email' => 'shubham12@gmail.com',
             ));
+            
            
-            /*$token = $stripe->tokens->create([
+           
+            
+            /*$method = $stripe->paymentMethods->create([
+              'type' => 'card',
               'card' => [
-                'number' => '4242424242424242',
-                'exp_month' => 11,
-                'exp_year' => 2021,
-                'cvc' => '314',
+                'number' => '23214324',
+                'exp_month' => '05',
+                'exp_year' => '2021',
+                'cvc' => '568',
               ],
             ]);*/
-          
+            
+            
 
             $source = \Stripe\Customer::createSource(
             $customer->id,
+            //['source' => $token->id]);
             ['source' => $request->token]);
 
-            //return $source;
+            
 
             $payment_intent = \Stripe\PaymentIntent::create([
-              'payment_method_types' => ['card'],
               //'amount' => $packageAmt->amount*100,
-              'amount' => 10*100,
+              'amount' => 3*100,
               'description' => 'test payment',
               'customer' => $customer->id,
               'currency' => 'INR',
+              //'source' => $token->card->id, 
               'source' => $request->card_id, 
+              'confirmation_method' => 'manual',
+              'confirm' => true,
               //'application_fee_amount' => 50,
               'transfer_data' => [
-                'amount' => 3*100,
+                'amount' => 1*100,
                 'destination' => $connectedActID->stripe_id
               ],
             ]);
 
+            //return $payment_intent;
+
+
             $conf = $stripe->paymentIntents->confirm(
-              $payment_intent->id
-              //['payment_method' => $payment_intent->payment_method]
+              $payment_intent->id,
+              ['return_url' => env('APP_URL').'api/confirm/booking?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'booking_date='.$request->booking_date.'package_id='.$request->package_id
+              //['payment_method' => $method->id]
+            );
+            //return $conf;
+
+            
+            
+    	}
+        catch(\Exception $e)
+        {
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	} 
+        
+    }
+
+
+    /** 
+     * Confirm Booking api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function confirmBooking(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'payment_intent' => 'required',
+                'counsellor_id' => 'required',  
+                'package_id' => 'required', 
+                'slot' => 'required', 
+                'booking_date' => 'required',  
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+            }
+
+            $user = Auth::user();
+
+            Stripe\Stripe::setApiKey('sk_live_ZnJs1EudLzYjghd5zGm3WAkY00jT2Q2d1U');
+            
+            $stripe = new Stripe\StripeClient('sk_live_ZnJs1EudLzYjghd5zGm3WAkY00jT2Q2d1U');
+
+            $conf = $stripe->paymentIntents->retrieve(
+              $request->payment_intent,
+              []
             );
             
             $payment = new Payment;
@@ -169,12 +256,13 @@ class BookingController extends Controller
            {
                 return response()->json(['success'=>false,'errors' =>['exception' => [$conf->status]]], $this->successStatus); 
            }
-            
-    	}
+             
+
+        }
         catch(\Exception $e)
         {
-    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-    	} 
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
         
     }
 
