@@ -170,7 +170,7 @@ class BookingController extends Controller
             $validator = Validator::make($request->all(), [ 
                 'payment_intent' => 'required',
                 'counsellor_id' => 'required',  
-                //'package_id' => 'required', 
+                'package_id' => 'required', 
                 'slot' => 'required', 
                 'booking_date' => 'required',  
                 'user' => 'required',
@@ -296,7 +296,7 @@ class BookingController extends Controller
             }
             
             if(count($allBookings) > 0)
-            {
+            { return 1;
                 $pastBookings = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '<', Carbon::today())->get();
                 $todaysBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', Carbon::today())->get();
                 $upcomingBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '>', Carbon::today())->get();
