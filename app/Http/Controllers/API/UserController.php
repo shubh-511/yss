@@ -368,6 +368,42 @@ class UserController extends Controller
     }
 
     /** 
+     * Get counsellor details
+     * 
+     */
+    public function counsellorProfile(Request $request){
+        try{
+
+            $validator = Validator::make($request->all(), [ 
+                'user_id' => 'required',  
+                
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+           
+            $user = User::with('roles')->where('id', $request->user_id)->first();
+
+            if($user){
+                
+                return response()->json(['success' => true,
+                                 'user' => $user,
+                                ], $this->successStatus); 
+            }else{
+                return response()->json(['success' => false,
+                                 'errors' => [ 'error' => 'Wrong parameters sent'],
+                                ], $this->successStatus);
+            }
+                
+            
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+    }
+
+    /** 
      * Update User Profile
      * 
      */

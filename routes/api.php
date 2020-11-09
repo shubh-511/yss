@@ -26,6 +26,9 @@ Route::post('reset/password', 'API\UserController@resetPassword');
 Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackages');
 
 Route::get('hook/callback', 'API\BookingController@hookCallback');
+Route::get('get/counsellor/details', 'API\UserController@counsellorProfile');
+
+
 
 Route::get('break-packages', 'API\PackageController@getPackagesWithBreaks');
 Route::group(['middleware' => 'auth:api'], function(){
