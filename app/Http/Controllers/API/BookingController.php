@@ -381,14 +381,20 @@ class BookingController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function counsellorBookings(Request $request) 
+    public function allBookings(Request $request) 
     {
         try
         {
             
             $user = Auth::user();
-            
-            $booking = Booking::where('counsellor_id', $user->id)->get(); 
+            if($user->role_id == 2)
+            {
+              $booking = Booking::where('counsellor_id', $user->id)->get();
+            }
+            else
+            {
+              $booking = Booking::where('user_id', $user->id)->get();
+            }
             
             if(count($booking) > 0)
             {
