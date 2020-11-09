@@ -376,4 +376,40 @@ class BookingController extends Controller
         
     }
 
+    /** 
+     * Get counsellor booking
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function counsellorBookings(Request $request) 
+    {
+        try
+        {
+            
+            $user = Auth::user();
+            
+            $booking = Booking::where('counsellor_id', $user->id)->get(); 
+            
+            if(count($booking) > 0)
+            {
+              
+                return response()->json(['success' => true,
+                                         'bookings' => $booking,
+                                        ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                         'message' => 'No bookings found',
+                                        ], $this->successStatus);
+            }
+                
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
 }
