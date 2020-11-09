@@ -357,8 +357,11 @@ class BookingController extends Controller
                 $booking->status = '3'; 
                 $booking->save();
 
+                $bookingStatus = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first(); 
+
                 return response()->json(['success' => true,
                                          'message' => 'Booking confirmed!',
+                                         'data'    => $bookingStatus,
                                         ], $this->successStatus);
             }
             else
