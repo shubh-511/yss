@@ -520,7 +520,7 @@ class UserController extends Controller
             }
             $user = Auth()->user()->id;
 
-            if (Auth::guard('web')->attempt(['id' => $user, 'password' => $request->old_password, true]))
+            if (Auth::guard('web')->attempt(['id' => $user, 'password' => $request->old_password]))
             {
                 return 1;
             }
