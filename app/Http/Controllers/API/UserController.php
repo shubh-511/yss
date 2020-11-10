@@ -526,7 +526,7 @@ class UserController extends Controller
             }
             else
             {
-                return 2;
+                return 2; 
             }
 
             
