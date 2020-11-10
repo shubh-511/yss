@@ -519,21 +519,47 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
             $user = Auth()->user()->id;
+            $email = Auth()->user()->email;
 
-            if (Auth::guard('web')->attempt(['id' => $user, 'password' => $request->old_password]))
+            if(Auth::user()->role_id == 3)
             {
-                $userUpdate = User::where('id', $user)->first();
-                $userUpdate->password = bcrypt($request->new_password); 
-                $userUpdate->save();
+                if (Auth::guard('web')->attempt(['id' => $user, 'password' => $request->old_password]))
+                {
+                    $userUpdate = User::where('id', $user)->first();
+                    $userUpdate->password = bcrypt($request->new_password); 
+                    $userUpdate->save();
 
 
-                return response()->json(['success' => true,
-                                         'message' => 'Your password has been reset',
-                                        ], $this->successStatus); 
+                    return response()->json(['success' => true,
+                                             'message' => 'Your password has been reset',
+                                            ], $this->successStatus); 
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+                }
             }
             else
             {
-                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+                $url = "https://yoursafespaceonline.com/login.php?email=".$email."&password=".$request->old_password;
+               
+                $cURL = $this->url_get_contents($url); 
+                $cURL = json_decode($cURL, true);
+              
+                if($cURL['status'] == true) 
+                {
+                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".$email."&new_password=".$request->new_password;
+               
+                    $cURLReset = $this->url_get_contents($urlReset); 
+                    $cURLReset = json_decode($cURLReset, true);
+                  
+                    if($cURLReset['status'] == true) 
+                    {
+                        return response()->json(['success' => true,
+                                             'message' => 'Your password has been reset',
+                                            ], $this->successStatus); 
+                    }
+                }
             }
 
             
