@@ -649,7 +649,7 @@ class UserController extends Controller
         //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
         $client = new Client('AC92c1af86777b81446df44fec44c7067a', '05971a60983424d310086dbdd1671204');
         $message = $client->messages->create(
-          '+'.$countryCode.''.$phone, // Text this number
+          $countryCode.''.$phone, // Text this number
           [
             'from' => '+15005550006', // From a valid Twilio number
             'body' => $message
