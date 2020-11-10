@@ -518,8 +518,18 @@ class UserController extends Controller
             if ($validator->fails()) { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
-
             $user = Auth()->user()->id;
+
+            if (Auth::attempt(['id' => $user, 'password' => $request->old_password, true]))
+            {
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
+
+            
             if(!empty($user))
             {
                 $userUpdate = User::where('id', $user)->first();
