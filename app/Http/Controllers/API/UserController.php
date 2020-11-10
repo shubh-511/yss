@@ -522,16 +522,6 @@ class UserController extends Controller
 
             if (Auth::guard('web')->attempt(['id' => $user, 'password' => $request->old_password]))
             {
-                return 1;
-            }
-            else
-            {
-                return 2; 
-            }
-
-            
-            if(!empty($user))
-            {
                 $userUpdate = User::where('id', $user)->first();
                 $userUpdate->password = bcrypt($request->new_password); 
                 $userUpdate->save();
@@ -546,6 +536,7 @@ class UserController extends Controller
                 return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
             }
 
+            
         }
         catch(\Exception $e)
         {
