@@ -536,7 +536,7 @@ class UserController extends Controller
                 }
                 else
                 {
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid user']]], $this->successStatus); 
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
                 }
             }
             else
@@ -559,6 +559,10 @@ class UserController extends Controller
                                              'message' => 'Your password has been reset',
                                             ], $this->successStatus); 
                     }
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
                 }
             }
 
