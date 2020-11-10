@@ -549,7 +549,7 @@ class UserController extends Controller
                 if($cURL['status'] == true) 
                 {
                     $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".$email."&new_password=".$request->new_password;
-               echo $urlReset; die;
+               
                     $cURLReset = $this->url_get_contents($urlReset); 
                     $cURLReset = json_decode($cURLReset, true);
                   
@@ -558,6 +558,10 @@ class UserController extends Controller
                         return response()->json(['success' => true,
                                              'message' => 'Your password has been reset',
                                             ], $this->successStatus); 
+                    }
+                    else
+                    {
+                        return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
                     }
                 }
                 else
