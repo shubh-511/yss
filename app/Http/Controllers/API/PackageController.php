@@ -264,7 +264,7 @@ class PackageController extends Controller
             $getAvailability = Availability::where('user_id', $request->user_id)->where('availaible_days', $day)->first(); 
 
             $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
-
+            dd($package);
             $sessionTime = $package->session_minutes;
             //$sessionTime = 23;
 
