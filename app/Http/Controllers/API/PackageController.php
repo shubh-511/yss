@@ -245,8 +245,8 @@ class PackageController extends Controller
      */ 
     public function getPackagesWithBreaks(Request $request) 
     {
-        try
-        {
+        // try
+        // {
             $validator = Validator::make($request->all(), [ 
                 'package_id' => 'required',
                 'date' => 'required',
@@ -264,7 +264,7 @@ class PackageController extends Controller
             $getAvailability = Availability::where('user_id', $request->user_id)->where('availaible_days', $day)->first(); 
 
             $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
-
+            
             if($package){
                 $sessionTime = $package->session_minutes;
                 //$sessionTime = 23;
@@ -336,10 +336,10 @@ class PackageController extends Controller
             
 
         }
-        catch(\Exception $e)
-        {
-            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } 
+        // catch(\Exception $e)
+        // {
+        //     return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        // } 
         
     }
 
