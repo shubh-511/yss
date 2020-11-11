@@ -265,55 +265,60 @@ class PackageController extends Controller
 
             $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
 
-            $sessionTime = $package->session_minutes;
-            //$sessionTime = 23;
+            if(!empty($package)){
+                $sessionTime = $package->session_minutes;
+                //$sessionTime = 23;
+                $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
-
-            $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
-
-            
-            $arr = [];
-            foreach ($myAvailableHours as $hours) 
-            {
-                $fromTime = date("H:i", strtotime($hours->from_time));
-                $toTime = date("H:i", strtotime($hours->to_time));
-
-                //$data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
-                $data = [];
-                $fromTime    = strtotime ($fromTime); 
-                $toTime      = strtotime ($toTime); 
-
-                $AddMins  = $sessionTime * 60;
-                $i = 0;
-                while ((($fromTime) < ($toTime))) 
+                
+                $arr = [];
+                foreach ($myAvailableHours as $hours) 
                 {
-                    $data[$i] = date ("G:i A", $fromTime);
-                    
-                    $fromTime = date("H:i A", strtotime($data[$i]));
-                    $fromTime = strtotime(($fromTime));
+                    $fromTime = date("H:i", strtotime($hours->from_time));
+                    $toTime = date("H:i", strtotime($hours->to_time));
 
-                        $fromTime += $AddMins; 
-                        $i++;
-                    
-                }
+                    //$data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
+                    $data = [];
+                    $fromTime    = strtotime ($fromTime); 
+                    $toTime      = strtotime ($toTime); 
 
-                    foreach($data as $key => $datas)
+                    $AddMins  = $sessionTime * 60;
+                    $i = 0;
+                    while ((($fromTime) < ($toTime))) 
                     {
-                        $bookingSlot = Booking::where('booking_date', $date)->first();
-                        //return $bookingSlot;
-                        if(!empty($bookingSlot))
-                        {
-                            $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
-                        }
-                        else
-                        {
-                            $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
-                        }
+                        $data[$i] = date ("G:i A", $fromTime);
                         
-                    
+                        $fromTime = date("H:i A", strtotime($data[$i]));
+                        $fromTime = strtotime(($fromTime));
+
+                            $fromTime += $AddMins; 
+                            $i++;
+                        
                     }
 
+                        foreach($data as $key => $datas)
+                        {
+                            $bookingSlot = Booking::where('booking_date', $date)->first();
+                            //return $bookingSlot;
+                            if(!empty($bookingSlot))
+                            {
+                                $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
+                            }
+                            else
+                            {
+                                $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
+                            }
+                            
+                        
+                        }
+
+                }
+            }else{
+                return response()->json(['success' => true,
+                                     'data' => $arr,
+                                    ], $this->successStatus); 
             }
+            
 
 
             if(!empty($getAvailability))
