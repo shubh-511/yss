@@ -196,7 +196,7 @@ class UserController extends Controller
 
                 //Send Otp Over Mail
                 
-                //event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
+                event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
                 $url = env('LIVE_URL').''.$userDetail['key'];
 
