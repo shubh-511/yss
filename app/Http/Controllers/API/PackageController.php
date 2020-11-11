@@ -264,7 +264,7 @@ class PackageController extends Controller
             $getAvailability = Availability::where('user_id', $request->user_id)->where('availaible_days', $day)->first(); 
 
             $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
-            
+
             $sessionTime = $package->session_minutes;
             //$sessionTime = 23;
 
@@ -279,6 +279,7 @@ class PackageController extends Controller
                 $toTime = date("H:i", strtotime($hours->to_time));
 
                 //$data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
+                $data = [];
                 $fromTime    = strtotime ($fromTime); 
                 $toTime      = strtotime ($toTime); 
 
