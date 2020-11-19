@@ -57,6 +57,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('get/bookings', 'API\BookingController@getBooking');
 	Route::get('get/all/bookings', 'API\BookingController@allBookings');
 	
+
+	Route::post('create-channel', 'API\ChannelController@createChannel');
 	
 
 	
