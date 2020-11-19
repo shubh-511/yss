@@ -53,8 +53,6 @@ class ChannelController extends Controller
             $channelData->status = $request->status;
             $channelData->save();
 
-			
-	        $package = Package::create($input); 
 
 	        return response()->json(['success' => true,
 	            					 'data' => $channelData,
