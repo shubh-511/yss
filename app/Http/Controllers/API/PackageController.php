@@ -170,7 +170,7 @@ class PackageController extends Controller
             {
                 $package->session_minutes = $request->session_minutes; 
             }
-            if(isset($request->session_hours) && !empty($request->session_hours))
+            if(isset($request->session_hours))
             {
                 $package->session_hours = $request->session_hours; 
             }
