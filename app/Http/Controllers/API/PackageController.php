@@ -267,7 +267,17 @@ class PackageController extends Controller
 
             $arr = [];
             if($package && $getAvailability){
-                $sessionTime = $package->session_minutes;
+                $sessionMin = $package->session_minutes;
+                $sessionHours = $package->session_hours;
+                if($sessionHours != 0)
+                {
+                    $sessionTime = $sessionHours * 60;
+                    $sessionTime+ = $sessionMin;
+                }
+                else
+                {
+                    $sessionTime = $sessionMin;
+                }
                 //$sessionTime = 23;
                 $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
