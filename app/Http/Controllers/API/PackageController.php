@@ -272,7 +272,7 @@ class PackageController extends Controller
                 if($sessionHours != 0)
                 {
                     $sessionTime = $sessionHours * 60;
-                    $sessionTime+ = $sessionMin;
+                    $sessionTime = $sessionTime + $sessionMin;
                 }
                 else
                 {
