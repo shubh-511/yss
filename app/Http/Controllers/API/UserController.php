@@ -48,7 +48,7 @@ class UserController extends Controller
                         $user = Auth::user(); 
                         Auth::user()->roles;
                         $token =  $user->createToken('Your-Safe-Space')->accessToken; 
-
+return $token; 
         	            return response()->json(['success' => true,
         	            						 'user' => $user,
         	            						 //'token'=> $token
