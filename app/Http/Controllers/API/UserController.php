@@ -48,9 +48,9 @@ class UserController extends Controller
                         $user = Auth::user(); 
                         Auth::user()->roles;
 
-                        
 
-                        $token =  $user->createToken('yss')->accessToken; 
+
+                        $token =  $user->createToken('yss-dev')->accessToken; 
 return $user;
         	            return response()->json(['success' => true,
         	            						 'user' => $user,
@@ -80,7 +80,7 @@ return $user;
                         {
                             $user = Auth::user(); 
                             Auth::user()->roles;
-                            $token =  $user->createToken('yss')->accessToken; 
+                            $token =  $user->createToken('yss-dev')->accessToken; 
 
                             return response()->json(['success' => true,
                                                      'user' => $user,
