@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use JWTAuth;
 use Event;
+use JWT;
 use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\ForgotPasswordEvent;
