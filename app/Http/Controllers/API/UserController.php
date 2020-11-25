@@ -93,7 +93,7 @@ class UserController extends Controller
 
                     if($cURL['status'] == true) 
                     {
-                         $token = JWTAuth::fromUser($checkUserRoles->id);
+                         $token = JWTAuth::fromUser($checkUserRoles);
                          $user = auth('api')->user();
 
                          return response()->json(['success' => true,
