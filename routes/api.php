@@ -31,7 +31,7 @@ Route::get('get/counsellor/details', 'API\UserController@counsellorProfile');
 
 
 Route::get('break-packages', 'API\PackageController@getPackagesWithBreaks');
-Route::group(['middleware' => 'auth:api'], function(){
+//Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('profile-update', 'API\UserController@updateProfile');
 	
 	
@@ -66,4 +66,4 @@ Route::group(['middleware' => 'auth:api'], function(){
 	
 
 	Route::get('details', 'API\UserController@details');
-});
+//});
