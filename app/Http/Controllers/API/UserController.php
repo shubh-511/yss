@@ -45,12 +45,12 @@ class UserController extends Controller
                 if($checkUserRoles->role_id == 3)
                 {
                     if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
-                        ///$user = Auth::user(); 
-                        //Auth::user()->roles;
-                        //$token =  $user->createToken('yss')->accessToken; 
+                        $user = Auth::user(); 
+                        Auth::user()->roles;
+                        $token =  $user->createToken('yss')->accessToken; 
 
         	            return response()->json(['success' => true,
-        	            						 'user' => $checkUserRoles,
+        	            						 'user' => $user,
         	            						 //'token'=> $token
         	            						], $this->successStatus); 
         	        } 
@@ -95,7 +95,7 @@ class UserController extends Controller
             }  
             else
             {
-                return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct--']]], 401); 
+                return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
             }
     	}catch(\Exception $e){
     		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus);
