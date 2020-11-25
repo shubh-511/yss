@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use JWTAuth;
 use Event;
-
+use JWT;
 use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\ForgotPasswordEvent;
@@ -41,7 +41,7 @@ class UserController extends Controller
 	        if ($validator->fails()) { 
 	            return response()->json(['errors'=>$validator->errors(),'success' => false], $this->successStatus);
 			}
-            $checkUserRoles = User::where('email', $request->getUser())->first();
+            $checkUserRoles = User::with('roles')->where('email', $request->getUser())->first();
             if(!empty($checkUserRoles))
             {
                 if($checkUserRoles->role_id == 3)
@@ -56,7 +56,7 @@ class UserController extends Controller
 //                    return $token;
                     //Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()));
 
-                    $user = auth('api')->user();
+                    $user = auth('api')->user('roles');
                     //Auth::roles();
 
                     return response()->json(['success' => true,
@@ -97,7 +97,7 @@ class UserController extends Controller
                     {
                          $token = JWTAuth::fromUser($checkUserRoles);
                          $user = $checkUserRoles;
-
+                         
                          return response()->json(['success' => true,
                                                      'user' => $user,
                                                      'token'=> $token
