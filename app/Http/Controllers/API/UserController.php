@@ -48,7 +48,7 @@ class UserController extends Controller
                         $user = Auth::user(); 
                         Auth::user()->roles;
 
-
+    return $user;                        
 
                         $token =  $user->createToken('yss-dev')->accessToken; 
 return $user;
