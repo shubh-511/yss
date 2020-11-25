@@ -108,7 +108,7 @@ class PackageController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
 
-            $package = Package::where('is', $request->package_id)->first();
+            $package = Package::where('id', $request->package_id)->first();
             if(!empty($package))
             {
                 return response()->json(['success' => true,
