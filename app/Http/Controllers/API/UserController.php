@@ -47,11 +47,11 @@ class UserController extends Controller
                     if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
                         $user = Auth::user(); 
                         Auth::user()->roles;
-                        $token =  $user->createToken('Your-Safe-Space')->accessToken; 
-                        dd($token); 
+                        $token =  $user->createToken('yss')->accessToken; 
+
         	            return response()->json(['success' => true,
         	            						 'user' => $user,
-        	            						 //'token'=> $token
+        	            						 'token'=> $token
         	            						], $this->successStatus); 
         	        } 
         	        else{ 
