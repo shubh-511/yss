@@ -55,6 +55,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 
 	Route::post('make/booking', 'API\BookingController@makeBooking');
 	Route::post('confirm/booking', 'API\BookingController@confirmBooking');
+	Route::get('view/package', 'API\PackageController@viewPackage');
 
 	
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');

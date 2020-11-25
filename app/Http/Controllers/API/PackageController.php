@@ -95,7 +95,7 @@ class PackageController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    /*public function viewPackage(Request $request) 
+    public function viewPackage(Request $request) 
     {
         try
         {
@@ -128,7 +128,7 @@ class PackageController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
         
-    }*/
+    }
 
     /** 
      * Get Package api 
