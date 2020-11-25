@@ -45,16 +45,13 @@ class UserController extends Controller
                 if($checkUserRoles->role_id == 3)
                 {
                     if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
-                        $user = Auth::user(); 
-                        Auth::user()->roles;
+                        //$user = Auth::user(); 
+                        //Auth::user()->roles;
+                        $token =  $user->createToken('yss')->accessToken; 
 
-    //return $user;                        
-
-                        $token =  $user->createToken('yss-dev')->accessToken; 
-return $user;
         	            return response()->json(['success' => true,
         	            						 'user' => $user,
-        	            						 'token'=> $token
+        	            						 //'token'=> $token
         	            						], $this->successStatus); 
         	        } 
         	        else{ 
@@ -80,7 +77,7 @@ return $user;
                         {
                             $user = Auth::user(); 
                             Auth::user()->roles;
-                            $token =  $user->createToken('yss-dev')->accessToken; 
+                            $token =  $user->createToken('yss')->accessToken; 
 
                             return response()->json(['success' => true,
                                                      'user' => $user,
