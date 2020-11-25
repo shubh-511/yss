@@ -92,7 +92,9 @@ class UserController extends Controller
 
                     if($cURL['status'] == true) 
                     {
-                        if(Auth::loginUsingId($checkUserRoles->id))
+                        return JWTAuth::fromUser($checkUserRoles);
+
+                        /*if(Auth::loginUsingId($checkUserRoles->id))
                         {
                             $user = Auth::user(); 
                             Auth::user()->roles;
@@ -102,7 +104,7 @@ class UserController extends Controller
                                                      'user' => $user,
                                                      'token'=> $token
                                                     ], $this->successStatus);
-                        }
+                        }*/
                     }
                     else
                     {
