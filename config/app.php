@@ -178,7 +178,7 @@ return [
         /*
          * Passport Service provider
          */
-        Laravel\Passport\PassportServiceProvider::class,
+        /*Laravel\Passport\PassportServiceProvider::class,*/
         Collective\Html\HtmlServiceProvider::class,
     ],
 
