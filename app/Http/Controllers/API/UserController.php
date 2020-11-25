@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use JWTAuth;
 use Event;
 use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
