@@ -44,6 +44,23 @@ class UserController extends Controller
             {
                 if($checkUserRoles->role_id == 3)
                 {
+                    $credentials = array('email' => $request->getUser(), 'password' => $request->getPassword());
+
+                    if (!$token = auth('api')->attempt($credentials)) {
+                        // if the credentials are wrong we send an unauthorized error in json format
+                        return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
+                    }
+
+                    Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()));
+
+                    $user = Auth::user();
+
+                    return response()->json(['success' => true,
+                                                 'user' => $user,
+                                                 'token'=> $token,
+                                                 'expires' => auth('api')->factory()->getTTL() * 60*24*30
+                                                ], $this->successStatus); 
+
                     if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
                         $user = Auth::user(); 
                         Auth::user()->roles;
@@ -51,7 +68,8 @@ class UserController extends Controller
 
         	            return response()->json(['success' => true,
         	            						 'user' => $user,
-        	            						 'token'=> $token
+        	            						 'token'=> $token,
+                                                 'expires' => auth('api')->factory()->getTTL() * 60*24*30
         	            						], $this->successStatus); 
         	        } 
         	        else{ 

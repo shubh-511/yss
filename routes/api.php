@@ -29,9 +29,13 @@ Route::get('hook/callback', 'API\BookingController@hookCallback');
 Route::get('get/counsellor/details', 'API\UserController@counsellorProfile');
 
 
+Route::middleware('jwt.auth')->get('users', function () {
+    return auth('api')->user();
+});
 
 Route::get('break-packages', 'API\PackageController@getPackagesWithBreaks');
-Route::group(['middleware' => 'auth:api'], function(){
+Route::group(['middleware' => 'jwt.auth'], function(){
+
 	Route::post('profile-update', 'API\UserController@updateProfile');
 	
 	

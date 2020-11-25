@@ -17,7 +17,8 @@
         "laravelcollective/html": "^5.4.0",
         "pusher/pusher-php-server": "~4.0",
         "stripe/stripe-php": "^7.61",
-        "twilio/sdk": "^6.11"
+        "twilio/sdk": "^6.11",
+        "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
