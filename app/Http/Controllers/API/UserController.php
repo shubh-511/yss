@@ -40,63 +40,14 @@ class UserController extends Controller
 	            return response()->json(['errors'=>$validator->errors(),'success' => false], $this->successStatus);
 			}
             $checkUserRoles = User::where('email', $request->getUser())->first();
-            if(!empty($checkUserRoles))
-            {
-                if($checkUserRoles->role_id == 3)
-                {
-                    if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
-                        $user = Auth::user(); 
-                        Auth::user()->roles;
-                        $token =  $user->createToken('yss')->accessToken; 
+            //commented
 
-        	            return response()->json(['success' => true,
-        	            						 'user' => $user,
-        	            						 'token'=> $token
-        	            						], $this->successStatus); 
-        	        } 
-        	        else{ 
-        	            return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
-        	        } 
-                } 
-                else
-                {
-                    //$url = env('WORDPRESS_LOGIN_URL')."?email=".$request->getUser()."&password=".$request->getPassword();
-                    $url = "https://yoursafespaceonline.com/login.php?email=".$request->getUser()."&password=".$request->getPassword();
-                    //echo $url; die; 
+            return response()->json(['success' => true,
+                                    'data'=> $checkUserRoles
+                                     ], $this->successStatus);
 
-                    $cURL = $this->url_get_contents($url); 
-                    $cURL = json_decode($cURL, true);
-                    //return $cURL; 
-//echo $cURL['status']; die;
-                    //$json = file_get_contents($url);
-                    //$cURL = json_decode($json, true);
 
-                    if($cURL['status'] == true) 
-                    {
-                        if(Auth::loginUsingId($checkUserRoles->id))
-                        {
-                            $user = Auth::user(); 
-                            Auth::user()->roles;
-                            $token =  $user->createToken('yss')->accessToken; 
-
-                            return response()->json(['success' => true,
-                                                     'user' => $user,
-                                                     'token'=> $token
-                                                    ], $this->successStatus);
-                        }
-                    }
-                    else
-                    {
-                        return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
-                    }
-
-                    
-                }
-            }  
-            else
-            {
-                return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
-            }
+            
     	}catch(\Exception $e){
     		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus);
     	}
