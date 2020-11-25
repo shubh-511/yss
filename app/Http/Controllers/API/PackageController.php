@@ -90,45 +90,7 @@ class PackageController extends Controller
         
     }
 
-    /** 
-     * View Package api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */ 
-    public function viewPackage(Request $request) 
-    {
-        try
-        {
-            $validator = Validator::make($request->all(), [ 
-                'package_id' => 'required',
-            ]);
-
-            if ($validator->fails()) 
-            { 
-                return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
-            }
-
-            $package = Package::where('is', $request->package_id)->first();
-            if(!empty($package))
-            {
-                return response()->json(['success' => true,
-                                     'package' => $package,
-                                    ], $this->successStatus);
-            }
-            else
-            {
-                return response()->json(['success' => false,
-                                     'message' => 'Could not found selected package',
-                                    ], $this->successStatus);
-            }
-            
-        }
-        catch(\Exception $e)
-        {
-            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } 
-        
-    }
+    
 
     /** 
      * Get Package api 
