@@ -51,9 +51,9 @@ class UserController extends Controller
                         return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
                     }
 
-                    Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()));
+                    //Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()));
 
-                    $user = Auth::user();
+                    $user = auth('api')->user();
 
                     return response()->json(['success' => true,
                                                  'user' => $user,
