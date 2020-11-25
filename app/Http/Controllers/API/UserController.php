@@ -46,7 +46,7 @@ class UserController extends Controller
                 {
                     $credentials = array('email' => $request->getUser(), 'password' => $request->getPassword());
 
-                    if (!$token = auth('api')->attempt($credentials)) {
+                    if (!$token = Auth::guard('api')->attempt($credentials)) {
                         // if the credentials are wrong we send an unauthorized error in json format
                         return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
                     }
