@@ -96,7 +96,7 @@ class UserController extends Controller
                     {
                          $token = JWTAuth::fromUser($checkUserRoles);
                          $user = $checkUserRoles;
-                         $role = JWT::fromUser($checkUserRoles,['role' => $checkUserRoles->role_id])
+                         $role = JWT::fromUser($checkUserRoles,['role' => $checkUserRoles->role_id]);
 
                          return response()->json(['success' => true,
                                                      'user' => $user,
