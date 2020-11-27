@@ -27,7 +27,7 @@ Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackag
 
 Route::get('hook/callback', 'API\BookingController@hookCallback');
 Route::get('get/counsellor/details', 'API\UserController@counsellorProfile');
-
+Route::post('get/channel', 'API\ChannelController@getChannel');
 
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();

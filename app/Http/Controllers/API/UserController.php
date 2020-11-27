@@ -12,6 +12,7 @@ use Event;
 use JWT;
 use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
+use App\VideoChannel;
 use App\Events\ForgotPasswordEvent;
 
 class UserController extends Controller
@@ -58,11 +59,13 @@ class UserController extends Controller
 
                     //$user = auth('api')->user('roles');
                     $user = $checkUserRoles;
+                    $channelData = VideoChannel::where('from_id', $user->id)->get();
                     //Auth::roles();
 
                     return response()->json(['success' => true,
                                                  'user' => $user,
                                                  'token'=> $token,
+                                                 'channel_data' => $channelData,
                                                  'expires' => auth('api')->factory()->getTTL() * 60*24*30
                                                 ], $this->successStatus); 
 
