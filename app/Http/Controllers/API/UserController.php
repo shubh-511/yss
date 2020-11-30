@@ -395,7 +395,15 @@ class UserController extends Controller
     { 
         $user = Auth::user(); 
         Auth::user()->roles;
-        $channelData = VideoChannel::where('from_id', $user->id)->get();
+        if($user->role_id == 3)
+        {
+            $channelData = VideoChannel::where('from_id', $user->id)->get();
+        }
+        else
+        {
+            $channelData = VideoChannel::where('to_id', $user->id)->get();
+        }
+        
         return response()->json(['success' => true,
                                  'user' => $user,
                                  'channel_data' => $channelData,
