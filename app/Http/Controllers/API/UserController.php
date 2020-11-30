@@ -65,7 +65,6 @@ class UserController extends Controller
                     return response()->json(['success' => true,
                                                  'user' => $user,
                                                  'token'=> $token,
-                                                 'channel_data' => $channelData,
                                                  'expires' => auth('api')->factory()->getTTL() * 60*24*30
                                                 ], $this->successStatus); 
 
@@ -396,8 +395,10 @@ class UserController extends Controller
     { 
         $user = Auth::user(); 
         Auth::user()->roles;
+        $channelData = VideoChannel::where('from_id', $user->id)->get();
         return response()->json(['success' => true,
                                  'user' => $user,
+                                 'channel_data' => $channelData,
                                 ], $this->successStatus);  
     }
 
