@@ -285,8 +285,8 @@ class PackageController extends Controller
      */ 
     public function getPackagesWithBreaks(Request $request) 
     {
-        try
-        {
+        // try
+        // {
             $validator = Validator::make($request->all(), [ 
                 'package_id' => 'required',
                 'date' => 'required',
@@ -306,19 +306,18 @@ class PackageController extends Controller
             $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
 
             $arr = [];
-            if($package && $getAvailability)
-            {
+            if($package && $getAvailability){
                 $sessionMin = $package->session_minutes;
                 $sessionHours = $package->session_hours;
-                /*if($sessionHours != 0)
+                if($sessionHours != 0)
                 {
                     $sessionTime = $sessionHours * 60;
                     $sessionTime = $sessionTime + $sessionMin;
                 }
                 else
-                {*/
+                {
                     $sessionTime = $sessionMin;
-                //}
+                }
                 //$sessionTime = 23;
                 $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
@@ -363,9 +362,7 @@ class PackageController extends Controller
                         }
 
                 }
-            }
-            else
-            {
+            }else{
                 return response()->json(['success' => true,
                                      'data' => $arr,
                                     ], $this->successStatus); 
@@ -387,11 +384,11 @@ class PackageController extends Controller
             }
             
 
-        }
-        catch(\Exception $e)
-        {
-            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } 
+        //}
+        // catch(\Exception $e)
+        // {
+        //     return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        // } 
         
     }
 
