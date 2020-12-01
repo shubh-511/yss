@@ -346,7 +346,7 @@ class PackageController extends Controller
                         
                     }
 
-                        foreach($data as $key => $datas)
+                        /*foreach($data as $key => $datas)
                         {
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
@@ -360,7 +360,7 @@ class PackageController extends Controller
                             }
                             
                         
-                        }
+                        }*/
 
                 }
             }
