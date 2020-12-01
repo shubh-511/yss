@@ -202,7 +202,7 @@ class BookingController extends Controller
             $payment->currency = $conf->charges->data[0]->currency;
             $payment->customer = $conf->charges->data[0]->customer;
 
-            /*$payment->description = $conf->charges->data[0]->description;
+            $payment->description = $conf->charges->data[0]->description;
             $payment->destination = $conf->charges->data[0]->destination;
             $payment->dispute = $conf->charges->data[0]->dispute;
             $payment->disputed = $conf->charges->data[0]->disputed;
@@ -214,9 +214,9 @@ class BookingController extends Controller
             $payment->paid = $conf->charges->data[0]->paid;
             $payment->payment_intent = $conf->charges->data[0]->payment_intent;
             $payment->payment_method = $conf->charges->data[0]->payment_method;
-            $payment->receipt_email = $conf->charges->data[0]->receipt_email;*/
+            $payment->receipt_email = $conf->charges->data[0]->receipt_email;
 
-            $payment->receipt_number = $conf->charges->data[0]->receipt_number;
+            /*$payment->receipt_number = $conf->charges->data[0]->receipt_number;
             $payment->receipt_url = $conf->charges->data[0]->receipt_url;
             $payment->refunded = $conf->charges->data[0]->refunded;
             $payment->review = $conf->charges->data[0]->review;
@@ -229,7 +229,7 @@ class BookingController extends Controller
             $payment->transfer = $conf->charges->data[0]->transfer;
             $payment->transfer_amount = $conf->charges->data[0]->transfer_data->amount;
             $payment->transfer_destination = $conf->charges->data[0]->transfer_data->destination;
-            $payment->transfer_group = $conf->charges->data[0]->transfer_group;
+            $payment->transfer_group = $conf->charges->data[0]->transfer_group;*/
             $payment->save();
 
            
