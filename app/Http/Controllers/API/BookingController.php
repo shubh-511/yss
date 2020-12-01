@@ -123,6 +123,11 @@ class BookingController extends Controller
 
             //return $payment_intent;
 
+            $conf = $stripe->paymentIntents->confirm(
+              $payment_intent->id,
+              []
+            );
+            return $conf;
 
             $conf = $stripe->paymentIntents->confirm(
               $payment_intent->id,
@@ -184,7 +189,6 @@ class BookingController extends Controller
               $request->payment_intent,
               []
             );
-            return $conf;
             
             $payment = new Payment;
             $payment->user_id = $user;
