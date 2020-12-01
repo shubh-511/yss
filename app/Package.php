@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Package extends Model
 {
+    protected $softDelete = true;
 	protected $fillable = [
         'user_id', 
         'package_name',  

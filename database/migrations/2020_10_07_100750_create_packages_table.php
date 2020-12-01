@@ -21,6 +21,7 @@ class CreatePackagesTable extends Migration
             $table->integer('session_minutes')->nullable();
             $table->integer('session_hours')->nullable();
             $table->unsignedDecimal('amount', 10, 2)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
