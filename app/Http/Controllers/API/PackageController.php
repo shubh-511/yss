@@ -323,7 +323,10 @@ class PackageController extends Controller
 
                 foreach ($myAvailableHours as $hours) 
                 {
-                    return $hours->from_time;
+                    echo  'from: '.$hours->from_time.'</br>';
+                    echo  'to: '.$hours->to_time.'</br>';
+
+
                     $fromTime = date("H:i", strtotime($hours->from_time));
                     $toTime = date("H:i", strtotime($hours->to_time));
 
@@ -363,6 +366,7 @@ class PackageController extends Controller
                         }
 
                 }
+                die;
             }else{
                 return response()->json(['success' => true,
                                      'data' => $arr,
