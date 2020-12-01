@@ -330,13 +330,18 @@ class PackageController extends Controller
                     echo  'from: '.$fromTime.'</br>';
                     echo  'to: '.$toTime.'</br>';
 
-                    //$data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
-                    $data = [];
+                    $data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
+
+                    return $data;
+
+                    /*$data = [];
                     $fromTime    = strtotime ($fromTime); 
                     $toTime      = strtotime ($toTime); 
 
                     $AddMins  = $sessionTime * 60;
-                    $i = 0;
+                    $i = 0;*/
+
+
                     /*while ((($fromTime) < ($toTime))) 
                     {
                         $data[$i] = date ("G:i A", $fromTime);
@@ -397,7 +402,7 @@ class PackageController extends Controller
         
     }
 
-    /*public function SplitTime($StartTime, $EndTime, $Duration, $date){
+    public function SplitTime($StartTime, $EndTime, $Duration, $date){
     $ReturnArray = [];
     $StartTime    = strtotime ($StartTime); 
     $EndTime      = strtotime ($EndTime); 
@@ -416,7 +421,7 @@ class PackageController extends Controller
         
     }
     return $ReturnArray;
-    }*/
+    }
      
      
 }
