@@ -33,11 +33,11 @@ class BookingController extends Controller
         {
     		$validator = Validator::make($request->all(), [ 
 	            'counsellor_id' => 'required',  
-                'package_id' => 'required', 
+              'package_id' => 'required', 
 	            'slot' => 'required', 
 	            'booking_date' => 'required',
-                'token' => 'required',
-                'card_id' => 'required', 
+              //'token' => 'required',
+              //'card_id' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -58,14 +58,16 @@ class BookingController extends Controller
 
             /*Stripe\Stripe::setApiKey('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
-             /*$token = $stripe->tokens->create([
+
+
+             $token = $stripe->tokens->create([
               'card' => [
                 'number' => '5126522005865259',
                 'exp_month' => '09',
                 'exp_year' => '2024',
                 'cvc' => '070',
               ],
-            ]);*/
+            ]);
 
 
             /*$pI = $stripe->paymentIntents->retrieve(
@@ -97,8 +99,8 @@ class BookingController extends Controller
 
             $source = \Stripe\Customer::createSource(
             $customer->id,
-            //['source' => $token->id]);
-            ['source' => $request->token]);
+            ['source' => $token->id]);
+            //['source' => $request->token]);
 
             
 
@@ -108,8 +110,8 @@ class BookingController extends Controller
               'description' => 'test payment',
               'customer' => $customer->id,
               'currency' => 'INR',
-              //'source' => $token->card->id, 
-              'source' => $request->card_id, 
+              'source' => $token->card->id, 
+              //'source' => $request->card_id, 
               'confirmation_method' => 'manual',
               'confirm' => true,
               //'application_fee_amount' => 50,
