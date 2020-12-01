@@ -18,6 +18,7 @@ class CreateAvailaibleHoursTable extends Migration
             $table->unsignedBigInteger('availability_id')->nullable();
             $table->string('from_time')->nullable();
             $table->string('to_time')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
