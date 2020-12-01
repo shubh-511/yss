@@ -307,6 +307,7 @@ class PackageController extends Controller
 
             $arr = [];
             if($package && $getAvailability){
+                return $getAvailability;
                 $sessionMin = $package->session_minutes;
                 $sessionHours = $package->session_hours;
                 if($sessionHours != 0)
