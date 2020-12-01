@@ -184,6 +184,7 @@ class BookingController extends Controller
               $request->payment_intent,
               []
             );
+            return $conf;
             
             $payment = new Payment;
             $payment->user_id = $user;
