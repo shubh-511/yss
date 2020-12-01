@@ -188,7 +188,7 @@ class BookingController extends Controller
             $payment = new Payment;
             $payment->user_id = $user;
 
-            $payment->charge_id = $conf->charges->data[0]->id;
+            /*$payment->charge_id = $conf->charges->data[0]->id;
             $payment->amount = $conf->charges->data[0]->amount;
             $payment->amount_captured = $conf->charges->data[0]->amount_captured;
             $payment->amount_refunded = $conf->charges->data[0]->amount_refunded;
@@ -200,7 +200,7 @@ class BookingController extends Controller
             $payment->captured = $conf->charges->data[0]->captured;
             $payment->created = $conf->charges->data[0]->created;
             $payment->currency = $conf->charges->data[0]->currency;
-            $payment->customer = $conf->charges->data[0]->customer;
+            $payment->customer = $conf->charges->data[0]->customer;*/
 
             $payment->description = $conf->charges->data[0]->description;
             $payment->destination = $conf->charges->data[0]->destination;
