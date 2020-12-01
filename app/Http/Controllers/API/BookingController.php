@@ -36,8 +36,8 @@ class BookingController extends Controller
               'package_id' => 'required', 
 	            'slot' => 'required', 
 	            'booking_date' => 'required',
-              //'token' => 'required',
-              //'card_id' => 'required', 
+              'token' => 'required',
+              'card_id' => 'required', 
 	        ]);
 
 			if ($validator->fails()) 
@@ -69,14 +69,7 @@ class BookingController extends Controller
               ],
             ]);*/
 
-            $token = $stripe->tokens->create([
-              'card' => [
-                'number' => '4018060831027863',
-                'exp_month' => '05',
-                'exp_year' => '2022',
-                'cvc' => '859',
-              ],
-            ]);
+            
 
 
             /*$pI = $stripe->paymentIntents->retrieve(
@@ -108,8 +101,8 @@ class BookingController extends Controller
 
             $source = \Stripe\Customer::createSource(
             $customer->id,
-            ['source' => $token->id]);
-            //['source' => $request->token]);
+            //['source' => $token->id]);
+            ['source' => $request->token]);
 
             
 
@@ -119,8 +112,8 @@ class BookingController extends Controller
               'description' => 'test payment',
               'customer' => $customer->id,
               'currency' => 'INR',
-              'source' => $token->card->id, 
-              //'source' => $request->card_id, 
+              //'source' => $token->card->id, 
+              'source' => $request->card_id, 
               'confirmation_method' => 'manual',
               'confirm' => true,
               //'application_fee_amount' => 50,
