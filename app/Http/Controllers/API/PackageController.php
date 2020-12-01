@@ -368,7 +368,6 @@ class PackageController extends Controller
                                 $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
                             }
                             
-                        
                         }
 
                 }
