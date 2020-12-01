@@ -323,12 +323,12 @@ class PackageController extends Controller
 
                 foreach ($myAvailableHours as $hours) 
                 {
-                    echo  'from: '.$hours->from_time.'</br>';
-                    echo  'to: '.$hours->to_time.'</br>';
-
-
+                    
                     $fromTime = date("H:i", strtotime($hours->from_time));
                     $toTime = date("H:i", strtotime($hours->to_time));
+
+                    echo  'from: '.$fromTime.'</br>';
+                    echo  'to: '.$toTime.'</br>';
 
                     //$data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
                     $data = [];
