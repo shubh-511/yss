@@ -306,7 +306,8 @@ class PackageController extends Controller
             $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
 
             $arr = [];
-            if($package && $getAvailability){
+            if(!empty($package) && !empty($getAvailability))
+            {
                 $sessionMin = $package->session_minutes;
                 $sessionHours = $package->session_hours;
                 if($sessionHours != 0)
@@ -371,16 +372,21 @@ class PackageController extends Controller
                         }
 
                 }
-                
-            }else{
                 return response()->json(['success' => true,
                                      'data' => $arr,
+                                    ], $this->successStatus);
+                
+            }
+            else
+            {
+                 return response()->json(['success' => false,
+                                     'message' => 'Availability not found',
                                     ], $this->successStatus); 
             }
             
 
 
-            if(!empty($getAvailability))
+            /*if(!empty($getAvailability))
             {
                 return response()->json(['success' => true,
                                      'data' => $arr,
@@ -388,10 +394,8 @@ class PackageController extends Controller
             }
             else
             {
-                return response()->json(['success' => false,
-                                     'message' => 'Availability not found',
-                                    ], $this->successStatus); 
-            }
+                
+            }*/
             
 
         }
