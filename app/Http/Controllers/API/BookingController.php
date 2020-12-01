@@ -60,12 +60,21 @@ class BookingController extends Controller
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
 
 
-             $token = $stripe->tokens->create([
+             /*$token = $stripe->tokens->create([
               'card' => [
                 'number' => '5126522005865259',
                 'exp_month' => '09',
                 'exp_year' => '2024',
                 'cvc' => '070',
+              ],
+            ]);*/
+
+            $token = $stripe->tokens->create([
+              'card' => [
+                'number' => '4018060831027863',
+                'exp_month' => '05',
+                'exp_year' => '2022',
+                'cvc' => '859',
               ],
             ]);
 
