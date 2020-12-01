@@ -310,15 +310,15 @@ class PackageController extends Controller
             {
                 $sessionMin = $package->session_minutes;
                 $sessionHours = $package->session_hours;
-                if($sessionHours != 0)
+                /*if($sessionHours != 0)
                 {
                     $sessionTime = $sessionHours * 60;
                     $sessionTime = $sessionTime + $sessionMin;
                 }
                 else
-                {
+                {*/
                     $sessionTime = $sessionMin;
-                }
+                //}
                 //$sessionTime = 23;
                 $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
 
@@ -334,7 +334,7 @@ class PackageController extends Controller
 
                     $AddMins  = $sessionTime * 60;
                     $i = 0;
-                    while((($fromTime) < ($toTime))) 
+                    while ((($fromTime) < ($toTime))) 
                     {
                         $data[$i] = date ("G:i A", $fromTime);
                         
@@ -346,7 +346,7 @@ class PackageController extends Controller
                         
                     }
 
-                        /*foreach($data as $key => $datas)
+                        foreach($data as $key => $datas)
                         {
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
@@ -360,11 +360,11 @@ class PackageController extends Controller
                             }
                             
                         
-                        }*/
+                        }
 
                 }
             }
-            /*else
+            else
             {
                 return response()->json(['success' => true,
                                      'data' => $arr,
@@ -384,7 +384,7 @@ class PackageController extends Controller
                 return response()->json(['success' => false,
                                      'message' => 'Availability not found',
                                     ], $this->successStatus); 
-            }*/
+            }
             
 
         }
