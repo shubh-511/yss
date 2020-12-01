@@ -320,7 +320,6 @@ class PackageController extends Controller
                 }
                 //$sessionTime = 23;
                 $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
-                die;
 
                 foreach ($myAvailableHours as $hours) 
                 {
@@ -368,6 +367,7 @@ class PackageController extends Controller
                                      'data' => $arr,
                                     ], $this->successStatus); 
             }
+            return $arr;
             
 
 
