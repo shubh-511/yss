@@ -19,6 +19,7 @@ class CreateBookingsTable extends Migration
             $table->unsignedBigInteger('counsellor_id')->nullable();
             $table->string('slot')->nullable();
             $table->date('booking_date')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
