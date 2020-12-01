@@ -175,15 +175,15 @@ class BookingController extends Controller
             
             $stripe = new Stripe\StripeClient('sk_live_ZnJs1EudLzYjghd5zGm3WAkY00jT2Q2d1U');
 
-            /*$conf = $stripe->paymentIntents->retrieve(
-              $request->payment_intent,
-              []
-            );*/
-
-            $conf = $stripe->paymentIntents->confirm(
+            $conf = $stripe->paymentIntents->retrieve(
               $request->payment_intent,
               []
             );
+
+            /*$conf = $stripe->paymentIntents->confirm(
+              $request->payment_intent,
+              []
+            );*/
             return $conf;
             
             $payment = new Payment;
