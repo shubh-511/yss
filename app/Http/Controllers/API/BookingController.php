@@ -311,7 +311,7 @@ class BookingController extends Controller
 
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
-                                         'todays' => $todaysBooking,
+                                         //'todays' => $todaysBooking,
                                          'upcoming' => $upcomingBooking,
                                         ], $this->successStatus);
                 }
