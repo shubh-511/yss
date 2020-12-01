@@ -18,6 +18,7 @@ class CreateAvailabilitiesTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('availaible_days')->nullable();
             $table->string('breaks')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
