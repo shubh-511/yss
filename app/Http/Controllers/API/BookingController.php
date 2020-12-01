@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
@@ -392,11 +392,15 @@ class BookingController extends Controller
             $user = Auth::user();
             if($user->role_id == 2)
             {
-              $booking = Booking::with('package')->where('counsellor_id', $user->id)->orderBy('booking_date', 'DESC')->get();
+              $booking = Booking::with('package')->where('counsellor_id', $user->id)->orderBy('booking_date', 'DESC')
+                ->withTrashed()
+                ->get();
             }
             else
             {
-              $booking = Booking::with('package')->where('user_id', $user->id)->orderBy('booking_date', 'DESC')->get();
+              $booking = Booking::with('package')->where('user_id', $user->id)->orderBy('booking_date', 'DESC')
+              ->withTrashed()
+              ->get();
             }
             
             if(count($booking) > 0)
