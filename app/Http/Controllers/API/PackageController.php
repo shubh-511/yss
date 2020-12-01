@@ -332,7 +332,7 @@ class PackageController extends Controller
 
                     $data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
 
-                    return $data;
+                    //return $data;
 
                     /*$data = [];
                     $fromTime    = strtotime ($fromTime); 
