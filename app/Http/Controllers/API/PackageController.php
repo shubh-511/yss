@@ -327,8 +327,8 @@ class PackageController extends Controller
                     $fromTime = date("H:i", strtotime($hours->from_time));
                     $toTime = date("H:i", strtotime($hours->to_time));
 
-                    echo  'from: '.$fromTime.'</br>';
-                    echo  'to: '.$toTime.'</br>';
+                    /*echo  'from: '.$fromTime.'</br>';
+                    echo  'to: '.$toTime.'</br>';*/
 
                     $data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
 
@@ -371,7 +371,7 @@ class PackageController extends Controller
                         }
 
                 }
-                die;
+                
             }else{
                 return response()->json(['success' => true,
                                      'data' => $arr,
