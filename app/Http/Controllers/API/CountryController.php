@@ -17,7 +17,7 @@ class CountryController extends Controller
     {
         try{
             
-            $countries = Country::select('id','name','phonecode')->orderBy('name','asc')->get();
+            $countries = Country::select('id','name','phonecode')->orderBy('name','asc')->paginate(2);
             return response()->json(['success' => true,
                                      'countries' => $countries,
                                     ], $this->successStatus); 
