@@ -412,7 +412,7 @@ class PackageController extends Controller
 
     $AddMins  = $Duration * 60;
     $i = 0;
-    while ((($StartTime) < ($EndTime-$AddMins))) 
+    while ((($StartTime) <= ($EndTime-$AddMins))) 
     {
         $ReturnArray[$i] = date ("G:i A", $StartTime);
         
