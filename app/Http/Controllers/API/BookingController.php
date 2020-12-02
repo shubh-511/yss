@@ -38,6 +38,7 @@ class BookingController extends Controller
 	            'booking_date' => 'required',
               'token' => 'required',
               'card_id' => 'required', 
+              'notes' => 'required',
 	        ]);
 
 			if ($validator->fails()) 
@@ -129,7 +130,7 @@ class BookingController extends Controller
 
             $conf = $stripe->paymentIntents->confirm(
               $payment_intent->id,
-              ['return_url' => 'http://178.62.24.141/dev/api/hook/callback?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'&booking_date='.$request->booking_date.'&package_id='.$request->package_id.'&user='.$user->id]
+              ['return_url' => 'http://178.62.24.141/dev/api/hook/callback?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'&booking_date='.$request->booking_date.'&package_id='.$request->package_id.'&user='.$user->id.'&notes='.$request->notes]
               //['payment_method' => $method->id]
             );
             //return $conf;
@@ -165,6 +166,7 @@ class BookingController extends Controller
                 'slot' => 'required', 
                 'booking_date' => 'required',  
                 'user' => 'required',
+                'notes' => 'required',
             ]);
 
             if ($validator->fails()) 
@@ -245,6 +247,7 @@ class BookingController extends Controller
                 $booking->slot = $request->slot;
                 $booking->booking_date = $request->booking_date;
                 $booking->package_id = $request->package_id;
+                $booking->notes = $request->notes;
                 $booking->status = '1';
                 $booking->save();
 

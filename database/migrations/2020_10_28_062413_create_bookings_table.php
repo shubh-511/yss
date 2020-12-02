@@ -17,6 +17,8 @@ class CreateBookingsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('counsellor_id')->nullable();
+            $table->unsignedBigInteger('package_id')->nullable();
+            $table->longText('notes')->nullable();
             $table->string('slot')->nullable();
             $table->date('booking_date')->nullable();
             $table->softDeletes();
