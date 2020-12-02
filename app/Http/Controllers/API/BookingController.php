@@ -399,13 +399,13 @@ class BookingController extends Controller
             {
               $booking = Booking::with('package')->where('counsellor_id', $user->id)->orderBy('booking_date', 'DESC')
                 ->withTrashed()
-                ->get();
+                ->paginate(1);
             }
             else
             {
               $booking = Booking::with('package')->where('user_id', $user->id)->orderBy('booking_date', 'DESC')
               ->withTrashed()
-              ->get();
+              ->paginate(1);
             }
             
             if(count($booking) > 0)
