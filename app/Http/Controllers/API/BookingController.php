@@ -38,7 +38,7 @@ class BookingController extends Controller
 	            'booking_date' => 'required',
               'token' => 'required',
               'card_id' => 'required', 
-              'notes' => 'required',
+              //'notes' => 'required',
 	        ]);
 
 			if ($validator->fails()) 
@@ -166,7 +166,7 @@ class BookingController extends Controller
                 'slot' => 'required', 
                 'booking_date' => 'required',  
                 'user' => 'required',
-                'notes' => 'required',
+                //'notes' => 'required',
             ]);
 
             if ($validator->fails()) 
