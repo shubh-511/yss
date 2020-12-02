@@ -283,9 +283,9 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
-                    $pastBookings = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '<', Carbon::today())->get();
-                    $todaysBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', Carbon::today())->get();
-                    $upcomingBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '>', Carbon::today())->get();
+                    $pastBookings = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '<', Carbon::today())->paginate(10);
+                    $todaysBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', Carbon::today())->paginate(10);
+                    $upcomingBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '>', Carbon::today())->paginate(10);
 
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
@@ -399,13 +399,13 @@ class BookingController extends Controller
             {
               $booking = Booking::with('package')->where('counsellor_id', $user->id)->orderBy('booking_date', 'DESC')
                 ->withTrashed()
-                ->get();
+                ->paginate(10);
             }
             else
             {
               $booking = Booking::with('package')->where('user_id', $user->id)->orderBy('booking_date', 'DESC')
               ->withTrashed()
-              ->get();
+              ->paginate(10);
             }
             
             if(count($booking) > 0)
