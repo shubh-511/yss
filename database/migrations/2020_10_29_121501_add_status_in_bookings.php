@@ -14,7 +14,7 @@ class AddStatusInBookings extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->enum('status',[0,1,2,3])->after('booking_date')->nullable()->comment("0=Payment Failed,1=Payment Success,2=Payment Pending,3=Booking Confirmed");
+            $table->dropColumn('status');
         });
     }
 
@@ -26,7 +26,8 @@ class AddStatusInBookings extends Migration
     public function down()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn('status');
+            
+            $table->enum('status',[0,1,2,3])->after('booking_date')->nullable()->comment("0=Payment Failed,1=Payment Success,2=Payment Pending,3=Booking Confirmed");
         });
     }
 }
