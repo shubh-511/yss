@@ -653,6 +653,7 @@ class UserController extends Controller
 
                 return response()->json(['success' => true,
                                          'message' => 'OTP has been sent!',
+                                         'otp' => $userUpdate->otp,
                                         ], $this->successStatus);
 
 
