@@ -34,7 +34,7 @@ class BookingController extends Controller
     		$validator = Validator::make($request->all(), [ 
 	            'counsellor_id' => 'required',  
               'package_id' => 'required', 
-	            'slot' => 'required', 
+	            'slot' => 'required|max:190', 
 	            'booking_date' => 'required',
               'token' => 'required',
               'card_id' => 'required', 

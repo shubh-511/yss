@@ -32,9 +32,9 @@ class ChannelController extends Controller
     		$validator = Validator::make($request->all(), [ 
 	            'from_id' => 'required',  
 	            'to_id' => 'required', 
-	            'channel_id' => 'required', 
+	            'channel_id' => 'required|max:190', 
                 'timing' => 'required', 
-                'uid' => 'required',
+                'uid' => 'required|max:190',
                 'status' => 'required',
 	        ]);
 
