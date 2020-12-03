@@ -11,6 +11,7 @@ use App\Booking;
 use App\StripeConnect;
 use App\Availability;
 use App\User;
+use App\VideoChannel;
 use App\Payment;
 use Event;
 use Stripe;
@@ -251,7 +252,22 @@ class BookingController extends Controller
                 $booking->status = '1';
                 $booking->save();
 
+                //checking existing channel data
+                $checkExist = VideoChannel::where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
 
+                //saving video channel data
+                if(empty($checkExist))
+                {
+                  $channelData = new VideoChannel; 
+                  $channelData->from_id = $user;
+                  $channelData->to_id = $request->counsellor_id;
+                  $channelData->channel_id = $this->generateRandomString(20);
+                  $channelData->timing = $request->timing;
+                  //$channelData->uid = $request->uid;
+                  $channelData->status = '0';
+                  $channelData->save();
+                }
+                
                 return response()->json(['success' => true,
                                          'message' => 'Your payment has been made successfully!',
                                         ], $this->successStatus); 
@@ -465,6 +481,19 @@ class BookingController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
         
+    }
+
+
+    public function generateRandomString($length) 
+    {
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+      for ($i = 0; $i < $length; $i++) 
+      {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
     }
 
 }
