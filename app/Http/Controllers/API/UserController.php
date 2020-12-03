@@ -357,7 +357,8 @@ class UserController extends Controller
 
             $fileName = time().'.'.$request->image->extension();  
             
-            $request->image->move(public_path('uploads'), $fileName);
+            //$request->image->move(public_path('uploads'), $fileName);
+            $request->image->move('uploads/', $fileName);
             
             
             $user = Auth::user()->id;
