@@ -25,7 +25,7 @@ class StripeConnectController extends Controller
     	try
     	{
     		$validator = Validator::make($request->all(), [ 
-	            'stripe_id' => 'required',
+	            'stripe_id' => 'required|max:190',
 	        ]);
 
 			if ($validator->fails()) 
