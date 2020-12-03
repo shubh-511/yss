@@ -136,8 +136,8 @@ class BookingController extends Controller
             //return $conf;
 
             return response()->json(['success' => true,
-                                         'data' => $conf,
-                                        ], $this->successStatus);
+             'data' => $conf,
+           ], $this->successStatus);
 
             
             
@@ -286,14 +286,31 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
-                    $pastBookings = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '<', Carbon::today())->paginate(10);
-                    $todaysBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', Carbon::today())->paginate(10);
-                    $upcomingBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)->where('booking_date', '>', Carbon::today())->paginate(10);
+                    $pastBookings = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', '<', Carbon::today())
+                    ->paginate(10);
+
+                    $todaysBooking = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', Carbon::today())
+                    ->paginate(10);
+
+                    $upcomingBooking = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', '>', Carbon::today())
+                    ->paginate(10);
+
+                    $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
+                    ->where('created_at', '>', Carbon::now()->startOfWeek())
+                    ->where('created_at', '<', Carbon::now()->endOfWeek())
+                    ->paginate(10);
 
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
                                          'upcoming' => $upcomingBooking,
+                                         'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
                 }
                 else
@@ -309,14 +326,31 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
-                    $pastBookings = Booking::with('counsellor','package','user')->where('user_id', $user->id)->where('booking_date', '<', Carbon::today())->get();
-                    $todaysBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)->where('booking_date', Carbon::today())->get();
-                    $upcomingBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)->where('booking_date', '>', Carbon::today())->get();
+                    $pastBookings = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', '<', Carbon::today())
+                    ->paginate(10);
+
+                    $todaysBooking = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', Carbon::today())
+                    ->paginate(10);
+
+                    $upcomingBooking = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', '>', Carbon::today())
+                    ->paginate(10);
+
+                    $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
+                    ->where('created_at', '>', Carbon::now()->startOfWeek())
+                    ->where('created_at', '<', Carbon::now()->endOfWeek())
+                    ->paginate(10);
 
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
                                          'upcoming' => $upcomingBooking,
+                                         'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
                 }
                 else
