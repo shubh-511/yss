@@ -35,7 +35,7 @@ class UserController extends Controller
     		}
     		
     		$validator = Validator::make($input, [ 
-	            'name' => 'required', 
+	            'name' => 'required|max:190', 
 	            'password' => 'required'
 	        ]);
 
@@ -168,8 +168,8 @@ class UserController extends Controller
     	try{
 
     		$validator = Validator::make($request->all(), [ 
-	            'name' => 'required',  
-	            'email' => 'required|email|unique:users', 
+	            'name' => 'required|max:190',  
+	            'email' => 'required|max:190|email|unique:users', 
 	            'password' => 'required', 
 	            'c_password' => 'required|same:password', 
 	        ]);
@@ -209,7 +209,7 @@ class UserController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [  
-                'email' => 'required|email', 
+                'email' => 'required|max:190|email', 
             ]);
 
             if ($validator->fails()) { 
@@ -263,7 +263,7 @@ class UserController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [  
-                'email' => 'required|email', 
+                'email' => 'required|max:190|email', 
                 'otp' => 'required',
             ]);
 
@@ -454,7 +454,7 @@ class UserController extends Controller
         try{
 
             $validator = Validator::make($request->all(), [ 
-                'name' => 'required',  
+                'name' => 'required|max:190',  
                 
             ]);
 
@@ -553,8 +553,8 @@ class UserController extends Controller
         try 
         {
             $validator = Validator::make($request->all(), [  
-                'old_password' => 'required', 
-                'new_password' => 'required', 
+                'old_password' => 'required|max:190', 
+                'new_password' => 'required|max:190', 
                 'c_password' => 'required|same:new_password',
             ]);
 
