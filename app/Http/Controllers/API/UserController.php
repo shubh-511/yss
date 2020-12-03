@@ -455,6 +455,7 @@ class UserController extends Controller
 
             $validator = Validator::make($request->all(), [ 
                 'name' => 'required|max:190',  
+                'location' => 'required|max:190',
                 
             ]);
 
@@ -469,7 +470,7 @@ class UserController extends Controller
             //    array_key_exists('middle_name', $input) ||
             //    array_key_exists('location', $input)){
 
-                $user = User::where('id', Auth::user()->id)->update(['name'=>$request->name]);
+                $user = User::where('id', Auth::user()->id)->update(['name'=>$request->name, 'location'=> $request->location]);
 
                 if($user){
                     $user = User::where('id',Auth::user()->id)->with('roles')->first(); 
