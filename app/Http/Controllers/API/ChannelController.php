@@ -40,8 +40,9 @@ class ChannelController extends Controller
 
 			if ($validator->fails()) 
             { 
-	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
 			}
+
             $user = Auth::user()->id;
 
             $channelData = new VideoChannel;
@@ -52,7 +53,6 @@ class ChannelController extends Controller
             $channelData->uid = $request->uid;
             $channelData->status = $request->status;
             $channelData->save();
-
 
 	        return response()->json(['success' => true,
 	            					 'data' => $channelData,
