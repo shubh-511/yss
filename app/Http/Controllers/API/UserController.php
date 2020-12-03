@@ -179,7 +179,7 @@ class UserController extends Controller
 			}
 
 			$input = $request->all(); 
-
+            $input['email'] = strtolower($input['email']);
 			$input['password'] = bcrypt($input['password']); 
             $input['role_id'] = (array_key_exists('role_id',$input)) ? $input['role_id'] : 3;
 			$input['otp'] = $this->generateOTP();
