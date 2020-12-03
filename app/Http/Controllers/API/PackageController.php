@@ -29,7 +29,7 @@ class PackageController extends Controller
     	try
         {
     		$validator = Validator::make($request->all(), [ 
-	            'package_name' => 'required',  
+	            'package_name' => 'required|max:190',  
 	            'package_description' => 'required', 
 	            'session_minutes' => 'required', 
                 'session_hours' => 'required', 
@@ -289,7 +289,7 @@ class PackageController extends Controller
         {
             $validator = Validator::make($request->all(), [ 
                 'package_id' => 'required',
-                'date' => 'required',
+                'date' => 'required|date_format:Y-m-d',
             ]);
 
             if ($validator->fails()) 
