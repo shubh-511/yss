@@ -499,22 +499,19 @@ class AvailabilityController extends Controller
 			$user = Auth::user()->id;
 			$myAvailability = Availability::where('user_id', $user)->get();
 
-			$common = [];
-			$r = -1;
-			foreach($myAvailability as $availability)
-			{
-				$myAvailableHours = AvailaibleHours::select('id','from_time as open','to_time as close')->where('availability_id', $availability->id)->get();
-				
-				$common[$availability->availaible_days] = $myAvailableHours;
 
-				
-			}
-
-			//return json_encode($common);
-
-			
 			if(count($myAvailability) > 0)
 			{
+				$common = [];
+				$r = -1;
+				foreach($myAvailability as $availability)
+				{
+					$myAvailableHours = AvailaibleHours::select('id','from_time as open','to_time as close')->where('availability_id', $availability->id)->get();
+					
+					$common[$availability->availaible_days] = $myAvailableHours;
+
+					
+				}
 				return response()->json(['success' => true,
 	            					 'data' => $common,
 	            					], $this->successStatus);
