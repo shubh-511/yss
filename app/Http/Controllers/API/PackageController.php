@@ -78,9 +78,19 @@ class PackageController extends Controller
             }*/
             $allPackages = Package::where('user_id', $user)->get(); 
 
-            return response()->json(['success' => true,
+            if(count($allPackages) > 0)
+            {
+                return response()->json(['success' => true,
                                      'packages' => $allPackages,
                                     ], $this->successStatus); 
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'message' => 'No packages found',
+                                    ], $this->successStatus); 
+            }
+            
 
         }
         catch(\Exception $e)
