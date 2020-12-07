@@ -389,9 +389,9 @@ class PackageController extends Controller
             }
             else
             {
-                 return response()->json(['success' => false,
-                                     'message' => 'Availability not found',
-                                    ], $this->successStatus); 
+                 return response()->json(['success' => true,
+                                     'data' => $arr,
+                                    ], $this->successStatus);
             }
             
 

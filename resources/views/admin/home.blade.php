@@ -42,9 +42,21 @@
         </div>
         </div>
         <!---->
+
+        
         
 <!-- ./col -->
 </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                
+             <div id="userChart"></div>
+            </div>
+            <div class="col-md-6">
+             <div id="bookingChart"></div>
+            </div>
+        </div>
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
@@ -53,4 +65,122 @@
     <!-- /.box-footer-->
   </div>
   <!-- /.box -->
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<!-- User Chart -->
+<script type="text/javascript">
+    var users =  <?php echo json_encode($users) ?>;
+   
+    Highcharts.chart('userChart', {
+        title: {
+            text: 'New Users'
+        },
+        chart: {
+            type: 'area'
+        },
+        subtitle: {
+            text: ''
+        },
+         xAxis: {
+            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        },
+        yAxis: {
+            title: {
+                text: 'Number of New Users'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+        plotOptions: {
+            series: {
+                allowPointSelect: true
+            }
+        },
+        series: [{
+            name: 'New Users',
+            data: users,
+            /*tooltip: {
+            valueDecimals: 2
+          }*/
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+});
+</script>
+<!-- End User Chart -->
+
+<!-- Booking Chart -->
+<script type="text/javascript">
+    var users =  <?php echo json_encode($bookings) ?>;
+   
+    Highcharts.chart('bookingChart', {
+        title: {
+            text: 'New Bookings'
+        },
+        chart: {
+            type: 'area'
+        },
+        subtitle: {
+            text: ''
+        },
+         xAxis: {
+            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        },
+        yAxis: {
+            title: {
+                text: 'Number of New Bookings'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+        plotOptions: {
+            series: {
+                allowPointSelect: true
+            }
+        },
+        series: [{
+            name: 'New Bookings',
+            data: users,
+            /*tooltip: {
+            valueDecimals: 2
+          }*/
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+});
+</script>
+<!-- End Booking Chart -->
+    
 @endsection

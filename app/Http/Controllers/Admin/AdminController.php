@@ -73,10 +73,22 @@ class AdminController extends Controller
     {
         $userCount = User::where('role_id','!=',1)->count();
         $bookingCount = Booking::where('status', 1)->count();
-        return view('admin.home',compact('userCount','bookingCount'));
+
+        //return $request;
+        $users = User::select(\DB::raw("COUNT(*) as count"))
+                    ->whereYear('created_at', date('Y'))
+                    ->groupBy(\DB::raw("Month(created_at)"))
+                    ->pluck('count');
+
+        $bookings = Booking::select(\DB::raw("COUNT(*) as count"))
+                    ->whereYear('created_at', date('Y'))
+                    ->groupBy(\DB::raw("Month(created_at)"))
+                    ->pluck('count');            
+
+        return view('admin.home',compact('userCount','bookingCount','users','bookings'));
     }
 
-
+    
     /***
     logout
     ***/
