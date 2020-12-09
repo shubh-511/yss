@@ -78,6 +78,7 @@ class ChannelController extends Controller
             $validator = Validator::make($request->all(), [ 
                 //'from_id' => 'required',  
                 'counsellor_id' => 'required', 
+                'booking_id'   => 'required',
                 //'channel_id' => 'required|max:190', 
                 'timing' => 'required', 
                 //'uid' => 'required|max:190',
@@ -98,6 +99,7 @@ class ChannelController extends Controller
             if(empty($checkExist))
             {
               $channelData = new VideoChannel; 
+              $channelData->booking_id = $request->booking_id;
               $channelData->from_id = $user;
               $channelData->to_id = $request->counsellor_id;
               $channelData->channel_id = $this->generateRandomString(20);
