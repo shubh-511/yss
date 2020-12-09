@@ -16,6 +16,11 @@ class VideoChannel extends Model
         return $this->belongsTo('App\User','to_id','id');
     }
 
+    public function booking()
+    {
+        return $this->belongsTo('App\Booking','booking_id','id');
+    }
+
     protected $fillable = [
         'from_id', 
         'to_id', 
