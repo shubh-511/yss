@@ -64,6 +64,8 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	
 
 	Route::post('create-channel', 'API\ChannelController@createChannel');
+
+	Route::post('join-session', 'API\ChannelController@joinSession');
 	
 
 	
