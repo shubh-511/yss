@@ -199,6 +199,52 @@ class ChannelController extends Controller
     }
 
 
+    /** 
+     * Waiting list api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function waitingList(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'user_id' => 'required', 
+                'booking_id'   => 'required',
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+
+            $user = Auth::user()->id;
+
+            $waitingList = VideoChannel::where('status', '0')->get();
+            if(count($waitingList) > 0)
+            {
+                return response()->json(['success' => true,
+                                     'data' => $waitingList,
+                                    ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => true,
+                                     'message' => 'No waiting list found',
+                                    ], $this->successStatus);
+            }
+
+             
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
+
     public function generateRandomString($length) 
     {
       $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
