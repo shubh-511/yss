@@ -226,7 +226,7 @@ class ChannelController extends Controller
 
             $user = Auth::user()->id;
 
-            $waitingList = VideoChannel::where('to_id', $user)->where('status', '0')->get();
+            $waitingList = VideoChannel::where('status', '0')->get();
             if(count($waitingList) > 0)
             {
                 return response()->json(['success' => true,
