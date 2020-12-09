@@ -189,6 +189,12 @@ class ChannelController extends Controller
                  
 
             }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'message' => 'Incorrect input data',
+                                    ], $this->successStatus);
+            }
             
         }
         catch(\Exception $e)
