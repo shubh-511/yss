@@ -128,6 +128,76 @@ class ChannelController extends Controller
         
     }
 
+    /** 
+     * Accept/Decline call 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function acceptOrDecline(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                //'from_id' => 'required',  
+                'user_id' => 'required', 
+                'booking_id'   => 'required',
+                'status'    =>   'required',
+                
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+
+            $user = Auth::user()->id;
+
+            //checking existing channel data
+            $checkExist = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $request->user_id)->where('to_id', $user)->first();
+
+            //saving video channel data
+            if(!empty($checkExist))
+            {
+                if($request->status == 1)
+                {
+                    $checkExist->status = '1';  //Accepted
+                    $checkExist->save();  
+
+                    $channelData = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $request->user_id)->where('to_id', $user)->first();
+            
+                    return response()->json(['success' => true,
+                                     'data' => $channelData,
+                                    ], $this->successStatus); 
+                }
+                elseif($request->status == 2)
+                {
+                    $checkExist->status = '2';  //Declined
+                    $checkExist->save();
+
+                    $channelData = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $request->user_id)->where('to_id', $user)->first();
+            
+                    return response()->json(['success' => true,
+                                     'data' => $channelData,
+                                    ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success' => false,
+                                     'message' => 'Incorrect status value',
+                                    ], $this->successStatus); 
+                }
+                 
+
+            }
+            
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
 
     public function generateRandomString($length) 
     {
