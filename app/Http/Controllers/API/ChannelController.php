@@ -93,7 +93,7 @@ class ChannelController extends Controller
             $user = Auth::user()->id;
 
             //checking existing channel data
-            $checkExist = VideoChannel::where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
+            $checkExist = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
 
             //saving video channel data
             if(empty($checkExist))
@@ -105,13 +105,20 @@ class ChannelController extends Controller
               $channelData->channel_id = $this->generateRandomString(20);
               $channelData->timing = $request->timing;
               //$channelData->uid = $request->uid;
-              $channelData->status = '0';
-              $channelData->save();
+              $channelData->status = '0';  //waiting
+              $channelData->save();              
+            }
+            else
+            {
+                VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $user)->where('to_id', $request->counsellor_id)->update(['status' => '0']);
+
+                $channelData = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
             }
 
             return response()->json(['success' => true,
                                      'data' => $channelData,
                                     ], $this->successStatus); 
+            
 
         }
         catch(\Exception $e)
