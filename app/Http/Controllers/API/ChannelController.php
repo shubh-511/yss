@@ -214,7 +214,7 @@ class ChannelController extends Controller
     {
         try
         {
-            $validator = Validator::make($request->all(), [ 
+            /*$validator = Validator::make($request->all(), [ 
                 'user_id' => 'required', 
                 'booking_id'   => 'required',
             ]);
@@ -222,11 +222,11 @@ class ChannelController extends Controller
             if ($validator->fails()) 
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-            }
+            }*/
 
             $user = Auth::user()->id;
 
-            $waitingList = VideoChannel::where('status', '0')->get();
+            $waitingList = VideoChannel::where('to_id', $user)->where('status', '0')->get();
             if(count($waitingList) > 0)
             {
                 return response()->json(['success' => true,
