@@ -265,20 +265,32 @@ class PackageController extends Controller
             }
 
             $user = Auth::user()->id;
-            $package = Package::where(['id'=> $request->package_id, 'user_id'=> $user])->delete();
 
-            if($package)
+            $booking = Booking::where('package_id', $request->package_id)->count();
+            if($booking > 0)
             {
-                return response()->json(['success' => true,
-                                     'message' => 'Package deleted successfully',
+                return response()->json(['success' => false,
+                                     'message' => 'Can not delete selected package as it is currently in use',
                                     ], $this->successStatus);
             }
             else
             {
-                return response()->json(['success' => false,
-                                     'message' => 'This package does not exist',
-                                    ], $this->successStatus);
+                $package = Package::where(['id'=> $request->package_id, 'user_id'=> $user])->delete();
+
+                if($package)
+                {
+                    return response()->json(['success' => true,
+                                         'message' => 'Package deleted successfully',
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success' => false,
+                                         'message' => 'This package does not exist',
+                                        ], $this->successStatus);
+                }
             }
+            
 
         }
         catch(\Exception $e)
