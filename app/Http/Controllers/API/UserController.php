@@ -725,7 +725,7 @@ class UserController extends Controller
     {
         $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
         $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
-        $message = $otp." is one time otp to verify your phone number";
+        $message = $otp." is your otp to verify your phone number";
 
         //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
         $client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
