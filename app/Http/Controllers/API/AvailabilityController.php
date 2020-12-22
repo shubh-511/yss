@@ -518,8 +518,8 @@ class AvailabilityController extends Controller
 			}
 			else
 			{
-				return response()->json(['success' => false,
-	            					 'message' => 'You have not added any timings!',
+				return response()->json(['success' => true,
+	            					 'data' => [],
 	            					], $this->successStatus);
 			}
 	         
