@@ -456,13 +456,13 @@ class BookingController extends Controller
             $user = Auth::user();
             if($user->role_id == 2)
             {
-              $booking = Booking::with('counsellor:id,name')->with('package')->with('user:id,name')->where('counsellor_id', $user->id)->orderBy('booking_date', 'DESC')
+              $booking = Booking::with('counsellor:id,name,email')->with('package')->with('user:id,name,email')->where('counsellor_id', $user->id)->orderBy('booking_date', 'DESC')
                 ->withTrashed()
                 ->get();
             }
             else
             {
-              $booking = Booking::with('counsellor:id,name')->with('package')->with('user:id,name')->where('user_id', $user->id)->orderBy('booking_date', 'DESC')
+              $booking = Booking::with('counsellor:id,name,email')->with('package')->with('user:id,name,email')->where('user_id', $user->id)->orderBy('booking_date', 'DESC')
               ->withTrashed()
               ->get();
             }
