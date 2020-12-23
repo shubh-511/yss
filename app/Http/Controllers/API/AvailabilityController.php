@@ -518,7 +518,7 @@ class AvailabilityController extends Controller
 					}
 					else
 					{
-						$common['sunday'] = $myAvailableHours;
+						$common['sunday'] = [];
 					}
 
 					if(in_array("monday", $avlbleDays))
@@ -527,7 +527,7 @@ class AvailabilityController extends Controller
 					}
 					else
 					{
-						$common['monday'] = $myAvailableHours;
+						$common['monday'] = [];
 					}
 
 					if(in_array("tuesday", $avlbleDays))
@@ -536,7 +536,7 @@ class AvailabilityController extends Controller
 					}
 					else
 					{
-						$common['tuesday'] = $myAvailableHours;
+						$common['tuesday'] = [];
 					}
 
 					if(in_array("wednesday", $avlbleDays))
@@ -545,7 +545,7 @@ class AvailabilityController extends Controller
 					}
 					else
 					{
-						$common['wednesday'] = $myAvailableHours;
+						$common['wednesday'] = [];
 					}
 
 					if(in_array("thursday", $avlbleDays))
@@ -554,7 +554,7 @@ class AvailabilityController extends Controller
 					}
 					else
 					{
-						$common['thursday'] = $myAvailableHours;
+						$common['thursday'] = [];
 					}
 
 					if(in_array("friday", $avlbleDays))
@@ -563,7 +563,7 @@ class AvailabilityController extends Controller
 					}
 					else
 					{
-						$common['friday'] = $myAvailableHours;
+						$common['friday'] = [];
 					}
 
 					if(in_array("saturday", $avlbleDays))
@@ -572,7 +572,7 @@ class AvailabilityController extends Controller
 					}
 					else
 					{
-						$common['saturday'] = $myAvailableHours;
+						$common['saturday'] = [];
 					}
 
 					
