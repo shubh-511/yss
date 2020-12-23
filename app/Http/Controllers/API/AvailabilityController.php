@@ -589,6 +589,7 @@ class AvailabilityController extends Controller
 	            					 'message' => '',
 	            					], $this->successStatus);*/
 	            	$common = [];
+	            	$myAvailableHours = [];
 
 	            	$common['sunday'] = $myAvailableHours;
 	            	$common['monday'] = $myAvailableHours;
@@ -597,6 +598,10 @@ class AvailabilityController extends Controller
 	            	$common['thursday'] = $myAvailableHours;
 	            	$common['friday'] = $myAvailableHours;
 	            	$common['saturday'] = $myAvailableHours;
+
+	            	return response()->json(['success' => true,
+	            					 'data' => $common,
+	            					], $this->successStatus);
 			}
 	         
 
