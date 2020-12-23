@@ -518,8 +518,8 @@ class AvailabilityController extends Controller
 			}
 			else
 			{
-				return response()->json(['success' => true,
-	            					 'data' => {},
+				return response()->json(['success' => false,
+	            					 'message' => '',
 	            					], $this->successStatus);
 			}
 	         
