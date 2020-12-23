@@ -642,7 +642,16 @@ class UserController extends Controller
             }
 
             $user = Auth()->user()->id;
-            if(!empty($user))
+            $getUser = User::where('phone', $request->phone)->where('country_code', $request->country_code)->where('is_phone_verified', 1)->first();
+
+            
+            if(!empty($getUser))
+            {
+                return response()->json(['success' => true,
+                                         'message' => 'This phone number has already been verified',
+                                        ], $this->successStatus);
+            }
+            elseif(!empty($user))
             {
                 $otp = $this->generateOTP();
                 $userUpdate = User::where('id', $user)->first();
