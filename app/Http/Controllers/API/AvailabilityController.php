@@ -52,14 +52,13 @@ class AvailabilityController extends Controller
 				switch ($key) 
 				{
 				  	case "sunday":
-				  	
+				  	if(count($reqJSONs) > 0)
+				  	{
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
 				    	//$availDay->breaks = $request->breaks;
 				    	$availDay->save();
-				    if(count($reqJSONs) > 0)
-				  	{	
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
@@ -81,14 +80,13 @@ class AvailabilityController extends Controller
 
 			    	case "monday":
 
-					
+					if(count($reqJSONs) > 0)
+				  	{
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
 				    	//$availDay->breaks = $request->breaks;
 				    	$availDay->save();
-				    if(count($reqJSONs) > 0)
-				  	{	
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
@@ -110,14 +108,13 @@ class AvailabilityController extends Controller
 
 			    	case "tuesday":
 
-					
+					if(count($reqJSONs) > 0)
+				  	{
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
 				    	//$availDay->breaks = $request->breaks;
 				    	$availDay->save();
-				    if(count($reqJSONs) > 0)
-				  	{
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
@@ -139,14 +136,13 @@ class AvailabilityController extends Controller
 
 			    	case "wednesday":
 
-					
+					if(count($reqJSONs) > 0)
+				  	{
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
 				    	//$availDay->breaks = $request->breaks;
 				    	$availDay->save();
-				    if(count($reqJSONs) > 0)
-				  	{	
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
@@ -168,14 +164,13 @@ class AvailabilityController extends Controller
 
 			    	case "thursday":
 
-					
+					if(count($reqJSONs) > 0)
+				  	{
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
 				    	//$availDay->breaks = $request->breaks;
 				    	$availDay->save();
-				    if(count($reqJSONs) > 0)
-				  	{	
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
@@ -197,14 +192,13 @@ class AvailabilityController extends Controller
 
 			    	case "friday":
 
-					
+					if(count($reqJSONs) > 0)
+				  	{
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
 				    	//$availDay->breaks = $request->breaks;
 				    	$availDay->save();
-				    if(count($reqJSONs) > 0)
-				  	{	
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
@@ -226,14 +220,13 @@ class AvailabilityController extends Controller
 
 			    	case "saturday":
 
-					
+					if(count($reqJSONs) > 0)
+				  	{
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
 				    	//$availDay->breaks = $request->breaks;
 				    	$availDay->save();
-				    if(count($reqJSONs) > 0)
-				  	{	
 
 				    	foreach ($reqJSONs as $hours) 
 				  		{
@@ -279,14 +272,13 @@ class AvailabilityController extends Controller
 					switch ($key) 
 					{
 					  	case "sunday":
-					  	
+					  	if(count($reqJSONs) > 0)
+					  	{
 							$availDay = new Availability;
 					    	$availDay->user_id = $user;
 					    	$availDay->availaible_days = $key;
 					    	$availDay->breaks = $request->breaks;
 					    	$availDay->save();
-					    if(count($reqJSONs) > 0)
-					  	{	
 
 					    	foreach ($reqJSONs as $hours) 
 					  		{
@@ -308,14 +300,13 @@ class AvailabilityController extends Controller
 
 				    	case "monday":
 
-						
+						if(count($reqJSONs) > 0)
+					  	{
 							$availDay = new Availability;
 					    	$availDay->user_id = $user;
 					    	$availDay->availaible_days = $key;
 					    	$availDay->breaks = $request->breaks;
 					    	$availDay->save();
-					    if(count($reqJSONs) > 0)
-					  	{	
 
 					    	foreach ($reqJSONs as $hours) 
 					  		{
@@ -337,14 +328,13 @@ class AvailabilityController extends Controller
 
 				    	case "tuesday":
 
-						
+						if(count($reqJSONs) > 0)
+					  	{
 							$availDay = new Availability;
 					    	$availDay->user_id = $user;
 					    	$availDay->availaible_days = $key;
 					    	$availDay->breaks = $request->breaks;
 					    	$availDay->save();
-					    if(count($reqJSONs) > 0)
-					  	{	
 
 					    	foreach ($reqJSONs as $hours) 
 					  		{
@@ -366,14 +356,13 @@ class AvailabilityController extends Controller
 
 				    	case "wednesday":
 
-						
+						if(count($reqJSONs) > 0)
+					  	{
 							$availDay = new Availability;
 					    	$availDay->user_id = $user;
 					    	$availDay->availaible_days = $key;
 					    	$availDay->breaks = $request->breaks;
 					    	$availDay->save();
-					    if(count($reqJSONs) > 0)
-					  	{	
 
 					    	foreach ($reqJSONs as $hours) 
 					  		{
@@ -395,14 +384,13 @@ class AvailabilityController extends Controller
 
 				    	case "thursday":
 
-						
+						if(count($reqJSONs) > 0)
+					  	{
 							$availDay = new Availability;
 					    	$availDay->user_id = $user;
 					    	$availDay->availaible_days = $key;
 					    	$availDay->breaks = $request->breaks;
 					    	$availDay->save();
-					    if(count($reqJSONs) > 0)
-					  	{	
 
 					    	foreach ($reqJSONs as $hours) 
 					  		{
@@ -424,14 +412,13 @@ class AvailabilityController extends Controller
 
 				    	case "friday":
 
-						
+						if(count($reqJSONs) > 0)
+					  	{
 							$availDay = new Availability;
 					    	$availDay->user_id = $user;
 					    	$availDay->availaible_days = $key;
 					    	$availDay->breaks = $request->breaks;
 					    	$availDay->save();
-					    if(count($reqJSONs) > 0)
-					  	{	
 
 					    	foreach ($reqJSONs as $hours) 
 					  		{
@@ -453,14 +440,13 @@ class AvailabilityController extends Controller
 
 				    	case "saturday":
 
-						
+						if(count($reqJSONs) > 0)
+					  	{
 							$availDay = new Availability;
 					    	$availDay->user_id = $user;
 					    	$availDay->availaible_days = $key;
 					    	$availDay->breaks = $request->breaks;
 					    	$availDay->save();
-					    if(count($reqJSONs) > 0)
-					  	{	
 
 					    	foreach ($reqJSONs as $hours) 
 					  		{
@@ -513,16 +499,82 @@ class AvailabilityController extends Controller
 			$user = Auth::user()->id;
 			$myAvailability = Availability::where('user_id', $user)->get();
 
+			$avlbleDays = $myAvailability->pluck('availaible_days');
+
 
 			if(count($myAvailability) > 0)
 			{
 				$common = [];
 				$r = -1;
+				
 				foreach($myAvailability as $availability)
 				{
 					$myAvailableHours = AvailaibleHours::select('id','from_time as open','to_time as close')->where('availability_id', $availability->id)->get();
 					
-					$common[$availability->availaible_days] = $myAvailableHours;
+					if(in_array("sunday", $avlbleDays))
+					{
+						$common[$availability->availaible_days] = $myAvailableHours;
+					}
+					else
+					{
+						$common['sunday'] = $myAvailableHours;
+					}
+
+					if(in_array("monday", $avlbleDays))
+					{
+						$common[$availability->availaible_days] = $myAvailableHours;
+					}
+					else
+					{
+						$common['monday'] = $myAvailableHours;
+					}
+
+					if(in_array("tuesday", $avlbleDays))
+					{
+						$common[$availability->availaible_days] = $myAvailableHours;
+					}
+					else
+					{
+						$common['tuesday'] = $myAvailableHours;
+					}
+
+					if(in_array("wednesday", $avlbleDays))
+					{
+						$common[$availability->availaible_days] = $myAvailableHours;
+					}
+					else
+					{
+						$common['wednesday'] = $myAvailableHours;
+					}
+
+					if(in_array("thursday", $avlbleDays))
+					{
+						$common[$availability->availaible_days] = $myAvailableHours;
+					}
+					else
+					{
+						$common['thursday'] = $myAvailableHours;
+					}
+
+					if(in_array("friday", $avlbleDays))
+					{
+						$common[$availability->availaible_days] = $myAvailableHours;
+					}
+					else
+					{
+						$common['friday'] = $myAvailableHours;
+					}
+
+					if(in_array("saturday", $avlbleDays))
+					{
+						$common[$availability->availaible_days] = $myAvailableHours;
+					}
+					else
+					{
+						$common['saturday'] = $myAvailableHours;
+					}
+
+					
 
 					
 				}
