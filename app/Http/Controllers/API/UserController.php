@@ -647,7 +647,7 @@ class UserController extends Controller
             
             if(!empty($getUser))
             {
-                return response()->json(['success' => true,
+                return response()->json(['success' => false,
                                          'message' => 'This phone number has already been verified',
                                         ], $this->successStatus);
             }
