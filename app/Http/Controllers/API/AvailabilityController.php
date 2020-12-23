@@ -500,6 +500,7 @@ class AvailabilityController extends Controller
 			$myAvailability = Availability::where('user_id', $user)->get();
 
 			$avlbleDays = $myAvailability->pluck('availaible_days');
+			$avlbleDays = $avlbleDays->toArray();
 
 
 			if(count($myAvailability) > 0)
