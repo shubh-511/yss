@@ -585,9 +585,18 @@ class AvailabilityController extends Controller
 			}
 			else
 			{
-				return response()->json(['success' => false,
+				/*return response()->json(['success' => false,
 	            					 'message' => '',
-	            					], $this->successStatus);
+	            					], $this->successStatus);*/
+	            	$common = [];
+
+	            	$common['sunday'] = $myAvailableHours;
+	            	$common['monday'] = $myAvailableHours;
+	            	$common['tuesday'] = $myAvailableHours;
+	            	$common['wednesday'] = $myAvailableHours;
+	            	$common['thursday'] = $myAvailableHours;
+	            	$common['friday'] = $myAvailableHours;
+	            	$common['saturday'] = $myAvailableHours;
 			}
 	         
 
