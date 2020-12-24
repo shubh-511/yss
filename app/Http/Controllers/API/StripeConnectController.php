@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 use App\StripeConnect;
 use Illuminate\Support\Facades\Auth; 
+use App\User; 
 use Validator;
 use Stripe;
 use Event;
@@ -52,6 +53,9 @@ class StripeConnectController extends Controller
 				$connectAct->user_id = $user;
 				$connectAct->stripe_id = $connected_account_id;
 				$connectAct->save();
+
+
+				$userUpdate = User::where('id', $user)->update(['is_acct_connected' => '1']);
 
 				return response()->json(['success' => true,
 	            					 'message' => 'Stripe account has been linked',
