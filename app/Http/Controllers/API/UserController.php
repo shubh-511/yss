@@ -42,7 +42,7 @@ class UserController extends Controller
 	        if ($validator->fails()) { 
 	            return response()->json(['errors'=>$validator->errors(),'success' => false], $this->successStatus);
 			}
-            $checkUserRoles = User::with('roles')->where('email', $request->getUser())->first();
+            $checkUserRoles = User::with('roles')->with('country')->where('email', $request->getUser())->first();
             if(!empty($checkUserRoles))
             {
                 if($checkUserRoles->role_id == 3)
@@ -71,6 +71,7 @@ class UserController extends Controller
                     if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
                         $user = Auth::user(); 
                         Auth::user()->roles;
+                        Auth::user()->country;
                         $token =  $user->createToken('yss')->accessToken; 
 
         	            return response()->json(['success' => true,
