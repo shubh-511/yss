@@ -5,6 +5,10 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User; 
+use App\Booking; 
+use App\Availability; 
+use App\StripeConnect;
+use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use JWTAuth;
@@ -395,6 +399,7 @@ class UserController extends Controller
      */ 
     public function details() 
     { 
+        $profilePercentage = '';
         $user = Auth::user(); 
         Auth::user()->roles;
         if($user->role_id == 3)
@@ -403,10 +408,48 @@ class UserController extends Controller
         }
         else
         {
+            $packagePerct = Package::where('user_id', $user->id)->count();
+            $avalPerct = Availability::where('user_id', $user->id)->count();
+            $stripePerct = StripeConnect::where('user_id', $user->id)->count();
+
+            if($packagePerct == 0 && $avalPerct == 0 && $stripePerct == 0)
+            {
+                $profilePercentage = "25%";
+            }
+            elseif($packagePerct > 0 && $avalPerct == 0 && $stripePerct == 0)
+            {
+                $profilePercentage = "50%";
+            }
+            elseif($packagePerct == 0 && $avalPerct > 0 && $stripePerct == 0)
+            {
+                $profilePercentage = "50%";
+            }
+            elseif($packagePerct == 0 && $avalPerct == 0 && $stripePerct > 0)
+            {
+                $profilePercentage = "50%";
+            }
+            elseif(($packagePerct > 0 && $avalPerct > 0 ) && $stripePerct == 0)
+            {
+                $profilePercentage = "75%";
+            }
+            elseif($packagePerct == 0 && ($avalPerct > 0 && $stripePerct > 0))
+            {
+                $profilePercentage = "75%";
+            }
+            elseif($avalPerct == 0 && ($packagePerct > 0 && $stripePerct > 0))
+            {
+                $profilePercentage = "75%";
+            }
+            else
+            {
+                $profilePercentage = "100%";
+            }
+
             $channelData = VideoChannel::where('to_id', $user->id)->get();
         }
         
         return response()->json(['success' => true,
+                                'profile_percentage' => $profilePercentage,
                                  'user' => $user,
                                  'channel_data' => $channelData,
                                 ], $this->successStatus);  
