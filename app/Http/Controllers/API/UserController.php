@@ -8,7 +8,6 @@ use App\User;
 use App\Booking; 
 use App\Availability; 
 use App\StripeConnect;
-use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use JWTAuth;
