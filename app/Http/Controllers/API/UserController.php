@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User; 
-use App\Booking; 
+use App\Package; 
 use App\Availability; 
 use App\StripeConnect;
 use Illuminate\Support\Facades\Auth; 
