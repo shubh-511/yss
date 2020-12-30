@@ -111,7 +111,7 @@ class BookingController extends Controller
               'amount' => 3*100,
               'description' => 'test payment',
               'customer' => $customer->id,
-              'currency' => 'INR',
+              'currency' => 'GBP',
               //'source' => $token->card->id, 
               'source' => $request->card_id, 
               'confirmation_method' => 'manual',
