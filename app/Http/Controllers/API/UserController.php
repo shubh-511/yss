@@ -441,7 +441,7 @@ class UserController extends Controller
             }
             else
             {
-                $profilePercentage = "100%";
+                $profilePercentage = "100";
             }
 
             $channelData = VideoChannel::where('to_id', $user->id)->get();
