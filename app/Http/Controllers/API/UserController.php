@@ -413,31 +413,31 @@ class UserController extends Controller
 
             if($packagePerct == 0 && $avalPerct == 0 && $stripePerct == 0)
             {
-                $profilePercentage = "25%";
+                $profilePercentage = "25";
             }
             elseif($packagePerct > 0 && $avalPerct == 0 && $stripePerct == 0)
             {
-                $profilePercentage = "50%";
+                $profilePercentage = "50";
             }
             elseif($packagePerct == 0 && $avalPerct > 0 && $stripePerct == 0)
             {
-                $profilePercentage = "50%";
+                $profilePercentage = "50";
             }
             elseif($packagePerct == 0 && $avalPerct == 0 && $stripePerct > 0)
             {
-                $profilePercentage = "50%";
+                $profilePercentage = "50";
             }
             elseif(($packagePerct > 0 && $avalPerct > 0 ) && $stripePerct == 0)
             {
-                $profilePercentage = "75%";
+                $profilePercentage = "75";
             }
             elseif($packagePerct == 0 && ($avalPerct > 0 && $stripePerct > 0))
             {
-                $profilePercentage = "75%";
+                $profilePercentage = "75";
             }
             elseif($avalPerct == 0 && ($packagePerct > 0 && $stripePerct > 0))
             {
-                $profilePercentage = "75%";
+                $profilePercentage = "75";
             }
             else
             {
