@@ -409,7 +409,7 @@ class UserController extends Controller
         }
         else
         {
-            $totalRevenue = Booking::withCount('package:amount')->where('counsellor_id', $user->id)->where('status', '3')->get();
+            $totalRevenue = Booking::withCount('package')->where('counsellor_id', $user->id)->where('status', '3')->get();
 
             return $totalRevenue;
 
