@@ -409,12 +409,14 @@ class UserController extends Controller
         }
         else
         {
-            //$totalRevenue = Booking::where('counsellor_id', $user->id)->where('status', '3')->with('package')->get(); 
-            $totalRevenue = Booking::where('counsellor_id', $user->id)->where('status', '3')->with(['package' => function($query){
-               $query->sum('amount');
-            }])->get();
+            $totalRev = Booking::where('counsellor_id', $user->id)->where('status', '3')->get(); 
+            if(count($totalRev) > 0)
+            {
+                $totalRevenue = $totalRev->pluck('package_id')->toArray();
 
-            return $totalRevenue;
+                return $totalRevenue;
+            }
+            
 
 
             $packagePerct = Package::where('user_id', $user->id)->count();
