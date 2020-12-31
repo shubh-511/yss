@@ -409,7 +409,10 @@ class UserController extends Controller
         }
         else
         {
-            
+            $totalRevenue = Booking::where('counsellor_id', $user->id)->where('status', '3')->with('package')->get(); 
+
+
+            return $totalRevenue;
 
 
             $packagePerct = Package::where('user_id', $user->id)->count();
