@@ -699,9 +699,9 @@ class UserController extends Controller
             }
 
             $user = Auth()->user()->id;
-            $getUser = User::where('phone', $request->phone)->where('country_code', $request->country_code)->where('is_phone_verified', '1')->first();
+            $getUser = User::where('phone', $request->phone)->where('country_code', '+'.$request->country_code)->where('is_phone_verified', 1)->first();
 
-            return $getUser;
+            
             if(!empty($getUser))
             {
                 /*return response()->json(['success' => false,
