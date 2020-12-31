@@ -414,11 +414,12 @@ class UserController extends Controller
             {
                 $totalRevenue = $totalRev->pluck('package_id')->toArray();
                 $totalRevenue = Package::whereIn('id', $totalRevenue)->sum('amount');
-                return $totalRevenue;
+            }
+            else
+            {
+                $totalRevenue = '';
             }
             
-
-
             $packagePerct = Package::where('user_id', $user->id)->count();
             $avalPerct = Availability::where('user_id', $user->id)->count();
             $stripePerct = StripeConnect::where('user_id', $user->id)->count();
@@ -461,6 +462,7 @@ class UserController extends Controller
         
         return response()->json(['success' => true,
                                 'profile_percentage' => $profilePercentage,
+                                'revenue' => $totalRevenue,
                                  'user' => $user,
                                  'channel_data' => $channelData,
                                 ], $this->successStatus);  
