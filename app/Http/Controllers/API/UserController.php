@@ -706,7 +706,7 @@ class UserController extends Controller
                 $userUpdate->phone = $request->phone;
                 $userUpdate->save();
 
-                $this->sendSMS($otp, $request->country_code, $request->phone);
+                $this->sendSMS($otp, '+'.$request->country_code, $request->phone);
 
                 return response()->json(['success' => true,
                                          'message' => 'OTP has been sent!',
