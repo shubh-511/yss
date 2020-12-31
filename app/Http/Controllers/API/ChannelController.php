@@ -182,18 +182,22 @@ class ChannelController extends Controller
                 }
                 else
                 {
-                    return response()->json(['success' => false,
+                    /*return response()->json(['success' => false,
                                      'message' => 'Incorrect status value',
-                                    ], $this->successStatus); 
+                                    ], $this->successStatus); */
+
+                    return response()->json(['success'=>false,'errors' =>['message' => ['Incorrect status value']]], $this->successStatus);
                 }
                  
 
             }
             else
             {
-                return response()->json(['success' => false,
+                /*return response()->json(['success' => false,
                                      'message' => 'Incorrect input data',
-                                    ], $this->successStatus);
+                                    ], $this->successStatus);*/
+
+                return response()->json(['success'=>false,'errors' =>['message' => ['Incorrect input data']]], $this->successStatus);
             }
             
         }

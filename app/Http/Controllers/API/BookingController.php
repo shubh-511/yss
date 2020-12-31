@@ -333,9 +333,11 @@ class BookingController extends Controller
                 }
                 else
                 {
-                    return response()->json(['success' => false,
+                    /*return response()->json(['success' => false,
                                          'message' => 'No bookings found',
-                                        ], $this->successStatus);
+                                        ], $this->successStatus);*/
+
+                    return response()->json(['success'=>false,'errors' =>['message' => ['No bookings found']]], $this->successStatus);
                 }
             }
             else
@@ -377,9 +379,11 @@ class BookingController extends Controller
                 }
                 else
                 {
-                    return response()->json(['success' => false,
+                    /*return response()->json(['success' => false,
                                          'message' => 'No bookings found',
-                                        ], $this->successStatus);
+                                        ], $this->successStatus);*/
+
+                    return response()->json(['success'=>false,'errors' =>['message' => ['No bookings found']]], $this->successStatus);
                 }
             }
             
@@ -430,9 +434,11 @@ class BookingController extends Controller
             }
             else
             {
-                return response()->json(['success' => false,
+                /*return response()->json(['success' => false,
                                          'message' => 'No bookings found with this booking ID',
-                                        ], $this->successStatus);
+                                        ], $this->successStatus);*/
+
+                return response()->json(['success'=>false,'errors' =>['message' => ['No bookings found with this booking ID']]], $this->successStatus);
             }
                 
         }
@@ -476,9 +482,11 @@ class BookingController extends Controller
             }
             else
             {
-                return response()->json(['success' => false,
+                /*return response()->json(['success' => false,
                                          'message' => 'No bookings found',
-                                        ], $this->successStatus);
+                                        ], $this->successStatus);*/
+
+                return response()->json(['success'=>false,'errors' =>['message' => ['No bookings found']]], $this->successStatus);
             }
                 
         }
