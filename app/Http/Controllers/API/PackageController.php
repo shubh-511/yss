@@ -87,9 +87,11 @@ class PackageController extends Controller
             }
             else
             {
-                return response()->json(['success' => false,
+                /*return response()->json(['success' => false,
                                      'message' => 'No packages found',
-                                    ], $this->successStatus); 
+                                    ], $this->successStatus); */
+
+                return response()->json(['success'=>false,'errors' =>['message' => ['No packages found']]], $this->successStatus); 
             }
             
 
@@ -128,9 +130,11 @@ class PackageController extends Controller
             }
             else
             {
-                return response()->json(['success' => false,
+                /*return response()->json(['success' => false,
                                      'message' => 'Could not found selected package',
-                                    ], $this->successStatus);
+                                    ], $this->successStatus);*/
+
+                return response()->json(['success'=>false,'errors' =>['message' => ['Could not found selected package']]], $this->successStatus);
             }
             
         }
@@ -169,9 +173,12 @@ class PackageController extends Controller
             }
             else
             {
-                return response()->json(['success' => false,
+                /*return response()->json(['success' => false,
                                      'message' => 'No package found for this counsellor',
-                                    ], $this->successStatus); 
+                                    ], $this->successStatus); */
+
+                return response()->json(['success'=>false,'errors' =>['message' => ['No package found for this counsellor']]], $this->successStatus);
+
             }
             
 
@@ -269,9 +276,11 @@ class PackageController extends Controller
             $booking = Booking::where('package_id', $request->package_id)->count();
             if($booking > 0)
             {
-                return response()->json(['success' => false,
+                /*return response()->json(['success' => false,
                                      'message' => 'Can not delete selected package as it is currently in use',
-                                    ], $this->successStatus);
+                                    ], $this->successStatus);*/
+
+                return response()->json(['success'=>false,'errors' =>['message' => ['Can not delete selected package as it is currently in use']]], $this->successStatus);
             }
             else
             {
@@ -285,9 +294,11 @@ class PackageController extends Controller
                 }
                 else
                 {
-                    return response()->json(['success' => false,
+                    /*return response()->json(['success' => false,
                                          'message' => 'This package does not exist',
-                                        ], $this->successStatus);
+                                        ], $this->successStatus);*/
+
+                    return response()->json(['success'=>false,'errors' =>['message' => ['This package does not exist']]], $this->successStatus);
                 }
             }
             
