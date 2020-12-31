@@ -28,27 +28,35 @@ class PackageController extends Controller
     {
     	try
         {
-    		$validator = Validator::make($request->all(), [ 
-	            'package_name' => 'required|max:190',  
-	            'package_description' => 'required', 
-	            'session_minutes' => 'required', 
-                'session_hours' => 'required', 
-                'amount' => 'required',
-	        ]);
+            $exits = Package::where('user_id','=',Auth::user()->id)->where('package_name', $request->package_name)->count();
+            if ($exits > 0)
+            {
+                return response()->json(['success'=>false,'errors' =>['message' => ['Package name already exist']]], $this->successStatus); 
+            }
+            else
+            {
+        		$validator = Validator::make($request->all(), [ 
+    	            'package_name' => 'required|max:190',  
+    	            'package_description' => 'required', 
+    	            'session_minutes' => 'required', 
+                    'session_hours' => 'required', 
+                    'amount' => 'required',
+    	        ]);
 
-			if ($validator->fails()) 
-            { 
-	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
-			}
-            $user = Auth::user()->id;
+    			if ($validator->fails()) 
+                { 
+    	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+    			}
+                $user = Auth::user()->id;
 
-			$input = $request->all(); 
-            $input['user_id'] = $user;
-	        $package = Package::create($input); 
+    			$input = $request->all(); 
+                $input['user_id'] = $user;
+    	        $package = Package::create($input); 
 
-	        return response()->json(['success' => true,
-	            					 'package' => $package,
-	            					], $this->successStatus); 
+    	        return response()->json(['success' => true,
+    	            					 'package' => $package,
+    	            					], $this->successStatus); 
+        }
 
     	}
         catch(\Exception $e)
