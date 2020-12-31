@@ -702,7 +702,7 @@ class UserController extends Controller
                 $otp = $this->generateOTP();
                 $userUpdate = User::where('id', $user)->first();
                 $userUpdate->otp = $otp; 
-                $userUpdate->country_code = $request->country_code;
+                $userUpdate->country_code = '+'.$request->country_code;
                 $userUpdate->phone = $request->phone;
                 $userUpdate->save();
 
@@ -785,7 +785,7 @@ class UserController extends Controller
         //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
         $client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
         $message = $client->messages->create(
-          '+'.$countryCode.''.$phone, // Text this number
+          $countryCode.''.$phone, // Text this number
           [
             //'from' => '+15005550006', // From a valid Twilio number
             'from' => '+447476563307',
