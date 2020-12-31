@@ -8,6 +8,7 @@ use App\User;
 use App\Package; 
 use App\Availability; 
 use App\StripeConnect;
+use App\Booking;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use JWTAuth;
@@ -399,6 +400,7 @@ class UserController extends Controller
     public function details() 
     { 
         $profilePercentage = '';
+        $totalRevenue = '';
         $user = Auth::user(); 
         Auth::user()->roles;
         if($user->role_id == 3)
@@ -407,6 +409,11 @@ class UserController extends Controller
         }
         else
         {
+            $totalRevenue = Booking::withCount('package:amount')->where('counsellor_id', $user->id)->where('status', '3')->get();
+
+            return $totalRevenue;
+
+
             $packagePerct = Package::where('user_id', $user->id)->count();
             $avalPerct = Availability::where('user_id', $user->id)->count();
             $stripePerct = StripeConnect::where('user_id', $user->id)->count();
