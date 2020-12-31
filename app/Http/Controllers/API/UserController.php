@@ -413,7 +413,7 @@ class UserController extends Controller
             if(count($totalRev) > 0)
             {
                 $totalRevenue = $totalRev->pluck('package_id')->toArray();
-
+                $totalRevenue = Package::whereIn('id', $totalRevenue)->sum('amount')->get();
                 return $totalRevenue;
             }
             
