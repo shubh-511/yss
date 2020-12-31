@@ -413,7 +413,6 @@ class UserController extends Controller
                     $query->sum('amount');
                 })->get(); 
 
-            ->get();
 
             return $totalRevenue;
 
