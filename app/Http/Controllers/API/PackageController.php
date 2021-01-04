@@ -31,7 +31,7 @@ class PackageController extends Controller
             $exits = Package::where('user_id','=',Auth::user()->id)->where('package_name', $request->package_name)->count();
             if ($exits > 0)
             {
-                return response()->json(['success'=>false,'errors' =>['message' => ['Package name already exist']]], $this->successStatus); 
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Package name already exist']]], $this->successStatus); 
             }
             else
             {
@@ -99,7 +99,7 @@ class PackageController extends Controller
                                      'message' => 'No packages found',
                                     ], $this->successStatus); */
 
-                return response()->json(['success'=>false,'errors' =>['message' => ['No packages found']]], $this->successStatus); 
+                return response()->json(['success'=>false,'errors' =>['exception' => ['No packages found']]], $this->successStatus); 
             }
             
 
@@ -142,7 +142,7 @@ class PackageController extends Controller
                                      'message' => 'Could not found selected package',
                                     ], $this->successStatus);*/
 
-                return response()->json(['success'=>false,'errors' =>['message' => ['Could not found selected package']]], $this->successStatus);
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Could not found selected package']]], $this->successStatus);
             }
             
         }
@@ -185,7 +185,7 @@ class PackageController extends Controller
                                      'message' => 'No package found for this counsellor',
                                     ], $this->successStatus); */
 
-                return response()->json(['success'=>false,'errors' =>['message' => ['No package found for this counsellor']]], $this->successStatus);
+                return response()->json(['success'=>false,'errors' =>['exception' => ['No package found for this counsellor']]], $this->successStatus);
 
             }
             
@@ -288,7 +288,7 @@ class PackageController extends Controller
                                      'message' => 'Can not delete selected package as it is currently in use',
                                     ], $this->successStatus);*/
 
-                return response()->json(['success'=>false,'errors' =>['message' => ['Can not delete selected package as it is currently in use']]], $this->successStatus);
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Can not delete selected package as it is currently in use']]], $this->successStatus);
             }
             else
             {
@@ -306,7 +306,7 @@ class PackageController extends Controller
                                          'message' => 'This package does not exist',
                                         ], $this->successStatus);*/
 
-                    return response()->json(['success'=>false,'errors' =>['message' => ['This package does not exist']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['This package does not exist']]], $this->successStatus);
                 }
             }
             

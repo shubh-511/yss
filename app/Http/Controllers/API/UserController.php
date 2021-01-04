@@ -494,7 +494,7 @@ class UserController extends Controller
                                 ], $this->successStatus); 
             }else{
                 return response()->json(['success' => false,
-                                 'errors' => [ 'error' => 'Wrong parameters sent'],
+                                 'errors' => [ 'exception' => 'Wrong parameters sent'],
                                 ], $this->successStatus);
             }
                 
@@ -537,7 +537,7 @@ class UserController extends Controller
                                     ], $this->successStatus); 
                 }else{
                     return response()->json(['success' => false,
-                                     'errors' => [ 'error' => 'Wrong parameters sent'],
+                                     'errors' => [ 'exception' => 'Wrong parameters sent'],
                                     ], $this->successStatus);
                 }
                 
