@@ -316,7 +316,7 @@ class BookingController extends Controller
                     ->where('counsellor_id', $user->id)
 
 
-                     ->where(function ($query) use ($user_id, $my_id) {
+                     ->where(function ($query) {
                           $query->where('booking_date', '>=', Carbon::now()->toDateTimeString());
                       })->oRwhere(function ($query) {
                           $query->where('booking_date', '>', Carbon::today());
