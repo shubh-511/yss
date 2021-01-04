@@ -314,9 +314,14 @@ class BookingController extends Controller
 
                     $upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
-                    ->where('booking_date', '>', Carbon::today())
-                    //->paginate(10);
-                    ->get();
+
+
+                     ->where(function ($query) use ($user_id, $my_id) {
+                          $query->where('booking_date', '>', Carbon::now());
+                      })->oRwhere(function ($query) {
+                          $query->where('booking_date', '>', Carbon::today());
+                      })
+                      ->get();
 
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
                     ->where('booking_date', '>', Carbon::now()->startOfWeek())
