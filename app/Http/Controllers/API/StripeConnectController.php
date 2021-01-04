@@ -67,7 +67,7 @@ class StripeConnectController extends Controller
 	            					 'message' => 'Your account is already linked with us',
 	            					], $this->successStatus);*/
 
-				return response()->json(['success'=>false,'errors' =>['message' => ['Your account is already linked with us']]], $this->successStatus);
+				return response()->json(['success'=>false,'errors' =>['exception' => ['Your account is already linked with us']]], $this->successStatus);
 			}
 			
 

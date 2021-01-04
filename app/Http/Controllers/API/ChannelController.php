@@ -186,7 +186,7 @@ class ChannelController extends Controller
                                      'message' => 'Incorrect status value',
                                     ], $this->successStatus); */
 
-                    return response()->json(['success'=>false,'errors' =>['message' => ['Incorrect status value']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Incorrect status value']]], $this->successStatus);
                 }
                  
 
@@ -197,7 +197,7 @@ class ChannelController extends Controller
                                      'message' => 'Incorrect input data',
                                     ], $this->successStatus);*/
 
-                return response()->json(['success'=>false,'errors' =>['message' => ['Incorrect input data']]], $this->successStatus);
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Incorrect input data']]], $this->successStatus);
             }
             
         }
@@ -240,7 +240,7 @@ class ChannelController extends Controller
             else
             {
                 return response()->json(['success' => true,
-                                     'message' => 'No waiting list found',
+                                     'exception' => 'No waiting list found',
                                     ], $this->successStatus);
             }
 
