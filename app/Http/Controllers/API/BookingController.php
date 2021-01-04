@@ -312,13 +312,16 @@ class BookingController extends Controller
                     //->paginate(10);
                     ->get();
 
+                    $currentTime = Carbon::now()->format("h:i A");
+                    $ct = date("H:i:s", strtotime("04:25 PM"));
+
                     $upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
 
 
                      ->where(function ($query) {
                           $query->where('booking_date', '>', Carbon::today())
-                          ->where('slot', '>', Carbon::now());
+                          ->where('slot', '>', $currentTime);
                       })->oRwhere(function ($query) {
                           $query->where('booking_date', '>', Carbon::today());
                       })
