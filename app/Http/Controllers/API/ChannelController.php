@@ -263,7 +263,7 @@ class ChannelController extends Controller
     {
         try
         {
-            $validator = Validator::make($request->all(), [ 
+            /*$validator = Validator::make($request->all(), [ 
                 //'user_id' => 'required', 
                 'channel_id'   => 'required',
             ]);
@@ -271,12 +271,12 @@ class ChannelController extends Controller
             if ($validator->fails()) 
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-            }
+            }*/
 
             $user = Auth::user();
             if($user->role_id == 3)
             {
-              $waitingList = VideoChannel::where('from_id', $user->id)->where('channel_id', $request->channel_id)->delete();
+              $waitingList = VideoChannel::where('from_id', $user->id)->delete();
               if(count($waitingList) > 0)
               {
                   return response()->json(['success' => true,
