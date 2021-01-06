@@ -293,6 +293,8 @@ class BookingController extends Controller
     {
         try
         {
+            $currentTime = Carbon::now()->format('H:i:s');
+            
             $user = Auth::user();
             if($user->role_id == 2)
             {
@@ -312,16 +314,40 @@ class BookingController extends Controller
                     //->paginate(10);
                     ->get();
 
-                    $upcomingBooking = Booking::with('counsellor','package','user')
+                    
+                    $ct = date("H:i:s", strtotime("04:25 PM"));
+
+
+                    $upcomingBookings = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', '>=', Carbon::today())
+                    ->get();
+                    $common = [];
+                    foreach($upcomingBookings as $upcomingBooking)
+                    {
+                      $time = date("H:i:s", strtotime($upcomingBooking->slot));
+                      
+                      if($time > $currentTime)
+                      {
+                        array_push($common, $upcomingBooking->id);
+                      }                      
+                    }
+
+                    $upcomingBkings = Booking::with('counsellor','package','user')
+                    ->whereIn('id', $common)
+                    ->get();
+
+                    /*$upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
 
 
-                     ->where(function ($query) {
-                          $query->where('booking_date', '>=', Carbon::now()->toDateTimeString());
+                     ->where(function ($query) use ($currentTime) {
+                          $query->where('booking_date', '>', Carbon::today())
+                          ->where('slot', '>', $currentTime);
                       })->oRwhere(function ($query) {
                           $query->where('booking_date', '>', Carbon::today());
                       })
-                      ->get();
+                      ->get();*/
 
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
                     ->where('booking_date', '>', Carbon::now()->startOfWeek())
