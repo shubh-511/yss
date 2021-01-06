@@ -70,6 +70,8 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('accept/or/reject', 'API\ChannelController@acceptOrDecline');
 
 	Route::get('waiting-list', 'API\ChannelController@waitingList');
+
+	Route::post('remove-channel', 'API\ChannelController@removeChannel');
 	
 
 	

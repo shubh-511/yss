@@ -240,11 +240,59 @@ class ChannelController extends Controller
             else
             {
                 return response()->json(['success' => true,
-                                     'exception' => 'No waiting list found',
+                                     'data' => [],
                                     ], $this->successStatus);
             }
 
              
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
+    /** 
+     * Remove channel api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function removeChannel(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                //'user_id' => 'required', 
+                'channel_id'   => 'required',
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+
+            $user = Auth::user();
+            if($user->role_id == 3)
+            {
+              $waitingList = VideoChannel::where('from_id', $user->id)->where('channel_id', $request->channel_id)->delete();
+              if(count($waitingList) > 0)
+              {
+                  return response()->json(['success' => true,
+                                       'message' => 'Removed',
+                                      ], $this->successStatus);
+              }
+              else
+              {
+                  return response()->json(['success'=>false,'errors' =>['exception' => ['Record not exist']]], $this->successStatus);
+              }
+            }
+            else
+            {
+              return response()->json(['success'=>false,'errors' =>['exception' => ['You are not authorized']]], $this->successStatus);
+            }
+                        
 
         }
         catch(\Exception $e)
