@@ -317,25 +317,30 @@ class BookingController extends Controller
                     ->get();
 
                     
-                    $ct = date("H:i:s", strtotime("04:25 PM"));
 
 
                     $upcomingBookings = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
-                    ->where('booking_date', '>=', Carbon::today())
+                    ->where('booking_date', '>', Carbon::today())
+                    ->get();
+
+                    
+                    $todaysUpcoming = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', '=', Carbon::today())
                     ->get();
                     $common = [];
-                    foreach($upcomingBookings as $upcomingBooking)
+                    foreach($todaysUpcoming as $todayUpcoming)
                     {
-                      $time = date("H:i:s", strtotime($upcomingBooking->slot));
+                      $time = date("H:i:s", strtotime($todayUpcoming->slot));
                       
-                      if( (($time > $currentTime) && ($upcomingBooking->booking_date == $currentDate)) || ($upcomingBooking->booking_date > $currentDate))
-                      {
-                        array_push($common, $upcomingBooking->id);
+                      if( ($time > $currentTime))
+                      { 
+                        array_push($common, $todayUpcoming->id);
                       }                      
                     }
 
-                    $upcomingBkings = Booking::with('counsellor','package','user')
+                    $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
                     ->get();
 
@@ -360,7 +365,8 @@ class BookingController extends Controller
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
-                                         'upcoming' => $upcomingBkings,
+                                         'todays_upcoming' => $tdyUpcoming,
+                                         'upcoming' => $upcomingBookings,
                                          'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
                 }
@@ -379,40 +385,40 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
-                    $pastBookings = Booking::with('counsellor','package','user')
+                    $pastBookings = Booking::with('counsellor:id','package:id','user:id')
                     ->where('user_id', $user->id)
                     ->where('booking_date', '<', Carbon::today())
                     //->paginate(10);
                     ->get();
 
-                    $todaysBooking = Booking::with('counsellor','package','user')
+                    $todaysBooking = Booking::with('counsellor:id','package:id','user:id')
                     ->where('user_id', $user->id)
                     ->where('booking_date', Carbon::today())
                     //->paginate(10);
                     ->get();
 
-                    /*$upcomingBooking = Booking::with('counsellor','package','user')
+                    $upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', '>', Carbon::today())
                     //->paginate(10);
-                    ->get();*/
+                    ->get();
 
-                    $upcomingBookings = Booking::with('counsellor','package','user')
+                    $todaysUpcoming = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
-                    ->where('booking_date', '>=', Carbon::today())
+                    ->where('booking_date', '=', Carbon::today())
                     ->get();
                     $common = [];
-                    foreach($upcomingBookings as $upcomingBooking)
+                    foreach($todaysUpcoming as $todayUpcoming)
                     {
-                      $time = date("H:i:s", strtotime($upcomingBooking->slot));
+                      $time = date("H:i:s", strtotime($todayUpcoming->slot));
                       
-                      if( (($time > $currentTime) && ($upcomingBooking->booking_date == $currentDate)) || ($upcomingBooking->booking_date > $currentDate))
-                      {
-                        array_push($common, $upcomingBooking->id);
+                      if( ($time > $currentTime))
+                      { 
+                        array_push($common, $todayUpcoming->id);
                       }                      
                     }
 
-                    $upcomingBkings = Booking::with('counsellor','package','user')
+                    $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
                     ->get();
 
@@ -425,7 +431,8 @@ class BookingController extends Controller
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
-                                         'upcoming' => $upcomingBkings,
+                                         'todays_upcoming' => $tdyUpcoming,
+                                         'upcoming' => $upcomingBooking,
                                          'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
                 }
