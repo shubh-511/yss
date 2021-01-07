@@ -324,7 +324,7 @@ class BookingController extends Controller
                     ->where('booking_date', '>', Carbon::today())
                     ->get();
 
-                    
+
                     $todaysUpcoming = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '=', Carbon::today())
@@ -385,13 +385,13 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
-                    $pastBookings = Booking::with('counsellor:id','package:id','user:id')
+                    $pastBookings = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', '<', Carbon::today())
                     //->paginate(10);
                     ->get();
 
-                    $todaysBooking = Booking::with('counsellor:id','package:id','user:id')
+                    $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', Carbon::today())
                     //->paginate(10);
