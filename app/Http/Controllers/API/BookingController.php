@@ -330,6 +330,7 @@ class BookingController extends Controller
                     ->where('booking_date', '=', Carbon::today())
                     ->get();
                     $common = [];
+                    $commonPast = [];
                     foreach($todaysUpcoming as $todayUpcoming)
                     {
                       $time = date("H:i:s", strtotime($todayUpcoming->slot));
@@ -337,11 +338,19 @@ class BookingController extends Controller
                       if( ($time > $currentTime))
                       { 
                         array_push($common, $todayUpcoming->id);
-                      }                      
+                      }   
+                      else
+                      {
+                        array_push($commonPast, $todayUpcoming->id);
+                      }                   
                     }
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
+                    ->get();
+
+                    $tdyPast = Booking::with('counsellor','package','user')
+                    ->whereIn('id', $commonPast)
                     ->get();
 
                     /*$upcomingBooking = Booking::with('counsellor','package','user')
@@ -366,6 +375,7 @@ class BookingController extends Controller
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
                                          'todays_upcoming' => $tdyUpcoming,
+                                         'todays_past' => $tdyPast,
                                          'upcoming' => $upcomingBookings,
                                          'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
@@ -408,6 +418,7 @@ class BookingController extends Controller
                     ->where('booking_date', '=', Carbon::today())
                     ->get();
                     $common = [];
+                    $commonPast = [];
                     foreach($todaysUpcoming as $todayUpcoming)
                     {
                       $time = date("H:i:s", strtotime($todayUpcoming->slot));
@@ -415,11 +426,19 @@ class BookingController extends Controller
                       if( ($time > $currentTime))
                       { 
                         array_push($common, $todayUpcoming->id);
+                      }
+                      else
+                      {
+                        array_push($commonPast, $todayUpcoming->id); 
                       }                      
                     }
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
+                    ->get();
+
+                    $tdyPast = Booking::with('counsellor','package','user')
+                    ->whereIn('id', $commonPast)
                     ->get();
 
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)
@@ -432,6 +451,7 @@ class BookingController extends Controller
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
                                          'todays_upcoming' => $tdyUpcoming,
+                                         'todays_past' => $tdyPast,
                                          'upcoming' => $upcomingBooking,
                                          'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
