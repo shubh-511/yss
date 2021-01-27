@@ -602,9 +602,8 @@ class UserController extends Controller
         } 
     }
 
-
     /** 
-     * Change Password api 
+     * Reset Password after Otp verified api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
@@ -612,45 +611,6 @@ class UserController extends Controller
     {  
         try 
         {
-             $params = $request->params;
-             $keys = array_keys($params);
-           //return $keys;
-            //$reqJSON = json_decode($params, true);
-            //return $reqJSON['old_password'];
-            //return $params['old_password'];
-            
-
-             foreach ($params as $key => $value) {
-                if($key == 'old_password')
-                {
-                    $validator = Validator::make($request->all(), [  
-                    'old_password' => 'required|max:190', 
-                    ]);
-                }
-                if($key == 'new_password')
-                {
-                    $validator = Validator::make($request->all(), [  
-                    'new_password' => 'required|max:190', 
-                    ]);
-                }
-                if($key == 'c_password')
-                {
-                    $validator = Validator::make($request->all(), [  
-                    'c_password' => 'required|same:new_password',
-                    ]);
-                }
-
-                if ($validator->fails()) { 
-                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
-            } 
-
-                 
-             }
-
-
-
-       
-die;
             $validator = Validator::make($request->all(), [  
                 'old_password' => 'required|max:190', 
                 'new_password' => 'required|max:190', 
@@ -660,7 +620,6 @@ die;
             if ($validator->fails()) { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
-            die;
             $user = Auth()->user()->id;
             $email = Auth()->user()->email;
 
@@ -720,84 +679,6 @@ die;
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         }
     }
-
-    /** 
-     * Change Password api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */ 
-    /*public function changePassword(Request $request) 
-    {  
-        try 
-        {
-            $validator = Validator::make($request->all(), [  
-                'old_password' => 'required|max:190', 
-                'new_password' => 'required|max:190', 
-                'c_password' => 'required|same:new_password',
-            ]);
-
-            if ($validator->fails()) { 
-                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
-            }
-            $user = Auth()->user()->id;
-            $email = Auth()->user()->email;
-
-            if(Auth::user()->role_id == 3)
-            {
-                if (Auth::guard('web')->attempt(['id' => $user, 'password' => $request->old_password]))
-                {
-                    $userUpdate = User::where('id', $user)->first();
-                    $userUpdate->password = bcrypt($request->new_password); 
-                    $userUpdate->save();
-
-
-                    return response()->json(['success' => true,
-                                             'message' => 'Your password has been reset',
-                                            ], $this->successStatus); 
-                }
-                else
-                {
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
-                }
-            }
-            else
-            {
-                $url = "https://yoursafespaceonline.com/login.php?email=".$email."&password=".$request->old_password;
-               
-                $cURL = $this->url_get_contents($url); 
-                $cURL = json_decode($cURL, true);
-              
-                if($cURL['status'] == true) 
-                {
-                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".$email."&new_password=".$request->new_password;
-               
-                    $cURLReset = $this->url_get_contents($urlReset); 
-                    $cURLReset = json_decode($cURLReset, true);
-                  
-                    if($cURLReset['status'] == true) 
-                    {
-                        return response()->json(['success' => true,
-                                             'message' => 'Your password has been reset',
-                                            ], $this->successStatus); 
-                    }
-                    else
-                    {
-                        return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
-                    }
-                }
-                else
-                {
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
-                }
-            }
-
-            
-        }
-        catch(\Exception $e)
-        {
-            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        }
-    }*/
 
     /** 
      * Update phone number api 
