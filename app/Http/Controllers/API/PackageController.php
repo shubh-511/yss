@@ -215,7 +215,6 @@ class PackageController extends Controller
                 // 'session_minutes' => 'required', 
                 // 'session_hours' => 'required', 
                 // 'amount' => 'required',
-                //'email' => 'required|max:50|unique:users,email,'.$id
             ]);
 
             if ($validator->fails()) 
@@ -225,17 +224,15 @@ class PackageController extends Controller
 
             
             $package = Package::where('id', $request->package_id)->first();
+            /*$myPackage = Package::where('user_id', Auth::user()->id)->get();
+            $myPackage $myPackage->pluck('')->toArray();*/
             if(isset($request->package_name) && !empty($request->package_name))
             {
-                $val = Validator::make($request->all(), [ 
-                'package_name' => 'required|max:190|unique:packages,package_name,'.$request->package_id
-                ]);
-
-                if ($val->fails()) 
-                { 
-                    return response()->json(['errors'=>$val->errors()], $this->successStatus);       
+                $exits = Package::where('id','!=', $request->package_id)->whereIn('user_id', Auth::user()->id)->where('package_name', $request->package_name)->first();
+                if ($exits > 0)
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Package name already exist']]], $this->successStatus); 
                 }
-             
                 $package->package_name = $request->package_name; 
             }
             if(isset($request->package_description) && !empty($request->package_description))
