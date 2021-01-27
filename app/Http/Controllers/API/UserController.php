@@ -612,20 +612,55 @@ class UserController extends Controller
     {  
         try 
         {
-            $params = $request->params;
-            $reqJSON = json_decode($params, true);
+             $params = $request->params;
+             $keys = array_keys($params);
+           //return $keys;
+            //$reqJSON = json_decode($params, true);
             //return $reqJSON['old_password'];
+            //return $params['old_password'];
+            
 
-           
+             foreach ($params as $key => $value) {
+                if($key == 'old_password')
+                {
+                    $validator = Validator::make($request->all(), [  
+                    'old_password' => 'required|max:190', 
+                    ]);
+                }
+                if($key == 'new_password')
+                {
+                    $validator = Validator::make($request->all(), [  
+                    'new_password' => 'required|max:190', 
+                    ]);
+                }
+                if($key == 'c_password')
+                {
+                    $validator = Validator::make($request->all(), [  
+                    'c_password' => 'required|same:new_password',
+                    ]);
+                }
+
+                if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            } 
+
+                 
+             }
+
+
+
+       
+die;
             $validator = Validator::make($request->all(), [  
-                $reqJSON['old_password'] => 'required|max:190', 
-                $reqJSON['new_password'] => 'required|max:190', 
-                $reqJSON['c_password'] => 'required|same:new_password',
+                'old_password' => 'required|max:190', 
+                'new_password' => 'required|max:190', 
+                'c_password' => 'required|same:new_password',
             ]);
 
             if ($validator->fails()) { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
+            die;
             $user = Auth()->user()->id;
             $email = Auth()->user()->email;
 
