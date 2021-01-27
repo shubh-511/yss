@@ -406,7 +406,7 @@ class PackageController extends Controller
                         foreach($data as $key => $datas)
                         {
                             $currentTime = Carbon::now()->toTimeString();
-                            $his = date("h:i:s", strtotime($datas);
+                            $his = date("h:i:s", strtotime($datas));
 
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
