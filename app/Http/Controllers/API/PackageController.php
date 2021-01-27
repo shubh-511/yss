@@ -412,10 +412,12 @@ class PackageController extends Controller
                             //return $bookingSlot;
                             if(!empty($bookingSlot))
                             {
+                                return 2;
                                 $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
                             }
                             else
                             {
+                                return 1;
                                 if($his < $currentTime)
                                 $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
                             }
