@@ -405,15 +405,11 @@ class PackageController extends Controller
 
                         foreach($data as $key => $datas)
                         {
-                            $currentTime = Carbon::now()->toTimeString();
-                            $his = date("h:i:s", strtotime($datas));
-
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
                             if(!empty($bookingSlot))
                             {
-                                
-                                $arr[$hours->from_time.' - '.$hours->to_time][] = (($bookingSlot->slot == $datas) && ($his > $currentTime)) ? ("") : ($datas);
+                                $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
                             }
                             else
                             {
