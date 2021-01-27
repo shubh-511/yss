@@ -407,6 +407,7 @@ class PackageController extends Controller
                         {
                             $currentTime = Carbon::now()->toTimeString();
                             $his = date("H:i:s", strtotime($datas));
+                            return $his;
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
                             if(!empty($bookingSlot))
