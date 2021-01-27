@@ -407,7 +407,7 @@ class PackageController extends Controller
                         {
                             $currentTime = Carbon::now()->toTimeString();
                             $his = date("H:i:s", strtotime($datas));
-                            return $his;
+
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
                             if(!empty($bookingSlot))
@@ -416,7 +416,7 @@ class PackageController extends Controller
                             }
                             else
                             {
-                                if($his > $currentTime)
+                                if($his < $currentTime)
                                 $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
                             }
                             
