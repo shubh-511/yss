@@ -455,6 +455,7 @@ class PackageController extends Controller
 
     public function SplitTime($StartTime, $EndTime, $Duration, $date){
     $ReturnArray = [];
+    return $StartTime;
     $StartTime    = strtotime ($StartTime); 
     $EndTime      = strtotime ($EndTime); 
 
