@@ -366,8 +366,8 @@ class BookingController extends Controller
                       ->get();*/
 
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
-                    ->where('booking_date', '>', Carbon::now()->startOfWeek())
-                    ->where('booking_date', '<', Carbon::now()->endOfWeek())
+                    ->where('booking_date', '>', Carbon::now()->startOfWeek(Carbon::SUNDAY))
+                    ->where('booking_date', '<', Carbon::now()->endOfWeek(Carbon::SATURDAY))
                     //->paginate(10);
                     ->get();
 
