@@ -614,13 +614,13 @@ class UserController extends Controller
         {
             $params = $request->params;
             $reqJSON = json_decode($params, true);
-            return $reqJSON['old_password'];
+            //return $reqJSON['old_password'];
 
            
             $validator = Validator::make($request->all(), [  
-                'old_password' => 'required|max:190', 
-                'new_password' => 'required|max:190', 
-                'c_password' => 'required|same:new_password',
+                $reqJSON['old_password'] => 'required|max:190', 
+                $reqJSON['new_password'] => 'required|max:190', 
+                $reqJSON['c_password'] => 'required|same:new_password',
             ]);
 
             if ($validator->fails()) { 
