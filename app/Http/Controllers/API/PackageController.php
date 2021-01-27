@@ -464,7 +464,7 @@ class PackageController extends Controller
     {
         $ReturnArray[$i] = date ("G:i A", $StartTime);
         
-        $fromTime = date("H:i A", strtotime($ReturnArray[$i]));
+        $fromTime = date("H:i", strtotime($ReturnArray[$i]));
         $fromTime = strtotime(($fromTime));
 
             $StartTime += $AddMins; 
