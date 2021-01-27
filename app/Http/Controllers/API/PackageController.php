@@ -224,11 +224,10 @@ class PackageController extends Controller
 
             
             $package = Package::where('id', $request->package_id)->first();
-            /*$myPackage = Package::where('user_id', Auth::user()->id)->get();
-            $myPackage $myPackage->pluck('')->toArray();*/
+            
             if(isset($request->package_name) && !empty($request->package_name))
             {
-                $exits = Package::where('id','!=', $request->package_id)->whereIn('user_id', Auth::user()->id)->where('package_name', $request->package_name)->first();
+                $exits = Package::where('id','!=', $request->package_id)->where('user_id', Auth::user()->id)->where('package_name', $request->package_name)->count();
                 if ($exits > 0)
                 {
                     return response()->json(['success'=>false,'errors' =>['exception' => ['Package name already exist']]], $this->successStatus); 
