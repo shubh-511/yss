@@ -405,6 +405,7 @@ class PackageController extends Controller
 
                         foreach($data as $key => $datas)
                         {
+                            return Carbon::now()->toTimeString();
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
                             if(!empty($bookingSlot))
