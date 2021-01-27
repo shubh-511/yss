@@ -379,7 +379,7 @@ class PackageController extends Controller
                     /*echo  'from: '.$fromTime.'</br>';
                     echo  'to: '.$toTime.'</br>';*/
 
-                    $data = $this->SplitTime($hours->from_time, $hours->to_time, $sessionTime, $date);
+                    $data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
 
                     //return $data;
 
