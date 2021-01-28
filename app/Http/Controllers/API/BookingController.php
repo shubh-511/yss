@@ -307,14 +307,14 @@ class BookingController extends Controller
                     $pastBookings = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '<', Carbon::today())
-                    //->paginate(10);
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today())
-                    //->paginate(10);
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     
 
@@ -322,7 +322,8 @@ class BookingController extends Controller
                     $upcomingBookings = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '>', Carbon::today())
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
 
                     $todaysUpcoming = Booking::with('counsellor','package','user')
@@ -347,11 +348,13 @@ class BookingController extends Controller
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     $tdyPast = Booking::with('counsellor','package','user')
                     ->whereIn('id', $commonPast)
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     /*$upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
@@ -368,8 +371,8 @@ class BookingController extends Controller
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
                     ->where('booking_date', '>', Carbon::now()->startOfWeek(Carbon::SUNDAY))
                     ->where('booking_date', '<', Carbon::now()->endOfWeek(Carbon::SATURDAY))
-                    //->paginate(10);
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
@@ -398,20 +401,20 @@ class BookingController extends Controller
                     $pastBookings = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', '<', Carbon::today())
-                    //->paginate(10);
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', Carbon::today())
-                    //->paginate(10);
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     $upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', '>', Carbon::today())
-                    //->paginate(10);
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     $todaysUpcoming = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
@@ -435,17 +438,19 @@ class BookingController extends Controller
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     $tdyPast = Booking::with('counsellor','package','user')
                     ->whereIn('id', $commonPast)
-                    ->get();
+                    ->paginate(5);
+                    //->get();
 
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)
                     ->where('booking_date', '>', Carbon::now()->startOfWeek())
                     ->where('booking_date', '<', Carbon::now()->endOfWeek())
-                    //->paginate(10);
-                    ->get();
+                   ->paginate(5);
+                    //->get();
 
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
