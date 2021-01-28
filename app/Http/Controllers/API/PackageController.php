@@ -171,7 +171,7 @@ class PackageController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
             //$user = Auth::user()->id;
-            $allPackages = Package::where('user_id', $request->user_id)->paginate(5); 
+            $allPackages = Package::where('user_id', $request->user_id)->paginate(8); 
 
             if(count($allPackages) > 0)
             {
