@@ -612,10 +612,78 @@ class UserController extends Controller
         try 
         {
             $requestFields = $request->params;
+            
+            $requestedFields = json_decode($requestFields, true);
+            //$requestedFields = $requestFields;
+            
 
-            //return $requestFields;
+            $rules = $this->validateData($requestedFields);
+            //return $rules;
 
-            return response()->json(['success'=>false,'data' => $requestFields], $this->successStatus); 
+            $validator = Validator::make($requestedFields, $rules);
+
+            /*$validator = Validator::make($request->all(), [  
+                'old_password' => 'required|max:190', 
+                'new_password' => 'required|max:190', 
+                'c_password' => 'required|same:new_password',
+            ]);*/
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+            $user = Auth()->user()->id;
+            $email = Auth()->user()->email;
+
+            if(Auth::user()->role_id == 3)
+            {
+                if (Auth::guard('web')->attempt(['id' => $user, 'password' => $requestedFields['old_password']]))
+                {
+                    $userUpdate = User::where('id', $user)->first();
+                    $userUpdate->password = bcrypt($requestedFields['new_password']); 
+                    $userUpdate->save();
+
+
+                    return response()->json(['success' => true,
+                                             'message' => 'Your password has been reset',
+                                            ], $this->successStatus); 
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
+                }
+            }
+            else
+            {
+                $url = "https://yoursafespaceonline.com/login.php?email=".$email."&password=".$requestedFields['old_password'];
+               
+                $cURL = $this->url_get_contents($url); 
+                $cURL = json_decode($cURL, true);
+              
+                if($cURL['status'] == true) 
+                {
+                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".$email."&new_password=".$requestedFields['new_password'];
+               
+                    $cURLReset = $this->url_get_contents($urlReset); 
+                    $cURLReset = json_decode($cURLReset, true);
+                  
+                    if($cURLReset['status'] == true) 
+                    {
+                        return response()->json(['success' => true,
+                                             'message' => 'Your password has been reset',
+                                            ], $this->successStatus); 
+                    }
+                    else
+                    {
+                        return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
+                    }
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Old password incorrect']]], $this->successStatus); 
+                }
+            }
+
+            
         }
         catch(\Exception $e)
         {
