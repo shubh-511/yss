@@ -612,8 +612,9 @@ class UserController extends Controller
         try 
         {
             $requestFields = $request->params;
-            return $requestFields;
+
             $requestedFields = json_decode($requestFields, true);
+            return $requestedFields;
             //$requestedFields = $requestFields;
             
 
