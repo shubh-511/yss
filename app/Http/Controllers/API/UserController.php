@@ -613,9 +613,9 @@ class UserController extends Controller
         {
             $requestFields = $request->params;
 
-            return $requestFields;
+            //return $requestFields;
 
-            
+            return response()->json(['success'=>false,'data' => $requestFields], $this->successStatus); 
         }
         catch(\Exception $e)
         {
