@@ -612,8 +612,9 @@ class UserController extends Controller
         try 
         {
             $requestFields = $request->params;
-            $requestedFields = json_decode($requestFields, true);
-            //return $requestedFields['old_password'];
+            //$requestedFields = json_decode($requestFields, true);
+            $requestedFields = $requestFields;
+            
 
             $rules = $this->validateData($requestedFields);
             //return $rules;
