@@ -611,11 +611,20 @@ class UserController extends Controller
     {  
         try 
         {
-            $validator = Validator::make($request->all(), [  
+            $requestFields = $request->params;
+            $requestedFields = json_decode($requestFields, true);
+            //return $requestedFields['old_password'];
+
+            $rules = $this->validateData($requestedFields);
+            //return $rules;
+
+            $validator = Validator::make($requestedFields, $rules);
+
+            /*$validator = Validator::make($request->all(), [  
                 'old_password' => 'required|max:190', 
                 'new_password' => 'required|max:190', 
                 'c_password' => 'required|same:new_password',
-            ]);
+            ]);*/
 
             if ($validator->fails()) { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
@@ -625,10 +634,10 @@ class UserController extends Controller
 
             if(Auth::user()->role_id == 3)
             {
-                if (Auth::guard('web')->attempt(['id' => $user, 'password' => $request->old_password]))
+                if (Auth::guard('web')->attempt(['id' => $user, 'password' => $requestedFields['old_password']]))
                 {
                     $userUpdate = User::where('id', $user)->first();
-                    $userUpdate->password = bcrypt($request->new_password); 
+                    $userUpdate->password = bcrypt($requestedFields['new_password']); 
                     $userUpdate->save();
 
 
@@ -643,14 +652,14 @@ class UserController extends Controller
             }
             else
             {
-                $url = "https://yoursafespaceonline.com/login.php?email=".$email."&password=".$request->old_password;
+                $url = "https://yoursafespaceonline.com/login.php?email=".$email."&password=".$requestedFields['old_password'];
                
                 $cURL = $this->url_get_contents($url); 
                 $cURL = json_decode($cURL, true);
               
                 if($cURL['status'] == true) 
                 {
-                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".$email."&new_password=".$request->new_password;
+                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".$email."&new_password=".$requestedFields['new_password'];
                
                     $cURLReset = $this->url_get_contents($urlReset); 
                     $cURLReset = json_decode($cURLReset, true);
@@ -678,6 +687,34 @@ class UserController extends Controller
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         }
+    }
+
+    /*
+     * Validate Data
+     * @Params $requestedfields
+     */
+
+    public function validateData($requestedFields){
+        $rules = [];
+        foreach ($requestedFields as $key => $field) {
+            //return $key;
+            if($key == 'old_password'){
+
+                $rules[$key] = 'required|max:190';
+
+            }else if($key == 'new_password'){
+
+                $rules[$key] = 'required|max:190';
+
+            }else if($key == 'c_password'){
+
+                $rules[$key] = 'required|same:new_password';
+
+            }
+        }
+
+        return $rules;
+
     }
 
     /** 
