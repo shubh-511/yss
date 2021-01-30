@@ -579,6 +579,7 @@ class UserController extends Controller
                 $userData['email'] = $input['email'];    
                 $userData['user_nicename'] = $input['user_nicename'];    
                 $userData['display_name'] = $input['display_name'];    
+                $userData['account_enabled'] = '3'; 
                 
                 if(array_key_exists('roles', $input) 
                     && !empty($input['roles']) 
