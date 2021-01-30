@@ -223,7 +223,7 @@ class UserController extends Controller
             $input['role_id'] = (array_key_exists('role_id',$input)) ? $input['role_id'] : 3;
 			//$input['otp'] = $this->generateOTP();
             $input['otp'] = 1234;
-            $input['account_enabled'] = 3; // Not verified user
+            $input['account_enabled'] = '3'; // Not verified user
 	        $user = User::create($input); 
 	        
 	        //Send Otp Over Mail or Phone
