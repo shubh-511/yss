@@ -21,7 +21,7 @@ use App\Events\UserRegisterEvent;
 class BookingController extends Controller
 {
     public $successStatus = 200;
-  
+	
 
     /** 
      * Make booking api 
@@ -30,27 +30,27 @@ class BookingController extends Controller
      */ 
     public function makeBooking(Request $request) 
     {
-      try
+    	try
         {
-        $validator = Validator::make($request->all(), [ 
-              'counsellor_id' => 'required',  
+    		$validator = Validator::make($request->all(), [ 
+	            'counsellor_id' => 'required',  
               'package_id' => 'required', 
-              'slot' => 'required|max:190', 
-              'booking_date' => 'required',
-              //'token' => 'required',
-              //'card_id' => 'required', 
+	            'slot' => 'required|max:190', 
+	            'booking_date' => 'required',
+              'token' => 'required',
+              'card_id' => 'required', 
               //'notes' => 'required',
-          ]);
+	        ]);
 
-      if ($validator->fails()) 
+			if ($validator->fails()) 
             { 
-              return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
-      }
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+			}
             $user = Auth::user();
             
             $packageAmt = Package::where('id', $request->package_id)->first();
 
-            //$connectedActID = StripeConnect::where('user_id', $request->counsellor_id)->first();
+            $connectedActID = StripeConnect::where('user_id', $request->counsellor_id)->first();
 
             Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
             
@@ -60,14 +60,14 @@ class BookingController extends Controller
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
 
 
-             $token = $stripe->tokens->create([
+             /*$token = $stripe->tokens->create([
               'card' => [
-                'number' => '4242424242424242',
+                'number' => '5126522005865259',
                 'exp_month' => '09',
                 'exp_year' => '2024',
                 'cvc' => '070',
               ],
-            ]);
+            ]);*/
 
             
 
@@ -80,8 +80,8 @@ class BookingController extends Controller
             return $pI;*/
 
             $customer = \Stripe\Customer::create(array(
-                'name' => $user->name,
-                'email' => $user->email,
+                'name' => 'shubham',
+                'email' => 'shubham12@gmail.com',
             ));
             
            
@@ -101,119 +101,38 @@ class BookingController extends Controller
 
             $source = \Stripe\Customer::createSource(
             $customer->id,
-            ['source' => $token->id]);
-            //['source' => $request->token]);
+            //['source' => $token->id]);
+            ['source' => $request->token]);
 
             
 
-            $conf = \Stripe\PaymentIntent::create([
+            $payment_intent = \Stripe\PaymentIntent::create([
               //'amount' => $packageAmt->amount*100,
               'amount' => 100*100,
               'description' => 'test payment',
               'customer' => $customer->id,
               'currency' => 'GBP',
-              'source' => $token->card->id, 
-              //'source' => $request->card_id, 
+              //'source' => $token->card->id, 
+              'source' => $request->card_id, 
               'confirmation_method' => 'manual',
               'confirm' => true,
               //'application_fee_amount' => 50,
-              /*'transfer_data' => [
+              'transfer_data' => [
                 'amount' => 1*100,
                 'destination' => $connectedActID->stripe_id
-              ],*/
+              ],
             ]);
 
             //return $payment_intent;
 
-            $payment = new Payment;
-            $payment->user_id = $user->id;
-
-            $payment->charge_id = $conf->charges->data[0]->id;
-            $payment->amount = $conf->charges->data[0]->amount;
-            $payment->amount_captured = $conf->charges->data[0]->amount_captured;
-            $payment->amount_refunded = $conf->charges->data[0]->amount_refunded;
-            $payment->application = $conf->charges->data[0]->application;
-            $payment->application_fee = $conf->charges->data[0]->application_fee;
-            $payment->application_fee_amount = $conf->charges->data[0]->application_fee_amount;
-            $payment->balance_transaction = $conf->charges->data[0]->balance_transaction;
-            $payment->calculated_statement_descriptor = $conf->charges->data[0]->calculated_statement_descriptor;
-            $payment->captured = $conf->charges->data[0]->captured;
-            $payment->created = $conf->charges->data[0]->created;
-            $payment->currency = $conf->charges->data[0]->currency;
-            $payment->customer = $conf->charges->data[0]->customer;
-
-            $payment->description = $conf->charges->data[0]->description;
-            $payment->destination = $conf->charges->data[0]->destination;
-            $payment->dispute = $conf->charges->data[0]->dispute;
-            $payment->disputed = $conf->charges->data[0]->disputed;
-            $payment->failure_code = $conf->charges->data[0]->failure_code;
-            $payment->failure_message = $conf->charges->data[0]->failure_message;
-            $payment->invoice = $conf->charges->data[0]->invoice;
-            $payment->livemode = $conf->charges->data[0]->livemode;
-            $payment->on_behalf_of = $conf->charges->data[0]->on_behalf_of;
-            $payment->paid = $conf->charges->data[0]->paid;
-            $payment->payment_intent = $conf->charges->data[0]->payment_intent;
-            $payment->payment_method = $conf->charges->data[0]->payment_method;
-            $payment->receipt_email = $conf->charges->data[0]->receipt_email;
-
-            $payment->receipt_number = $conf->charges->data[0]->receipt_number;
-            $payment->receipt_url = $conf->charges->data[0]->receipt_url;
-            $payment->refunded = $conf->charges->data[0]->refunded;
-            $payment->review = $conf->charges->data[0]->review;
-            $payment->shipping = $conf->charges->data[0]->shipping;
-            $payment->source = $conf->charges->data[0]->source->id;
-            $payment->source_transfer = $conf->charges->data[0]->source_transfer;
-            $payment->statement_descriptor = $conf->charges->data[0]->statement_descriptor;
-            $payment->statement_descriptor_suffix = $conf->charges->data[0]->statement_descriptor_suffix;
-            $payment->status = $conf->charges->data[0]->status;
-            $payment->transfer = $conf->charges->data[0]->transfer;
-            /*$payment->transfer_amount = $conf->charges->data[0]->transfer_data->amount;
-            $payment->transfer_destination = $conf->charges->data[0]->transfer_data->destination;
-            $payment->transfer_group = $conf->charges->data[0]->transfer_group;*/
-            $payment->save();
-
-           
-            if($conf->status == 'succeeded')
-            {
-
-                $booking = new Booking; 
-                $booking->user_id = $user->id;
-                $booking->payment_id = $payment->id;
-                $booking->counsellor_id = $request->counsellor_id;
-                $booking->slot = $request->slot;
-                $booking->booking_date = $request->booking_date;
-                $booking->package_id = $request->package_id;
-                $booking->notes = $request->notes;
-                $booking->status = '1';
-                $booking->save();
-
-                //checking existing channel data
-                $checkExist = VideoChannel::where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
-
-                //saving video channel data
-                if(empty($checkExist))
-                {
-                  $channelData = new VideoChannel; 
-                  $channelData->from_id = $user->id;
-                  $channelData->booking_id = $booking->id;
-                  $channelData->to_id = $request->counsellor_id;
-                  $channelData->channel_id = $this->generateRandomString(20);
-                  $channelData->timing = $request->timing;
-                  //$channelData->uid = $request->uid;
-                  $channelData->status = '0';
-                  $channelData->save();
-                }
-                
-                return response()->json(['success' => true,
-                                         'message' => 'Your payment has been made successfully!',
-                                        ], $this->successStatus); 
-           }
-           else
-           {
-                return response()->json(['success'=>false,'errors' =>['exception' => [$conf->status]]], $this->successStatus); 
-           }
 
 
+            $conf = $stripe->paymentIntents->confirm(
+              $payment_intent->id,
+              ['return_url' => 'http://178.62.24.141/dev/api/hook/callback?payment_intent='.$payment_intent->id.'&counsellor_id='.$request->counsellor_id.'&slot='.$request->slot.'&booking_date='.$request->booking_date.'&package_id='.$request->package_id.'&user='.$user->id.'&notes='.$request->notes]
+              //['payment_method' => $method->id]
+            );
+            //return $conf;
 
             return response()->json(['success' => true,
              'data' => $conf,
@@ -221,11 +140,11 @@ class BookingController extends Controller
 
             
             
-      }
+    	}
         catch(\Exception $e)
         {
-        return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-      } 
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	} 
         
     }
 
@@ -260,15 +179,15 @@ class BookingController extends Controller
             
             $stripe = new Stripe\StripeClient('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
 
-            $conf = $stripe->paymentIntents->retrieve(
-              $request->payment_intent,
-              []
-            );
-
-            /*$conf = $stripe->paymentIntents->confirm(
+            /*$conf = $stripe->paymentIntents->retrieve(
               $request->payment_intent,
               []
             );*/
+
+            $conf = $stripe->paymentIntents->confirm(
+              $request->payment_intent,
+              []
+            );
             
             $payment = new Payment;
             $payment->user_id = $user;
