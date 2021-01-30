@@ -109,7 +109,7 @@ class BookingController extends Controller
             $conf = \Stripe\PaymentIntent::create([
               //'amount' => $packageAmt->amount*100,
               'amount' => 100*100,
-              'description' => 'test payment',
+              'description' => 'Yoursafespaceonline.com',
               'customer' => $customer->id,
               'currency' => 'GBP',
               //'source' => $token->card->id, 
