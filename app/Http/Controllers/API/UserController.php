@@ -417,7 +417,7 @@ class UserController extends Controller
             }
             else
             {
-                $totalRevenue = '';
+                $totalRevenue = 0;
             }
             
             $packagePerct = Package::where('user_id', $user->id)->count();
