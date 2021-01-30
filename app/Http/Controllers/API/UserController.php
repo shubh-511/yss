@@ -58,21 +58,37 @@ class UserController extends Controller
                         return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
                     }
 
-//                    return $token;
-                    //Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()));
-
-                    //$user = auth('api')->user('roles');
+//                  
                     $user = $checkUserRoles;
                     $channelData = VideoChannel::where('from_id', $user->id)->get();
                     //Auth::roles();
 
-                    return response()->json(['success' => true,
+                    if($user->account_enabled == '1' || $user->account_enabled == '2')
+                    {
+                        return response()->json(['success' => true,
                                                  'user' => $user,
                                                  'token'=> $token,
                                                  'expires' => auth('api')->factory()->getTTL()
-                                                ], $this->successStatus); 
+                                                ], $this->successStatus);
+                    }
+                    elseif($user->account_enabled == '0')
+                    {
+                        return response()->json(['success' => false,
+                                                 'user' => $user->account_enabled,
+                                                 'message' => 'Your account is currently disabled by admin'
+                                                ], $this->successStatus);
+                    }
+                    elseif($user->account_enabled == '3')
+                    {
+                        return response()->json(['success' => false,
+                                                 'user' => $user->account_enabled,
+                                                 'message' => 'Your account is pending for verification'
+                                                ], $this->successStatus);
+                    }
 
-                    if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
+                     
+
+                    /*if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
                         $user = Auth::user(); 
                         Auth::user()->roles;
                         Auth::user()->country;
@@ -86,7 +102,7 @@ class UserController extends Controller
         	        } 
         	        else{ 
         	            return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
-        	        } 
+        	        } */
                 } 
                 else
                 {
@@ -106,10 +122,28 @@ class UserController extends Controller
                          $token = JWTAuth::fromUser($checkUserRoles);
                          $user = $checkUserRoles;
                          
-                         return response()->json(['success' => true,
+                        if($user->account_enabled == '1' || $user->account_enabled == '2')
+                        {
+                            return response()->json(['success' => true,
                                                      'user' => $user,
                                                      'token'=> $token
                                                     ], $this->successStatus);
+                        }
+                        elseif($user->account_enabled == '0')
+                        {
+                            return response()->json(['success' => false,
+                                                     'user' => $user->account_enabled,
+                                                     'message' => 'Your account is currently disabled by admin'
+                                                    ], $this->successStatus);
+                        }
+                        elseif($user->account_enabled == '3')
+                        {
+                            return response()->json(['success' => false,
+                                                     'user' => $user->account_enabled,
+                                                     'message' => 'Your account is pending for verification'
+                                                    ], $this->successStatus);
+                        }
+                         
 
                         /*if(Auth::loginUsingId($checkUserRoles->id))
                         {
@@ -187,7 +221,8 @@ class UserController extends Controller
             $input['email'] = strtolower($input['email']);
 			$input['password'] = bcrypt($input['password']); 
             $input['role_id'] = (array_key_exists('role_id',$input)) ? $input['role_id'] : 3;
-			$input['otp'] = $this->generateOTP();
+			//$input['otp'] = $this->generateOTP();
+            $input['otp'] = 1234;
             $input['account_enabled'] = 3; // Not verified user
 	        $user = User::create($input); 
 	        
@@ -580,6 +615,8 @@ class UserController extends Controller
                 $userData['user_nicename'] = $input['user_nicename'];    
                 $userData['display_name'] = $input['display_name'];    
                 $userData['account_enabled'] = '3'; 
+                //$userData['otp'] = $this->generateOTP();
+                $userData['otp'] = 1234;
                 
                 if(array_key_exists('roles', $input) 
                     && !empty($input['roles']) 
@@ -846,6 +883,58 @@ class UserController extends Controller
             'body' => $message
           ]
         );
+    }
+
+    /** 
+     * Verify Register account api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function verifyAccount(Request $request) 
+    {  
+        try 
+        {
+            $validator = Validator::make($request->all(), [  
+                'email' => 'required|email',
+                'otp' => 'required', 
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
+
+            
+            $user = User::where('email', $request->email)->first();
+            if(!empty($user))
+            {
+                if($user->otp == $request->otp)
+                {
+                    $user->otp = null; 
+                    $user->account_enabled = '1';
+                    $user->save();
+
+                    return response()->json(['success' => true,
+                                     'message' => 'Your account has been verified! You may now login to your account.',
+                                    ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid OTP']]], $this->successStatus);
+                }
+                
+            }
+            else
+            {
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid email']]], $this->successStatus); 
+            }
+
+           
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }
     }
      
 }
