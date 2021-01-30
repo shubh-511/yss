@@ -37,8 +37,8 @@ class BookingController extends Controller
               'package_id' => 'required', 
               'slot' => 'required|max:190', 
               'booking_date' => 'required',
-              //'token' => 'required',
-              //'card_id' => 'required', 
+              'token' => 'required',
+              'card_id' => 'required', 
               //'notes' => 'required',
           ]);
 
@@ -60,14 +60,14 @@ class BookingController extends Controller
             $stripe = new \Stripe\StripeClient('sk_test_4QAdALiSUXZHzF1luppxZbsW00oaSZCQnZ');*/
 
 
-             $token = $stripe->tokens->create([
+             /*$token = $stripe->tokens->create([
               'card' => [
                 'number' => '4242424242424242',
                 'exp_month' => '09',
                 'exp_year' => '2024',
                 'cvc' => '070',
               ],
-            ]);
+            ]);*/
 
             
 
@@ -101,8 +101,8 @@ class BookingController extends Controller
 
             $source = \Stripe\Customer::createSource(
             $customer->id,
-            ['source' => $token->id]);
-            //['source' => $request->token]);
+            //['source' => $token->id]);
+            ['source' => $request->token]);
 
             
 
@@ -112,8 +112,8 @@ class BookingController extends Controller
               'description' => 'test payment',
               'customer' => $customer->id,
               'currency' => 'GBP',
-              'source' => $token->card->id, 
-              //'source' => $request->card_id, 
+              //'source' => $token->card->id, 
+              'source' => $request->card_id, 
               'confirmation_method' => 'manual',
               'confirm' => true,
               //'application_fee_amount' => 50,
