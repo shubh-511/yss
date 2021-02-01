@@ -339,7 +339,7 @@ class PackageController extends Controller
                 'package_id' => 'required',
                 'user_id' => 'required',
                 //'date' => 'required|date_format:Y-m-d',
-                'date' => 'required|after_or_equal:today',
+                'date' => 'required|date|after_or_equal:today',
             ]);
 
             if ($validator->fails()) 
