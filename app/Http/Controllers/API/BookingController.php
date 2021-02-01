@@ -675,4 +675,45 @@ class BookingController extends Controller
       return $randomString;
     }
 
+    /*
+     * Validate Data
+     * @Params $requestedfields
+     */
+
+    public function validateData($requestedFields){
+        $rules = [];
+
+        foreach ($requestedFields as $key => $field) {
+            //return $key;
+            if($key == 'counsellor_id'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'package_id'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'slot'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'booking_date'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'token'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'card_id'){
+
+                $rules[$key] = 'required';
+
+            }
+        }
+
+        return $rules;
+
+    }
+
 }
