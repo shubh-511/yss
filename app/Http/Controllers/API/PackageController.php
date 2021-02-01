@@ -338,7 +338,8 @@ class PackageController extends Controller
             $validator = Validator::make($request->all(), [ 
                 'package_id' => 'required',
                 'user_id' => 'required',
-                'date' => 'required|date_format:Y-m-d',
+                //'date' => 'required|date_format:Y-m-d',
+                'date' => 'required|after_or_equal:today',
             ]);
 
             if ($validator->fails()) 
