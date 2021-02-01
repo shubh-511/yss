@@ -405,10 +405,9 @@ class PackageController extends Controller
 
                         foreach($data as $key => $datas)
                         {
-                            echo $date;
                             $bookingSlot = Booking::where('booking_date', $date)->first();
                             //return $bookingSlot;
-                            if(!empty($bookingSlot))
+                            if(!empty($bookingSlot) && $bookingSlot->slot == $datas)
                             {
                                 $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
                             }
