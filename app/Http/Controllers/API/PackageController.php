@@ -406,7 +406,7 @@ class PackageController extends Controller
                         foreach($data as $key => $datas)
                         {
                             $bookingSlot = Booking::where('booking_date', $date)->where('counsellor_id', $request->user_id)->first();
-                            //return $bookingSlot;
+                            return $bookingSlot;
                             if(!empty($bookingSlot))
                             {
                                 $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
