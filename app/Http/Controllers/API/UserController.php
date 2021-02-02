@@ -369,7 +369,7 @@ class UserController extends Controller
                 $userDetail->save();
 
                 event(new ResetPasswordEvent($user->id));
-                $this->resetPasswordSMS($user->country_code, $user->phone)
+                $this->resetPasswordSMS($user->country_code, $user->phone);
 
                 return response()->json(['success' => true,
                                          'message' => 'Your password has been reset',
