@@ -404,7 +404,7 @@ class PackageController extends Controller
                             $i++;
                         
                     }*/
-
+                    
                         foreach($data as $key => $datas)
                         {
                             $bookingSlot = Booking::where('booking_date', $date)->where('counsellor_id', $request->user_id)->where('slot', $datas)->first();
