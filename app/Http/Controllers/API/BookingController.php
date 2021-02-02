@@ -211,7 +211,7 @@ class BookingController extends Controller
                 event(new BookingEvent($booking->id, $user->id));
 
                 //send sms for successful booking
-
+                if(!empty($user->phone) && !empty($user->country_code))
                 $this->sendSMS('+'.$user->country_code, $user->phone);
                 
                 return response()->json(['success' => true,
