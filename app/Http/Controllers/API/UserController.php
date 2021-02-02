@@ -503,7 +503,7 @@ class UserController extends Controller
                 //Send Mail
                 
                 event(new ProfileCompleteEvent($user->id));
-                $this->sendProfileCompletionSMS($user->country_code, $user->phone)
+                $this->sendProfileCompletionSMS($user->country_code, $user->phone);
             }
 
             $channelData = VideoChannel::where('to_id', $user->id)->get();
