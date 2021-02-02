@@ -18,6 +18,7 @@ use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\VideoChannel;
 use App\Events\ForgotPasswordEvent;
+use App\Events\WelcomeUserEvent;
 
 class UserController extends Controller
 {
@@ -65,6 +66,9 @@ class UserController extends Controller
 
                     if($user->account_enabled == '1' || $user->account_enabled == '2')
                     {
+                        //Send Otp Over Mail
+                
+                        event(new WelcomeUserEvent($user->id));
                         return response()->json(['success' => true,
                                                  'user' => $user,
                                                  'token'=> $token,
@@ -124,6 +128,9 @@ class UserController extends Controller
                          
                         if($user->account_enabled == '1' || $user->account_enabled == '2')
                         {
+                            //Send Otp Over Mail
+                
+                            event(new WelcomeUserEvent($user->id));
                             return response()->json(['success' => true,
                                                      'user' => $user,
                                                      'token'=> $token

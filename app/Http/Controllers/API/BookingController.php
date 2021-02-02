@@ -17,6 +17,7 @@ use Event;
 use Stripe;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
+use App\Events\BookingEvent;
 
 class BookingController extends Controller
 {
@@ -113,7 +114,7 @@ class BookingController extends Controller
               'customer' => $customer->id,
               'currency' => 'GBP',
               //'source' => $token->card->id, 
-              'source' => $request->card_id, 
+              //'source' => $request->card_id, 
               'confirmation_method' => 'manual',
               'confirm' => true,
               //'application_fee_amount' => 50,
@@ -203,6 +204,10 @@ class BookingController extends Controller
                   $channelData->status = '0';
                   $channelData->save();
                 }
+
+                //Send Otp Over Mail
+                
+                event(new BookingEvent($booking->id, $user->id));
                 
                 return response()->json(['success' => true,
                                          'message' => 'Your payment has been made successfully!',

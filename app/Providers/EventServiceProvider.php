@@ -24,6 +24,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ForgotPasswordEvent' => [
             'App\Listeners\ForgotOtpListner',
         ],
+        'App\Events\WelcomeUserEvent' => [
+            'App\Listeners\WelcomeListner',
+        ],
+        'App\Events\BookingEvent' => [
+            'App\Listeners\SuccessfulBookingListner',
+        ],
     ];
 
     /**
