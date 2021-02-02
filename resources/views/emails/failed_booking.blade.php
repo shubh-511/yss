@@ -1,0 +1,1 @@
+<p>Hi {{ $user['name'] }}, Your payment was failed.</p>

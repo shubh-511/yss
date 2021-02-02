@@ -1,0 +1,1 @@
+<p>Hi {{ $bookedUser['name'] }}, has booked your package.</p>

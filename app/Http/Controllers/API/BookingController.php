@@ -19,6 +19,8 @@ use Carbon\Carbon;
 use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\BookingEvent;
+use App\Events\BookingCounsellorEvent;
+use App\Events\FailedBookingEvent;
 
 class BookingController extends Controller
 {
@@ -210,6 +212,10 @@ class BookingController extends Controller
                 
                 event(new BookingEvent($booking->id, $user->id));
 
+                //Send Mail
+                
+                event(new BookingCounsellorEvent($booking->id, $request->counsellor_id, $user->id));
+
                 //send sms for successful booking
                 if(!empty($user->phone) && !empty($user->country_code))
                 $this->sendSMS('+'.$user->country_code, $user->phone);
@@ -220,6 +226,14 @@ class BookingController extends Controller
            }
            else
            {
+                //Send Mail
+                
+                event(new FailedBookingEvent($booking->id, $user->id));
+                //send sms for successful booking
+
+                if(!empty($user->phone) && !empty($user->country_code))
+                $this->failedBookingSMS('+'.$user->country_code, $user->phone);
+
                 return response()->json(['success'=>false,'errors' =>['exception' => [$conf->status]]], $this->successStatus); 
            }
 
@@ -600,6 +614,7 @@ class BookingController extends Controller
         {
             $validator = Validator::make($request->all(), [ 
                 'booking_id' => 'required',
+                'status' => 'required',
             ]);
 
             if ($validator->fails()) 
@@ -609,34 +624,97 @@ class BookingController extends Controller
 
             $user = Auth::user();
             
-            $booking = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first(); 
-            
-            if(!empty($booking))
+            if($user->role_id == 2)
             {
-                $booking->status = '3'; 
-                $booking->save();
+              $booking = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first();
 
-                $bookingStatus = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first(); 
+              if(!empty($booking))
+              {
+                if($request->status == 3)
+                {
+                  $booking->status = '3'; 
+                  $booking->save();
 
-                return response()->json(['success' => true,
-                                         'message' => 'Booking confirmed!',
-                                         'data'    => $bookingStatus,
-                                        ], $this->successStatus);
+                  $bookingStatus = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first(); 
+
+                  return response()->json(['success' => true,
+                                           'message' => 'Booking confirmed!',
+                                           'data'    => $bookingStatus,
+                                          ], $this->successStatus);
+                }
+                elseif($request->status == 2)
+                {
+                  $booking->status = '2'; 
+                  $booking->save();
+
+                  $bookingStatus = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first(); 
+
+                  return response()->json(['success' => true,
+                                           'message' => 'Booking cancelled!',
+                                           'data'    => $bookingStatus,
+                                          ], $this->successStatus);
+                }
+                else
+                {
+                  return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid status code'], $this->successStatus); 
+                }
+                  
+              }
+              else
+              {
+                  /*return response()->json(['success' => false,
+                                           'message' => 'No bookings found with this booking ID',
+                                          ], $this->successStatus);*/
+
+                  return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found with this booking ID']]], $this->successStatus);
+              }
+            }
+            elseif($user->role_id == 3)
+            {
+              $booking = Booking::where('id', $request->booking_id)->where('user_id', $user->id)->first();
+
+              if(!empty($booking))
+              {
+                
+                if($request->status == 2)
+                {
+                  $booking->status = '2'; 
+                  $booking->save();
+
+                  $bookingStatus = Booking::where('id', $request->booking_id)->where('user_id', $user->id)->first(); 
+
+                  return response()->json(['success' => true,
+                                           'message' => 'Booking cancelled!',
+                                           'data'    => $bookingStatus,
+                                          ], $this->successStatus);
+                }
+                else
+                {
+                  return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid status code'], $this->successStatus); 
+                }
+                  
+              }
+              else
+              {
+                  /*return response()->json(['success' => false,
+                                           'message' => 'No bookings found with this booking ID',
+                                          ], $this->successStatus);*/
+
+                  return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found with this booking ID']]], $this->successStatus);
+              }
             }
             else
             {
-                /*return response()->json(['success' => false,
-                                         'message' => 'No bookings found with this booking ID',
-                                        ], $this->successStatus);*/
-
-                return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found with this booking ID']]], $this->successStatus);
+              return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid User']]], $this->successStatus);
             }
-                
+           
         }
         catch(\Exception $e)
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
+            }
+            }
         
     }
 
@@ -748,6 +826,25 @@ class BookingController extends Controller
         $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
         $from = env('FROM_NUMBER_TWILLIO'); // Your Auth Token from www.twilio.com/console
         $message = "Hi, Your payment has been done successfully!";
+
+        //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
+        $client = new Client($sid, $token);
+        $message = $client->messages->create(
+          $countryCode.''.$phone, // Text this number
+          [
+            //'from' => '+15005550006', // From a valid Twilio number
+            'from' => $from,
+            'body' => $message
+          ]
+        );
+    }
+
+    public function failedBookingSMS($countryCode, $phone)
+    {
+        $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
+        $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
+        $from = env('FROM_NUMBER_TWILLIO'); // Your Auth Token from www.twilio.com/console
+        $message = "Hi, Your payment was failed!";
 
         //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
         $client = new Client($sid, $token);

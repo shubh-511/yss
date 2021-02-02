@@ -30,6 +30,18 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BookingEvent' => [
             'App\Listeners\SuccessfulBookingListner',
         ],
+        'App\Events\ProfileCompleteEvent' => [
+            'App\Listeners\ProfileCompleteListner',
+        ],
+        'App\Events\BookingCounsellorEvent' => [
+            'App\Listeners\BookingCounsellorListner',
+        ],
+        'App\Events\ResetPasswordEvent' => [
+            'App\Listeners\ResetPasswordListner',
+        ],
+        'App\Events\FailedBookingEvent' => [
+            'App\Listeners\FailedBookingListner',
+        ],
     ];
 
     /**

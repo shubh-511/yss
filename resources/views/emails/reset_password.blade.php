@@ -1,0 +1,1 @@
+<p>Hi {{ $user['name'] }}, Your password has been reset successfully.</p>

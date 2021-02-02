@@ -1,0 +1,1 @@
+<p>Hi {{ $user['name'] }}, Your profile has been completed.</p>

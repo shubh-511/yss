@@ -18,6 +18,7 @@ use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\VideoChannel;
 use App\Events\ForgotPasswordEvent;
+use App\Events\ProfileCompleteEvent;
 use App\Events\WelcomeUserEvent;
 
 class UserController extends Controller
@@ -367,6 +368,8 @@ class UserController extends Controller
                 $userDetail->password = bcrypt($request->password); 
                 $userDetail->save();
 
+                event(new ResetPasswordEvent($user->id));
+                $this->resetPasswordSMS($user->country_code, $user->phone)
 
                 return response()->json(['success' => true,
                                          'message' => 'Your password has been reset',
@@ -497,6 +500,10 @@ class UserController extends Controller
             else
             {
                 $profilePercentage = "100";
+                //Send Mail
+                
+                event(new ProfileCompleteEvent($user->id));
+                $this->sendProfileCompletionSMS($user->country_code, $user->phone)
             }
 
             $channelData = VideoChannel::where('to_id', $user->id)->get();
@@ -800,8 +807,8 @@ class UserController extends Controller
                 $otp = $this->generateOTP();
                 $userUpdate = User::where('id', $user)->first();
                 $userUpdate->otp = $otp; 
-                $userUpdate->country_code = '+'.$request->country_code;
-                $userUpdate->phone = $request->phone;
+                /*$userUpdate->country_code = '+'.$request->country_code;
+                $userUpdate->phone = $request->phone;*/
                 $userUpdate->save();
 
                 $this->sendSMS($otp, '+'.$request->country_code, $request->phone);
@@ -836,6 +843,8 @@ class UserController extends Controller
         {
             $validator = Validator::make($request->all(), [  
                 'otp' => 'required', 
+                'country_code' => 'required', 
+                'phone' => 'required',
             ]);
 
             if ($validator->fails()) { 
@@ -849,6 +858,8 @@ class UserController extends Controller
                 if($userUpdate->otp == $request->otp)
                 {
                     $userUpdate->otp = null; 
+                    $userUpdate->country_code = '+'.$request->country_code;
+                    $userUpdate->phone = $request->phone;
                     $userUpdate->is_phone_verified = 1;
                     $userUpdate->save();
 
@@ -881,12 +892,51 @@ class UserController extends Controller
         $message = $otp." is your otp to verify your phone number";
 
         //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
-        $client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
+        $client = new Client($sid, $token);
         $message = $client->messages->create(
           $countryCode.''.$phone, // Text this number
           [
             //'from' => '+15005550006', // From a valid Twilio number
             'from' => '+447476563307',
+            'body' => $message
+          ]
+        );
+    }
+
+    
+    public function sendProfileCompletionSMS($countryCode, $phone)
+    {
+        $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
+        $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
+        $from = env('FROM_NUMBER_TWILLIO');
+        $message = "Your Profile has been completed successfully!";
+
+        //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
+        $client = new Client($sid, $token);
+        $message = $client->messages->create(
+          $countryCode.''.$phone, // Text this number
+          [
+            //'from' => '+15005550006', // From a valid Twilio number
+            'from' => $from,
+            'body' => $message
+          ]
+        );
+    }
+
+    public function resetPasswordSMS($countryCode, $phone)
+    {
+        $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
+        $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
+        $from = env('FROM_NUMBER_TWILLIO');
+        $message = "Your Password has been reset successfully!";
+
+        //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
+        $client = new Client($sid, $token);
+        $message = $client->messages->create(
+          $countryCode.''.$phone, // Text this number
+          [
+            //'from' => '+15005550006', // From a valid Twilio number
+            'from' => $from,
             'body' => $message
           ]
         );
