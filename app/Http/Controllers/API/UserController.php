@@ -555,7 +555,7 @@ class UserController extends Controller
 
             $validator = Validator::make($request->all(), [ 
                 'name' => 'required|max:190',  
-                'location' => 'required|max:190',
+               // 'location' => 'required|max:190',
                 
             ]);
 
