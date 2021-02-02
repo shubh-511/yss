@@ -393,12 +393,15 @@ class BookingController extends Controller
                     $pastBookings = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '<', Carbon::today())
+                    ->orderBy('booking_date','DESC')
+                    ->orderBy('slot','ASC')
                     ->paginate(5);
                     //->get();
 
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today())
+                    ->orderBy('slot','ASC')
                     ->paginate(5);
                     //->get();
 
@@ -408,6 +411,8 @@ class BookingController extends Controller
                     $upcomingBookings = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '>', Carbon::today())
+                    ->orderBy('booking_date','ASC')
+                    ->orderBy('slot','ASC')
                     ->paginate(5);
                     //->get();
 
@@ -434,11 +439,13 @@ class BookingController extends Controller
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
+                    ->orderBy('id', 'ASC')
                     ->paginate(5);
                     //->get();
 
                     $tdyPast = Booking::with('counsellor','package','user')
                     ->whereIn('id', $commonPast)
+                    ->orderBy('id', 'DESC')
                     ->paginate(5);
                     //->get();
 
@@ -457,6 +464,7 @@ class BookingController extends Controller
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
                     ->where('booking_date', '>', Carbon::now()->startOfWeek(Carbon::SUNDAY))
                     ->where('booking_date', '<', Carbon::now()->endOfWeek(Carbon::SATURDAY))
+                    ->orderBy('booking_date','ASC')
                     ->paginate(5);
                     //->get();
 
@@ -487,18 +495,23 @@ class BookingController extends Controller
                     $pastBookings = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', '<', Carbon::today())
+                    ->orderBy('booking_date','DESC')
+                    ->orderBy('slot','ASC')
                     ->paginate(5);
                     //->get();
 
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', Carbon::today())
+                    ->orderBy('slot','ASC')
                     ->paginate(5);
                     //->get();
 
                     $upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', '>', Carbon::today())
+                    ->orderBy('booking_date','ASC')
+                    ->orderBy('slot','ASC')
                     ->paginate(5);
                     //->get();
 
@@ -524,17 +537,20 @@ class BookingController extends Controller
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
+                    ->orderBy('id', 'ASC')
                     ->paginate(5);
                     //->get();
 
                     $tdyPast = Booking::with('counsellor','package','user')
                     ->whereIn('id', $commonPast)
+                    ->orderBy('id', 'DESC')
                     ->paginate(5);
                     //->get();
 
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)
                     ->where('booking_date', '>', Carbon::now()->startOfWeek())
                     ->where('booking_date', '<', Carbon::now()->endOfWeek())
+                    ->orderBy('booking_date','ASC')
                    ->paginate(5);
                     //->get();
 
