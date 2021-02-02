@@ -16,6 +16,7 @@ use App\Payment;
 use Event;
 use Stripe;
 use Carbon\Carbon;
+use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\BookingEvent;
 
@@ -208,6 +209,10 @@ class BookingController extends Controller
                 //Send Otp Over Mail
                 
                 event(new BookingEvent($booking->id, $user->id));
+
+                //send sms for successful booking
+
+                $this->sendSMS('+'.$user->country_code, $user->phone);
                 
                 return response()->json(['success' => true,
                                          'message' => 'Your payment has been made successfully!',
@@ -735,6 +740,25 @@ class BookingController extends Controller
 
         return $rules;
 
+    }
+
+    public function sendSMS($countryCode, $phone)
+    {
+        $sid = env('ACCOUNT_SID'); // Your Account SID from www.twilio.com/console
+        $token = env('AUTH_TOKEN'); // Your Auth Token from www.twilio.com/console
+        $from = env('FROM_NUMBER_TWILLIO'); // Your Auth Token from www.twilio.com/console
+        $message = "Hi, Your payment has been done successfully!";
+
+        //$client = new Client('AC953054f1d913bc6c257f904f2b4ef2b0', '4f9fc49a2cf382f4bb801f47c425f7e9');
+        $client = new Client($sid, $token);
+        $message = $client->messages->create(
+          $countryCode.''.$phone, // Text this number
+          [
+            //'from' => '+15005550006', // From a valid Twilio number
+            'from' => $from,
+            'body' => $message
+          ]
+        );
     }
 
 }

@@ -1,1 +1,1 @@
-<p>Hi {{ $user['name'] }}, Your payment has been done</p>
+<p>Hi {{ $user['name'] }}, Your payment has been done successfully.</p>
