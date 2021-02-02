@@ -248,6 +248,7 @@ class UserController extends Controller
     {
         try
         {
+            return env('MAIL_USERNAME');
             $validator = Validator::make($request->all(), [  
                 'email' => 'required|max:190|email', 
             ]);
