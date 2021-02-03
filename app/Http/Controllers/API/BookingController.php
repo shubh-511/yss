@@ -690,7 +690,7 @@ class BookingController extends Controller
                 }
                 else
                 {
-                  return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid status code'], $this->successStatus); 
+                  return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid status code']]], $this->successStatus); 
                 }
                   
               }
