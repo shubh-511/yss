@@ -713,8 +713,8 @@ class BookingController extends Controller
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
-            }
-            }
+            
+            
         
     }
 
