@@ -970,9 +970,19 @@ class UserController extends Controller
                     $user->account_enabled = '1';
                     $user->save();
 
+                    $userId = User::where('email', $request->email)->first();
+
+                    $token = JWTAuth::fromUser($userId);
+                    $userData = $userId;
+                         
                     return response()->json(['success' => true,
+                                             'user' => $userData,
+                                             'token'=> $token
+                                            ], $this->successStatus);
+
+                    /*return response()->json(['success' => true,
                                      'message' => 'Your account has been verified! You may now login to your account.',
-                                    ], $this->successStatus);
+                                    ], $this->successStatus);*/
                 }
                 else
                 {
