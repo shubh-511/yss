@@ -21,6 +21,7 @@ use App\Events\UserRegisterEvent;
 use App\Events\BookingEvent;
 use App\Events\BookingCounsellorEvent;
 use App\Events\FailedBookingEvent;
+//use App\Events\CancelBookingByCounsellorEvent;
 
 class BookingController extends Controller
 {
@@ -208,7 +209,7 @@ class BookingController extends Controller
                   $channelData->save();
                 }
 
-                //Send Otp Over Mail
+                //Send Mail
                 
                 event(new BookingEvent($booking->id, $user->id));
 
