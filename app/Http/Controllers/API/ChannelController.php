@@ -263,25 +263,32 @@ class ChannelController extends Controller
     {
         try
         {
-            /*$validator = Validator::make($request->all(), [ 
-                //'user_id' => 'required', 
-                'channel_id'   => 'required',
+            $validator = Validator::make($request->all(), [ 
+                'booking_id' => 'required', 
             ]);
 
             if ($validator->fails()) 
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-            }*/
+            }
 
             $user = Auth::user();
-            if($user->role_id == 3)
+            if(!empty($user))
             {
-              $waitingList = VideoChannel::where('from_id', $user->id)->delete();
-              if(count($waitingList) > 0)
+              $waitingList = VideoChannel::where('booking_id', $request->booking_id)->first();
+              if(!empty($waitingList))
               {
+                if($waitingList->delete())
+                {
                   return response()->json(['success' => true,
                                        'message' => 'Removed',
                                       ], $this->successStatus);
+                }
+                else
+                {
+                  return response()->json(['success'=>false,'errors' =>['exception' => ['Record not exist']]], $this->successStatus);
+                }
+                  
               }
               else
               {
@@ -292,8 +299,7 @@ class ChannelController extends Controller
             {
               return response()->json(['success'=>false,'errors' =>['exception' => ['You are not authorized']]], $this->successStatus);
             }
-                        
-
+             
         }
         catch(\Exception $e)
         {
