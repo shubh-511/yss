@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\BookingEvent;
+use App\Events\ResetPasswordEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
@@ -24,10 +24,10 @@ class ResetPasswordListner
     /**
      * Handle the event.
      *
-     * @param  BookingEvent  $event
+     * @param  ResetPasswordEvent  $event
      * @return void
      */
-    public function handle(BookingEvent $event)
+    public function handle(ResetPasswordEvent $event)
     {
         $user = User::find($event->userDetail)->toArray();
 

@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\BookingEvent;
+use App\Events\FailedBookingEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
@@ -24,10 +24,10 @@ class FailedBookingListner
     /**
      * Handle the event.
      *
-     * @param  BookingEvent  $event
+     * @param  FailedBookingEvent  $event
      * @return void
      */
-    public function handle(BookingEvent $event)
+    public function handle(FailedBookingEvent $event)
     {
         $user = User::find($event->userDetail)->toArray();
         $booking = Booking::find($event->bookingDetail)->toArray();

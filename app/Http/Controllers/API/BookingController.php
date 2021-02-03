@@ -624,6 +624,7 @@ class BookingController extends Controller
 
             $user = Auth::user();
             
+            //counsellor
             if($user->role_id == 2)
             {
               $booking = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first();
@@ -649,6 +650,10 @@ class BookingController extends Controller
 
                   $bookingStatus = Booking::where('id', $request->booking_id)->where('counsellor_id', $user->id)->first(); 
 
+                  //Send Mail
+                
+                  /*event(new CancelBookingByCounsellorEvent($bookingStatus->id, $bookingStatus->counsellor_id, $bookingStatus->user_id));*/
+
                   return response()->json(['success' => true,
                                            'message' => 'Booking cancelled!',
                                            'data'    => $bookingStatus,
@@ -669,7 +674,7 @@ class BookingController extends Controller
                   return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found with this booking ID']]], $this->successStatus);
               }
             }
-            elseif($user->role_id == 3)
+            elseif($user->role_id == 3) //user
             {
               $booking = Booking::where('id', $request->booking_id)->where('user_id', $user->id)->first();
 

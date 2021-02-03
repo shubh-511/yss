@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\BookingEvent;
+use App\Events\ProfileCompleteEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
@@ -24,10 +24,10 @@ class ProfileCompleteListner
     /**
      * Handle the event.
      *
-     * @param  BookingEvent  $event
+     * @param  ProfileCompleteEvent  $event
      * @return void
      */
-    public function handle(BookingEvent $event)
+    public function handle(ProfileCompleteEvent $event)
     {
         $user = User::find($event->userDetail)->toArray();
         

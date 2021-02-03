@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\BookingEvent;
+use App\Events\BookingCounsellorEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
@@ -24,10 +24,10 @@ class BookingCounsellorListner
     /**
      * Handle the event.
      *
-     * @param  BookingEvent  $event
+     * @param  BookingCounsellorEvent  $event
      * @return void
      */
-    public function handle(BookingEvent $event)
+    public function handle(BookingCounsellorEvent $event)
     {
         $user = User::find($event->userDetail)->toArray();
         $bookedUser = User::find($event->bookedUser)->toArray();
