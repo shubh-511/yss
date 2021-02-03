@@ -970,7 +970,7 @@ class UserController extends Controller
                     $user->account_enabled = '1';
                     $user->save();
 
-                    $userId = User::where('email', $request->email)->first();
+                    $userId = User::with('roles')->with('country')->where('email', $request->email)->first();
 
                     $token = JWTAuth::fromUser($userId);
                     $userData = $userId;
