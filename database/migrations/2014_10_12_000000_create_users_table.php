@@ -48,6 +48,7 @@ class CreateUsersTable extends Migration
             $table->integer('avatar_id')->nullable();
             $table->string('key')->comment("forgot key")->nullable();
             $table->integer('role_id')->nullable();
+            $table->string('timezone')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
