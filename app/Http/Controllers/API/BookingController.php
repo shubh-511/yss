@@ -428,15 +428,6 @@ class BookingController extends Controller
                     
 
 
-                    $upcomingBookings = Booking::with('counsellor','package','user')
-                    ->where('counsellor_id', $user->id)
-                    ->where('booking_date', '>', Carbon::today())
-                    ->orderBy('booking_date','ASC')
-                    ->orderBy('slot','ASC')
-                    ->paginate(5);
-                    //->get();
-
-
                     $todaysUpcoming = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '=', Carbon::today())
@@ -456,6 +447,27 @@ class BookingController extends Controller
                         array_push($commonPast, $todayUpcoming->id);
                       }                   
                     }
+
+
+
+
+                    $upcomingBookings = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+
+                    ->where(function ($query) {
+                        $query->where('booking_date', '>', Carbon::today());
+                    })->oRwhere(function ($query) use ($common) {
+                        $query->whereIn('id', $common);
+                    })
+
+                    ->orderBy('booking_date','ASC')
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
+
+
+
+
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
@@ -491,8 +503,8 @@ class BookingController extends Controller
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
-                                         'todays_upcoming' => $tdyUpcoming,
-                                         'todays_past' => $tdyPast,
+                                         //'todays_upcoming' => $tdyUpcoming,
+                                         //'todays_past' => $tdyPast,
                                          'upcoming' => $upcomingBookings,
                                          'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
@@ -527,13 +539,7 @@ class BookingController extends Controller
                     ->paginate(5);
                     //->get();
 
-                    $upcomingBooking = Booking::with('counsellor','package','user')
-                    ->where('user_id', $user->id)
-                    ->where('booking_date', '>', Carbon::today())
-                    ->orderBy('booking_date','ASC')
-                    ->orderBy('slot','ASC')
-                    ->paginate(5);
-                    //->get();
+                    
 
                     $todaysUpcoming = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
@@ -554,6 +560,20 @@ class BookingController extends Controller
                         array_push($commonPast, $todayUpcoming->id); 
                       }                      
                     }
+
+
+                    $upcomingBooking = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    
+                    ->where(function ($query) {
+                        $query->where('booking_date', '>', Carbon::today());
+                    })->oRwhere(function ($query) use ($common) {
+                        $query->whereIn('id', $common);
+                    })
+                    ->orderBy('booking_date','ASC')
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
 
                     $tdyUpcoming = Booking::with('counsellor','package','user')
                     ->whereIn('id', $common)
@@ -577,8 +597,8 @@ class BookingController extends Controller
                     return response()->json(['success' => true,
                                          'past' => $pastBookings,
                                          'todays' => $todaysBooking,
-                                         'todays_upcoming' => $tdyUpcoming,
-                                         'todays_past' => $tdyPast,
+                                         //'todays_upcoming' => $tdyUpcoming,
+                                         //'todays_past' => $tdyPast,
                                          'upcoming' => $upcomingBooking,
                                          'current_week' => $currentWeekBooking,
                                         ], $this->successStatus);
