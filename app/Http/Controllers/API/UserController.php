@@ -397,7 +397,7 @@ class UserController extends Controller
         try{
 
             $validator = Validator::make($request->all(), [ 
-                'image' => 'required|mimes:jpeg,png,jpg|max:2048',  
+                'image' => 'required|mimes:jpeg,png,jpg|max:10240',  
                 
             ]);
 
