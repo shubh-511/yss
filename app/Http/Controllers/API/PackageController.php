@@ -374,7 +374,15 @@ class PackageController extends Controller
 
                 foreach ($myAvailableHours as $hours) 
                 {
-                    
+                    if($hours->from_time == '00:00 AM')
+                    {
+                        $hours->from_time = '12:00 AM';
+                    }
+
+                    if($hours->to_time == '00:00 AM')
+                    {
+                        $hours->to_time = '12:00 AM';
+                    }
                     $fromTime = date("H:i", strtotime($hours->from_time));
                     $toTime = date("H:i", strtotime($hours->to_time));
 
