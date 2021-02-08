@@ -786,7 +786,7 @@ class UserController extends Controller
                 'phone' => 'required|unique:users,phone,'.Auth()->user()->id, 
             ],
             [
-                'phone.unique' => 'This phone number has already been taken'
+                'phone.unique' => 'This phone number has already been registered'
             ]);
 
             if ($validator->fails()) { 
