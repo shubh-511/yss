@@ -869,7 +869,7 @@ class UserController extends Controller
 
                     return response()->json(['success' => true,
                                          'message' => 'Your phone number has been verified!',
-                                         'data' => $userUpdate,
+                                         'data' => $userUpdate
                                         ], $this->successStatus);
                 }
                 else
