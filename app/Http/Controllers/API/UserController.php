@@ -219,6 +219,7 @@ class UserController extends Controller
 	            'email' => 'required|max:190|email|unique:users', 
 	            'password' => 'required', 
 	            'c_password' => 'required|same:password', 
+                'timezone' => 'required', 
 	        ]);
 
 			if ($validator->fails()) { 
