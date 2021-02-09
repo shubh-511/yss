@@ -370,7 +370,17 @@ class PackageController extends Controller
                     $sessionTime = $sessionMin;
                 }
                 //$sessionTime = 23;
-                $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
+                $bkdSlot = Booking::where('booking_date', $date)->where('counsellor_id', $request->user_id)->get();
+                if(!empty($bkdSlot))
+                {
+                    $bookedSlot = $bkdSlot->pluck('slot')->toArray();
+                    $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->whereNotIn('from_time', $bookedSlot)->get();
+                }
+                else
+                {
+                    $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->get();
+                }
+                
 
                 foreach ($myAvailableHours as $hours) 
                 {
@@ -383,6 +393,7 @@ class PackageController extends Controller
                     {
                         $hours->to_time = '12:00 AM';
                     }
+
                     $fromTime = date("H:i", strtotime($hours->from_time));
                     $toTime = date("H:i", strtotime($hours->to_time));
 
