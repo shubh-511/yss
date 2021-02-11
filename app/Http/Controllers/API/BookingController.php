@@ -37,16 +37,21 @@ class BookingController extends Controller
     {
       try
         {
-          return $request->param;
-          $validator = Validator::make($request->all(), [ 
+          $params = $request->param;
+          //return $params['counsellor_id'];
+          //validate data
+          $rules = $this->validateData($params);
+           
+          $validator = Validator::make($params, $rules);
+
+          /*$validator = Validator::make($request->all(), [ 
                 'counsellor_id' => 'required',  
                 'package_id' => 'required', 
                 'slot' => 'required|max:190', 
                 'booking_date' => 'required',
                 'token' => 'required',
                 'card_id' => 'required', 
-                //'notes' => 'required',
-          ]);
+          ]);*/
 
           if ($validator->fails()) 
           { 
@@ -54,7 +59,7 @@ class BookingController extends Controller
           }
           $user = Auth::user();
           
-          $packageAmt = Package::where('id', $request->package_id)->first();
+          $packageAmt = Package::where('id', $params['package_id'])->first();
 
           Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
           
@@ -71,7 +76,7 @@ class BookingController extends Controller
           $source = \Stripe\Customer::createSource(
           $customer->id,
           //['source' => $token->id]);
-          ['source' => $request->token]);
+          ['source' => $params['token']]);
 
             
 
@@ -133,20 +138,23 @@ class BookingController extends Controller
            
           if($conf->status == 'succeeded')
           {
-
+            foreach($params['counsellor_id'] as $slots)
+            {
               $booking = new Booking; 
               $booking->user_id = $user->id;
               $booking->payment_id = $payment->id;
-              $booking->counsellor_id = $request->counsellor_id;
-              $booking->slot = $request->slot;
-              $booking->booking_date = $request->booking_date;
-              $booking->package_id = $request->package_id;
-              $booking->notes = $request->notes;
+              $booking->counsellor_id = $params['counsellor_id'];
+              $booking->slot = $slots;
+              $booking->booking_date = $params['booking_date'];
+              $booking->package_id = $params['package_id'];
+              $booking->notes = $params['notes'];
               $booking->status = '1';
               $booking->save();
+            }
+              
 
               //checking existing channel data
-              $checkExist = VideoChannel::where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
+              $checkExist = VideoChannel::where('from_id', $user)->where('to_id', $params['counsellor_id'])->first();
 
               //saving video channel data
               if(empty($checkExist))
@@ -154,9 +162,9 @@ class BookingController extends Controller
                 $channelData = new VideoChannel; 
                 $channelData->from_id = $user->id;
                 $channelData->booking_id = $booking->id;
-                $channelData->to_id = $request->counsellor_id;
+                $channelData->to_id = $params['counsellor_id'];
                 $channelData->channel_id = $this->generateRandomString(20);
-                $channelData->timing = $request->timing;
+                $channelData->timing = $params['timing'];
                 //$channelData->uid = $request->uid;
                 $channelData->status = '0';
                 $channelData->save();
@@ -164,11 +172,11 @@ class BookingController extends Controller
 
               //Send Mail
               
-              event(new BookingEvent($booking->id, $user->id));
+              //event(new BookingEvent($booking->id, $user->id));
 
               //Send Mail
               
-              event(new BookingCounsellorEvent($booking->id, $request->counsellor_id, $user->id));
+              //event(new BookingCounsellorEvent($booking->id, $params['counsellor_id'], $user->id));
 
               //send sms for successful booking
               /*if(!empty($user->phone) && !empty($user->country_code))
@@ -182,11 +190,11 @@ class BookingController extends Controller
          {
             //Send Mail
             
-            event(new FailedBookingEvent($booking->id, $user->id));
+            //event(new FailedBookingEvent($booking->id, $user->id));
             //send sms for successful booking
 
-            if(!empty($user->phone) && !empty($user->country_code))
-            $this->failedBookingSMS('+'.$user->country_code, $user->phone);
+            /*if(!empty($user->phone) && !empty($user->country_code))
+            $this->failedBookingSMS('+'.$user->country_code, $user->phone);*/
 
             return response()->json(['success'=>false,'errors' =>['exception' => [$conf->status]]], $this->successStatus); 
          }
