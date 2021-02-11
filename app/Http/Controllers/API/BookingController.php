@@ -37,6 +37,7 @@ class BookingController extends Controller
     {
       try
         {
+          return $request->param;
           $validator = Validator::make($request->all(), [ 
                 'counsellor_id' => 'required',  
                 'package_id' => 'required', 
@@ -170,8 +171,8 @@ class BookingController extends Controller
               event(new BookingCounsellorEvent($booking->id, $request->counsellor_id, $user->id));
 
               //send sms for successful booking
-              if(!empty($user->phone) && !empty($user->country_code))
-              $this->sendSMS('+'.$user->country_code, $user->phone);
+              /*if(!empty($user->phone) && !empty($user->country_code))
+              $this->sendSMS('+'.$user->country_code, $user->phone);*/
               
               return response()->json(['success' => true,
                                        'message' => 'Your payment has been made successfully!',
