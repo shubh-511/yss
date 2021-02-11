@@ -352,6 +352,353 @@ class BookingController extends Controller
     }
 
     /** 
+     * Get Past Booking api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getPastBooking(Request $request) 
+    {
+        try
+        {
+            $currentTime  = Carbon::now();
+            $currentTime = $currentTime->format('H:i:s');
+            $currentDate = date('y-m-d');
+            
+            $user = Auth::user();
+            if($user->role_id == 2)
+            {
+                $allBookings = Booking::where('counsellor_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                    $pastBookings = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', '<', Carbon::today())
+                    ->orderBy('booking_date','DESC')
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
+
+
+                    return response()->json(['success' => true,
+                                            'past' => $pastBookings
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+            else
+            {
+                $allBookings = Booking::where('user_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                    $pastBookings = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', '<', Carbon::today())
+                    ->orderBy('booking_date','DESC')
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
+
+                    return response()->json(['success' => true,
+                                         'past' => $pastBookings
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+            
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
+        
+    }
+
+    /** 
+     * Get Todays Booking api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getTodaysBooking(Request $request) 
+    {
+        try
+        {
+            $currentTime  = Carbon::now();
+            $currentTime = $currentTime->format('H:i:s');
+            $currentDate = date('y-m-d');
+            
+            $user = Auth::user();
+            if($user->role_id == 2)
+            {
+                $allBookings = Booking::where('counsellor_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                    $todaysBooking = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', Carbon::today())
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
+
+                    
+                    return response()->json(['success' => true,
+                                         'todays' => $todaysBooking
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    /*return response()->json(['success' => false,
+                                         'message' => 'No bookings found',
+                                        ], $this->successStatus);*/
+
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+            else
+            {
+                $allBookings = Booking::where('user_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                    $todaysBooking = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', Carbon::today())
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
+
+
+                    return response()->json(['success' => true,
+                                         'todays' => $todaysBooking
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    /*return response()->json(['success' => false,
+                                         'message' => 'No bookings found',
+                                        ], $this->successStatus);*/
+
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+            
+            
+             
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
+        
+    }
+
+    /** 
+     * Get Upcoming Booking api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getUpcomingBooking(Request $request) 
+    {
+        try
+        {
+            $currentTime  = Carbon::now();
+            $currentTime = $currentTime->format('H:i:s');
+            $currentDate = date('y-m-d');
+            
+            $user = Auth::user();
+            if($user->role_id == 2)
+            {
+                $allBookings = Booking::where('counsellor_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                   
+                    $todaysUpcoming = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', '=', Carbon::today())
+                    ->get();
+                    $common = [];
+                    $commonPast = [];
+                    foreach($todaysUpcoming as $todayUpcoming)
+                    {
+                      $time = date("H:i:s", strtotime($todayUpcoming->slot));
+                      
+                      if( ($time > $currentTime))
+                      { 
+                        array_push($common, $todayUpcoming->id);
+                      }   
+                      else
+                      {
+                        array_push($commonPast, $todayUpcoming->id);
+                      }                   
+                    }
+
+                    $upcomingBookings = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+
+                    ->where(function ($query) {
+                        $query->where('booking_date', '>', Carbon::today());
+                    })->oRwhere(function ($query) use ($common) {
+                        $query->whereIn('id', $common);
+                    })
+
+                    ->orderBy('booking_date','ASC')
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
+
+
+                    return response()->json(['success' => true,
+                                         'upcoming' => $upcomingBookings
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+            else
+            {
+                $allBookings = Booking::where('user_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                   
+                    $todaysUpcoming = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', '=', Carbon::today())
+                    ->get();
+                    $common = [];
+                    $commonPast = [];
+                    foreach($todaysUpcoming as $todayUpcoming)
+                    {
+                      $time = date("H:i:s", strtotime($todayUpcoming->slot));
+                      
+                      if( ($time > $currentTime))
+                      { 
+                        array_push($common, $todayUpcoming->id);
+                      }
+                      else
+                      {
+                        array_push($commonPast, $todayUpcoming->id); 
+                      }                      
+                    }
+
+
+                    $upcomingBooking = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    
+                    ->where(function ($query) {
+                        $query->where('booking_date', '>', Carbon::today());
+                    })->oRwhere(function ($query) use ($common) {
+                        $query->whereIn('id', $common);
+                    })
+                    ->orderBy('booking_date','ASC')
+                    ->orderBy('slot','ASC')
+                    ->paginate(5);
+                    //->get();
+
+                    return response()->json(['success' => true,
+                                         'upcoming' => $upcomingBooking
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+            
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
+        
+    }
+
+    /** 
+     * Get Current Week Booking api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getCurrentWeekBooking(Request $request) 
+    {
+        try
+        {
+            $currentTime  = Carbon::now();
+            $currentTime = $currentTime->format('H:i:s');
+            $currentDate = date('y-m-d');
+            
+            $user = Auth::user();
+            if($user->role_id == 2)
+            {
+                $allBookings = Booking::where('counsellor_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                    $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
+                    ->where('booking_date', '>', Carbon::now()->startOfWeek(Carbon::SUNDAY))
+                    ->where('booking_date', '<', Carbon::now()->endOfWeek(Carbon::SATURDAY))
+                    ->orderBy('booking_date','ASC')
+                    ->paginate(5);
+                    //->get();
+
+                    return response()->json(['success' => true,
+                                         'current_week' => $currentWeekBooking
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                   
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+            else
+            {
+                $allBookings = Booking::where('user_id', $user->id)->get(); 
+
+                if(count($allBookings) > 0)
+                { 
+                   
+                    $currentWeekBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)
+                    ->where('booking_date', '>', Carbon::now()->startOfWeek())
+                    ->where('booking_date', '<', Carbon::now()->endOfWeek())
+                    ->orderBy('booking_date','ASC')
+                   ->paginate(5);
+                    //->get();
+
+                    return response()->json(['success' => true,
+                                         'current_week' => $currentWeekBooking
+                                        ], $this->successStatus);
+                }
+                else
+                {
+                    
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                }
+            }
+           
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
+        
+    }
+
+
+    /** 
      * Get Booking api 
      * 
      * @return \Illuminate\Http\Response 
