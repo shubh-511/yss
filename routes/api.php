@@ -73,7 +73,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::get('waiting-list', 'API\ChannelController@waitingList');
 
 	Route::post('remove-channel', 'API\ChannelController@removeChannel');
-	Route::post('delete/profile/image', 'API\ChannelController@deleteProfileImage');
+	Route::post('delete/profile/image', 'API\UserController@deleteProfileImage');
 
 	Route::get('get/past/booking', 'API\BookingController@getPastBooking');
 	Route::get('get/todays/booking', 'API\BookingController@getTodaysBooking');
