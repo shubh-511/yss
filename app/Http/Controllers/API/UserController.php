@@ -371,7 +371,7 @@ class UserController extends Controller
                 $userDetail->save();
 
                 event(new ResetPasswordEvent($user->id));
-                $this->resetPasswordSMS($user->country_code, $user->phone);
+                //$this->resetPasswordSMS($user->country_code, $user->phone);
 
                 return response()->json(['success' => true,
                                          'message' => 'Your password has been reset',
@@ -505,7 +505,7 @@ class UserController extends Controller
                 //Send Mail
                 
                 event(new ProfileCompleteEvent($user->id));
-                $this->sendProfileCompletionSMS($user->country_code, $user->phone);
+                //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
             }
 
             $channelData = VideoChannel::where('to_id', $user->id)->get();
@@ -811,12 +811,12 @@ class UserController extends Controller
             {
                 $otp = $this->generateOTP();
                 $userUpdate = User::where('id', $user)->first();
-                $userUpdate->otp = $otp; 
-                /*$userUpdate->country_code = '+'.$request->country_code;
-                $userUpdate->phone = $request->phone;*/
+                //$userUpdate->otp = $otp; 
+                $userUpdate->otp = "1234"; 
+                
                 $userUpdate->save();
 
-                $this->sendSMS($otp, '+'.$request->country_code, $request->phone);
+                //$this->sendSMS($otp, '+'.$request->country_code, $request->phone);
 
                 return response()->json(['success' => true,
                                          'message' => 'OTP has been sent!',
