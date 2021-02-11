@@ -164,7 +164,7 @@ class BookingController extends Controller
                 $channelData->booking_id = $booking->id;
                 $channelData->to_id = $params['counsellor_id'];
                 $channelData->channel_id = $this->generateRandomString(20);
-                $channelData->timing = $params['timing'];
+                //$channelData->timing = $params['timing'];
                 //$channelData->uid = $request->uid;
                 $channelData->status = '0';
                 $channelData->save();
