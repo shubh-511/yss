@@ -428,6 +428,30 @@ class UserController extends Controller
         
     }
 
+    /** 
+     * Delete Profile Picture api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function deleteProfileImage(Request $request) 
+    {
+        try
+        {
+            $user = Auth::user()->id;
+            $updateImage = User::where('id', $user)->first();
+            $updateImage->avatar_id = null;
+            $updateImage->save();
+
+            return response()->json(['success' => true,
+                                     'message' => "User profile image removed successfully",
+                                    ], $this->successStatus); 
+
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
 
     /*
      * details api 
