@@ -138,7 +138,7 @@ class BookingController extends Controller
            
           if($conf->status == 'succeeded')
           {
-            foreach($params['counsellor_id'] as $slots)
+            foreach($params['slot'] as $slots)
             {
               $booking = new Booking; 
               $booking->user_id = $user->id;
