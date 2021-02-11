@@ -441,9 +441,11 @@ class UserController extends Controller
             $updateImage = User::where('id', $user)->first();
             $updateImage->avatar_id = null;
             $updateImage->save();
+            $userData = User::where('id', $user)->first();
 
             return response()->json(['success' => true,
                                      'message' => "User profile image removed successfully",
+                                     'user' => $userData
                                     ], $this->successStatus); 
 
         }catch(\Exception $e){
