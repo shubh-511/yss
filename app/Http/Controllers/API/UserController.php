@@ -69,7 +69,7 @@ class UserController extends Controller
                     {
                         //Send Otp Over Mail
                 
-                        event(new WelcomeUserEvent($user->id));
+                        //event(new WelcomeUserEvent($user->id));
                         return response()->json(['success' => true,
                                                  'user' => $user,
                                                  'token'=> $token,
@@ -131,7 +131,7 @@ class UserController extends Controller
                         {
                             //Send Otp Over Mail
                 
-                            event(new WelcomeUserEvent($user->id));
+                            //event(new WelcomeUserEvent($user->id));
                             return response()->json(['success' => true,
                                                      'user' => $user,
                                                      'token'=> $token
@@ -279,7 +279,7 @@ class UserController extends Controller
 
                 //Send Otp Over Mail
                 
-                event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
+                //event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
                 $url = env('LIVE_URL').''.$userDetail['key'];
 
@@ -370,7 +370,7 @@ class UserController extends Controller
                 $userDetail->password = bcrypt($request->password); 
                 $userDetail->save();
 
-                event(new ResetPasswordEvent($user->id));
+                //event(new ResetPasswordEvent($user->id));
                 //$this->resetPasswordSMS($user->country_code, $user->phone);
 
                 return response()->json(['success' => true,
@@ -504,7 +504,7 @@ class UserController extends Controller
                 $profilePercentage = "100";
                 //Send Mail
                 
-                event(new ProfileCompleteEvent($user->id));
+                //event(new ProfileCompleteEvent($user->id));
                 //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
             }
 
