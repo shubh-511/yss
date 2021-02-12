@@ -157,18 +157,16 @@ class BookingController extends Controller
               $checkExist = VideoChannel::where('from_id', $user)->where('to_id', $params['counsellor_id'])->first();
 
               //saving video channel data
-              if(empty($checkExist))
+              /*if(empty($checkExist))
               {
                 $channelData = new VideoChannel; 
                 $channelData->from_id = $user->id;
                 $channelData->booking_id = $booking->id;
                 $channelData->to_id = $params['counsellor_id'];
                 $channelData->channel_id = $this->generateRandomString(20);
-                //$channelData->timing = $params['timing'];
-                //$channelData->uid = $request->uid;
                 $channelData->status = '0';
                 $channelData->save();
-              }
+              }*/
 
               //Send Mail
               
