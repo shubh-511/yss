@@ -22,7 +22,7 @@ return [
      * Example: ['api/*']
      */
 
-    'paths' => ['https://connect.yoursafespaceonline.com/*'],
+    'paths' => ['api/*'],
 
 
     /*
