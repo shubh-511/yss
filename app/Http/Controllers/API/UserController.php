@@ -1009,7 +1009,7 @@ class UserController extends Controller
                     $userData = $userId;
 
                     $newNotif = new Notification;
-                    $newNotif->receiver_id = $user->id;
+                    $newNotif->receiver = $user->id;
                     $newNotif->title = "Welcome to Your Safe Space";
                     $newNotif->body = "You have been registered successfully!";
                     $newNotif->save();
