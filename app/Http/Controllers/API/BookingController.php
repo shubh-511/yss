@@ -358,7 +358,7 @@ class BookingController extends Controller
     {
         try
         {
-            $currentTime  = Carbon::now();
+            $currentTime  = Carbon::now('Asia/Kolkata');
             $currentTime = $currentTime->format('H:i:s');
             $currentDate = date('y-m-d');
             
@@ -428,7 +428,7 @@ class BookingController extends Controller
     {
         try
         {
-            $currentTime  = Carbon::now();
+            $currentTime  = Carbon::now('Asia/Kolkata');
             $currentTime = $currentTime->format('H:i:s');
             $currentDate = date('y-m-d');
             
@@ -508,7 +508,7 @@ class BookingController extends Controller
     {
         try
         {
-            $currentTime  = Carbon::now();
+            $currentTime  = Carbon::now('Asia/Kolkata');
             $currentTime = $currentTime->format('H:i:s');
             $currentDate = date('y-m-d');
             
@@ -634,7 +634,7 @@ class BookingController extends Controller
     {
         try
         {
-            $currentTime  = Carbon::now();
+            $currentTime  = Carbon::now('Asia/Kolkata');
             $currentTime = $currentTime->format('H:i:s');
             $currentDate = date('y-m-d');
             
