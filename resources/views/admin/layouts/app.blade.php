@@ -120,6 +120,11 @@
                     <i class="fa fa-ticket"></i> <span>Bookings</span>
                   </a>
                 </li>
+                <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
                 
                 
               </ul>

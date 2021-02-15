@@ -34,6 +34,8 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 	Route::post('/users/destroy/{id?}', 'Admin\UserController@destroy');
 
 	Route::get('/bookings', 'Admin\BookingController@bookingList');
+	Route::get('/send-notification', 'Admin\SendNotificationController@sendNotification');
+	Route::post('/send', 'Admin\SendNotificationController@send');
 
 });
 
