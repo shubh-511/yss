@@ -34,7 +34,7 @@ class NotificationController extends Controller
 				$listUpdate = Notification::where('receiver', $user)->update(['is_read' => '1']);
 
 				return response()->json(['success' => true,
-	            					 	'data' => $listUpdate,
+	            					 	'data' => $checkList,
 	            					], $this->successStatus);
 			}
 			else
