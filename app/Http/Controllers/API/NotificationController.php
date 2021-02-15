@@ -26,12 +26,13 @@ class NotificationController extends Controller
     	{
 			$user = Auth::user()->id;
 
-			$checkList = Notification::with('sender:id,name')->with('receiver:id,name')->where('receiver', $user)->get();
+			$checkList = Notification::where('receiver', $user)->get();
 			
 			if(count($checkList) > 0)
 			{
 				
 				$listUpdate = Notification::where('receiver', $user)->update(['is_read' => '1']);
+				$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->get();
 
 				return response()->json(['success' => true,
 	            					 	'data' => $checkList,
