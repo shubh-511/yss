@@ -80,7 +80,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::get('get/upcoming/booking', 'API\BookingController@getUpcomingBooking');
 	Route::get('get/current/week/booking', 'API\BookingController@getCurrentWeekBooking');
 	
-
+	Route::get('get/all/notification', 'API\NotificationController@getAllNotification');
 	
 
 	Route::get('details', 'API\UserController@details');

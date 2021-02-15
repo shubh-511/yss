@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User; 
 use App\Package; 
 use App\Availability; 
+use App\Notification;
 use App\StripeConnect;
 use App\Booking;
 use Illuminate\Support\Facades\Auth; 
@@ -237,7 +238,7 @@ class UserController extends Controller
 	        $user = User::create($input); 
 	        
 	        //Send Otp Over Mail or Phone
-	        //event(new UserRegisterEvent($user->id));
+	        event(new UserRegisterEvent($user->id));
 
 	        return response()->json(['success' => true,
 	            					 'user' => $user,
@@ -1006,6 +1007,12 @@ class UserController extends Controller
 
                     $token = JWTAuth::fromUser($userId);
                     $userData = $userId;
+
+                    $newNotif = new Notification;
+                    $newNotif->receiver_id = $user->id;
+                    $newNotif->title = "Welcome to Your Safe Space";
+                    $newNotif->body = "You have been registered successfully!";
+                    $newNotif->save();
                          
                     return response()->json(['success' => true,
                                              'user' => $userData,
