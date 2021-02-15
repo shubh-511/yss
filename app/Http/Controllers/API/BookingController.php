@@ -10,6 +10,7 @@ use Validator;
 use App\Booking;
 use App\StripeConnect;
 use App\Availability;
+use App\Notification;
 use App\User;
 use App\VideoChannel;
 use App\Payment;
@@ -167,6 +168,14 @@ class BookingController extends Controller
                 $channelData->status = '0';
                 $channelData->save();
               }*/
+
+
+              //saving notification
+              $newNotif = new Notification;
+              $newNotif->receiver = $user->id;
+              $newNotif->title = "Your Safe Space";
+              $newNotif->body = "You successfully booked the appointment!";
+              $newNotif->save();
 
               //Send Mail
               

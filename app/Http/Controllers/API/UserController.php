@@ -371,6 +371,12 @@ class UserController extends Controller
                 $userDetail->password = bcrypt($request->password); 
                 $userDetail->save();
 
+                $newNotif = new Notification;
+                $newNotif->receiver = $userDetail->id;
+                $newNotif->title = "Welcome to Your Safe Space";
+                $newNotif->body = "Your password has been reset!";
+                $newNotif->save();
+
                 //event(new ResetPasswordEvent($user->id));
                 //$this->resetPasswordSMS($user->country_code, $user->phone);
 
@@ -530,6 +536,12 @@ class UserController extends Controller
             {
                 $profilePercentage = "100";
                 //Send Mail
+
+                $newNotif = new Notification;
+                $newNotif->receiver = $user->id;
+                $newNotif->title = "Welcome to Your Safe Space";
+                $newNotif->body = "Your profile has been completed!";
+                $newNotif->save();
                 
                 //event(new ProfileCompleteEvent($user->id));
                 //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
