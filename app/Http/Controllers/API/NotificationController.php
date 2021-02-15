@@ -32,7 +32,7 @@ class NotificationController extends Controller
 			{
 				
 				$listUpdate = Notification::where('receiver', $user)->update(['is_read' => '1']);
-				$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->get();
+				$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->orderBy('id','DESC')->get();
 
 				return response()->json(['success' => true,
 	            					 	'data' => $checkList,
