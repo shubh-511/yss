@@ -26,7 +26,7 @@ class NotificationController extends Controller
     	{
 			$user = Auth::user()->id;
 
-			$checkList = Notification::where('receiver', $user)->get();
+			$checkList = Notification::with('sender:id,name')->with('receiver:id,name')->where('receiver', $user)->get();
 			
 			if(count($checkList) > 0)
 			{
