@@ -33,7 +33,7 @@ class UserController extends Controller
     public function login(Request $request){
     	
     	try{
-
+            
             $input = [];
 
     		if($request->getUser() || $request->getPassword()){
@@ -61,7 +61,7 @@ class UserController extends Controller
                         return response()->json(['errors'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
                     }
 
-//                  
+                    //                  
                     $user = $checkUserRoles;
                     $channelData = VideoChannel::where('from_id', $user->id)->get();
                     //Auth::roles();
@@ -119,7 +119,7 @@ class UserController extends Controller
                     $cURL = $this->url_get_contents($url); 
                     $cURL = json_decode($cURL, true);
                     //return $cURL; 
-//echo $cURL['status']; die;
+                    //echo $cURL['status']; die;
                     //$json = file_get_contents($url);
                     //$cURL = json_decode($json, true);
 
