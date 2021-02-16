@@ -196,7 +196,7 @@ class BookingController extends Controller
                 }
               }
 
-              //to user
+              //notification to user
               $body = "You have successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
               $newNotif = new Notification;
               $newNotif->receiver = $user->id;
@@ -204,7 +204,7 @@ class BookingController extends Controller
               $newNotif->body = $body;
               $newNotif->save();
 
-              //to counsellor
+              //notification to counsellor
               $body = $user->name." successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
               $newNotif = new Notification;
               $newNotif->receiver = $packageAmt->user->id;
@@ -230,6 +230,14 @@ class BookingController extends Controller
          }
          else
          {
+            //notification to user
+            $body = "Your recent booking was failed due to below reason: ".$conf->status;
+            $newNotif = new Notification;
+            $newNotif->receiver = $user->id;
+            $newNotif->title = "Your Safe Space";
+            $newNotif->body = $body;
+            $newNotif->save();
+
             //Send Mail
             
             //event(new FailedBookingEvent($booking->id, $user->id));

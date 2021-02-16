@@ -221,7 +221,11 @@ class UserController extends Controller
 	            'password' => 'required', 
 	            'c_password' => 'required|same:password', 
                 'timezone' => 'required', 
-	        ]);
+	        ],
+            [   
+                'email.unique'  =>  'This email is already been registered'
+            ]
+            );
 
 			if ($validator->fails()) { 
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);
