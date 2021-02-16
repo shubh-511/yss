@@ -60,7 +60,7 @@ class BookingController extends Controller
           }
           $user = Auth::user();
           
-          $packageAmt = Package::where('id', $params['package_id'])->first();
+          $packageAmt = Package::with('user')->where('id', $params['package_id'])->first();
 
           Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
           
@@ -139,8 +139,10 @@ class BookingController extends Controller
            
           if($conf->status == 'succeeded')
           {
+            $slotArray = [];
             foreach($params['slot'] as $slots)
             {
+              array_push($slotArray, $slots);
               $booking = new Booking; 
               $booking->user_id = $user->id;
               $booking->payment_id = $payment->id;
@@ -170,11 +172,44 @@ class BookingController extends Controller
               }*/
 
 
-              //saving notification
+              //saving notification 
+              if(count($params['slot']) > 0)
+              {
+                if($user->role_id == 3)
+                {
+                  $selectedSlots = "Your selected slots are: ".join(',', $slotArray);
+                }
+                else
+                {
+                  $selectedSlots = "The booked slots are: ".join(',', $slotArray);
+                }
+              }
+              else
+              {
+                if($user->role_id == 3)
+                {
+                  $selectedSlots = "Your selected slot is: ".join(',', $slotArray);
+                }
+                else
+                {
+                  $selectedSlots = "The booked slot is: ".join(',', $slotArray);
+                }
+              }
+
+              //to user
+              $body = "You have successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
               $newNotif = new Notification;
               $newNotif->receiver = $user->id;
               $newNotif->title = "Your Safe Space";
-              $newNotif->body = "You successfully booked the appointment!";
+              $newNotif->body = $body;
+              $newNotif->save();
+
+              //to counsellor
+              $body = $user->name." successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
+              $newNotif = new Notification;
+              $newNotif->receiver = $packageAmt->user->id;
+              $newNotif->title = "Your Safe Space";
+              $newNotif->body = $body;
               $newNotif->save();
 
               //Send Mail
