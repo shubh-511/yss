@@ -81,7 +81,7 @@ class NotificationController extends Controller
 			}
 			$user = Auth::user()->id;
 
-			$checkList = Notification::where('receiver', $user)->where('notification_id', $request->notification_id)->first();
+			$checkList = Notification::where('receiver', $user)->where('id', $request->notification_id)->first();
 			
 			if(!empty($checkList))
 			{
