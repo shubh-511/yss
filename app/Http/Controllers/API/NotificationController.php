@@ -38,7 +38,7 @@ class NotificationController extends Controller
 			
 			if(count($checkList) > 0)
 			{
-				if($request->type == 1)
+				if($request->type == 2)
 				{
 					$listUpdate = Notification::where('receiver', $user)->update(['is_read' => '1']);	
 				}
