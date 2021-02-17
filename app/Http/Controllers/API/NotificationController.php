@@ -82,6 +82,7 @@ class NotificationController extends Controller
 			$user = Auth::user()->id;
 
 			$checkList = Notification::where('receiver', $user)->where('id', $request->notification_id)->first();
+			$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->orderBy('id','DESC')->paginate(8);
 			
 			if(!empty($checkList))
 			{
@@ -90,6 +91,7 @@ class NotificationController extends Controller
 				{
 					return response()->json(['success' => true,
 	            					 	'message' => "Deleted successfully",
+	            					 	'data' => $checkList
 	            					], $this->successStatus);
 				}
 				else
