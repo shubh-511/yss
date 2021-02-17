@@ -62,4 +62,56 @@ class NotificationController extends Controller
         
     }
 
+    /** 
+     * Delete Notification API
+     *  
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function deleteNotification(Request $request) 
+    {
+    	try
+    	{
+    		$validator = Validator::make($request->all(), [ 
+	            'notification_id' => 'required',  
+	        ]);
+
+			if ($validator->fails()) 
+            { 
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+			}
+			$user = Auth::user()->id;
+
+			$checkList = Notification::where('receiver', $user)->where('notification_id', $request->notification_id)->first();
+			
+			if(!empty($checkList))
+			{
+				$checkDel = $checkList->delete();
+				if($checkDel == 1)
+				{
+					return response()->json(['success' => true,
+	            					 	'message' => "Deleted successfully",
+	            					], $this->successStatus);
+				}
+				else
+				{
+					return response()->json(['success' => false,
+	            					 	'message' => "Notification does not exist",
+	            					], $this->successStatus);
+				}
+				
+			}
+			else
+			{
+				return response()->json(['success'=>false,'errors' =>['exception' => ['Invalid notification Id']]], $this->successStatus);
+			}
+			
+
+    	}
+        catch(\Exception $e)
+        {
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	} 
+        
+    }
+
 }

@@ -81,6 +81,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::get('get/current/week/booking', 'API\BookingController@getCurrentWeekBooking');
 	
 	Route::get('get/all/notification', 'API\NotificationController@getAllNotification');
+	Route::post('delete/notification', 'API\NotificationController@deleteNotification');
 	
 
 	Route::get('details', 'API\UserController@details');
