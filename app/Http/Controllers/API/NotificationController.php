@@ -20,7 +20,7 @@ class NotificationController extends Controller
      *  
      * @return \Illuminate\Http\Response 
      */ 
-    public function getAllNotification() 
+    public function getAllNotification(Request $request) 
     {
     	try
     	{
