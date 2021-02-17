@@ -79,17 +79,21 @@ class UserController extends Controller
                     }
                     elseif($user->account_enabled == '0')
                     {
-                        return response()->json(['success' => false,
+                        return response()->json(['errors'=> ['login_failed' => ['Your account is currently disabled by admin']]], $this->successStatus);
+
+                        /*return response()->json(['success' => false,
                                                  'user' => $user->account_enabled,
                                                  'message' => 'Your account is currently disabled by admin'
-                                                ], $this->successStatus);
+                                                ], $this->successStatus);*/
                     }
                     elseif($user->account_enabled == '3')
                     {
-                        return response()->json(['success' => false,
+                        return response()->json(['errors'=> ['login_failed' => ['Your account is pending for verification']]], $this->successStatus);
+                        
+                        /*return response()->json(['success' => false,
                                                  'user' => $user->account_enabled,
                                                  'message' => 'Your account is pending for verification'
-                                                ], $this->successStatus);
+                                                ], $this->successStatus);*/
                     }
 
                      
@@ -140,17 +144,21 @@ class UserController extends Controller
                         }
                         elseif($user->account_enabled == '0')
                         {
-                            return response()->json(['success' => false,
+                            return response()->json(['errors'=> ['login_failed' => ['Your account is currently disabled by admin']]], $this->successStatus);
+
+                            /*return response()->json(['success' => false,
                                                      'user' => $user->account_enabled,
                                                      'message' => 'Your account is currently disabled by admin'
-                                                    ], $this->successStatus);
+                                                    ], $this->successStatus);*/
                         }
                         elseif($user->account_enabled == '3')
                         {
-                            return response()->json(['success' => false,
-                                                     'user' => $user->account_enabled,
-                                                     'message' => 'Your account is pending for verification'
-                                                    ], $this->successStatus);
+                            return response()->json(['errors'=> ['login_failed' => ['Your account is pending for verification']]], $this->successStatus);
+                        
+                        /*return response()->json(['success' => false,
+                                                 'user' => $user->account_enabled,
+                                                 'message' => 'Your account is pending for verification'
+                                                ], $this->successStatus);*/
                         }
                          
 
