@@ -24,14 +24,24 @@ class NotificationController extends Controller
     {
     	try
     	{
+    		$validator = Validator::make($request->all(), [ 
+	            'type' => 'required',  
+	        ]);
+
+			if ($validator->fails()) 
+            { 
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+			}
 			$user = Auth::user()->id;
 
 			$checkList = Notification::where('receiver', $user)->get();
 			
 			if(count($checkList) > 0)
 			{
-				
-				$listUpdate = Notification::where('receiver', $user)->update(['is_read' => '1']);
+				if($request->type == 1)
+				{
+					$listUpdate = Notification::where('receiver', $user)->update(['is_read' => '1']);	
+				}
 				$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->orderBy('id','DESC')->paginate(8);
 
 				return response()->json(['success' => true,
