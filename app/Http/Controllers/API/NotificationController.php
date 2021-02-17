@@ -16,7 +16,7 @@ class NotificationController extends Controller
 	
 
     /** 
-     * Get Notification API
+     * Get Notification API with token
      *  
      * @return \Illuminate\Http\Response 
      */ 
@@ -54,6 +54,46 @@ class NotificationController extends Controller
 			}
 			
 
+    	}
+        catch(\Exception $e)
+        {
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	} 
+        
+    }
+
+    /** 
+     * Get Notification API without token
+     *  
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getUserNotification(Request $request) 
+    {
+    	try
+    	{
+    		$validator = Validator::make($request->all(), [ 
+	            'user_id' => 'required',  
+	        ]);
+
+			if ($validator->fails()) 
+            { 
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+			}
+			
+			$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->orderBy('id','DESC')->get();
+			
+			if(count($checkList) > 0)
+			{
+				
+				return response()->json(['success' => true,
+	            					 	'data' => $checkList,
+	            					], $this->successStatus);
+			}
+			else
+			{
+				return response()->json(['success'=>false,'errors' =>['exception' => ['No notification found']]], $this->successStatus);
+			}
+			
     	}
         catch(\Exception $e)
         {
