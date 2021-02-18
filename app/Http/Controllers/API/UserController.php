@@ -68,9 +68,9 @@ class UserController extends Controller
 
                     if($user->account_enabled == '1' || $user->account_enabled == '2')
                     {
-                        //Send Otp Over Mail
+                        //Send Welcome Mail
                 
-                        //event(new WelcomeUserEvent($user->id));
+                        event(new WelcomeUserEvent($user->id));
                         return response()->json(['success' => true,
                                                  'user' => $user,
                                                  'token'=> $token,
@@ -134,9 +134,9 @@ class UserController extends Controller
                          
                         if($user->account_enabled == '1' || $user->account_enabled == '2')
                         {
-                            //Send Otp Over Mail
+                            //Send Welcome Mail
                 
-                            //event(new WelcomeUserEvent($user->id));
+                            event(new WelcomeUserEvent($user->id));
                             return response()->json(['success' => true,
                                                      'user' => $user,
                                                      'token'=> $token
@@ -249,7 +249,7 @@ class UserController extends Controller
             $input['account_enabled'] = '3'; // Not verified user
 	        $user = User::create($input); 
 	        
-	        //Send Otp Over Mail or Phone
+	        //Send Register Email
 	        event(new UserRegisterEvent($user->id));
 
 	        return response()->json(['success' => true,
@@ -290,9 +290,9 @@ class UserController extends Controller
                 $userDetail->key = $forgotKey;
                 $userDetail->save();
 
-                //Send Otp Over Mail
+                //Send Forgot Password Mail
                 
-                //event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
+                event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
 
                 $url = env('LIVE_URL').''.$userDetail['key'];
 
@@ -389,7 +389,7 @@ class UserController extends Controller
                 $newNotif->body = "Your password has been reset!";
                 $newNotif->save();
 
-                //event(new ResetPasswordEvent($user->id));
+                event(new ResetPasswordEvent($user->id));
                 //$this->resetPasswordSMS($user->country_code, $user->phone);
 
                 return response()->json(['success' => true,
@@ -555,7 +555,7 @@ class UserController extends Controller
                 $newNotif->body = "Your profile has been completed!";
                 $newNotif->save();
                 
-                //event(new ProfileCompleteEvent($user->id));
+                event(new ProfileCompleteEvent($user->id));
                 //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
             }
 
