@@ -80,7 +80,7 @@ class NotificationController extends Controller
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
 			}
 			
-			$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->orderBy('id','DESC')->get();
+			$checkList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $request->user_id)->orderBy('id','DESC')->get();
 			
 			if(count($checkList) > 0)
 			{
