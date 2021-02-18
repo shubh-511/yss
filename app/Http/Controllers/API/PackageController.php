@@ -374,7 +374,9 @@ class PackageController extends Controller
                 if(!empty($bkdSlot))
                 {
                     $bookedSlot = $bkdSlot->pluck('slot')->toArray();
-                    $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)->whereNotIn('from_time', $bookedSlot)->get();
+                    $myAvailableHours = AvailaibleHours::where('availability_id', $getAvailability->id)
+                    //->whereNotIn('from_time', $bookedSlot)
+                    ->get();
                 }
                 else
                 {
