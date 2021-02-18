@@ -8,6 +8,7 @@ use App\Package;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use App\Booking;
+use App\CartSlot;
 use App\StripeConnect;
 use App\Availability;
 use App\Notification;
@@ -30,6 +31,96 @@ class BookingController extends Controller
   
 
     /** 
+     * Add Slots to cart API
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function addSlotsToCart(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'counsellor_id' => 'required',  
+                'package_id' => 'required', 
+                'slot' => 'required', 
+                'booking_date' => 'required'
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+            $user = Auth::user();
+            
+            $cartSlots = new CartSlot; 
+            $cartSlots->user_id = $user->id;
+            $cartSlots->counsellor_id = $request->counsellor_id;
+            $cartSlots->package_id = $request->package_id;
+            $cartSlots->booking_date = $request->booking_date;
+            $cartSlots->slot = $request->slot;
+            $cartSlots->save();
+
+            return response()->json(['success' => true,
+                                      'data' => $cartSlots
+                                    ], $this->successStatus);
+           
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
+        
+    }
+
+    /** 
+     * Delete Slots from cart API
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function deleteSlotsFromCart(Request $request) 
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'counsellor_id' => 'required',  
+                'package_id' => 'required', 
+                'slot' => 'required', 
+                'booking_date' => 'required'
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+            $user = Auth::user();
+            
+            $cartSlots = CartSlot::where('user_id', $user->id)->where('counsellor_id', $request->counsellor_id)->where('package_id', $request->package_id)->where('booking_date', $request->booking_date)->where('slot', $request->booking_date)->delete(); 
+
+            $remainingSlots = CartSlot::where('user_id', $user->id)->where('counsellor_id', $request->counsellor_id)->where('package_id', $request->package_id)->where('booking_date', $request->booking_date)->get();
+
+            if($cartSlots == 1)
+            {
+              return response()->json(['success' => true,
+                                      'data' => $remainingSlots
+                                    ], $this->successStatus);
+            }
+            else
+            {
+              return response()->json(['success' => false,
+                                      'data' => $remainingSlots
+                                    ], $this->successStatus);
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
+        
+    }
+
+
+    /** 
      * Make booking api 
      * 
      * @return \Illuminate\Http\Response 
@@ -37,7 +128,7 @@ class BookingController extends Controller
     public function makeBooking(Request $request) 
     {
       try
-        {
+      {
           $params = $request->param;
           //return $params['counsellor_id'];
           //validate data
