@@ -202,14 +202,15 @@ class UserController extends Controller
 
             $validator = Validator::make($request->all(), [ 
                 'email' => 'required|max:190|email', 
+                'user_id' => 'required'
             ]);
 
             if ($validator->fails()) { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);
             }
 
-            $checkUser = User::with('roles')->with('country')->where('email', $request->email)->first();
-
+            $checkUser = User::with('roles')->with('country')->where('id', $request->user_id)->first();
+        
             if(!empty($checkUser))
             {
                 $token = JWTAuth::fromUser($checkUser);
