@@ -726,7 +726,7 @@ class UserController extends Controller
                 $userData['display_name'] = $input['display_name'];    
                 $userData['account_enabled'] = '1'; 
                 //$userData['otp'] = $this->generateOTP();
-                $userData['otp'] = '';
+                //$userData['otp'] = '';
                 
                 if(array_key_exists('roles', $input) 
                     && !empty($input['roles']) 
