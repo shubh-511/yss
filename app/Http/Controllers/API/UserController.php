@@ -1077,8 +1077,8 @@ class UserController extends Controller
 
                     $newNotif = new Notification;
                     $newNotif->receiver = $user->id;
-                    $newNotif->title = "successfully Registered";
-                    $newNotif->body = "You have been registered successfully!";
+                    $newNotif->title = "Successfully Registered";
+                    $newNotif->body = "You have been successfully registered!";
                     $newNotif->save();
                          
                     return response()->json(['success' => true,

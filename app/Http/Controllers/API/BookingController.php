@@ -592,7 +592,7 @@ class BookingController extends Controller
                 }
                 else
                 {
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             else
@@ -615,7 +615,7 @@ class BookingController extends Controller
                 }
                 else
                 {
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             
@@ -665,7 +665,7 @@ class BookingController extends Controller
                                          'message' => 'No bookings found',
                                         ], $this->successStatus);*/
 
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             else
@@ -692,7 +692,7 @@ class BookingController extends Controller
                                          'message' => 'No bookings found',
                                         ], $this->successStatus);*/
 
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             
@@ -770,7 +770,7 @@ class BookingController extends Controller
                 else
                 {
                     
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             else
@@ -821,7 +821,7 @@ class BookingController extends Controller
                 else
                 {
                     
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             
@@ -867,7 +867,7 @@ class BookingController extends Controller
                 else
                 {
                    
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             else
@@ -891,7 +891,7 @@ class BookingController extends Controller
                 else
                 {
                     
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
            
@@ -1029,7 +1029,7 @@ class BookingController extends Controller
                                          'message' => 'No bookings found',
                                         ], $this->successStatus);*/
 
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['No bookings found']]], $this->successStatus);
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
                 }
             }
             else
