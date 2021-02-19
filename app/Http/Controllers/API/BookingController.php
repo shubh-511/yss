@@ -212,7 +212,7 @@ class BookingController extends Controller
           }
           $user = Auth::user();
           
-          $prevBooking = Booking::where('counsellor_id', $params['counsellor_id'])->where('package_id', $params['package_id'])where('booking_date', $params['booking_date'])->get();
+          $prevBooking = Booking::where('counsellor_id', $params['counsellor_id'])->where('package_id', $params['package_id'])->where('booking_date', $params['booking_date'])->get();
 
           $prevBookingSlots = $prevBooking->pluck('slot')->toArray();
           $slotsForBooking = $params['slot'];
