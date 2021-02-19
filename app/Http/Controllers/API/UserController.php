@@ -210,19 +210,28 @@ class UserController extends Controller
             }
 
             $checkUser = User::with('roles')->with('country')->where('id', $request->user_id)->first();
-            $userEmail = md5($checkUser->email);
-            if(!empty($checkUser) && !empty($checkUser->email) && $userEmail == $request->email)
+            
+            if(!empty($checkUser))
             {
-                $token = JWTAuth::fromUser($checkUser);
-                $user = $checkUser;
-                 
-                if($user->account_enabled == '1' || $user->account_enabled == '2')
+                $userEmail = md5($checkUser->email);
+                if($userEmail == $request->email)
                 {
-                    return response()->json(['success' => true,
-                                             'user' => $user,
-                                             'token'=> $token
-                                            ], $this->successStatus);
+                    $token = JWTAuth::fromUser($checkUser);
+                    $user = $checkUser;
+                     
+                    if($user->account_enabled == '1' || $user->account_enabled == '2')
+                    {
+                        return response()->json(['success' => true,
+                                                 'user' => $user,
+                                                 'token'=> $token
+                                                ], $this->successStatus);
+                    }
                 }
+                else
+                {
+                    return response()->json(['errors'=> ['login_failed' => ['Invalid Email']]], 401);
+                }
+                
             }
             else
             {
