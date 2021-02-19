@@ -210,8 +210,8 @@ class UserController extends Controller
             }
 
             $checkUser = User::with('roles')->with('country')->where('id', $request->user_id)->first();
-        
-            if(!empty($checkUser))
+            $userEmail = md5($checkUser->email);
+            if(!empty($checkUser) && $userEmail == $request->email)
             {
                 $token = JWTAuth::fromUser($checkUser);
                 $user = $checkUser;
