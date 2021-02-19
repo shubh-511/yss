@@ -191,6 +191,49 @@ class UserController extends Controller
     	}
     }
 
+    /** 
+     * Login with Email
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function loginWithEmail(Request $request) 
+    {
+        try{
+
+            $validator = Validator::make($request->all(), [ 
+                'email' => 'required|max:190|email', 
+            ]);
+
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+            }
+
+            $checkUser = User::with('roles')->with('country')->where('email', $request->email)->first();
+
+            if(!empty($checkUser))
+            {
+                $token = JWTAuth::fromUser($checkUser);
+                $user = $checkUser;
+                 
+                if($user->account_enabled == '1' || $user->account_enabled == '2')
+                {
+                    return response()->json(['success' => true,
+                                             'user' => $user,
+                                             'token'=> $token
+                                            ], $this->successStatus);
+                }
+            }
+            else
+            {
+                return response()->json(['errors'=> ['login_failed' => ['Invalid Email']]], 401);
+            }
+        
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+        
+    }
+
     public function url_get_contents($url) 
     {
         if (function_exists('curl_exec')){ 

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('login', 'API\UserController@login');
+Route::post('login/with/email', 'API\UserController@loginWithEmail');
 Route::post('register', 'API\UserController@register');
 Route::get('/get/countries', 'API\CountryController@index');
 Route::get('get/access_tokens', 'API\GrantAccessTokenController@index');
