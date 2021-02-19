@@ -39,30 +39,84 @@ class BookingController extends Controller
     {
         try
         {
-            $validator = Validator::make($request->all(), [ 
-                'counsellor_id' => 'required',  
-                'package_id' => 'required', 
-                'slot' => 'required', 
-                'booking_date' => 'required'
-            ]);
+            $params = $request->params;
+            $rules = $this->validateCartSlots($params);
+           
+            $validator = Validator::make($params, $rules);
+
 
             if ($validator->fails()) 
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
             }
+
+            
             $user = Auth::user();
             
-            $cartSlots = new CartSlot; 
-            $cartSlots->user_id = $user->id;
-            $cartSlots->counsellor_id = $request->counsellor_id;
-            $cartSlots->package_id = $request->package_id;
-            $cartSlots->booking_date = $request->booking_date;
-            $cartSlots->slot = $request->slot;
-            $cartSlots->save();
+            foreach($params['slots'] as $slot) 
+            {
+              $cartSlots = new CartSlot; 
+              $cartSlots->user_id = $user->id;
+              $cartSlots->counsellor_id = $params['counsellor_id'];
+              $cartSlots->package_id = $params['package_id'];
+              $cartSlots->booking_date = $params['booking_date'];
+              $cartSlots->slot = $slot;
+              $cartSlots->save();
+            }
+
+            $addedSlots = CartSlot::where([['user_id', $user->id],['counsellor_id',$params['counsellor_id']],['package_id',$params['package_id']],['booking_date',$params['booking_date']]])->get(); 
+            
 
             return response()->json(['success' => true,
+                                      'data' => $addedSlots
+                                    ], $this->successStatus);
+           
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
+        
+    }
+
+    /** 
+     * Get Slots From cart API
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getSlotsFromCart(Request $request) 
+    {
+        try
+        {
+            $params = $request->params;
+            $rules = $this->validateSlots($params);
+           
+            $validator = Validator::make($params, $rules);
+
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+
+            
+            $user = Auth::user();
+            
+            $cartSlots = CartSlot::where([['user_id', $user->id],['counsellor_id',$params['counsellor_id']],['package_id',$params['package_id']],['booking_date',$params['booking_date']]])->get(); 
+            
+            if(count($cartSlots) > 0)
+            {
+              return response()->json(['success' => true,
                                       'data' => $cartSlots
                                     ], $this->successStatus);
+            }
+            else
+            {
+              return response()->json(['success' => false,
+                                      'message' => 'Currently there is no slots added'
+                                    ], $this->successStatus);
+            }
+            
            
         }
         catch(\Exception $e)
@@ -81,32 +135,39 @@ class BookingController extends Controller
     {
         try
         {
-            $validator = Validator::make($request->all(), [ 
-                'counsellor_id' => 'required',  
-                'package_id' => 'required', 
-                'slot' => 'required', 
-                'booking_date' => 'required'
-            ]);
+            $params = $request->params;
+            $rules = $this->validateSlots($params);
+           
+            $validator = Validator::make($params, $rules);
+
 
             if ($validator->fails()) 
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
             }
+
+            
             $user = Auth::user();
             
-            $cartSlots = CartSlot::where('user_id', $user->id)->where('counsellor_id', $request->counsellor_id)->where('package_id', $request->package_id)->where('booking_date', $request->booking_date)->where('slot', $request->booking_date)->delete(); 
+            /*foreach ($params['slots'] as $slot) 
+            {*/
+              $deleteSlots = CartSlot::where([['user_id', $user->id],['counsellor_id',$params['counsellor_id']],['package_id',$params['package_id']],['booking_date',$params['booking_date']]])->whereIn('slot', $params['slots'])->delete();
+            //}
+            
 
-            $remainingSlots = CartSlot::where('user_id', $user->id)->where('counsellor_id', $request->counsellor_id)->where('package_id', $request->package_id)->where('booking_date', $request->booking_date)->get();
+            $remainingSlots = CartSlot::where([['user_id', $user->id],['counsellor_id',$params['counsellor_id']],['package_id',$params['package_id']],['booking_date',$params['booking_date']]])->get(); 
 
-            if($cartSlots == 1)
+            if($deleteSlots == 1)
             {
               return response()->json(['success' => true,
+                                      'message' => 'deleted successfully',
                                       'data' => $remainingSlots
                                     ], $this->successStatus);
             }
             else
             {
               return response()->json(['success' => false,
+                                      'message' => 'Selected Slot does not exist',
                                       'data' => $remainingSlots
                                     ], $this->successStatus);
             }
@@ -1285,6 +1346,69 @@ class BookingController extends Controller
                 $rules[$key] = 'required';
 
             }else if($key == 'card_id'){
+
+                $rules[$key] = 'required';
+
+            }
+        }
+
+        return $rules;
+
+    }
+
+    
+    /*
+     * Validate Cart Slots
+     * @Params $requestedfields
+     */
+
+    public function validateCartSlots($requestedFields){
+        $rules = [];
+
+        foreach ($requestedFields as $key => $field) {
+            //return $key;
+            if($key == 'counsellor_id'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'package_id'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'slot'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'booking_date'){
+
+                $rules[$key] = 'required';
+
+            }
+        }
+
+        return $rules;
+
+    }
+
+    /*
+     * Validate Delete Slots
+     * @Params $requestedfields
+     */
+
+    public function validateSlots($requestedFields){
+        $rules = [];
+
+        foreach ($requestedFields as $key => $field) {
+            //return $key;
+            if($key == 'counsellor_id'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'package_id'){
+
+                $rules[$key] = 'required';
+
+            }else if($key == 'booking_date'){
 
                 $rules[$key] = 'required';
 

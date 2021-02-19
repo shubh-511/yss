@@ -83,6 +83,9 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	
 	Route::get('get/all/notification', 'API\NotificationController@getAllNotification');
 	Route::post('delete/notification', 'API\NotificationController@deleteNotification');
+	Route::post('add/slots/to/cart', 'API\BookingController@addSlotsToCart');
+	Route::post('delete/slots/from/cart', 'API\BookingController@deleteSlotsFromCart');
+	Route::get('get/slots/from/cart', 'API\BookingController@getSlotsFromCart');
 	
 
 	Route::get('details', 'API\UserController@details');
