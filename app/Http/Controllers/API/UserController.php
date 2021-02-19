@@ -385,7 +385,7 @@ class UserController extends Controller
 
                 $newNotif = new Notification;
                 $newNotif->receiver = $userDetail->id;
-                $newNotif->title = "Welcome to Your Safe Space";
+                $newNotif->title = "Password Reset";
                 $newNotif->body = "Your password has been reset!";
                 $newNotif->save();
 
@@ -551,7 +551,7 @@ class UserController extends Controller
 
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
-                $newNotif->title = "Welcome to Your Safe Space";
+                $newNotif->title = "Profile Completed";
                 $newNotif->body = "Your profile has been completed!";
                 $newNotif->save();
                 
@@ -1034,7 +1034,7 @@ class UserController extends Controller
 
                     $newNotif = new Notification;
                     $newNotif->receiver = $user->id;
-                    $newNotif->title = "Welcome to Your Safe Space";
+                    $newNotif->title = "successfully Registered";
                     $newNotif->body = "You have been registered successfully!";
                     $newNotif->save();
                          

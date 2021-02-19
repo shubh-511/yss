@@ -122,13 +122,14 @@ class NotificationController extends Controller
 			$user = Auth::user()->id;
 
 			$checkList = Notification::where('receiver', $user)->where('id', $request->notification_id)->first();
-			$notifList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->orderBy('id','DESC')->paginate(8);
+			
 			
 			if(!empty($checkList))
 			{
 				$checkDel = $checkList->delete();
 				if($checkDel == 1)
 				{
+					$notifList = Notification::with('sender:id,name,email')->with('receiver:id,name,email')->where('receiver', $user)->orderBy('id','DESC')->paginate(8);
 					return response()->json(['success' => true,
 	            					 	'message' => "Deleted successfully",
 	            					 	'data' => $notifList

@@ -359,7 +359,7 @@ class BookingController extends Controller
                 $body = "You have successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
-                $newNotif->title = "Your Safe Space";
+                $newNotif->title = "Booking successfull";
                 $newNotif->body = $body;
                 $newNotif->save();
 
@@ -367,7 +367,7 @@ class BookingController extends Controller
                 $body = $user->name." successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $packageAmt->user->id;
-                $newNotif->title = "Your Safe Space";
+                $newNotif->title = "Booking successfull";
                 $newNotif->body = $body;
                 $newNotif->save();
 
@@ -393,7 +393,7 @@ class BookingController extends Controller
               $body = "Your recent booking was failed due to below reason: ".$conf->status;
               $newNotif = new Notification;
               $newNotif->receiver = $user->id;
-              $newNotif->title = "Your Safe Space";
+              $newNotif->title = "Booking Failed";
               $newNotif->body = $body;
               $newNotif->save();
 
