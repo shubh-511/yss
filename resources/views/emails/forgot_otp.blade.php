@@ -1,1 +1,2 @@
-<p>Your reset password link is: <a href="{{env('LIVE_URL')}}{{ $user['key'] }}">{{env('LIVE_URL')}}{{ $user['key'] }}</a></p>
+<p>Hi {{ $user['name'] }},</p>
+<p>{{$user['otp'] is the OTP to reset your password.}}</p>

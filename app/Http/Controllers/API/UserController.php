@@ -340,20 +340,19 @@ class UserController extends Controller
                 
                 $forgotKey = base64_encode($request->email);
 
-                //$otp = $this->generateOTP();
-                //$userDetail->otp = $otp;
-                $userDetail->key = $forgotKey;
+                $userDetail->otp = $this->generateOTP();
+                //$userDetail->key = $forgotKey;
                 $userDetail->save();
 
                 //Send Forgot Password Mail
                 
-                //event(new ForgotPasswordEvent($userDetail->id,$forgotKey));
+                event(new ForgotPasswordEvent($userDetail->id,$userDetail->otp));
 
                 $url = env('LIVE_URL').''.$userDetail['key'];
 
                 return response()->json(['success' => true,
                                          'message' => 'Reset password link has been sent on your email',
-                                         'url' => $url,
+                                         'otp' => $userDetail->otp,
                                         ], $this->successStatus); 
             }
             else
@@ -422,19 +421,20 @@ class UserController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [  
-                'key' => 'required', 
-                'password' => 'required', 
-                'c_password' => 'required|same:password',
+                'email' => 'required|max:190|email', 
+                'otp' => 'required',
+                'password' => 'required' 
+                //'c_password' => 'required|same:password',
             ]);
 
             if ($validator->fails()) { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
             }
 
-            $userDetail = User::where('email', base64_decode($request->key))->first();
+            $userDetail = User::where('email', $request->email)->where('otp', $request->otp)->first();
             if(!empty($userDetail))
             {
-                $userDetail->key = null;
+                $userDetail->otp = null;
                 $userDetail->password = bcrypt($request->password); 
                 $userDetail->save();
 
