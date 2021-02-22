@@ -356,7 +356,8 @@ class BookingController extends Controller
                 }
 
                 //notification to user
-                $body = "You have successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
+                $body = "You have successfully booked ".$packageAmt->package_name." for amount £
+".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking successful";
@@ -364,7 +365,7 @@ class BookingController extends Controller
                 $newNotif->save();
 
                 //notification to counsellor
-                $body = $user->name." successfully booked ".$packageAmt->package_name." for amount ".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
+                $body = $user->name." successfully booked your ".$packageAmt->package_name." for amount £".$packageAmt->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $packageAmt->user->id;
                 $newNotif->title = "Booking successful";
