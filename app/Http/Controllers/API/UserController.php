@@ -556,7 +556,7 @@ class UserController extends Controller
         }
         else
         {
-            $totalRev = Booking::where('counsellor_id', $user->id)->where('status', '3')->get(); 
+            $totalRev = Booking::where('counsellor_id', $user->id)->get(); 
             if(count($totalRev) > 0)
             {
                 $totalRevenue = $totalRev->pluck('package_id')->toArray();
