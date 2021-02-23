@@ -821,7 +821,7 @@ class UserController extends Controller
               
                 if($cURL['status'] == true) 
                 {
-                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".$email."&new_password=".$requestedFields['new_password'];
+                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".urlencode($email)."&new_password=".urlencode($requestedFields['new_password']);
                
                     $cURLReset = $this->url_get_contents($urlReset); 
                     $cURLReset = json_decode($cURLReset, true);
