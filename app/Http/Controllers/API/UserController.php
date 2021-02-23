@@ -346,7 +346,7 @@ class UserController extends Controller
 
                 //Send Forgot Password Mail
                 
-                event(new ForgotPasswordEvent($userDetail->id,$userDetail->otp));
+                //event(new ForgotPasswordEvent($userDetail->id,$userDetail->otp));
 
                 $url = env('LIVE_URL').''.$userDetail['key'];
 
