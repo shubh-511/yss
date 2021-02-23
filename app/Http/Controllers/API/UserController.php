@@ -814,7 +814,7 @@ class UserController extends Controller
             }
             else
             {
-                $url = "https://yoursafespaceonline.com/login.php?email=".$email."&password=".$requestedFields['old_password'];
+                $url = "https://yoursafespaceonline.com/login.php?email=".urlencode($email)."&password=".urlencode($requestedFields['old_password']);
                
                 $cURL = $this->url_get_contents($url); 
                 $cURL = json_decode($cURL, true);
