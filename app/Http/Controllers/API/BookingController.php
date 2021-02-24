@@ -211,6 +211,10 @@ class BookingController extends Controller
               return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
           }
           $user = Auth::user();
+          $packageDetail = Package::with('user')->where('id', $params['package_id'])->first();
+          
+          /*$counsellorTimeZone = $packageDetail->user->timezone;
+          $userTimeZone = $user->timezone;*/
           
           $prevBooking = Booking::where('counsellor_id', $params['counsellor_id'])->where('package_id', $params['package_id'])->where('booking_date', $params['booking_date'])->get();
 
@@ -219,7 +223,6 @@ class BookingController extends Controller
           $result=array_intersect($prevBookingSlots,$slotsForBooking);
           if(count($result) == 0)
           {
-            $packageAmt = Package::with('user')->where('id', $params['package_id'])->first();
 
             Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
             
@@ -239,7 +242,7 @@ class BookingController extends Controller
             ['source' => $params['token']]);
 
               
-            $netAmt = (count($params['slot']) * $packageAmt->amount);
+            $netAmt = (count($params['slot']) * $packageDetail->amount);
             $conf = \Stripe\PaymentIntent::create([
               'amount' => $netAmt * 100,
               'description' => 'yoursafespaceonline.com',
@@ -356,8 +359,8 @@ class BookingController extends Controller
                 }
 
                 //notification to user
-                $body = "You have successfully booked ".$packageAmt->package_name." for amount £
-".$packageAmt->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
+                $body = "You have successfully booked ".$packageDetail->package_name." for amount £
+".$packageDetail->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking successful";
@@ -365,9 +368,9 @@ class BookingController extends Controller
                 $newNotif->save();
 
                 //notification to counsellor
-                $body = $user->name." successfully booked your ".$packageAmt->package_name." for amount £".$packageAmt->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
+                $body = $user->name." successfully booked your ".$packageDetail->package_name." for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
-                $newNotif->receiver = $packageAmt->user->id;
+                $newNotif->receiver = $packageDetail->user->id;
                 $newNotif->title = "Booking successful";
                 $newNotif->body = $body;
                 $newNotif->save();

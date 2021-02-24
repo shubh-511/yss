@@ -300,7 +300,7 @@ class UserController extends Controller
             $input['role_id'] = (array_key_exists('role_id',$input)) ? $input['role_id'] : 3;
 			//$input['otp'] = $this->generateOTP();
             $input['otp'] = 1234;
-            $input['timezone'] = $input['timezone'];
+            $input['timezone'] = $request['timezone'];
             $input['account_enabled'] = '3'; // Not verified user
 	        $user = User::create($input); 
 	        
