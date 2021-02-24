@@ -293,7 +293,7 @@ class UserController extends Controller
 			if ($validator->fails()) { 
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);
 			}
-
+return $request->timezone;
 			$input = $request->all(); 
             $input['email'] = strtolower($input['email']);
 			$input['password'] = bcrypt($input['password']); 
