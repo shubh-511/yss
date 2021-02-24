@@ -49,7 +49,8 @@ class User extends Authenticatable implements JWTSubject
         'migrated_id',
         'user_type',
         'avatar_id',
-        'role_id'
+        'role_id',
+        'timezone'
     ];
 
     /**
