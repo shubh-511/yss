@@ -50,7 +50,7 @@ class NotificationController extends Controller
 			}
 			else
 			{
-				return response()->json(['success'=>false,'errors' =>['exception' => ['No notification found']]], $this->successStatus);
+				return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
 			}
 			
 
@@ -91,7 +91,7 @@ class NotificationController extends Controller
 			}
 			else
 			{
-				return response()->json(['success'=>false,'errors' =>['exception' => ['No notification found']]], $this->successStatus);
+				return response()->json(['success'=>false,'errors' =>['exception' => ['']]], $this->successStatus);
 			}
 			
     	}
