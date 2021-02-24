@@ -1121,5 +1121,20 @@ class UserController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         }
     }
+
+
+    /***
+    logout 
+    ***/
+    public function logout(Request $request)
+    {
+        $mes = 'Logout successfully';
+
+        $token = $request->user()->token();
+        $token->revoke();
+        return response()->json(['success' => $this->successStatus,
+                                 'data' => 'Logout successfuly',
+                                ], $this->successStatus); 
+    }
      
 }

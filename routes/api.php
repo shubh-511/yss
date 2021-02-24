@@ -87,6 +87,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('add/slots/to/cart', 'API\BookingController@addSlotsToCart');
 	Route::post('delete/slots/from/cart', 'API\BookingController@deleteSlotsFromCart');
 	Route::get('get/slots/from/cart', 'API\BookingController@getSlotsFromCart');
+	Route::post('logout', 'API\UserController@logout');
 	
 
 	Route::get('details', 'API\UserController@details');
