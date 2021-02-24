@@ -648,12 +648,23 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
+                  if($request->page == -1)
+                  {
+                    $todaysBooking = Booking::with('counsellor','package','user')
+                    ->where('counsellor_id', $user->id)
+                    ->where('booking_date', Carbon::today())
+                    ->orderBy('slot','ASC')
+                    ->get();
+                  }
+                  else
+                  {
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today())
                     ->orderBy('slot','ASC')
                     ->paginate(5);
-                    //->get();
+                  }
+                    
 
                     
                     return response()->json(['success' => true,
@@ -675,13 +686,22 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
+                  if($request->page == -1)
+                  {
+                    $todaysBooking = Booking::with('counsellor','package','user')
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', Carbon::today())
+                    ->orderBy('slot','ASC')
+                    ->get();
+                  }
+                  else
+                  {
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     ->where('booking_date', Carbon::today())
                     ->orderBy('slot','ASC')
                     ->paginate(5);
-                    //->get();
-
+                  }
 
                     return response()->json(['success' => true,
                                          'todays' => $todaysBooking
