@@ -426,19 +426,35 @@ class PackageController extends Controller
                         
                     }*/
                     
+                        $existingSlotArray = [];
                         foreach($data as $key => $datas)
                         {
-                            $bookingSlot = Booking::where('booking_date', $date)->where('counsellor_id', $request->user_id)->where('slot', $datas)->first();
-                           
-                            if(!empty($bookingSlot))
+                            
+                            $bookingData = Booking::where('booking_date', $date)->where('counsellor_id', $request->user_id)->get();
+               
+                            foreach($bookingData as $bookingSlot)
                             {
-                                $arr[$hours->from_time.' - '.$hours->to_time][] = ($bookingSlot->slot == $datas) ? ("") : ($datas);
-                            }
-                            else
-                            {
-                                $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
+                                $timeInTwentyFourHour = date("H:i", strtotime($bookingSlot->slot));
+                                $parsedTime = Carbon::parse($timeInTwentyFourHour);
+                                $sessionMins = $parsedTime->addMinutes($sessionTime);
+
+                                $fdate = date('h:i A', strtotime($sessionMins));
+
+                                if(($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                {
+                                    $existingSlotArray[] = $datas;
+                                }
+                                
                             }
                             
+                            
+                        }
+
+                        $result = array_diff($data,$existingSlotArray); 
+
+                        foreach($result as $key => $datas)
+                        {
+                            $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
                         }
 
                 }
