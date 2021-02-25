@@ -584,9 +584,6 @@ class BookingController extends Controller
     {
         try
         {
-            $currentTime  = Carbon::now('Asia/Kolkata');
-            $currentTime = $currentTime->format('H:i:s');
-            $currentDate = date('y-m-d');
             
             $user = Auth::user();
             if($user->role_id == 2)
@@ -658,10 +655,7 @@ class BookingController extends Controller
     {
         try
         {
-            $currentTime  = Carbon::now('Asia/Kolkata');
-            $currentTime = $currentTime->format('H:i:s');
-            $currentDate = date('y-m-d');
-            
+           
             $user = Auth::user();
             if($user->role_id == 2)
             {
@@ -892,9 +886,6 @@ class BookingController extends Controller
     {
         try
         {
-            $currentTime  = Carbon::now('Asia/Kolkata');
-            $currentTime = $currentTime->format('H:i:s');
-            $currentDate = date('y-m-d');
             
             $user = Auth::user();
             if($user->role_id == 2)
