@@ -619,12 +619,13 @@ class BookingController extends Controller
             else
             {
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
+                $userTimeZone = $user->timezone;
 
                 if(count($allBookings) > 0)
                 { 
                     $pastBookings = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
-                    ->where('booking_date', '<', Carbon::today())
+                    ->where('booking_date', '<', Carbon::today($userTimeZone))
                     ->orderBy('booking_date','DESC')
                     ->orderBy('slot','ASC')
                     ->paginate(5);
@@ -703,6 +704,7 @@ class BookingController extends Controller
             else
             {
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
+                $userTimeZone = $user->timezone;
 
                 if(count($allBookings) > 0)
                 { 
@@ -710,7 +712,7 @@ class BookingController extends Controller
                   {
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
-                    ->where('booking_date', Carbon::today())
+                    ->where('booking_date', Carbon::today($userTimeZone))
                     ->orderBy('slot','ASC')
                     ->get();
                   }
@@ -718,7 +720,7 @@ class BookingController extends Controller
                   {
                     $todaysBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
-                    ->where('booking_date', Carbon::today())
+                    ->where('booking_date', Carbon::today($userTimeZone))
                     ->orderBy('slot','ASC')
                     ->paginate(5);
                   }
@@ -795,7 +797,7 @@ class BookingController extends Controller
                     $upcomingBookings = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
 
-                    ->where(function ($query) use ($counsellorTimeZone){
+                    ->where(function ($query) {
                         $query->where('counsellor_booking_date', '>', Carbon::today($counsellorTimeZone));
                     })->oRwhere(function ($query) use ($common) {
                         $query->whereIn('id', $common);
@@ -819,21 +821,24 @@ class BookingController extends Controller
             }
             else
             {
+                $userTimeZone = $user->timezone;
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
-                $currentTime  = Carbon::now()->format('H:i:s');
+                $currentTime  = Carbon::now($userTimeZone)->format('H:i:s');
+                
                 
                 if(count($allBookings) > 0)
                 { 
                    
                     $todaysUpcoming = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
-                    ->where('booking_date', '=', Carbon::today())
+                    ->where('booking_date', '=', Carbon::today($userTimeZone))
                     ->get();
                     $common = [];
                     $commonPast = [];
                     foreach($todaysUpcoming as $todayUpcoming)
                     {
-                      $time = date("H:i:s", strtotime($todayUpcoming->slot));
+                      //$time = date("H:i:s", strtotime($todayUpcoming->slot));
+                      $time = Carbon::parse($todayUpcoming->slot)->format("H:i:s");
                       
                       if( ($time > $currentTime))
                       { 
@@ -849,8 +854,8 @@ class BookingController extends Controller
                     $upcomingBooking = Booking::with('counsellor','package','user')
                     ->where('user_id', $user->id)
                     
-                    ->where(function ($query) {
-                        $query->where('booking_date', '>', Carbon::today());
+                    ->where(function ($query) use ($userTimeZone){
+                        $query->where('booking_date', '>', Carbon::today($userTimeZone));
                     })->oRwhere(function ($query) use ($common) {
                         $query->whereIn('id', $common);
                     })
@@ -918,14 +923,15 @@ class BookingController extends Controller
             }
             else
             {
+                $userTimeZone = $user->timezone;
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
 
                 if(count($allBookings) > 0)
                 { 
                    
                     $currentWeekBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)
-                    ->where('booking_date', '>', Carbon::now()->startOfWeek(Carbon::SUNDAY))
-                    ->where('booking_date', '<', Carbon::now()->endOfWeek(Carbon::SATURDAY))
+                    ->where('booking_date', '>', Carbon::now($userTimeZone)->startOfWeek(Carbon::SUNDAY))
+                    ->where('booking_date', '<', Carbon::now($userTimeZone)->endOfWeek(Carbon::SATURDAY))
                     ->orderBy('booking_date','ASC')
                    ->paginate(5);
                     //->get();
