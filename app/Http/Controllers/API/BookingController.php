@@ -311,7 +311,7 @@ class BookingController extends Controller
                 $slotDateTime = Carbon::parse($bookingDate.' '.$slots);
                 $convertedDate = $slotDateTime->addMinutes($offset)->format('Y-m-d');
                 $convertedSlot = $slotDateTime->addMinutes($offset)->format('g:i A');
-return $convertedSlot;
+return $offset;
                 $booking->counsellor_timezone_slot = $convertedSlot;
                 $booking->counsellor_booking_date = $convertedDate;
 
