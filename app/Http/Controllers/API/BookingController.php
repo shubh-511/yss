@@ -283,7 +283,7 @@ class BookingController extends Controller
             $payment->status = $conf->charges->data[0]->status;
             $payment->transfer = $conf->charges->data[0]->transfer;
               
-            $payment->save();
+            //$payment->save();
 
             $counsellorTimeZone = $packageDetail->user->timezone;
             $userTimeZone = $user->timezone;
@@ -309,10 +309,10 @@ class BookingController extends Controller
                 $booking->booking_date = $params['booking_date'];
 
                 //counsellor
-                $slotTime = Carbon::parse($bookingDate.' '.$slots);
-                $convertedDate = $slotTime->addMinutes($offset)->format('Y-m-d');
-                $convertedSlot = $slotTime->addMinutes($offset)->format('g:i A');
-
+                $slotDateTime = Carbon::parse($bookingDate.' '.$slots);
+                $convertedDate = $slotDateTime->addMinutes($offset)->format('Y-m-d');
+                $convertedSlot = $slotDateTime->addMinutes($offset)->format('g:i A');
+return $convertedSlot;
                 $booking->counsellor_timezone_slot = $convertedSlot;
                 $booking->counsellor_booking_date = $convertedDate;
 
