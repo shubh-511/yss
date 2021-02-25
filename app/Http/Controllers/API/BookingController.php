@@ -290,6 +290,7 @@ class BookingController extends Controller
 
             //$gmt = Carbon::now();
             $offset = Carbon::now($counsellorTimeZone)->offsetMinutes;
+            $offset = $offset/2;
             $bookingDate = $params['booking_date'];
             //$convertedSlot = $gmt->addMinutes($offset)->format('g:i A');
 
