@@ -288,11 +288,10 @@ class BookingController extends Controller
             $counsellorTimeZone = $packageDetail->user->timezone;
             $userTimeZone = $user->timezone;
 
-            //$gmt = Carbon::now();
+            
             $offset = Carbon::now($counsellorTimeZone)->offsetMinutes;
             $bookingDate = $params['booking_date'];
-            //$convertedSlot = $gmt->addMinutes($offset)->format('g:i A');
-
+            
             if($conf->status == 'succeeded')
             {
               $slotArray = [];
