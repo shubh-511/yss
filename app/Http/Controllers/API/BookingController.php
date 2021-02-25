@@ -289,9 +289,13 @@ class BookingController extends Controller
             $userTimeZone = $user->timezone;
 
             //$gmt = Carbon::now();
-            $offset = Carbon::now($counsellorTimeZone)->offsetMinutes;
-            $offset = $offset/2;
             $bookingDate = $params['booking_date'];
+            $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
+            $offsetCounsellor = $offsetCounsellor/2;
+
+            $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
+            $offsetUser = $offsetUser/2;
+            
             //$convertedSlot = $gmt->addMinutes($offset)->format('g:i A');
 
             if($conf->status == 'succeeded')
@@ -306,16 +310,20 @@ class BookingController extends Controller
                 $booking->counsellor_id = $params['counsellor_id'];
 
                 //user
-                $booking->slot = $slots;
-                $booking->booking_date = $params['booking_date'];
+                $slotDateTimeUser = Carbon::parse($bookingDate.' '.$slots);
+                $convertedDateUser = $slotDateTimeUser->addMinutes($offsetUser)->format('Y-m-d');
+                $convertedSlotUser = $slotDateTimeUser->addMinutes($offsetUser)->format('g:i A');
+
+                $booking->slot = $convertedSlotUser;
+                $booking->booking_date = $convertedDateUser;
 
                 //counsellor
-                $slotDateTime = Carbon::parse($bookingDate.' '.$slots);
-                $convertedDate = $slotDateTime->addMinutes($offset)->format('Y-m-d');
-                $convertedSlot = $slotDateTime->addMinutes($offset)->format('g:i A');
+                $slotDateTimeCounselor = Carbon::parse($bookingDate.' '.$slots);
+                $convertedDateCounsellor = $slotDateTimeCounselor->addMinutes($offsetCounsellor)->format('Y-m-d');
+                $convertedSlotCounsellor = $slotDateTimeCounselor->addMinutes($offsetCounsellor)->format('g:i A');
 
-                $booking->counsellor_timezone_slot = $convertedSlot;
-                $booking->counsellor_booking_date = $convertedDate;
+                $booking->counsellor_timezone_slot = $convertedSlotCounsellor;
+                $booking->counsellor_booking_date = $convertedDateCounsellor;
 
                 $booking->package_id = $params['package_id'];
                 $booking->notes = $params['notes'];
