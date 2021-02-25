@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use JWTAuth;
 use Event;
+use Carbon\Carbon;
 use JWT;
 use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
@@ -31,7 +32,6 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response 
      */ 
     public function login(Request $request){
-    	
     	try{
             
             $input = [];

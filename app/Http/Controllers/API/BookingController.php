@@ -202,8 +202,6 @@ class BookingController extends Controller
           $user = Auth::user();
           $packageDetail = Package::with('user')->where('id', $params['package_id'])->first();
           
-          /*$counsellorTimeZone = $packageDetail->user->timezone;
-          $userTimeZone = $user->timezone;*/
           
           $prevBooking = Booking::where('counsellor_id', $params['counsellor_id'])->where('package_id', $params['package_id'])->where('booking_date', $params['booking_date'])->get();
 
@@ -287,19 +285,36 @@ class BookingController extends Controller
               
             $payment->save();
 
-             
+            $counsellorTimeZone = $packageDetail->user->timezone;
+            $userTimeZone = $user->timezone;
+
+            //$gmt = Carbon::now();
+            $offset = Carbon::now($counsellorTimeZone)->offsetMinutes;
+            //$convertedSlot = $gmt->addMinutes($offset)->format('g:i A');
+
             if($conf->status == 'succeeded')
             {
               $slotArray = [];
               foreach($params['slot'] as $slots)
-              {
+              {                     
                 array_push($slotArray, $slots);
                 $booking = new Booking; 
                 $booking->user_id = $user->id;
                 $booking->payment_id = $payment->id;
                 $booking->counsellor_id = $params['counsellor_id'];
+
+                //user
                 $booking->slot = $slots;
                 $booking->booking_date = $params['booking_date'];
+
+                //counsellor
+                $slotTime = Carbon::parse($slots);
+                $convertedDate = $slotTime->addMinutes($offset)->format('Y-m-d');
+                $convertedSlot = $slotTime->addMinutes($offset)->format('g:i A');
+
+                $booking->counsellor_timezone_slot = $convertedSlot;
+                $booking->counsellor_booking_date = $convertedDate;
+
                 $booking->package_id = $params['package_id'];
                 $booking->notes = $params['notes'];
                 $booking->status = '1';
@@ -566,7 +581,6 @@ class BookingController extends Controller
             $user = Auth::user();
             if($user->role_id == 2)
             {
-                $timezone = $user->timezone;
                 $allBookings = Booking::where('counsellor_id', $user->id)->get(); 
 
                 if(count($allBookings) > 0)
@@ -591,7 +605,6 @@ class BookingController extends Controller
             }
             else
             {
-                $timezone = $user->timezone;
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
 
                 if(count($allBookings) > 0)
