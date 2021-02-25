@@ -797,7 +797,7 @@ class BookingController extends Controller
                     $upcomingBookings = Booking::with('counsellor','package','user')
                     ->where('counsellor_id', $user->id)
 
-                    ->where(function ($query) {
+                    ->where(function ($query) use ($counsellorTimeZone){
                         $query->where('counsellor_booking_date', '>', Carbon::today($counsellorTimeZone));
                     })->oRwhere(function ($query) use ($common) {
                         $query->whereIn('id', $common);
