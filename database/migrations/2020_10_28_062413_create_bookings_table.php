@@ -21,6 +21,8 @@ class CreateBookingsTable extends Migration
             $table->longText('notes')->nullable();
             $table->string('slot')->nullable();
             $table->date('booking_date')->nullable();
+            $table->string('counsellor_timezone_slot')->nullable();
+            $table->date('counsellor_booking_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

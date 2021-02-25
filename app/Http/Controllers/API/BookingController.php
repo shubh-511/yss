@@ -191,20 +191,9 @@ class BookingController extends Controller
       try
       {
           $params = $request->param;
-          //return $params['counsellor_id'];
-          //validate data
           $rules = $this->validateData($params);
            
           $validator = Validator::make($params, $rules);
-
-          /*$validator = Validator::make($request->all(), [ 
-                'counsellor_id' => 'required',  
-                'package_id' => 'required', 
-                'slot' => 'required|max:190', 
-                'booking_date' => 'required',
-                'token' => 'required',
-                'card_id' => 'required', 
-          ]);*/
 
           if ($validator->fails()) 
           { 
@@ -577,6 +566,7 @@ class BookingController extends Controller
             $user = Auth::user();
             if($user->role_id == 2)
             {
+                $timezone = $user->timezone;
                 $allBookings = Booking::where('counsellor_id', $user->id)->get(); 
 
                 if(count($allBookings) > 0)
@@ -601,6 +591,7 @@ class BookingController extends Controller
             }
             else
             {
+                $timezone = $user->timezone;
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
 
                 if(count($allBookings) > 0)

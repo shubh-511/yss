@@ -603,12 +603,16 @@ class UserController extends Controller
             {
                 $profilePercentage = "100";
                 //Send Mail
-
-                $newNotif = new Notification;
-                $newNotif->receiver = $user->id;
-                $newNotif->title = "Profile Completed";
-                $newNotif->body = "Your profile has been completed!";
-                $newNotif->save();
+                $existNotif = Notification::where('receiver', $user->id)->where('title', 'Profile Completed')->first();
+                if(empty($existNotif))
+                {
+                    $newNotif = new Notification;
+                    $newNotif->receiver = $user->id;
+                    $newNotif->title = "Profile Completed";
+                    $newNotif->body = "Your profile has been completed!";
+                    $newNotif->save();
+                }
+                
                 
                 //event(new ProfileCompleteEvent($user->id));
                 //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
