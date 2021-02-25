@@ -812,7 +812,8 @@ class BookingController extends Controller
             else
             {
                 $allBookings = Booking::where('user_id', $user->id)->get(); 
-
+                $currentTime  = Carbon::now()->format('H:i:s');
+                
                 if(count($allBookings) > 0)
                 { 
                    
