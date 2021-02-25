@@ -283,15 +283,16 @@ class BookingController extends Controller
             $payment->status = $conf->charges->data[0]->status;
             $payment->transfer = $conf->charges->data[0]->transfer;
               
-            //$payment->save();
+            $payment->save();
 
             $counsellorTimeZone = $packageDetail->user->timezone;
             $userTimeZone = $user->timezone;
 
-            
+            //$gmt = Carbon::now();
             $offset = Carbon::now($counsellorTimeZone)->offsetMinutes;
             $bookingDate = $params['booking_date'];
-            
+            //$convertedSlot = $gmt->addMinutes($offset)->format('g:i A');
+
             if($conf->status == 'succeeded')
             {
               $slotArray = [];
@@ -311,7 +312,7 @@ class BookingController extends Controller
                 $slotDateTime = Carbon::parse($bookingDate.' '.$slots);
                 $convertedDate = $slotDateTime->addMinutes($offset)->format('Y-m-d');
                 $convertedSlot = $slotDateTime->addMinutes($offset)->format('g:i A');
-return $slotDateTime;
+
                 $booking->counsellor_timezone_slot = $convertedSlot;
                 $booking->counsellor_booking_date = $convertedDate;
 
