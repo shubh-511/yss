@@ -72,7 +72,7 @@ class AdminController extends Controller
     public function dashboard(Request $request)
     {
         $userCount = User::where('role_id','!=',1)->count();
-        $bookingCount = Booking::where('status', 1)->count();
+        $bookingCount = Booking::where('status', '1')->count();
 
         //return $request;
         $users = User::select(\DB::raw("COUNT(*) as count"))
