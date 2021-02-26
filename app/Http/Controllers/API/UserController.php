@@ -22,9 +22,11 @@ use App\VideoChannel;
 use App\Events\ForgotPasswordEvent;
 use App\Events\ProfileCompleteEvent;
 use App\Events\WelcomeUserEvent;
+use App\Traits\ProfileStatusTrait;
 
 class UserController extends Controller
 {
+    use ProfileStatusTrait;
     public $successStatus = 200;
 	/** 
      * login api 
@@ -548,7 +550,6 @@ class UserController extends Controller
     { 
         $profilePercentage = '';
         $totalRevenue = '';
-        $wordpressProfileUrl = "https://yoursafespaceonline.com/profile_update.php?";
 
         $user = Auth::user(); 
         Auth::user()->roles;
@@ -568,71 +569,16 @@ class UserController extends Controller
             {
                 $totalRevenue = 0;
             }
-            
-            $packagePerct = Package::where('user_id', $user->id)->count();
-            $avalPerct = Availability::where('user_id', $user->id)->count();
-            $stripePerct = StripeConnect::where('user_id', $user->id)->count();
-
-            if($packagePerct == 0 && $avalPerct == 0 && $stripePerct == 0)
-            {
-                $profilePercentage = "25";
-            }
-            elseif($packagePerct > 0 && $avalPerct == 0 && $stripePerct == 0)
-            {
-                $profilePercentage = "50";
-            }
-            elseif($packagePerct == 0 && $avalPerct > 0 && $stripePerct == 0)
-            {
-                $profilePercentage = "50";
-            }
-            elseif($packagePerct == 0 && $avalPerct == 0 && $stripePerct > 0)
-            {
-                $profilePercentage = "50";
-            }
-            elseif(($packagePerct > 0 && $avalPerct > 0 ) && $stripePerct == 0)
-            {
-                $profilePercentage = "75";
-            }
-            elseif($packagePerct == 0 && ($avalPerct > 0 && $stripePerct > 0))
-            {
-                $profilePercentage = "75";
-            }
-            elseif($avalPerct == 0 && ($packagePerct > 0 && $stripePerct > 0))
-            {
-                $profilePercentage = "75";
-            }
-            else
-            {
-                $profilePercentage = "100";
-                //Send Mail
-                $existNotif = Notification::where('receiver', $user->id)->where('title', 'Profile Completed')->first();
-                if(empty($existNotif))
-                {
-                    $newNotif = new Notification;
-                    $newNotif->receiver = $user->id;
-                    $newNotif->title = "Profile Completed";
-                    $newNotif->body = "Your profile has been completed!";
-                    $newNotif->save();
-                }
-                
-                
-                //event(new ProfileCompleteEvent($user->id));
-                //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
-            }
-
-            $url = $wordpressProfileUrl."user_id=".$user->migrated_id."&profile_status=".$profilePercentage;
-            $cURL = $this->url_get_contents($url); 
-            $cURL = json_decode($cURL, true);
-
-            $userUpdate = User::where('id', $user->id)->update(['profile_percentage' => $profilePercentage]);
+            $profilePercentage = $this->profileStatus(Auth::user()->id);
+            $userData = User::where('id', $user->id)->first();
 
             $channelData = VideoChannel::where('to_id', $user->id)->get();
         }
         
         return response()->json(['success' => true,
-                                'profile_percentage' => $profilePercentage,
+                                //'profile_percentage' => $profilePercentage,
                                 'revenue' => $totalRevenue,
-                                 'user' => $user,
+                                 'user' => $userData,
                                  'channel_data' => $channelData,
                                 ], $this->successStatus);  
     }
@@ -679,7 +625,7 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request){
         try{
-
+            $wordpressProfileUrl = "https://yoursafespaceonline.com/profile_update.php?";
             $validator = Validator::make($request->all(), [ 
                 'name' => 'required|max:190',  
                // 'location' => 'required|max:190',
@@ -691,31 +637,29 @@ class UserController extends Controller
             }
 
             $input = $request->all();
+            if(Auth::user()->role_id == 2)
+            {
+                $profilePercentage = $this->profileStatus(Auth::user()->id);
 
-            // if(array_key_exists('first_name',$input) ||
-            //    array_key_exists('last_name', $input) ||
-            //    array_key_exists('middle_name', $input) ||
-            //    array_key_exists('location', $input)){
+                $url = $wordpressProfileUrl."user_id=".Auth::user()->migrated_id."&profile_status=".$profilePercentage;
+                $cURL = $this->url_get_contents($url); 
+                $cURL = json_decode($cURL, true);
+            }
 
-                $user = User::where('id', Auth::user()->id)->update(['name'=>$request->name, 'location'=> $request->location, 'timezone'=> $request->timezone]);
+            $user = User::where('id', Auth::user()->id)->update(['name'=>$request->name, 'location'=> $request->location, 'timezone'=> $request->timezone]);
 
-                if($user){
-                    $user = User::where('id',Auth::user()->id)->with('roles')->first(); 
-                    return response()->json(['success' => true,
-                                     'user' => $user,
-                                    ], $this->successStatus); 
-                }else{
-                    return response()->json(['success' => false,
-                                     'errors' => [ 'exception' => 'Wrong parameters sent'],
-                                    ], $this->successStatus);
-                }
+            if($user){
+                $user = User::where('id',Auth::user()->id)->with('roles')->first(); 
+                return response()->json(['success' => true,
+                                 'user' => $user,
+                                ], $this->successStatus); 
+            }else{
+                return response()->json(['success' => false,
+                                 'errors' => [ 'exception' => 'Wrong parameters sent'],
+                                ], $this->successStatus);
+            }
                 
-            //}
-
-            // return response()->json(['success' => false,
-            //                          'errors' => [ 'error' => 'Wrong parameters sent'],
-            //                         ], $this->successStatus); 
-
+           
         }catch(\Exception $e){
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
