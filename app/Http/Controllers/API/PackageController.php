@@ -497,7 +497,11 @@ class PackageController extends Controller
 
                                     if(($datas >= $bookingSlot->counsellor_timezone_slot) && ($datas <= $fdate))
                                     {
-                                        $existingSlotArray[] = $datas;
+                                        $slotDateTimeUser = Carbon::parse($date.' '.$datas);
+                                        
+                                        $convertedSlotUser = $slotDateTimeUser->addMinutes($offsetUser)->format('g:i A');
+
+                                        $existingSlotArray[] = $convertedSlotUser;
                                     }
                                     
                                 }
