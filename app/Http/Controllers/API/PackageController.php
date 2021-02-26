@@ -20,7 +20,7 @@ class PackageController extends Controller
 {
     use ProfileStatusTrait;
     public $successStatus = 200;
-    
+	
 
     /** 
      * Create Package api 
@@ -29,7 +29,7 @@ class PackageController extends Controller
      */ 
     public function createPackage(Request $request) 
     {
-        try
+    	try
         {
             $exits = Package::where('user_id','=',Auth::user()->id)->where('package_name', $request->package_name)->count();
             if ($exits > 0)
@@ -38,38 +38,38 @@ class PackageController extends Controller
             }
             else
             {
-                $validator = Validator::make($request->all(), [ 
-                    'package_name' => 'required|max:190',  
-                    'package_description' => 'required', 
-                    'session_minutes' => 'required', 
+        		$validator = Validator::make($request->all(), [ 
+    	            'package_name' => 'required|max:190',  
+    	            'package_description' => 'required', 
+    	            'session_minutes' => 'required', 
                     'session_hours' => 'required', 
                     'amount' => 'required',
-                ]);
+    	        ]);
 
-                if ($validator->fails()) 
+    			if ($validator->fails()) 
                 { 
-                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
-                }
+    	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+    			}
                 $user = Auth::user()->id;
 
-                $input = $request->all(); 
+    			$input = $request->all(); 
                 $input['user_id'] = $user;
-                $package = Package::create($input); 
+    	        $package = Package::create($input); 
 
                 $profilePercentage = $this->profileStatus(Auth::user()->id);
                 $userData = User::where('id', Auth::user()->id)->first();
 
-                return response()->json(['success' => true,
-                                         'package' => $package,
+    	        return response()->json(['success' => true,
+    	            					 'package' => $package,
                                          'user' =>  $userData
-                                        ], $this->successStatus); 
+    	            					], $this->successStatus); 
             }
 
-        }
+    	}
         catch(\Exception $e)
         {
-            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } 
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	} 
         
     }
 
@@ -439,6 +439,14 @@ class PackageController extends Controller
                             $i++;
                         
                     }*/
+                        $offsetUser = Carbon::now($user->timezone)->offsetMinutes;
+                        $offsetUser = $offsetUser/2;
+
+                        $slotFromTimeUser = Carbon::parse($hours->from_time);
+                        $convertedFromTimeUser = $slotFromTimeUser->addMinutes($offsetUser)->format('g:i A');
+
+                        $slotToTimeUser = Carbon::parse($hours->to_time);
+                        $convertedToTimeUser = $slotToTimeUser->addMinutes($offsetUser)->format('g:i A');
                     
                         $existingSlotArray = [];
                         if($user->timezone == $counsellor->timezone)
@@ -464,6 +472,13 @@ class PackageController extends Controller
                                 }
                                 
                             }
+
+                            $result = array_diff($data,$existingSlotArray); 
+
+                            foreach($result as $key => $datas)
+                            {
+                                $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
+                            }
                         }
                         else
                         {
@@ -482,20 +497,26 @@ class PackageController extends Controller
 
                                     if(($datas >= $bookingSlot->counsellor_timezone_slot) && ($datas <= $fdate))
                                     {
-                                        $existingSlotArray[] = $datas;
+                                        $slotDateTimeUser = Carbon::parse($datas);
+                                        
+                                        $convertedSlotUser = $slotDateTimeUser->addMinutes($offsetUser)->format('g:i A');
+
+                                        $existingSlotArray[] = $convertedSlotUser;
                                     }
                                     
                                 }
                                 
                             }
+
+                            $result = array_diff($data,$existingSlotArray); 
+
+                            foreach($result as $key => $datas)
+                            {
+                                $arr[$convertedFromTimeUser.' - '.$convertedToTimeUser][] = $datas;
+                            }
                         }
 
-                        $result = array_diff($data,$existingSlotArray); 
-
-                        foreach($result as $key => $datas)
-                        {
-                            $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
-                        }
+                        
 
                 }
                 return response()->json(['success' => true,
