@@ -9,9 +9,11 @@ use App\AvailaibleHours;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use Event;
+use App\Traits\ProfileStatusTrait;
 
 class AvailabilityController extends Controller
 {
+	use ProfileStatusTrait;
     public $successStatus = 200;
 	
 
@@ -470,9 +472,11 @@ class AvailabilityController extends Controller
 				    echo "";
 					}
 				}	
-
+				$profilePercentage = $this->profileStatus(Auth::user()->id);
+				$userData = User::where('id', Auth::user()->id)->first();
 		        return response()->json(['success' => true,
 		            					 'message' => 'Timings updated!',
+		            					 'user'	=>	$userData
 		            					], $this->successStatus);  
 			}	
 

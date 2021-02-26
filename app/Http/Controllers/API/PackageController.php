@@ -13,9 +13,11 @@ use App\Availability;
 use Event;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
+use App\Traits\ProfileStatusTrait;
 
 class PackageController extends Controller
 {
+    use ProfileStatusTrait;
     public $successStatus = 200;
 	
 
@@ -53,10 +55,14 @@ class PackageController extends Controller
                 $input['user_id'] = $user;
     	        $package = Package::create($input); 
 
+                $profilePercentage = $this->profileStatus(Auth::user()->id);
+                $userData = User::where('id', Auth::user()->id)->first();
+
     	        return response()->json(['success' => true,
     	            					 'package' => $package,
+                                         'user' =>  $userData
     	            					], $this->successStatus); 
-        }
+            }
 
     	}
         catch(\Exception $e)

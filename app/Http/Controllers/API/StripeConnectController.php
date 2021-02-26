@@ -10,9 +10,11 @@ use App\User;
 use Validator;
 use Stripe;
 use Event;
+use App\Traits\ProfileStatusTrait;
 
 class StripeConnectController extends Controller
 {
+	use ProfileStatusTrait;
     public $successStatus = 200;
 	
 
@@ -56,9 +58,12 @@ class StripeConnectController extends Controller
 
 
 				$userUpdate = User::where('id', $user)->update(['is_acct_connected' => '1']);
+				$profilePercentage = $this->profileStatus(Auth::user()->id);
+                $userData = User::where('id', Auth::user()->id)->first();
 
 				return response()->json(['success' => true,
 	            					 'message' => 'Stripe account has been linked',
+	            					 'user'	=>	$userData
 	            					], $this->successStatus);
 			}
 			else
