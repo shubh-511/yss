@@ -49,6 +49,7 @@ class CreateUsersTable extends Migration
             $table->string('key')->comment("forgot key")->nullable();
             $table->integer('role_id')->nullable();
             $table->string('timezone')->nullable();
+            $table->integer('profile_percentage')->default(25);
             $table->rememberToken();
             $table->timestamps();
         });

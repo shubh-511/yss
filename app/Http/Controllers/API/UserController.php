@@ -548,6 +548,8 @@ class UserController extends Controller
     { 
         $profilePercentage = '';
         $totalRevenue = '';
+        $wordpressProfileUrl = "https://yoursafespaceonline.com/profile_update.php?";
+
         $user = Auth::user(); 
         Auth::user()->roles;
         if($user->role_id == 3)
@@ -617,6 +619,12 @@ class UserController extends Controller
                 //event(new ProfileCompleteEvent($user->id));
                 //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
             }
+
+            $url = $wordpressProfileUrl."user_id=".$user->migrated_id."&profile_status=".$profilePercentage;
+            $cURL = $this->url_get_contents($url); 
+            $cURL = json_decode($cURL, true);
+
+            $userUpdate = User::where('id', $user->id)->update(['profile_percentage' => $profilePercentage]);
 
             $channelData = VideoChannel::where('to_id', $user->id)->get();
         }
