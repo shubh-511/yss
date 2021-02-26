@@ -439,12 +439,6 @@ class PackageController extends Controller
                             $i++;
                         
                     }*/
-
-                        $offsetCounsellor = Carbon::now($counsellor->timezone)->offsetMinutes;
-                        $offsetCounsellor = $offsetCounsellor/2;
-
-                        $offsetUser = Carbon::now($user->timezone)->offsetMinutes;
-                        $offsetUser = $offsetUser/2;
                     
                         $existingSlotArray = [];
                         if($user->timezone == $counsellor->timezone)
@@ -488,11 +482,7 @@ class PackageController extends Controller
 
                                     if(($datas >= $bookingSlot->counsellor_timezone_slot) && ($datas <= $fdate))
                                     {
-                                        $slotDateTimeUser = Carbon::parse($date.' '.$datas);
-                                        $convertedDateUser = $slotDateTimeUser->addMinutes($offsetUser)->format('Y-m-d');
-                                        $convertedSlotUser = $slotDateTimeUser->addMinutes($offsetUser)->format('g:i A');
-
-                                        $existingSlotArray[] = $convertedSlotUser;
+                                        $existingSlotArray[] = $datas;
                                     }
                                     
                                 }
