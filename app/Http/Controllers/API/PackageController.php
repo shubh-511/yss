@@ -309,8 +309,11 @@ class PackageController extends Controller
 
                 if($package)
                 {
+                    $profilePercentage = $this->profileStatus(Auth::user()->id);
+                    $userData = User::where('id', Auth::user()->id)->first();
                     return response()->json(['success' => true,
                                          'message' => 'Package deleted successfully',
+                                         'user' =>  $userData
                                         ], $this->successStatus);
                 }
                 else
@@ -345,6 +348,7 @@ class PackageController extends Controller
             $validator = Validator::make($request->all(), [ 
                 'package_id' => 'required',
                 'user_id' => 'required',
+                'counsellor_id' =>  'required',
                 //'date' => 'required|date_format:Y-m-d',
                 'date' => 'required|date_format:Y-m-d|after_or_equal:today',
             ]);
@@ -357,10 +361,13 @@ class PackageController extends Controller
             $date = $request->date;
             $selectedDate = Carbon::parse($date)->format('l');
             $day = strtolower($selectedDate);
-            
-            $getAvailability = Availability::where('user_id', $request->user_id)->where('availaible_days', $day)->first(); 
 
-            $package = Package::where('id', $request->package_id)->where('user_id', $request->user_id)->first();
+            $user = User::where('id', $request->user_id)->first();
+            $counsellor = User::where('id', $request->counsellor_id)->first();
+            
+            $getAvailability = Availability::where('user_id', $request->counsellor_id)->where('availaible_days', $day)->first(); 
+
+            $package = Package::where('id', $request->package_id)->where('user_id', $request->counsellor_id)->first();
 
             $arr = [];
             if(!empty($package) && !empty($getAvailability))
@@ -377,7 +384,7 @@ class PackageController extends Controller
                     $sessionTime = $sessionMin;
                 }
                 //$sessionTime = 23;
-                $bkdSlot = Booking::where('booking_date', $date)->where('counsellor_id', $request->user_id)->get();
+                $bkdSlot = Booking::where('booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
                 if(!empty($bkdSlot))
                 {
                     $bookedSlot = $bkdSlot->pluck('slot')->toArray();
@@ -434,27 +441,53 @@ class PackageController extends Controller
                     }*/
                     
                         $existingSlotArray = [];
-                        foreach($data as $key => $datas)
+                        if($user->timezone == $counsellor->timezone)
                         {
-                            
-                            $bookingData = Booking::where('booking_date', $date)->where('counsellor_id', $request->user_id)->get();
-               
-                            foreach($bookingData as $bookingSlot)
+                            foreach($data as $key => $datas)
                             {
-                                $timeInTwentyFourHour = date("H:i", strtotime($bookingSlot->slot));
-                                $parsedTime = Carbon::parse($timeInTwentyFourHour);
-                                $sessionMins = $parsedTime->addMinutes($sessionTime);
-
-                                $fdate = date('h:i A', strtotime($sessionMins));
-
-                                if(($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                
+                                $bookingData = Booking::where('booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
+                   
+                                foreach($bookingData as $bookingSlot)
                                 {
-                                    $existingSlotArray[] = $datas;
+                                    $timeInTwentyFourHour = date("H:i", strtotime($bookingSlot->slot));
+                                    $parsedTime = Carbon::parse($timeInTwentyFourHour);
+                                    $sessionMins = $parsedTime->addMinutes($sessionTime);
+
+                                    $fdate = date('h:i A', strtotime($sessionMins));
+
+                                    if(($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                    {
+                                        $existingSlotArray[] = $datas;
+                                    }
+                                    
                                 }
                                 
                             }
-                            
-                            
+                        }
+                        else
+                        {
+                            foreach($data as $key => $datas)
+                            {
+                                
+                                $bookingData = Booking::where('counsellor_booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
+                   
+                                foreach($bookingData as $bookingSlot)
+                                {
+                                    $timeInTwentyFourHour = date("H:i", strtotime($bookingSlot->counsellor_timezone_slot));
+                                    $parsedTime = Carbon::parse($timeInTwentyFourHour);
+                                    $sessionMins = $parsedTime->addMinutes($sessionTime);
+
+                                    $fdate = date('h:i A', strtotime($sessionMins));
+
+                                    if(($datas >= $bookingSlot->counsellor_timezone_slot) && ($datas <= $fdate))
+                                    {
+                                        $existingSlotArray[] = $datas;
+                                    }
+                                    
+                                }
+                                
+                            }
                         }
 
                         $result = array_diff($data,$existingSlotArray); 
