@@ -570,10 +570,11 @@ class UserController extends Controller
                 $totalRevenue = 0;
             }
             $profilePercentage = $this->profileStatus(Auth::user()->id);
-            $userData = User::where('id', $user->id)->first();
+            
 
             $channelData = VideoChannel::where('to_id', $user->id)->get();
         }
+        $userData = User::where('id', $user->id)->first();
         
         return response()->json(['success' => true,
                                 //'profile_percentage' => $profilePercentage,
