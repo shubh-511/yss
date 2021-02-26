@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Package; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use App\User; 
 use App\AvailaibleHours;
 use App\Booking;
 use App\Availability;

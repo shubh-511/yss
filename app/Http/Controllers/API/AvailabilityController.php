@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Availability; 
+use App\User; 
 use App\AvailaibleHours;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
