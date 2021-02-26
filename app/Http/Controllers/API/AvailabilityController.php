@@ -253,9 +253,11 @@ class AvailabilityController extends Controller
 			    echo "";
 				}
 			}
-
+				$profilePercentage = $this->profileStatus(Auth::user()->id);
+				$userData = User::where('id', Auth::user()->id)->first();
 				return response()->json(['success' => true,
 	            					 'message' => 'Timings  Added!',
+	            					 'user'	=>	$userData
 	            					], $this->successStatus); 
 			}
 			else
