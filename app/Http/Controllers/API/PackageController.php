@@ -439,6 +439,14 @@ class PackageController extends Controller
                             $i++;
                         
                     }*/
+                        $offsetUser = Carbon::now($user->timezone)->offsetMinutes;
+                        $offsetUser = $offsetUser/2;
+
+                        $slotFromTimeUser = Carbon::parse($hours->from_time);
+                        $convertedFromTimeUser = $slotFromTimeUser->addMinutes($offsetUser)->format('g:i A');
+
+                        $slotToTimeUser = Carbon::parse($hours->to_time);
+                        $convertedToTimeUser = $slotToTimeUser->addMinutes($offsetUser)->format('g:i A');
                     
                         $existingSlotArray = [];
                         if($user->timezone == $counsellor->timezone)
@@ -464,6 +472,13 @@ class PackageController extends Controller
                                 }
                                 
                             }
+
+                            $result = array_diff($data,$existingSlotArray); 
+
+                            foreach($result as $key => $datas)
+                            {
+                                $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
+                            }
                         }
                         else
                         {
@@ -488,14 +503,16 @@ class PackageController extends Controller
                                 }
                                 
                             }
+
+                            $result = array_diff($data,$existingSlotArray); 
+
+                            foreach($result as $key => $datas)
+                            {
+                                $arr[$convertedFromTimeUser.' - '.$convertedToTimeUser][] = $datas;
+                            }
                         }
 
-                        $result = array_diff($data,$existingSlotArray); 
-
-                        foreach($result as $key => $datas)
-                        {
-                            $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
-                        }
+                        
 
                 }
                 return response()->json(['success' => true,
