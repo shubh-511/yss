@@ -314,8 +314,8 @@ class BookingController extends Controller
                   $booking->slot = $slots;
                   $booking->booking_date = $bookingDate;
 
-                  $booking->slot = $slots;
-                  $booking->booking_date = $bookingDate;
+                  $booking->counsellor_timezone_slot = $slots;
+                  $booking->counsellor_booking_date = $bookingDate;
                 }
                 else
                 {
