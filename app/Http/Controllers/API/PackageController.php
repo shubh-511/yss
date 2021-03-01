@@ -586,11 +586,12 @@ class PackageController extends Controller
                                 $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $date.' '.$datas, $user->timezone);
 
                                 $currentTimestamp = Carbon::now($user->timezone);
+                                $currentUserDate = $currentTimestamp->format('Y-m-d');
                                 
 //return $inputTimestamp;
                                 //$fdate = date('h:i A', strtotime($sessionMins));
                                 
-                                if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($date == $currentUserDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
                                 {
                                     /*$slotUser = strtotime( $date . ' '.$datas );
                     
