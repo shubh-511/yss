@@ -814,7 +814,7 @@ class BookingController extends Controller
                     foreach($todaysUpcoming as $todayUpcoming)
                     {
                       //$time = date("H:i:s", strtotime($todayUpcoming->slot));
-                      $time = Carbon::parse($todayUpcoming->counsellor_timezone_slot)->format("H:i:s");
+                      $time = Carbon::parse($todayUpcoming->slot)->format("H:i:s");
                       
                       if( ($time > $currentTime))
                       { 

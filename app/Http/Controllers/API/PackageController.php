@@ -443,7 +443,28 @@ class PackageController extends Controller
                         $offsetUser = Carbon::now($user->timezone)->offsetMinutes;
                         $offsetCounsellor = Carbon::now($counsellor->timezone)->offsetMinutes;
                          
+/****temp code*/
+                        
+                    $timestampFrom = $date.' '.$hours->from_time;
+                    $timestampTo = $date.' '.$hours->to_time;
+                     
+                    
+                    $timestampFrom = $date.' '.$hours->from_time;
+                    $date_From = Carbon::createFromFormat('Y-m-d g:i A', $timestampFrom, $counsellor->timezone);
+                    $utcFrom = $date_From->setTimezone('UTC');
 
+                    $date_To = Carbon::createFromFormat('Y-m-d g:i A', $timestampTo, $counsellor->timezone);
+                    $utcTo = $date_To->setTimezone('UTC');
+                    
+
+                        $utimesFrom = $utcFrom->format('g:i A');
+                        $utimesFrom = Carbon::parse($utimesFrom)->addMinutes($offsetUser)->format('g:i A');
+
+                        $utimesTo = $utcTo->format('g:i A');
+                        $utimesTo = Carbon::parse($utimesTo)->addMinutes($offsetUser)->format('g:i A');
+
+
+/********************/
                         
                         
 
@@ -503,27 +524,13 @@ class PackageController extends Controller
                         {
                             foreach($data as $key => $datas)
                             {
-                                
-                                $bookingData = Booking::where('booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
-                   
-                                foreach($bookingData as $bookingSlot)
-                                {
-                                    $timeInTwentyFourHour = date("H:i", strtotime($bookingSlot->slot));
-                                    $parsedTime = Carbon::parse($timeInTwentyFourHour);
-                                    $sessionMins = $parsedTime->addMinutes($sessionTime);
-
-                                    $fdate = date('h:i A', strtotime($sessionMins));
-
-                                    if(($datas >= $bookingSlot->slot) && ($datas <= $fdate))
-                                    {
-                                        $existingSlotArray[] = $datas;
-                                    }
-                                    
-                                }
-                                
+                               
+		                  $existingSlotArray[] = $datas;
+		               
                             }
 
-                            $result = array_diff($data,$existingSlotArray); 
+                            //$result = array_diff($data,$existingSlotArray);
+                            $result = $existingSlotArray;  
 
                             foreach($result as $key => $datas)
                             {
@@ -581,7 +588,7 @@ class PackageController extends Controller
                                 
                                 if( !in_array($datas, $books)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
                                 {
-                                    $slotUser = strtotime( $date . ' '.$datas );
+                                    /*$slotUser = strtotime( $date . ' '.$datas );
                     
                             
                                     $slotUser = Carbon::createFromTimestamp($slotUser)
@@ -589,7 +596,29 @@ class PackageController extends Controller
                                         ->toDateTimeString();
                                     $slotUser = Carbon::parse($slotUser)->format('h:i A');
                                     
-                                    $existingSlotArray[] = $slotUser;
+                                    $existingSlotArray[] = $slotUser;*/
+
+
+/********tempcode**/
+
+
+                        $dateAndTime = $date.' '.$datas;
+
+                        $mySlot = Carbon::createFromFormat('Y-m-d g:i A', $dateAndTime, $counsellor->timezone);
+                        $myutc = $mySlot->setTimezone('UTC');
+
+                        
+                        $userTime = $myutc->format('g:i A');
+                        $userTime = Carbon::parse($userTime)->addMinutes($offsetUser)->format('g:i A');
+
+                        $existingSlotArray[] = $userTime;
+
+
+
+
+
+/**************/
+
                                 }
                                         
                             }
@@ -601,7 +630,7 @@ class PackageController extends Controller
  
                             foreach($result as $key => $datas)
                             {
-                                $arr[$slotFromTimeUser.' - '.$slotToTimeUser][] = $datas;
+                                $arr[$utimesFrom.' - '.$utimesTo][] = $datas;
                             }
                         }
 
