@@ -462,14 +462,7 @@ class PackageController extends Controller
 
                         $utimesTo = $utcTo->format('g:i A');
                         $utimesTo = Carbon::parse($utimesTo)->addMinutes($offsetUser)->format('g:i A');
-                        if($utimesTo < "12:00 AM")
-                        {
-                            $utimesTo = $utimesTo;
-                        }
-                        else
-                        {
-                            $utimesTo = Carbon::parse($utimesTo)->subMinutes($sessionTime)->format('g:i A');
-                        }
+
 
 /********************/
                         
@@ -617,11 +610,8 @@ class PackageController extends Controller
                         
                         $userTime = $myutc->format('g:i A');
                         $userTime = Carbon::parse($userTime)->addMinutes($offsetUser)->format('g:i A');
-                        if($userTime < "12:00 AM")
-                        {
-                            $existingSlotArray[] = $userTime;
-                        }
-                        
+
+                        $existingSlotArray[] = $userTime;
 
 
 
