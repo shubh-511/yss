@@ -413,37 +413,12 @@ class PackageController extends Controller
                     $fromTime = date("H:i", strtotime($hours->from_time));
                     $toTime = date("H:i", strtotime($hours->to_time));
 
-                    /*echo  'from: '.$fromTime.'</br>';
-                    echo  'to: '.$toTime.'</br>';*/
-
                     $data = $this->SplitTime($fromTime, $toTime, $sessionTime, $date);
 
-                    //return $data;
-
-                    /*$data = [];
-                    $fromTime    = strtotime ($fromTime); 
-                    $toTime      = strtotime ($toTime); 
-
-                    $AddMins  = $sessionTime * 60;
-                    $i = 0;*/
-
-
-                    /*while ((($fromTime) < ($toTime))) 
-                    {
-                        $data[$i] = date ("G:i A", $fromTime);
-                        
-                        $fromTime = date("H:i A", strtotime($data[$i]));
-                        $fromTime = strtotime(($fromTime));
-
-                            $fromTime += $AddMins; 
-                            $i++;
-                        
-                    }*/
-
-                        $offsetUser = Carbon::now($user->timezone)->offsetMinutes;
-                        $offsetCounsellor = Carbon::now($counsellor->timezone)->offsetMinutes;
+                    $offsetUser = Carbon::now($user->timezone)->offsetMinutes;
+                    $offsetCounsellor = Carbon::now($counsellor->timezone)->offsetMinutes;
                          
-/****temp code*/
+                /****from - to time conversion*/
                         
                     $timestampFrom = $date.' '.$hours->from_time;
                     $timestampTo = $date.' '.$hours->to_time;
@@ -464,68 +439,17 @@ class PackageController extends Controller
                         $utimesTo = Carbon::parse($utimesTo)->addMinutes($offsetUser)->format('g:i A');
 
 
-/********************/
+                /********************/
                         
                         
 
-                        //$offsetUser = $offsetUser/2;
-
-                        //return $offsetCounsellor > 0 ? 1 : 0;
-
-                        //$slotFromTimeUser = Carbon::parse($hours->from_time);
-                        if($user->role_id == 2) { // counsellor
-                            $slotFromTimeUser = strtotime( $date . ' '.$hours->from_time );
-                        
-
-                        $slotFromTimeUser = Carbon::createFromTimestamp($slotFromTimeUser)
-                            ->timezone($counsellor->timezone)
-                            ->toDateTimeString();
-                        $slotFromTimeUser = Carbon::parse($slotFromTimeUser)->format('g:i A');
-
-
-                        $slotToTimeUser = strtotime( $date . ' '.$hours->to_time );
-                        
-
-                        $slotToTimeUser = Carbon::createFromTimestamp($slotToTimeUser)
-                            ->timezone($counsellor->timezone)
-                            ->toDateTimeString();
-                        $slotToTimeUser = Carbon::parse($slotToTimeUser)->format('g:i A');
-                        }else{
-                        
-                        $slotFromTimeUser = strtotime( $date . ' '.$hours->from_time );
-                        //echo $hours->from_time;
-                        //echo $slotFromTimeUser;
-                        $slotFromTimeUser = Carbon::createFromTimestamp($slotFromTimeUser)
-                            ->timezone($user->timezone);
-                          //  echo $slotFromTimeUser;
-
-                            //->toDateTimeString();
-                        $slotFromTimeUser = Carbon::parse($slotFromTimeUser)->format('g:i A');
-
-
-                        $slotToTimeUser = strtotime( $date . ' '.$hours->to_time );
-                        
-
-                        $slotToTimeUser = Carbon::createFromTimestamp($slotToTimeUser)
-                            ->timezone($user->timezone);
-                            //->toDateTimeString();
-                        $slotToTimeUser = Carbon::parse($slotToTimeUser)->format('g:i A');
-                        }
-                        
-                       /*     echo $date. " = ".$slotFromTimeUser;
-                            echo "<br/>";
-                            echo $date. " = ".$slotToTimeUser;
-                            echo "<br/>";
-                       echo $user->timezone ."==". $counsellor->timezone;
-                       exit;
-                       echo "<br/>";*/
                         $existingSlotArray = [];
                         if($user->timezone == $counsellor->timezone)
                         {
                             foreach($data as $key => $datas)
                             {
                                
-		                  $existingSlotArray[] = $datas;
+		                      $existingSlotArray[] = $datas;
 		               
                             }
 
@@ -539,39 +463,7 @@ class PackageController extends Controller
                         }
                         else
                         {
-                            if($user->role_id == 2) { // counselor
-
-                            foreach($data as $key => $datas)
-                            {
-                                
-                                $bookingData = Booking::where('counsellor_booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
-                   
-                                foreach($bookingData as $bookingSlot)
-                                {
-                                    $timeInTwentyFourHour = date("H:i", strtotime($bookingSlot->counsellor_timezone_slot));
-                                    $parsedTime = Carbon::parse($timeInTwentyFourHour);
-                                    $sessionMins = $parsedTime->addMinutes($sessionTime);
-
-                                    $fdate = date('h:i A', strtotime($sessionMins));
-
-                                    if(($datas >= $bookingSlot->counsellor_timezone_slot) && ($datas <= $fdate))
-                                    {
-                                        $slotUser = strtotime( $date . ' '.$datas );
-                        
-                                        
-                                        $slotUser = Carbon::createFromTimestamp($slotUser)
-                                            ->timezone($counsellor->timezone)
-                                            ->toDateTimeString();
-                                        $slotUser = Carbon::parse($slotUser)->format('g:i A');
-                                        
-                                        $existingSlotArray[] = $slotUser;
-                                    }
-                                    
-                                }
-                                
-                            }
-                        }else{ // user
-
+                            
                             $bookingData = Booking::where('booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
                             $books = [];
                             if(count($bookingData) > 0) {
@@ -586,68 +478,29 @@ class PackageController extends Controller
                             if(count($data) > 0) {
                                 foreach($data as $key => $datas)
                                 {
-
-                                    $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $date.' '.$datas, $counsellor->timezone);
-
-                                    $userDate = $inputTimestamp->format('Y-m-d');
-
                                     $currentTimestamp = Carbon::now($user->timezone);
                                    
-
-
                                     $dateAndTime = $date.' '.$datas;
 
-                                    $mySlot = Carbon::createFromFormat('Y-m-d g:i A', $dateAndTime, $counsellor->timezone);
-                                    $myutc = $mySlot->setTimezone('UTC');
-                                    //$idate = $mySlot->format('d');
+                                    $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $dateAndTime, $counsellor->timezone);
+                                    $myutc = $inputTimestamp->setTimezone('UTC');
+                                    
                                     
                                     $userTime = $myutc->format('Y-m-d g:i A');
                                     $userTimeSlot = Carbon::parse($userTime)->addMinutes($offsetUser)->format('g:i A');
                                     $uDate = Carbon::parse($userTime)->addMinutes($offsetUser)->format('d');
 
-                                    $uDateObj = Carbon::parse($userTime)->addMinutes($offsetUser);
-                                    $userDate = $uDateObj->format('Y-m-d');
-                                    //$uDate = $uDateObj->format('d');
+                                    
                                     $idate = Carbon::parse($dateAndTime)->format('d');
-                                    /*echo $userDate. " = ".$userTimeSlot." = ";
-                                    echo $datas." = ".$uDate. " = ".$idate." | ";*/
-
-                                    
-                                    
-
-    //return $inputTimestamp;
-                                    //$fdate = date('h:i A', strtotime($sessionMins));
-                                    
+                              
                                     if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
                                     {
-                                        /*$slotUser = strtotime( $date . ' '.$datas );
-                        
-                                
-                                        $slotUser = Carbon::createFromTimestamp($slotUser)
-                                            ->timezone($user->timezone)
-                                            ->toDateTimeString();
-                                        $slotUser = Carbon::parse($slotUser)->format('h:i A');
-                                        
-                                        $existingSlotArray[] = $slotUser;*/
-
-
-    /********tempcode**/
-
-
-                                         $existingSlotArray[] = $userTimeSlot;
-
-
-
-
-
-    /**************/
-
+                                        $existingSlotArray[] = $userTimeSlot;
                                     }
                                             
                                 }
-                        }
-                        }
-
+                            }
+                       
                             
                             $d = array_intersect($existingSlotArray,$books); 
                             $result = array_diff($existingSlotArray, $d);
@@ -673,20 +526,6 @@ class PackageController extends Controller
                                     ], $this->successStatus);
             }
             
-
-
-            /*if(!empty($getAvailability))
-            {
-                return response()->json(['success' => true,
-                                     'data' => $arr,
-                                    ], $this->successStatus); 
-            }
-            else
-            {
-                
-            }*/
-            
-
         }
         catch(\Exception $e)
         {
