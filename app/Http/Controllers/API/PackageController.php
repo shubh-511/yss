@@ -580,13 +580,17 @@ class PackageController extends Controller
                                     $books[] = $t; //$row->counsellor_timezone_slot;
                                 }
                             }
-                            
+                            $currentDate = Carbon::now($user->timezone)->format('Y-m-d');
                             foreach($data as $key => $datas)
                             {
+                                $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $date.' '.$datas, $user->timezone);
+
+                                $currentTimestamp = Carbon::now($user->timezone);
                                 
+
                                 //$fdate = date('h:i A', strtotime($sessionMins));
                                 
-                                if( !in_array($datas, $books)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                if( !in_array($datas, $books) && ($currentTimestamp > $inputTimestamp)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
                                 {
                                     /*$slotUser = strtotime( $date . ' '.$datas );
                     
