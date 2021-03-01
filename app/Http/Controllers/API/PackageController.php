@@ -591,7 +591,7 @@ class PackageController extends Controller
 //return $inputTimestamp;
                                 //$fdate = date('h:i A', strtotime($sessionMins));
                                 
-                                if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($date == $currentUserDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($date > $currentUserDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
                                 {
                                     /*$slotUser = strtotime( $date . ' '.$datas );
                     
