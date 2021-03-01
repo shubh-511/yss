@@ -457,10 +457,10 @@ class PackageController extends Controller
                     $utcTo = $date_To->setTimezone('UTC');
                     
 
-                        $utimesFrom = $utcFrom->format('g:i A');
+                        $utimesFrom = $utcFrom->format('Y-m-d g:i A');
                         $utimesFrom = Carbon::parse($utimesFrom)->addMinutes($offsetUser)->format('g:i A');
 
-                        $utimesTo = $utcTo->format('g:i A');
+                        $utimesTo = $utcTo->format('Y-m-d g:i A');
                         $utimesTo = Carbon::parse($utimesTo)->addMinutes($offsetUser)->format('g:i A');
 
 
@@ -576,57 +576,76 @@ class PackageController extends Controller
                             $books = [];
                             if(count($bookingData) > 0) {
                                 foreach ($bookingData as $key => $row) {
-                                    $t = date('h:i A',strtotime( $date . ' '.$row->counsellor_timezone_slot ));
+                                    $t = date('h:i A',strtotime( $date . ' '.$row->slot ));
                                     $books[] = $t; //$row->counsellor_timezone_slot;
                                 }
                             }
-                            $currentDate = Carbon::now($user->timezone)->format('Y-m-d');
-                            foreach($data as $key => $datas)
-                            {
-                                $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $date.' '.$datas, $user->timezone);
 
-                                $currentTimestamp = Carbon::now($user->timezone);
-                                $currentUserDate = $currentTimestamp->format('Y-m-d');
-                                
-//return $inputTimestamp;
-                                //$fdate = date('h:i A', strtotime($sessionMins));
-                                
-                                if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($date > $currentUserDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
-                                {
-                                    /*$slotUser = strtotime( $date . ' '.$datas );
-                    
                             
-                                    $slotUser = Carbon::createFromTimestamp($slotUser)
-                                        ->timezone($user->timezone)
-                                        ->toDateTimeString();
-                                    $slotUser = Carbon::parse($slotUser)->format('h:i A');
+                            $currentDate = Carbon::now($user->timezone)->format('Y-m-d');
+                            if(count($data) > 0) {
+                                foreach($data as $key => $datas)
+                                {
+
+                                    $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $date.' '.$datas, $counsellor->timezone);
+
+                                    $userDate = $inputTimestamp->format('Y-m-d');
+
+                                    $currentTimestamp = Carbon::now($user->timezone);
+                                   
+
+
+                                    $dateAndTime = $date.' '.$datas;
+
+                                    $mySlot = Carbon::createFromFormat('Y-m-d g:i A', $dateAndTime, $counsellor->timezone);
+                                    $myutc = $mySlot->setTimezone('UTC');
+                                    //$idate = $mySlot->format('d');
                                     
-                                    $existingSlotArray[] = $slotUser;*/
+                                    $userTime = $myutc->format('Y-m-d g:i A');
+                                    $userTimeSlot = Carbon::parse($userTime)->addMinutes($offsetUser)->format('g:i A');
+                                    $uDate = Carbon::parse($userTime)->addMinutes($offsetUser)->format('d');
 
+                                    $uDateObj = Carbon::parse($userTime)->addMinutes($offsetUser);
+                                    $userDate = $uDateObj->format('Y-m-d');
+                                    //$uDate = $uDateObj->format('d');
+                                    $idate = Carbon::parse($dateAndTime)->format('d');
+                                    /*echo $userDate. " = ".$userTimeSlot." = ";
+                                    echo $datas." = ".$uDate. " = ".$idate." | ";*/
 
-/********tempcode**/
+                                    
+                                    
 
-
-                        $dateAndTime = $date.' '.$datas;
-
-                        $mySlot = Carbon::createFromFormat('Y-m-d g:i A', $dateAndTime, $counsellor->timezone);
-                        $myutc = $mySlot->setTimezone('UTC');
-
+    //return $inputTimestamp;
+                                    //$fdate = date('h:i A', strtotime($sessionMins));
+                                    
+                                    if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                    {
+                                        /*$slotUser = strtotime( $date . ' '.$datas );
                         
-                        $userTime = $myutc->format('g:i A');
-                        $userTime = Carbon::parse($userTime)->addMinutes($offsetUser)->format('g:i A');
-
-                        $existingSlotArray[] = $userTime;
-
-
-
-
-
-/**************/
-
-                                }
+                                
+                                        $slotUser = Carbon::createFromTimestamp($slotUser)
+                                            ->timezone($user->timezone)
+                                            ->toDateTimeString();
+                                        $slotUser = Carbon::parse($slotUser)->format('h:i A');
                                         
-                            }
+                                        $existingSlotArray[] = $slotUser;*/
+
+
+    /********tempcode**/
+
+
+                                         $existingSlotArray[] = $userTimeSlot;
+
+
+
+
+
+    /**************/
+
+                                    }
+                                            
+                                }
+                        }
                         }
 
                             
