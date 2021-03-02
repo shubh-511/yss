@@ -202,7 +202,17 @@ class BookingController extends Controller
           }
           $user = Auth::user();
           $packageDetail = Package::with('user')->where('id', $params['package_id'])->first();
-          
+          $sessionMin = $packageDetail->session_minutes;
+          $sessionHours = $packageDetail->session_hours;
+          if($sessionHours != 0)
+          {
+              $sessionTime = $sessionHours * 60;
+              $sessionTime = $sessionTime + $sessionMin;
+          }
+          else
+          {
+              $sessionTime = $sessionMin;
+          }
           
           $prevBooking = Booking::where('counsellor_id', $params['counsellor_id'])->where('package_id', $params['package_id'])->where('booking_date', $params['booking_date'])->get();
 
@@ -391,22 +401,22 @@ class BookingController extends Controller
                 {
                   if($user->role_id == 3)
                   {
-                    $selectedSlots = "Your selected slots are: ".join(',', $slotArray);
+                    $selectedSlots = "Your selected slots are: ".join(',', $slotArray)." for ".$sessionTime." each";
                   }
                   else
                   {
-                    $selectedSlots = "The booked slots are: ".join(',', $slotArray);
+                    $selectedSlots = "The booked slots are: ".join(',', $slotArray)." for ".$sessionTime." each";
                   }
                 }
                 else
                 {
                   if($user->role_id == 3)
                   {
-                    $selectedSlots = "Your selected slot is: ".join(',', $slotArray);
+                    $selectedSlots = "Your selected slot is: ".join(',', $slotArray)." for ".$sessionTime;
                   }
                   else
                   {
-                    $selectedSlots = "The booked slot is: ".join(',', $slotArray);
+                    $selectedSlots = "The booked slot is: ".join(',', $slotArray)." for ".$sessionTime;
                   }
                 }
 
@@ -415,15 +425,15 @@ class BookingController extends Controller
 ".$packageDetail->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
-                $newNotif->title = "Booking successful";
+                $newNotif->title = "Booking Successful";
                 $newNotif->body = $body;
                 $newNotif->save();
 
                 //notification to counsellor
-                $body = $user->name." successfully booked your ".$packageDetail->package_name." for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
+                $body = $user->name." successfully booked your ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $packageDetail->user->id;
-                $newNotif->title = "Booking successful";
+                $newNotif->title = "Booking Successful";
                 $newNotif->body = $body;
                 $newNotif->save();
 
