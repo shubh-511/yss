@@ -420,24 +420,12 @@ class BookingController extends Controller
                   }
                 }
 
-                $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
-                $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
-
-                $userCreatedNotification = Carbon::now($userTimeZone);
-                $userCreatedNotification = Carbon::createFromFormat('Y-m-d g:i A', $userCreatedNotification);
-                $userCreatedNotification = $userCreatedNotification->setTimezone('UTC');
-
-                $userCreatedNotification = $userCreatedNotification->format('Y-m-d g:i A');
-                $userCreatedNotification = Carbon::parse($userCreatedNotification)->addMinutes($offsetUser)->format('Y-m-d g:i A');
-
                 //notification to user
                 $body = "You have successfully booked ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking Successful";
                 $newNotif->body = $body;
-                $newNotif->created_at = $userCreatedNotification;
-                $newNotif->updated_at = $userCreatedNotification;
                 $newNotif->save();
 
                 //notification to counsellor
