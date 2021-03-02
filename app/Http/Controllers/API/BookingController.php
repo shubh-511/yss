@@ -421,8 +421,7 @@ class BookingController extends Controller
                 }
 
                 //notification to user
-                $body = "You have successfully booked ".$packageDetail->package_name." for amount £
-".$packageDetail->amount." ".$selectedSlots ." Dated: ".$params['booking_date'];
+                $body = "You have successfully booked ".$packageDetail->package_name." for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking Successful";
