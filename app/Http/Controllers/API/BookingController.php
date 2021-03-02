@@ -420,8 +420,8 @@ class BookingController extends Controller
                   }
                 }
 
-                $offsetUser = Carbon::now($user->timezone)->offsetMinutes;
-                $offsetCounsellor = Carbon::now($counsellor->timezone)->offsetMinutes;
+                $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
+                $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
 
                 $userCreatedNotification = Carbon::now($userTimeZone);
                 $userCreatedNotification = Carbon::createFromFormat('Y-m-d g:i A', $userCreatedNotification);
