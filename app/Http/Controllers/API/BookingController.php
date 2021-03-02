@@ -405,18 +405,18 @@ class BookingController extends Controller
                   }
                   else
                   {
-                    $selectedSlots = "The booked slots are: ".join(',', $slotArray)." for ".$sessionTime." each";
+                    $selectedSlots = "The booked slots are: ".join(',', $slotArray)." for ".$sessionTime." minutes each";
                   }
                 }
                 else
                 {
                   if($user->role_id == 3)
                   {
-                    $selectedSlots = "Your selected slot is: ".join(',', $slotArray)." for ".$sessionTime;
+                    $selectedSlots = "Your selected slot is: ".join(',', $slotArray)." for ".$sessionTime." minutes";
                   }
                   else
                   {
-                    $selectedSlots = "The booked slot is: ".join(',', $slotArray)." for ".$sessionTime;
+                    $selectedSlots = "The booked slot is: ".join(',', $slotArray)." for ".$sessionTime." minutes";
                   }
                 }
 
