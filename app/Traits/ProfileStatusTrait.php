@@ -29,76 +29,34 @@ trait ProfileStatusTrait
         $avalPerct = Availability::where('user_id', $userId)->count();
         $stripePerct = StripeConnect::where('user_id', $userId)->count();
 
-        $user = User::where('id', $userId)->first();
-        $userTimezone = $user->timezone;
-        if(!empty($userTimezone))
-        {
-            $userTimezone = 1;
-        }
-        else
-        {
-            $userTimezone = 0;
-        }
-
-        if($packagePerct == 0 && $avalPerct == 0 && $stripePerct == 0 && $userTimezone == 0)  
+        if($packagePerct == 0 && $avalPerct == 0 && $stripePerct == 0)
         {
             $profilePercentage = "25";
         }
-        elseif($packagePerct > 0 && $avalPerct == 0 && $stripePerct == 0 && $userTimezone == 0)
+        elseif($packagePerct > 0 && $avalPerct == 0 && $stripePerct == 0)
         {
             $profilePercentage = "50";
         }
-        elseif($packagePerct == 0 && $avalPerct > 0 && $stripePerct == 0 && $userTimezone == 0)
+        elseif($packagePerct == 0 && $avalPerct > 0 && $stripePerct == 0)
         {
             $profilePercentage = "50";
         }
-        elseif($packagePerct == 0 && $avalPerct == 0 && $stripePerct > 0 && $userTimezone == 0)
-        {
-            $profilePercentage = "40";
-        }
-        elseif($packagePerct == 0 && $avalPerct == 0 && $stripePerct == 0 && $userTimezone > 0)
-        {
-            $profilePercentage = "35";
-        }/*****/
-
-        /****/
-        elseif(($packagePerct > 0 && $avalPerct > 0 ) && $stripePerct == 0 && $userTimezone == 0)
-        {
-            $profilePercentage = "75";
-        }
-        elseif($packagePerct == 0 && $avalPerct == 0 && ($stripePerct > 0 && $userTimezone > 0))
+        elseif($packagePerct == 0 && $avalPerct == 0 && $stripePerct > 0)
         {
             $profilePercentage = "50";
         }
-        elseif($packagePerct == 0 && ($stripePerct > 0 && $avalPerct > 0) && $userTimezone == 0)
-        {
-            $profilePercentage = "65";
-        }
-        elseif($packagePerct > 0 && ($stripePerct == 0 && $avalPerct == 0) && $userTimezone > 0)
-        {
-            $profilePercentage = "60";
-        }/****/
-
-        /****/
-        elseif(($packagePerct > 0 && $stripePerct > 0 && $avalPerct > 0) && $userTimezone == 0)
-        {
-            $profilePercentage = "90";
-        }
-        elseif(($userTimezone > 0 && $stripePerct > 0 && $avalPerct > 0) && $packagePerct == 0)
+        elseif(($packagePerct > 0 && $avalPerct > 0 ) && $stripePerct == 0)
         {
             $profilePercentage = "75";
         }
-        elseif(($userTimezone > 0 && $packagePerct > 0 && $avalPerct > 0) && $stripePerct == 0)
-        {
-            $profilePercentage = "85";
-        }
-        elseif(($userTimezone > 0 && $packagePerct > 0 && $stripePerct > 0) && $avalPerct == 0)
+        elseif($packagePerct == 0 && ($avalPerct > 0 && $stripePerct > 0))
         {
             $profilePercentage = "75";
-        }/****/
-
-        /****/
-
+        }
+        elseif($avalPerct == 0 && ($packagePerct > 0 && $stripePerct > 0))
+        {
+            $profilePercentage = "75";
+        }
         else
         {
             $profilePercentage = "100";
