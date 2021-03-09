@@ -312,7 +312,7 @@ class BookingController extends Controller
               $slotArray = [];
               foreach($params['selected_slots'] as $date => $slots)
               {                     
-                array_push($slotArray, $slot);
+                //array_push($slotArray, $slot);
                 if(count($slots > 0))
                 {
                   foreach($slots as $slot)
@@ -364,7 +364,7 @@ class BookingController extends Controller
 
                 //saving notification 
 
-                if(count($params['slot']) > 0)
+                /*if(count($params['slot']) > 0)
                 {
                   if($user->role_id == 3)
                   {
@@ -385,7 +385,7 @@ class BookingController extends Controller
                   {
                     $selectedSlots = "The booked slot is: ".join(',', $slotArray)." for ".$sessionTime." minutes";
                   }
-                }
+                }*/
                 $selectedSlots = '';
 
                 $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
