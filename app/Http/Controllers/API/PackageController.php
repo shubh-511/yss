@@ -446,15 +446,28 @@ class PackageController extends Controller
                         $existingSlotArray = [];
                         if($user->timezone == $counsellor->timezone)
                         {
+                            $bookingData = Booking::where('booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
+                            $books = [];
+                            if(count($bookingData) > 0) {
+                                foreach ($bookingData as $key => $row) {
+                                    $t = date('h:i A',strtotime( $date . ' '.$row->slot ));
+                                    $books[] = $t; 
+                                }
+                            }
+
                             foreach($data as $key => $datas)
                             {
+                                if( !in_array($datas, $books))
+                                {
                                
-		                      $existingSlotArray[] = $datas;
+		                            $existingSlotArray[] = $datas;
+                                }
 		               
                             }
 
-                            //$result = array_diff($data,$existingSlotArray);
-                            $result = $existingSlotArray;  
+                            
+                            $d = array_intersect($existingSlotArray,$books); 
+                            $result = array_diff($existingSlotArray, $d);  
 
                             foreach($result as $key => $datas)
                             {
