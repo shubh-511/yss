@@ -314,7 +314,7 @@ class BookingController extends Controller
               foreach($params['selected_slots'] as $date => $slots)
               {                     
                 //array_push($slotArray, $slot);
-                if(count($slots > 0))
+                if(count($slots) > 0)
                 {
                   foreach($slots as $slot)
                   {
