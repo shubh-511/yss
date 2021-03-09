@@ -834,7 +834,7 @@ class UserController extends Controller
         try{
 
                 $input = (array) $request->all();
-            return $input;
+            print_r($input); exit();
                 $validator = Validator::make($request->all(), [  
                     'email' => 'required|email'
                 ]);
