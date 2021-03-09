@@ -21,6 +21,7 @@ Route::post('verify/access_token', 'API\GrantAccessTokenController@verifyAccessT
 Route::post('import/user', 'API\UserController@importUser');
 Route::post('delete/user', 'API\UserController@deleteUser');
 Route::post('forgot-password', 'API\UserController@forgotPassword');
+Route::get('get/user/status', 'API\UserController@getUserStatus');
 
 //Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
 Route::post('reset/password', 'API\UserController@resetPassword');

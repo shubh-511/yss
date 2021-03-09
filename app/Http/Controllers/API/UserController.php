@@ -824,6 +824,46 @@ class UserController extends Controller
     }
 
     /** 
+     * Delete User Api
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getUserStatus(Request $request) 
+    { 
+        try{
+
+                $input = (array) $request->all();
+            
+                $validator = Validator::make($request->all(), [  
+                    'email' => 'required|email'
+                ]);
+
+                if ($validator->fails()) { 
+                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+                }
+
+                $existingUserData = User::where('email', $request->email)->first();
+                if(!empty($existingUserData))
+                {
+                    return response()->json(['success' => true,
+                                     'user_status' => $existingUserData->profile_percentage
+                                    ], $this->successStatus);
+                    
+                }
+                else
+                {
+                    return response()->json(['success' => false,
+                                         'message' => 'Invalid email ID'
+                                        ], $this->successStatus);
+                }
+
+
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+    }
+
+    /** 
      * Reset Password after Otp verified api 
      * 
      * @return \Illuminate\Http\Response 
