@@ -399,24 +399,26 @@ class BookingController extends Controller
                 $counselorCreatedNotification = Carbon::parse($counselorCreatedNotification)->format('Y-m-d H:i:s');
 
                 //notification to user
-                $body = "You have successfully booked ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
+
+                /*$body = "You have successfully booked ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking Successful";
                 $newNotif->body = $body;
                 $newNotif->created_at = $userCreatedNotification;
                 $newNotif->updated_at = $userCreatedNotification;
-                $newNotif->save();
+                $newNotif->save();*/
 
                 //notification to counsellor
-                $body = $user->name." successfully booked your ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
+                
+                /*$body = $user->name." successfully booked your ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
                 $newNotif = new Notification;
                 $newNotif->receiver = $packageDetail->user->id;
                 $newNotif->title = "Booking Successful";
                 $newNotif->body = $body;
                 $newNotif->created_at = $counselorCreatedNotification;
                 $newNotif->updated_at = $counselorCreatedNotification;
-                $newNotif->save();
+                $newNotif->save();*/
 
                 //Send Mail
                 
