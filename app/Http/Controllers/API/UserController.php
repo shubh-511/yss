@@ -640,6 +640,10 @@ class UserController extends Controller
                 $url = $wordpressProfileUrl."user_id=".Auth::user()->migrated_id."&profile_status=".$profilePercentage;
                 $cURL = $this->url_get_contents($url); 
                 $cURL = json_decode($cURL, true);
+                /*if($cURL['status'] == true) 
+                {
+
+                }*/
             }
             else
             {
@@ -698,7 +702,8 @@ class UserController extends Controller
             
                 $validator = Validator::make($input, [ 
                     'name' => 'required|unique:users',  
-                    'email' => 'required|email|unique:users', 
+                    //'email' => 'required|email|unique:users', 
+                    'email' => 'required|email', 
                     'password' => 'required', 
                 ]);
 
@@ -706,33 +711,112 @@ class UserController extends Controller
                     return response()->json(['errors'=>$validator->errors()], $this->successStatus);
                 }
 
-                $userData = [];
-                $userData['migrated_id'] = $input['user_id'];
-                $userData['name'] = $input['name'];    
-                $userData['password'] = bcrypt($input['password']); 
-                $userData['email'] = $input['email'];    
-                $userData['user_nicename'] = $input['user_nicename'];    
-                $userData['display_name'] = $input['display_name'];    
-                $userData['account_enabled'] = '1'; 
-                //$userData['otp'] = $this->generateOTP();
-                //$userData['otp'] = '';
-                
-                if(array_key_exists('roles', $input) 
-                    && !empty($input['roles']) 
-                    && in_array('administrator', $input['roles'])){
+                $existingUserData = User::where('email', $request->email)->first();
+                if(!empty($existingUserData))
+                {
+                    $userData = [];
+                    $userData['migrated_id'] = $input['user_id'];
+                    $userData['name'] = $input['name'];    
+                    $userData['password'] = bcrypt($input['password']); 
+                    $userData['user_nicename'] = $input['user_nicename'];    
+                    $userData['display_name'] = $input['display_name'];    
+                    $userData['account_enabled'] = '1'; 
+                    
+                    
+                    if(array_key_exists('roles', $input) 
+                        && !empty($input['roles']) 
+                        && in_array('administrator', $input['roles'])){
 
-                    $userData['role_id'] = 1;
-                }else{
+                        $userData['role_id'] = 1;
+                    }else{
 
-                    $userData['role_id'] = 2;
+                        $userData['role_id'] = 2;
+                    }
+
+                    $updatedUser = User::where('email', $request->email)->update($userData);
+                    $user = User::where('email', $request->email)->first();
+                }
+                else
+                {
+                    $userData = [];
+                    $userData['migrated_id'] = $input['user_id'];
+                    $userData['name'] = $input['name'];    
+                    $userData['password'] = bcrypt($input['password']); 
+                    $userData['email'] = $input['email'];    
+                    $userData['user_nicename'] = $input['user_nicename'];    
+                    $userData['display_name'] = $input['display_name'];    
+                    $userData['account_enabled'] = '1'; 
+                    
+                    
+                    if(array_key_exists('roles', $input) 
+                        && !empty($input['roles']) 
+                        && in_array('administrator', $input['roles'])){
+
+                        $userData['role_id'] = 1;
+                    }else{
+
+                        $userData['role_id'] = 2;
+                    }
+
+                    $user = User::create($userData);
                 }
 
-                $user = User::create($userData); 
+                 
                 
                 return response()->json(['success' => true,
                                          'user' => $user,
                                         ], $this->successStatus);    
                 
+
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+    }
+
+    /** 
+     * Delete User Api
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function deleteUser(Request $request) 
+    { 
+        try{
+
+                $input = (array) $request->all();
+            
+                $validator = Validator::make($request->all(), [  
+                    'email' => 'required|email'
+                ]);
+
+                if ($validator->fails()) { 
+                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+                }
+
+                $existingUserData = User::where('email', $request->email)->first();
+                if(!empty($existingUserData))
+                {
+                    $deletedUser = User::where('email', $request->email)->delete();
+                    if($deletedUser == 1)
+                    {
+                        return response()->json(['success' => true,
+                                         'message' => 'Deleted successfully'
+                                        ], $this->successStatus);
+                    }
+                    else
+                    {
+                        return response()->json(['success' => false,
+                                         'message' => 'Record does not exist'
+                                        ], $this->successStatus);
+                    }
+                    
+                }
+                else
+                {
+                    return response()->json(['success' => false,
+                                         'message' => 'Invalid email ID'
+                                        ], $this->successStatus);
+                }
+
 
         }catch(\Exception $e){
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
