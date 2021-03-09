@@ -400,25 +400,27 @@ class BookingController extends Controller
 
                 //notification to user
 
-                /*$body = "You have successfully booked ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
+                //$userBody = "You have successfully booked ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots;
+                $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking Successful";
-                $newNotif->body = $body;
+                $newNotif->body = $userBody;
                 $newNotif->created_at = $userCreatedNotification;
                 $newNotif->updated_at = $userCreatedNotification;
-                $newNotif->save();*/
+                $newNotif->save();
 
                 //notification to counsellor
-                
-                /*$body = $user->name." successfully booked your ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
+
+                //$CounsellorBody = $user->name." successfully booked your ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots;
+                $CounsellorBody = $user->name." successfully booked your ".$packageDetail->package_name." Package.";
                 $newNotif = new Notification;
                 $newNotif->receiver = $packageDetail->user->id;
                 $newNotif->title = "Booking Successful";
-                $newNotif->body = $body;
+                $newNotif->body = $CounsellorBody;
                 $newNotif->created_at = $counselorCreatedNotification;
                 $newNotif->updated_at = $counselorCreatedNotification;
-                $newNotif->save();*/
+                $newNotif->save();
 
                 //Send Mail
                 
