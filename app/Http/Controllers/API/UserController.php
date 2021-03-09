@@ -627,28 +627,49 @@ class UserController extends Controller
     public function updateProfile(Request $request){
         try{
             $wordpressProfileUrl = "https://yoursafespaceonline.com/profile_update.php?";
-            $validator = Validator::make($request->all(), [ 
-                'name' => 'required|max:190',  
-                'timezone' => 'required'
-            ]);
 
-            if ($validator->fails()) { 
-                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
-            }
-
-            $input = $request->all();
             if(Auth::user()->role_id == 2)
             {
+                $validator = Validator::make($request->all(), [ 
+                    'name' => 'required|max:190',  
+                    'timezone' => 'required'
+                ]);
+
                 $profilePercentage = $this->profileStatus(Auth::user()->id);
 
                 $url = $wordpressProfileUrl."user_id=".Auth::user()->migrated_id."&profile_status=".$profilePercentage;
                 $cURL = $this->url_get_contents($url); 
                 $cURL = json_decode($cURL, true);
             }
+            else
+            {
+                $validator = Validator::make($request->all(), [ 
+                    'name' => 'required|max:190',  
+                    'timezone' => 'required',
+                    'country_code' => 'required', 
+                    'phone' => 'required|unique:users,phone,'.Auth()->user()->id
+                ],
+                [
+                    'phone.unique' => 'This phone number has already been registered'
+                ]);
+            }
+            
 
-            $user = User::where('id', Auth::user()->id)->update(['name'=>$request->name, 'location'=> $request->location, 'timezone'=> $request->timezone]);
+            if ($validator->fails()) { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);            
+            }
 
-            if($user){
+            $input = $request->all();
+            
+
+            $user = User::where('id', Auth::user()->id)->first();
+            $user->name = $request->name;
+            $user->location = $request->location;
+            $user->timezone = $request->timezone;
+            $user->country_code = $request->country_code;
+            $user->phone = $request->phone;
+
+            if($user->save()){
                 $user = User::where('id',Auth::user()->id)->with('roles')->first(); 
                 return response()->json(['success' => true,
                                  'user' => $user,
