@@ -240,7 +240,8 @@ class BookingController extends Controller
             ['source' => $params['token']]);
 
               
-            $netAmt = $params['amount'];
+            //$netAmt = $params['amount'];
+            $netAmt = 100;
             $conf = \Stripe\PaymentIntent::create([
               'amount' => $netAmt * 100,
               'description' => 'yoursafespaceonline.com',
