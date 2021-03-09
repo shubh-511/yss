@@ -300,7 +300,7 @@ class BookingController extends Controller
             $userTimeZone = $user->timezone;
 
             
-            $bookingDate = $params['booking_date'];
+            //$bookingDate = $params['booking_date'];
             $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
             $offsetCounsellor = $offsetCounsellor/2;
 
