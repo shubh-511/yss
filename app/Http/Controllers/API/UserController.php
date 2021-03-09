@@ -629,8 +629,7 @@ class UserController extends Controller
             $wordpressProfileUrl = "https://yoursafespaceonline.com/profile_update.php?";
             $validator = Validator::make($request->all(), [ 
                 'name' => 'required|max:190',  
-               // 'location' => 'required|max:190',
-                
+                'timezone' => 'required'
             ]);
 
             if ($validator->fails()) { 

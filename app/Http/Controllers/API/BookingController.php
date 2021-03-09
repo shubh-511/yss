@@ -214,13 +214,13 @@ class BookingController extends Controller
               $sessionTime = $sessionMin;
           }
           
-          $prevBooking = Booking::where('counsellor_id', $params['counsellor_id'])->where('package_id', $params['package_id'])->where('booking_date', $params['booking_date'])->get();
+          /*$prevBooking = Booking::where('counsellor_id', $params['counsellor_id'])->where('package_id', $params['package_id'])->where('booking_date', $params['booking_date'])->get();
 
           $prevBookingSlots = $prevBooking->pluck('slot')->toArray();
           $slotsForBooking = $params['slot'];
           $result=array_intersect($prevBookingSlots,$slotsForBooking);
           if(count($result) == 0)
-          {
+          {*/
 
             Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
             
@@ -240,7 +240,7 @@ class BookingController extends Controller
             ['source' => $params['token']]);
 
               
-            $netAmt = (count($params['slot']) * $packageDetail->amount);
+            $netAmt = $params['amount'];
             $conf = \Stripe\PaymentIntent::create([
               'amount' => $netAmt * 100,
               'description' => 'yoursafespaceonline.com',
@@ -299,7 +299,7 @@ class BookingController extends Controller
             $counsellorTimeZone = $packageDetail->user->timezone;
             $userTimeZone = $user->timezone;
 
-            //$gmt = Carbon::now();
+            
             $bookingDate = $params['booking_date'];
             $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
             $offsetCounsellor = $offsetCounsellor/2;
@@ -307,96 +307,63 @@ class BookingController extends Controller
             $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
             $offsetUser = $offsetUser/2;
             
-            //$convertedSlot = $gmt->addMinutes($offset)->format('g:i A');
-
             if($conf->status == 'succeeded')
             {
               $slotArray = [];
-              foreach($params['slot'] as $slots)
+              foreach($params['selected_slots'] as $date => $slots)
               {                     
-                array_push($slotArray, $slots);
-                $booking = new Booking; 
-                $booking->user_id = $user->id;
-                $booking->payment_id = $payment->id;
-                $booking->counsellor_id = $params['counsellor_id'];
-
-                if($counsellorTimeZone == $userTimeZone)
+                array_push($slotArray, $slot);
+                if(count($slots > 0))
                 {
-                  $booking->slot = $slots;
-                  $booking->booking_date = $bookingDate;
+                  foreach($slots as $slot)
+                  {
+                    $booking = new Booking; 
+                    $booking->user_id = $user->id;
+                    $booking->payment_id = $payment->id;
+                    $booking->counsellor_id = $params['counsellor_id'];
 
-                  $booking->counsellor_timezone_slot = $slots;
-                  $booking->counsellor_booking_date = $bookingDate;
-                }
-                else
-                {
-                  //user
-                  // $slotDateTimeUser = Carbon::parse($bookingDate.' '.$slots);
-                  // $convertedDateUser = $slotDateTimeUser->addMinutes($offsetUser)->format('Y-m-d');
-                  // $convertedSlotUser = $slotDateTimeUser->addMinutes($offsetUser)->format('g:i A');
+                    if($counsellorTimeZone == $userTimeZone)
+                    {
+                      $booking->slot = $slot;
+                      $booking->booking_date = $date;
 
-                  //counsellor
-                  // $slotDateTimeCounselor = Carbon::parse($bookingDate.' '.$slots);
-                  // $convertedDateCounsellor = $slotDateTimeCounselor->addMinutes($offsetCounsellor)->format('Y-m-d');
-                  // $convertedSlotCounsellor = $slotDateTimeCounselor->addMinutes($offsetCounsellor)->format('g:i A');
-                  date_default_timezone_set($userTimeZone);
-                  $slotFromTimeCounsellor = strtotime( $bookingDate . ' '.$slots );
-                  //$ccc = new DateTime();
-                  //$ccc->createFromFormat($bookingDate . ' '.$slots,)
-                  $cc = (new DateTime('@' . $slotFromTimeCounsellor))->setTimezone(new DateTimeZone($userTimeZone));
-                  date_default_timezone_set($counsellorTimeZone);
-                  $ts = $cc->getTimestamp();
-                  $ucc = (new DateTime('@' . $ts))->setTimezone(new DateTimeZone($counsellorTimeZone));
-                  $counsellorTime = $ucc->format('g:i A');
-                  $convertedDateCounsellor = $ucc->format('Y-m-d');
+                      $booking->counsellor_timezone_slot = $slot;
+                      $booking->counsellor_booking_date = $date;
+                    }
+                    else
+                    {
+                      
+                      date_default_timezone_set($userTimeZone);
+                      $slotFromTimeCounsellor = strtotime( $date . ' '.$slot );
+                      $cc = (new DateTime('@' . $slotFromTimeCounsellor))->setTimezone(new DateTimeZone($userTimeZone));
+                      date_default_timezone_set($counsellorTimeZone);
+                      $ts = $cc->getTimestamp();
+                      $ucc = (new DateTime('@' . $ts))->setTimezone(new DateTimeZone($counsellorTimeZone));
+                      $counsellorTime = $ucc->format('g:i A');
+                      $convertedDateCounsellor = $ucc->format('Y-m-d');
 
-                 
                      
-                  $booking->slot = $counsellorTime; //$convertedSlotCounsellor;
-                  $booking->booking_date = $convertedDateCounsellor;
+                         
+                      $booking->slot = $counsellorTime; //$convertedSlotCounsellor;
+                      $booking->booking_date = $convertedDateCounsellor;
 
+                      $booking->counsellor_timezone_slot = $slot;
+                      $booking->counsellor_booking_date = $date;
+                    }
+                    
 
-                  //
-
-                  /*$slotFromTimeUser = strtotime( $bookingDate . ' '.$slots );
-                        
-
-                  $slotFromTimeUser = Carbon::createFromTimestamp($slotFromTimeUser)
-                      ->timezone($counsellorTimeZone)
-                      ->toDateTimeString();
-                  $slotFromTimeUser = Carbon::parse($slotFromTimeUser)->format('g:i A');
-                  $convertedDateUser = Carbon::parse($slotFromTimeUser)->format('Y-m-d');
- */ 
-                  $booking->counsellor_timezone_slot = $slots;
-                  $booking->counsellor_booking_date = $bookingDate;
+                    $booking->package_id = $params['package_id'];
+                    $booking->notes = $params['notes'];
+                    $booking->status = '1';
+                    $booking->save();
+                  }
                 }
                 
-
-                $booking->package_id = $params['package_id'];
-                $booking->notes = $params['notes'];
-                $booking->status = '1';
-                $booking->save();
+                
               }
 
-                
-
-                //checking existing channel data
-                $checkExist = VideoChannel::where('from_id', $user)->where('to_id', $params['counsellor_id'])->first();
-
-                //saving video channel data
-                /*if(empty($checkExist))
-                {
-                  $channelData = new VideoChannel; 
-                  $channelData->from_id = $user->id;
-                  $channelData->booking_id = $booking->id;
-                  $channelData->to_id = $params['counsellor_id'];
-                  $channelData->channel_id = $this->generateRandomString(20);
-                  $channelData->status = '0';
-                  $channelData->save();
-                }*/
-
-
                 //saving notification 
+
                 if(count($params['slot']) > 0)
                 {
                   if($user->role_id == 3)
@@ -419,13 +386,16 @@ class BookingController extends Controller
                     $selectedSlots = "The booked slot is: ".join(',', $slotArray)." for ".$sessionTime." minutes";
                   }
                 }
+                $selectedSlots = '';
 
                 $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
                 $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
 
                 $userCreatedNotification = Carbon::now($userTimeZone);
-              
                 $userCreatedNotification = Carbon::parse($userCreatedNotification)->format('Y-m-d H:i:s');
+
+                $counselorCreatedNotification = Carbon::now($counsellorTimeZone);
+                $counselorCreatedNotification = Carbon::parse($counselorCreatedNotification)->format('Y-m-d H:i:s');
 
                 //notification to user
                 $body = "You have successfully booked ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots ." Dated: ".$params['booking_date'];
@@ -443,6 +413,8 @@ class BookingController extends Controller
                 $newNotif->receiver = $packageDetail->user->id;
                 $newNotif->title = "Booking Successful";
                 $newNotif->body = $body;
+                $newNotif->created_at = $counselorCreatedNotification;
+                $newNotif->updated_at = $counselorCreatedNotification;
                 $newNotif->save();
 
                 //Send Mail
@@ -481,11 +453,11 @@ class BookingController extends Controller
 
               return response()->json(['success'=>false,'errors' =>['exception' => [$conf->status]]], $this->successStatus); 
            }
-          }
+          /*}
           else
           {
             return response()->json(['success'=>false,'errors' =>['exception' => ['Please select different slot as someone has already booked that slot']]], $this->successStatus); 
-          }
+          }*/
 
       }
       catch(\Exception $e)
@@ -1555,5 +1527,6 @@ class BookingController extends Controller
           ]
         );
     }
+
 
 }
