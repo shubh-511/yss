@@ -456,7 +456,7 @@ class PackageController extends Controller
 
                             foreach($data as $key => $datas)
                             {
-                                if(count($bookingData) > 0) {
+                                /*if(count($bookingData) > 0) {
                                     foreach ($bookingData as $bkKey => $row) {
 
                                         $dateAndTime = $date.' '.$row->slot;
@@ -473,12 +473,12 @@ class PackageController extends Controller
                                     }
                                 }
                                 else
-                                {
-                                    /*if( !in_array($datas, $books) )
-                                    {*/
+                                {*/
+                                    if( !in_array($datas, $books) )
+                                    {
                                         $existingSlotArray[] = $datas;
-                                    //}
-                                }
+                                    }
+                                //}
 
                             }
 
