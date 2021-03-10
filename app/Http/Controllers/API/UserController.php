@@ -671,7 +671,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->location = $request->location;
             $user->timezone = $request->timezone;
-            $user->country_code = $request->country_code;
+            $user->country_code = '+'.$request->country_code;
             $user->phone = $request->phone;
 
             if($user->save()){
