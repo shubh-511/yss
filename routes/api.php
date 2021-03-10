@@ -33,7 +33,7 @@ Route::get('get/counsellor/details', 'API\UserController@counsellorProfile');
 Route::post('get/channel', 'API\ChannelController@getChannel');
 Route::post('verify/register/account', 'API\UserController@verifyAccount');
 Route::get('get/user/notification', 'API\NotificationController@getUserNotification');
-Route::post('remove/user/account', 'API\StripeConnectController@removeUserAccount');
+
 
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();
@@ -90,6 +90,8 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('add/slots/to/cart', 'API\BookingController@addSlotsToCart');
 	Route::post('delete/slots/from/cart', 'API\BookingController@deleteSlotsFromCart');
 	Route::get('get/slots/from/cart', 'API\BookingController@getSlotsFromCart');
+
+	Route::post('remove/user/account', 'API\StripeConnectController@removeUserAccount');
 	Route::post('logout', 'API\UserController@logout');
 	
 

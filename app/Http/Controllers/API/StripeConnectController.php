@@ -93,12 +93,12 @@ class StripeConnectController extends Controller
     {
     	try
     	{
-			//$user = Auth::user()->id;
+			$user = Auth::user()->id;
 
-			//$checkExist = StripeConnect::where('user_id', $user)->first();
+			$checkExist = StripeConnect::where('user_id', $user)->first();
 			
-			/*if(!empty($checkExist))
-			{*/
+			if(!empty($checkExist))
+			{
 				$stripe = new \Stripe\StripeClient(
 				  'sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9'
 				);
@@ -108,7 +108,7 @@ class StripeConnectController extends Controller
 				  []
 				);
 				
-				/*if($isDeleted->deleted == true)
+				if($isDeleted->deleted == true)
 				{
 					$checkIfDeleted = StripeConnect::where('user_id', $user)->delete();
 					if($checkIfDeleted == 1)
@@ -122,13 +122,13 @@ class StripeConnectController extends Controller
 						return response()->json(['success'=>false,'errors' =>['exception' => ['The account does not exist']]], $this->successStatus);
 					}
 					
-				}*/
+				}
 				
-			/*}
+			}
 			else
 			{
 				return response()->json(['success'=>false,'errors' =>['exception' => ['Your account is not linked with us']]], $this->successStatus);
-			}*/
+			}
 			
     	}
         catch(\Exception $e)
