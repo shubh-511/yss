@@ -650,12 +650,12 @@ class UserController extends Controller
                 $validator = Validator::make($request->all(), [ 
                     'name' => 'required|max:190',  
                     'timezone' => 'required',
-                    /*'country_code' => 'required', 
-                    'phone' => 'required|unique:users,phone,'.Auth()->user()->id*/
-                ]
-                /*[
+                    'country_code' => 'required', 
+                    'phone' => 'required|unique:users,phone,'.Auth()->user()->id
+                ],
+                [
                     'phone.unique' => 'This phone number has already been registered'
-                ]*/
+                ]
             );
             }
             
