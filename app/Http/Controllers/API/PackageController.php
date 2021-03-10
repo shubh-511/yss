@@ -424,7 +424,6 @@ class PackageController extends Controller
                     $timestampTo = $date.' '.$hours->to_time;
                      
                     
-                    $timestampFrom = $date.' '.$hours->from_time;
                     $date_From = Carbon::createFromFormat('Y-m-d g:i A', $timestampFrom, $counsellor->timezone);
                     $utcFrom = $date_From->setTimezone('UTC');
 
@@ -449,7 +448,7 @@ class PackageController extends Controller
                             $bookingData = Booking::where('booking_date', $date)->where('counsellor_id', $request->counsellor_id)->get();
                             $books = [];
                             if(count($bookingData) > 0) {
-                                foreach ($bookingData as $key => $row) {
+                                foreach ($bookingData as $bKey => $row) {
                                     $t = date('h:i A',strtotime( $date . ' '.$row->slot ));
                                     $books[] = $t; 
                                 }
@@ -457,19 +456,36 @@ class PackageController extends Controller
 
                             foreach($data as $key => $datas)
                             {
-                                if( !in_array($datas, $books))
-                                {
-                               
-		                            $existingSlotArray[] = $datas;
+                                if(count($bookingData) > 0) {
+                                    foreach ($bookingData as $bkKey => $row) {
+
+                                        $dateAndTime = date('h:i A',strtotime( $date.' '.$row->slot ));
+                                        $inputTimestamp = Carbon::createFromFormat('Y-m-d h:i A', $dateAndTime);
+                                        $formatedTime = $inputTimestamp->format('Y-m-d h:i A');
+                                        $extendedSlot = Carbon::parse($formatedTime)->addMinutes($sessionTime)->format('g:i A');
+
+                                        if(($dateAndTime != $datas) && ($datas > $extendedSlot))
+                                        {
+                                            $existingSlotArray[] = $datas;
+                                        }
+                                        
+                                    }
                                 }
-		               
+                                else
+                                {
+                                    /*if( !in_array($datas, $books) )
+                                    {*/
+                                        $existingSlotArray[] = $datas;
+                                    //}
+                                }
+
                             }
 
                             
                             $d = array_intersect($existingSlotArray,$books); 
                             $result = array_diff($existingSlotArray, $d);  
 
-                            foreach($result as $key => $datas)
+                            foreach($result as $datas)
                             {
                                 $arr[$hours->from_time.' - '.$hours->to_time][] = $datas;
                             }
