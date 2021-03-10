@@ -33,6 +33,7 @@ Route::get('get/counsellor/details', 'API\UserController@counsellorProfile');
 Route::post('get/channel', 'API\ChannelController@getChannel');
 Route::post('verify/register/account', 'API\UserController@verifyAccount');
 Route::get('get/user/notification', 'API\NotificationController@getUserNotification');
+Route::post('remove/user/account', 'API\StripeConnectController@removeUserAccount');
 
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();
