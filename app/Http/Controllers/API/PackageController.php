@@ -468,7 +468,7 @@ class PackageController extends Controller
                                         if(($datas > $extendedSlot))
                                         {
                                             $existingSlotArray[] = $datas;
-                                            break;
+                                            //break;
                                         }
                                         
                                     }
