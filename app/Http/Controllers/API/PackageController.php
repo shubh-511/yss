@@ -456,29 +456,30 @@ class PackageController extends Controller
 
                             foreach($data as $key => $datas)
                             {
-                                /*if(count($bookingData) > 0) {
+                                if(count($bookingData) > 0) {
                                     foreach ($bookingData as $bkKey => $row) {
 
                                         $dateAndTime = $date.' '.$row->slot;
                                         $bookedSlot = date('h:i A',strtotime($dateAndTime));
                                         $inputTimestamp = Carbon::createFromFormat('Y-m-d h:i A', $dateAndTime);
                                         $formatedTime = $inputTimestamp->format('Y-m-d h:i A');
-                                        $extendedSlot = Carbon::parse($formatedTime)->addMinutes($sessionTime)->format('g:i A');
+                                        $extendedSlot = Carbon::parse($formatedTime)->addMinutes($sessionTime)->format('h:i A');
 
-                                        if(($bookedSlot != $datas) && ($datas > $extendedSlot))
+                                        if(($datas > $extendedSlot))
                                         {
                                             $existingSlotArray[] = $datas;
+                                            break;
                                         }
                                         
                                     }
                                 }
                                 else
-                                {*/
+                                {
                                     if( !in_array($datas, $books) )
                                     {
                                         $existingSlotArray[] = $datas;
                                     }
-                                //}
+                                }
 
                             }
 
