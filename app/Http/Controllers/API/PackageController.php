@@ -608,12 +608,12 @@ $date6 = DateTime::createFromFormat('h:i A', $extendedBookedSlot);
                                    
 		                                $dateAndTime = $date.' '.$datas;
 
-		                                $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $dateAndTime, $counsellor->timezone);
+		                                $inputTimestamp = Carbon::createFromFormat('Y-m-d h:i A', $dateAndTime, $counsellor->timezone);
 		                                $myutc = $inputTimestamp->setTimezone('UTC');
 		                                
 		                                
-		                                $userTime = $myutc->format('Y-m-d g:i A');
-		                                $userTimeSlot = Carbon::parse($userTime)->addMinutes($offsetUser)->format('g:i A');
+		                                $userTime = $myutc->format('Y-m-d h:i A');
+		                                $userTimeSlot = Carbon::parse($userTime)->addMinutes($offsetUser)->format('h:i A');
 		                                $uDate = Carbon::parse($userTime)->addMinutes($offsetUser)->format('d');
 
 		                                
@@ -633,12 +633,12 @@ $date6 = DateTime::createFromFormat('h:i A', $extendedBookedSlot);
                                    
                                         $dateAndTime = $date.' '.$datas;
 
-                                        $inputTimestamp = Carbon::createFromFormat('Y-m-d g:i A', $dateAndTime, $counsellor->timezone);
+                                        $inputTimestamp = Carbon::createFromFormat('Y-m-d h:i A', $dateAndTime, $counsellor->timezone);
                                         $myutc = $inputTimestamp->setTimezone('UTC');
                                         
                                         
-                                        $userTime = $myutc->format('Y-m-d g:i A');
-                                        $userTimeSlot = Carbon::parse($userTime)->addMinutes($offsetUser)->format('g:i A');
+                                        $userTime = $myutc->format('Y-m-d h:i A');
+                                        $userTimeSlot = Carbon::parse($userTime)->addMinutes($offsetUser)->format('h:i A');
                                         $uDate = Carbon::parse($userTime)->addMinutes($offsetUser)->format('d');
 
                                         
