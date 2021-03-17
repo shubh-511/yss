@@ -21,7 +21,7 @@ class CreateListingsTable extends Migration
             $table->longText('description');
             $table->integer('listing_category');
             $table->integer('listing_region');
-            $table->integer('listing_label');
+            $table->integer('listing_label')->nullable();
             $table->string('website');
             $table->string('phone');
             $table->string('video_url');

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\ListingCategory;
 use App\ListingLabel;
+use JWTAuth;
+use JWT;
 use App\User;
 use App\ListingRegion;
 use App\Listing;
@@ -80,9 +82,12 @@ class ListingController extends Controller
 
             $insertedListingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
+            $token = JWTAuth::fromUser($user);
+
             return response()->json(['success' => true,
                          'user_data' => $user,
-                         'listing_data' => $insertedListingData
+                         'listing_data' => $insertedListingData,
+                         'token' => $token
                         ], $this->successStatus); 
 
         }
