@@ -161,7 +161,7 @@ class ListingController extends Controller
     { 
         try
         {
-            $listingRegionData = ListingLabel::where('status', '1')->get();
+            $listingRegionData = ListingRegion::where('status', '1')->get();
             if(count($listingRegionData) > 0)
             {
                 return response()->json(['success' => true,
