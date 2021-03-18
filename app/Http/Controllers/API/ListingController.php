@@ -33,9 +33,9 @@ class ListingController extends Controller
         try
         {
 
-            $requestFields = $request->params;
+            $requestedFields = $request->params;
 
-            $requestedFields = json_decode($requestFields, true);
+            //$requestedFields = json_decode($requestFields, true);
             
 
             $rules = $this->validateData($requestedFields);
