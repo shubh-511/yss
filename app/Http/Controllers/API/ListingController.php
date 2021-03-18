@@ -32,7 +32,16 @@ class ListingController extends Controller
     {
         try
         {
-            $validator = Validator::make($request->all(), [ 
+
+            $requestFields = $request->params;
+
+            $requestedFields = json_decode($requestFields, true);
+            
+
+            $rules = $this->validateData($requestedFields);
+            
+            $validator = Validator::make($requestedFields, $rules);
+            /*$validator = Validator::make($request->all(), [ 
                 'name' => 'required|max:190',  
                 'email' => 'required|max:190|email|unique:users', 
                 'password' => 'required', 
@@ -51,33 +60,34 @@ class ListingController extends Controller
             ],
             [   
                 'email.unique'  =>  'This email is already been registered'
-            ]);
+            ]);*/
 
             if ($validator->fails()) 
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
             }
 
-            $input = $request->all(); 
-            $input['name'] = strtolower($input['name']);
-            $input['email'] = strtolower($input['email']);
-            $input['password'] = bcrypt($input['password']); 
-            $input['role_id'] = 2;
-            $input['timezone'] = $input['timezone'];
-            $input['account_enabled'] = '3'; // Not verified user
-            $user = User::create($input); 
+            //$input = $request->all(); 
+            $user = new User;
+            $user->name = strtolower($requestedFields['name']);
+            $user->email = strtolower($requestedFields['email']);
+            $user->password = bcrypt($requestedFields['password']);
+            $user->role_id = 2;
+            $user->timezone = $requestedFields['timezone'];
+            $user->account_enabled = '3';
+            $user->save();
 
             $listingData = new Listing;
-            $listingData->listing_name = $request->listing_name;
-            $listingData->location = $request->location;
-            $listingData->contact_email_or_url = $request->contact_email_or_url;
-            $listingData->description = $request->description;
-            $listingData->listing_category = $request->listing_category;
-            $listingData->listing_region = $request->listing_region;
-            $listingData->listing_label = $request->listing_label;
-            $listingData->website = $request->website;
-            $listingData->phone = $request->phone;
-            $listingData->video_url = $request->video_url;
+            $listingData->listing_name = $requestedFields['listing_name'];
+            $listingData->location = $requestedFields['location'];
+            $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
+            $listingData->description = $requestedFields['description'];
+            $listingData->listing_category = $requestedFields['listing_category'];
+            $listingData->listing_region = $requestedFields['listing_region'];
+            $listingData->listing_label = $requestedFields['listing_label'];
+            $listingData->website = $requestedFields['website'];
+            $listingData->phone = $requestedFields['phone'];
+            $listingData->video_url = $requestedFields['video_url'];
             $listingData->save();
 
             $insertedListingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
@@ -97,6 +107,77 @@ class ListingController extends Controller
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
+    }
+
+    /*
+     * Validate Data
+     * @Params $requestedfields
+     */
+
+    public function validateData($requestedFields){
+        $rules = [];
+        foreach ($requestedFields as $key => $field) 
+        {
+            if($key == 'name')
+            {
+                $rules[$key] = 'required|max:190';
+            }
+            else if($key == 'email')
+            {
+                $rules[$key] = 'required|max:190|email|unique:users';
+            }
+            else if($key == 'password')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'c_password')
+            {
+                $rules[$key] = 'required|same:password';
+            }
+            else if($key == 'timezone')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'listing_name')
+            {
+                $rules[$key] = 'required|max:190';
+            }
+            else if($key == 'location')
+            {
+                $rules[$key] = 'required|max:190';
+            }
+            else if($key == 'contact_email_or_url')
+            {
+                $rules[$key] = 'required|max:190';
+            }
+            else if($key == 'description')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'listing_category')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'listing_region')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'website')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'phone')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'video_url')
+            {
+                $rules[$key] = 'required';
+            }
+        }
+
+        return $rules;
+
     }
 
     /** 
