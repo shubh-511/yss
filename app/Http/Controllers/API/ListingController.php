@@ -140,7 +140,7 @@ class ListingController extends Controller
             if(count($listingLabelData) > 0)
             {
                 return response()->json(['success' => true,
-                                      'categories' => $listingLabelData,
+                                      'labels' => $listingLabelData,
                                     ], $this->successStatus);
             }
             else
@@ -170,7 +170,7 @@ class ListingController extends Controller
             if(count($listingRegionData) > 0)
             {
                 return response()->json(['success' => true,
-                                      'categories' => $listingRegionData,
+                                      'regions' => $listingRegionData,
                                     ], $this->successStatus);
             }
             else
