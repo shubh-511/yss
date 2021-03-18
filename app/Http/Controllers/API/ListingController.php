@@ -82,10 +82,12 @@ class ListingController extends Controller
 
             $insertedListingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
-            $token = JWTAuth::fromUser($user);
+            $userData = User::with('roles')->where('id', $user->id)->first();
+
+            $token = JWTAuth::fromUser($userData);
 
             return response()->json(['success' => true,
-                         'user_data' => $user,
+                         'user_data' => $userData,
                          'listing_data' => $insertedListingData,
                          'token' => $token
                         ], $this->successStatus); 
