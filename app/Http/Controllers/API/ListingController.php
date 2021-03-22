@@ -78,6 +78,7 @@ class ListingController extends Controller
             $user->save();
 
             $listingData = new Listing;
+            $listingData->user_id = $user->id;
             $listingData->listing_name = $requestedFields['listing_name'];
             $listingData->location = $requestedFields['location'];
             $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
@@ -107,6 +108,46 @@ class ListingController extends Controller
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
+    }
+
+    /** 
+     * Search Listing
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function searchListing(Request $request) 
+    { 
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'listing_category' => 'required'
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+                
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->get();
+
+            if(count($listingData) > 0)
+            {
+                return response()->json(['success' => true,
+                                      'categories' => $listingData,
+                                    ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'errors' => [ 'exception' => 'No listing found'],
+                                    ], $this->successStatus);
+            }
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
     }
 
     /*
