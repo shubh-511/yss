@@ -128,7 +128,7 @@ class ListingController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
             }
                 
-            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->get();
+            $listingData = $this->getSortedListingData($request->sort_by);
 
             if(count($listingData) > 0)
             {
@@ -148,6 +148,36 @@ class ListingController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
 
+    }
+
+    /** 
+     * Get Listing Categories
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getSortedListingData($sortBy) 
+    { 
+        switch ($sortBy) {
+        case 1:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->get();
+        break;
+        case 2:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'ASC')->get();
+        break;
+        case 3:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->get();
+        break;
+        case 4:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->get();
+        break;
+        case 5:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->get();
+        break;
+        default:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->get();
+        }
+
+        return $listingData;
     }
 
     /*
