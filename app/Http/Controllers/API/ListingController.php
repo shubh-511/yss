@@ -75,6 +75,23 @@ class ListingController extends Controller
             $user->role_id = 2;
             $user->timezone = $requestedFields['timezone'];
             $user->account_enabled = '3';
+
+            if(!empty($requestedFields['avatar_id']))
+            {
+                $fileAvatar = time().'.'.$requestedFields['avatar_id']->extension();  
+                $requestedFields['avatar_id']->move('uploads/', $fileAvatar);
+                
+                $user->avatar_id = "uploads/".$fileAvatar;
+            }
+
+            if(!empty($requestedFields['cover_id']))
+            {
+                $fileCover = time().'.'.$requestedFields['cover_id']->extension();  
+                $requestedFields['cover_id']->move('uploads/', $fileCover);
+                
+                $user->cover_id = "uploads/".$fileCover;
+            }
+            
             $user->save();
 
             $listingData = new Listing;
