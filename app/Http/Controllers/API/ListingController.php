@@ -84,6 +84,8 @@ class ListingController extends Controller
             $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
             $listingData->description = $requestedFields['description'];
             $listingData->listing_category = $requestedFields['listing_category'];
+            $listingData->lattitude = $requestedFields['lattitude'];
+            $listingData->longitude = $requestedFields['longitude'];
             $listingData->listing_region = $requestedFields['listing_region'];
             $listingData->listing_label = $requestedFields['listing_label'];
             $listingData->website = $requestedFields['website'];
