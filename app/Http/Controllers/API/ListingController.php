@@ -133,7 +133,7 @@ class ListingController extends Controller
             if(count($listingData) > 0)
             {
                 return response()->json(['success' => true,
-                                      'categories' => $listingData,
+                                      'data' => $listingData,
                                     ], $this->successStatus);
             }
             else
