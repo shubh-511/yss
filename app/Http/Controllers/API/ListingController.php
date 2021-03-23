@@ -34,8 +34,7 @@ class ListingController extends Controller
         {
 
             $requestedFields = $request->params;
-
-            //$requestedFields = json_decode($requestFields, true);
+            //$requestedFields = json_decode($requestedFields, true);
             
 
             $rules = $this->validateData($requestedFields);
@@ -84,10 +83,10 @@ class ListingController extends Controller
                 $user->avatar_id = "uploads/".$fileAvatar;
             }
 
-            if(!empty($requestedFields['cover_id']))
+            if(!empty($requestedFields['cover_img']))
             {
-                $fileCover = time().'.'.$requestedFields['cover_id']->extension();  
-                $requestedFields['cover_id']->move('uploads/', $fileCover);
+                $fileCover = time().'.'.$requestedFields['cover_img']->extension();  
+                $requestedFields['cover_img']->move('uploads/', $fileCover);
                 
                 $user->cover_id = "uploads/".$fileCover;
             }
