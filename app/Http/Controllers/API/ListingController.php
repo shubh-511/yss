@@ -77,13 +77,16 @@ class ListingController extends Controller
 
             if(!empty($requestedFields['avatar_id']))
             {
-                /*$fileAvatar = time().'.'.$requestedFields['avatar_id']->extension();  
-                $requestedFields['avatar_id']->move('uploads/', $fileAvatar);*/
-
                 $avtarImage = $this->createImage($requestedFields['avatar_id']);
                 $user->avatar_id = $avtarImage;
             }
 
+            if(!empty($requestedFields['cover_img']))
+            {
+                $coverImage = $this->createImage($requestedFields['cover_img']);
+                $user->cover_id = $coverImage;
+            }
+            
             $user->save();
 
             $listingData = new Listing;
@@ -102,8 +105,7 @@ class ListingController extends Controller
             $listingData->video_url = $requestedFields['video_url'];
             if(!empty($requestedFields['cover_img']))
             {
-                $coverImage = $this->createImage($requestedFields['cover_img']);
-                $listingData->cover_img = $coverImage;
+                $listingData->cover_img = $user->cover_id;
             }
             $listingData->save();
 
