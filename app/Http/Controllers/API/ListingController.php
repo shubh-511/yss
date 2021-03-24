@@ -77,18 +77,20 @@ class ListingController extends Controller
 
             if(!empty($requestedFields['avatar_id']))
             {
-                $fileAvatar = time().'.'.$requestedFields['avatar_id']->extension();  
-                $requestedFields['avatar_id']->move('uploads/', $fileAvatar);
-                
-                $user->avatar_id = "uploads/".$fileAvatar;
+                /*$fileAvatar = time().'.'.$requestedFields['avatar_id']->extension();  
+                $requestedFields['avatar_id']->move('uploads/', $fileAvatar);*/
+
+                $avtarImage = $this->createImage($requestedFields['avatar_id']);
+                $user->avatar_id = $avtarImage;
             }
 
             if(!empty($requestedFields['cover_img']))
             {
-                $fileCover = time().'.'.$requestedFields['cover_img']->extension();  
-                $requestedFields['cover_img']->move('uploads/', $fileCover);
+                /*$fileCover = time().'.'.$requestedFields['cover_img']->extension();  
+                $requestedFields['cover_img']->move('uploads/', $fileCover);*/
                 
-                $user->cover_id = "uploads/".$fileCover;
+                $coverImage = $this->createImage($requestedFields['cover_img']);
+                $user->cover_id = $coverImage;
             }
             
             $user->save();
@@ -266,6 +268,26 @@ class ListingController extends Controller
         }
 
         return $rules;
+
+    }
+
+    /** 
+     * Create Image From Base64 string
+     * 
+     * Pamameters $img
+     */ 
+    public function createImage($img)
+    {
+        $folderPath = "uploads/";
+
+        $image_parts = explode(";base64,", $img);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $file = $folderPath . uniqid() . '. '.$image_type;
+
+        file_put_contents($file, $image_base64);
+        return $file;
 
     }
 
