@@ -26,6 +26,7 @@ class CreateListingsTable extends Migration
             $table->string('website');
             $table->string('phone');
             $table->string('video_url');
+            $table->string('cover_img');
             $table->enum('status',[0,1])->default(1)->comment("0=inactive,1=active");
             $table->timestamps();
         });
