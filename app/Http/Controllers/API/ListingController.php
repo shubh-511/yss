@@ -129,6 +129,37 @@ class ListingController extends Controller
     }
 
     /** 
+     * Get Listing Detail By ID
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getListingById($listingId) 
+    { 
+        try
+        {
+            $listingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingId)->first();
+
+            if(count($listingData) > 0)
+            {
+                return response()->json(['success' => true,
+                                      'data' => $listingData,
+                                    ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'errors' => [ 'exception' => 'Invalid listing Id'],
+                                    ], $this->successStatus);
+            }
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
+    }
+
+    /** 
      * Search Listing
      * 
      * @return \Illuminate\Http\Response 

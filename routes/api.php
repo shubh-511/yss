@@ -102,4 +102,5 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 
 
 	Route::get('details', 'API\UserController@details');
+	Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingById');
 });
