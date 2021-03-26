@@ -138,14 +138,12 @@ class ListingController extends Controller
         try
         {
             $user = Auth::user();
-            $listingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingId)->first();
-            $userData = User::select('id','avatar_id','email')->with('roles')->where('id', $user->id)->first();
-
+            $listingData = Listing::with('listing_category','listing_label','listing_region')->with('user:id,avatar_id,email')->where('id', $listingId)->first();
+            
             if(!empty($listingData))
             {
                 return response()->json(['success' => true,
-                                        'user_data' => $userData,
-                                        'data' => $listingData,
+                                        'data' => $listingData
                                     ], $this->successStatus);
             }
             else
