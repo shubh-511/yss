@@ -139,7 +139,7 @@ class ListingController extends Controller
         {
             $listingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingId)->first();
 
-            if(count($listingData) > 0)
+            if(!empty($listingData))
             {
                 return response()->json(['success' => true,
                                       'data' => $listingData,
