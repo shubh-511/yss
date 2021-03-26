@@ -144,7 +144,7 @@ class ListingController extends Controller
             {
                 return response()->json(['success' => true,
                                         'data' => $listingData
-                                    ], $this->successStatus);
+                                        ], $this->successStatus);
             }
             else
             {
