@@ -41,7 +41,7 @@ class StripeConnectController extends Controller
 			
 			if(empty($checkExist))
 			{
-				Stripe\Stripe::setApiKey('sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9');
+				Stripe\Stripe::setApiKey('sk_test_51IVk6mInEL6a47XwZYFPim5hOAN95WkN46LgAJHAMzu6FnnH1xPZ0C9HoK4xXRwtZiBWUrbX5OpKThxiO0HpmZsi001GW383pW');
     	
 				$response = \Stripe\OAuth::token([
 				  'grant_type' => 'authorization_code',
@@ -100,7 +100,7 @@ class StripeConnectController extends Controller
 			if(!empty($checkExist))
 			{
 				$stripe = new \Stripe\StripeClient(
-				  'sk_test_51HeJy8FLGFzxhmLyc7WD0MjMrLNiXexvbyiYelajGk7OZF8Mvh3y2NUWEIX2XuTfQG2txpl3N38yYSva0qqz7lkj00qOEAhKE9'
+				  'sk_test_51IVk6mInEL6a47XwZYFPim5hOAN95WkN46LgAJHAMzu6FnnH1xPZ0C9HoK4xXRwtZiBWUrbX5OpKThxiO0HpmZsi001GW383pW'
 				);
 
 				$isDeleted = $stripe->accounts->delete(

@@ -120,7 +120,7 @@ class UserController extends Controller
                 {
                     //$url = env('WORDPRESS_LOGIN_URL')."?email=".$request->getUser()."&password=".$request->getPassword();
 
-                    $url = "https://yoursafespaceonline.com/login.php?email=".urlencode($request->getUser())."&password=".urlencode($request->getPassword());
+                    $url = "https://soberlistic.com/login.php?email=".urlencode($request->getUser())."&password=".urlencode($request->getPassword());
                     //return $url;
                     //echo $url; die; 
 
@@ -213,7 +213,7 @@ class UserController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);
             }
 
-            $checkUser = User::with('roles')->with('country')->where('id', $request->user_id)->first();
+            $checkUser = User::with('roles')->with('country')->where('migrated_id', $request->user_id)->first();
             
             if(!empty($checkUser))
             {
