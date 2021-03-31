@@ -21,5 +21,10 @@ class Listing extends Model
     	return $this->belongsTo('App\ListingRegion','listing_region','id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id','id');
+    }
+
     
 }

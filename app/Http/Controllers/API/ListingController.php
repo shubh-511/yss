@@ -34,8 +34,7 @@ class ListingController extends Controller
         {
 
             $requestedFields = $request->params;
-
-            //$requestedFields = json_decode($requestFields, true);
+            //$requestedFields = json_decode($requestedFields, true);
             
 
             $rules = $this->validateData($requestedFields);
@@ -75,19 +74,39 @@ class ListingController extends Controller
             $user->role_id = 2;
             $user->timezone = $requestedFields['timezone'];
             $user->account_enabled = '3';
+
+            if(!empty($requestedFields['avatar_id']))
+            {
+                $avtarImage = $this->createImage($requestedFields['avatar_id']);
+                $user->avatar_id = $avtarImage;
+            }
+
+            if(!empty($requestedFields['cover_img']))
+            {
+                $coverImage = $this->createImage($requestedFields['cover_img']);
+                $user->cover_id = $coverImage;
+            }
+            
             $user->save();
 
             $listingData = new Listing;
+            $listingData->user_id = $user->id;
             $listingData->listing_name = $requestedFields['listing_name'];
             $listingData->location = $requestedFields['location'];
             $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
             $listingData->description = $requestedFields['description'];
             $listingData->listing_category = $requestedFields['listing_category'];
+            $listingData->lattitude = $requestedFields['lattitude'];
+            $listingData->longitude = $requestedFields['longitude'];
             $listingData->listing_region = $requestedFields['listing_region'];
             $listingData->listing_label = $requestedFields['listing_label'];
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
+            if(!empty($requestedFields['cover_img']))
+            {
+                $listingData->cover_img = $user->cover_id;
+            }
             $listingData->save();
 
             $insertedListingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
@@ -107,6 +126,108 @@ class ListingController extends Controller
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
+    }
+
+    /** 
+     * Get Listing Detail By ID
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getListingById($listingId) 
+    { 
+        try
+        {
+            $user = Auth::user();
+            $listingData = Listing::with('listing_category','listing_label','listing_region')->with('user:id,avatar_id,email')->where('id', $listingId)->first();
+            
+            if(!empty($listingData))
+            {
+                return response()->json(['success' => true,
+                                        'data' => $listingData
+                                        ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'errors' => [ 'exception' => 'Invalid listing Id'],
+                                    ], $this->successStatus);
+            }
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
+    }
+
+    /** 
+     * Search Listing
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function searchListing(Request $request) 
+    { 
+        try
+        {
+            $validator = Validator::make($request->all(), [ 
+                'listing_category' => 'required'
+            ]);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+                
+            $listingData = $this->getSortedListingData($request->sort_by, $request->listing_category);
+
+            if(count($listingData) > 0)
+            {
+                return response()->json(['success' => true,
+                                      'data' => $listingData,
+                                    ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'errors' => [ 'exception' => 'No listing found'],
+                                    ], $this->successStatus);
+            }
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
+    }
+
+    /** 
+     * Get Listing Categories
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function getSortedListingData($sortBy, $listingCategory) 
+    { 
+        switch ($sortBy) {
+        case 1:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->get();
+        break;
+        case 2:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'ASC')->get();
+        break;
+        case 3:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->get();
+        break;
+        case 4:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->get();
+        break;
+        case 5:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->get();
+        break;
+        default:
+            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->get();
+        }
+
+        return $listingData;
     }
 
     /*
@@ -177,6 +298,26 @@ class ListingController extends Controller
         }
 
         return $rules;
+
+    }
+
+    /** 
+     * Create Image From Base64 string
+     * 
+     * Pamameters $img
+     */ 
+    public function createImage($img)
+    {
+        $folderPath = "uploads/";
+
+        $image_parts = explode(";base64,", $img);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $file = $folderPath . uniqid() . '. '.$image_type;
+
+        file_put_contents($file, $image_base64);
+        return $file;
 
     }
 

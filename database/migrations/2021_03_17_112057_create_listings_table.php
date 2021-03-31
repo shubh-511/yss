@@ -15,6 +15,7 @@ class CreateListingsTable extends Migration
     {
         Schema::create('listings', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id');
             $table->string('listing_name');
             $table->string('location');
             $table->string('contact_email_or_url');
@@ -25,6 +26,8 @@ class CreateListingsTable extends Migration
             $table->string('website');
             $table->string('phone');
             $table->string('video_url');
+            $table->string('cover_img');
+            $table->enum('status',[0,1])->default(1)->comment("0=inactive,1=active");
             $table->timestamps();
         });
     }
