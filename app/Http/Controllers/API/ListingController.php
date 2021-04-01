@@ -180,11 +180,11 @@ class ListingController extends Controller
 
             if(!empty($request->all_records))
             {
-                $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->paginate(8);
             }
             elseif(!empty($request->lattitude) && !empty($request->longitude))
             {
-                $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
             }
             else
             {
