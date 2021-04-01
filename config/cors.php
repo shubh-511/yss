@@ -22,7 +22,7 @@ return [
      * Example: ['api/*']
      */
 
-    'paths' => ['https://api.yoursafespaceonline.com/api/*'],
+    'paths' => ['https://admin.soberlistic.com/api/*'],
 
 
     /*
@@ -33,7 +33,7 @@ return [
     /*
      * Matches the request origin. `[*]` allows all origins. Wildcards can be used, eg `*.mydomain.com`
      */
-    'allowed_origins' => ['https://connect.yoursafespaceonline.com','http://localhost:3000','https://yoursafespaceonline.com'],
+    'allowed_origins' => ['https://connect.soberlistic.com','http://localhost:3000','https://soberlistic.com','http://soberlistic.com'],
 
     /*
      * Patterns that can be used with `preg_match` to match the origin.
