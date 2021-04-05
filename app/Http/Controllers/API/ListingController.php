@@ -143,6 +143,7 @@ class ListingController extends Controller
             if(!empty($listingData))
             {
                 return response()->json(['success' => true,
+                                        'profile_percentage' => $user->profile_percentage,
                                         'data' => $listingData
                                         ], $this->successStatus);
             }
