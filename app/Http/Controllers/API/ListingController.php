@@ -170,30 +170,35 @@ class ListingController extends Controller
     { 
         try
         {
-            $validator = Validator::make($request->all(), [ 
-                'listing_category' => 'required'
-            ]);
-
-            if ($validator->fails()) 
-            { 
-                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-            }
-
             if(!empty($request->all_records))
             {
                 $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->orderBy('id', 'DESC')->paginate(8);
             }
             elseif(!empty($request->lattitude) && !empty($request->longitude))
             {
+                $validator = Validator::make($request->all(), [ 
+                'listing_category' => 'required'
+                ]);
+
+                if ($validator->fails()) 
+                { 
+                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+                }
                 $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
             }
             else
             {
+                $validator = Validator::make($request->all(), [ 
+                'listing_category' => 'required'
+                ]);
+
+                if ($validator->fails()) 
+                { 
+                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+                }
                 $listingData = $this->getSortedListingData($request->sort_by, $request->listing_category);
             }
-                
             
-
             if(count($listingData) > 0)
             {
                 return response()->json(['success' => true,
