@@ -54,8 +54,8 @@ class UserController extends Controller
             $checkUserRoles = User::with('roles')->with('country')->where('email', $request->getUser())->first();
             if(!empty($checkUserRoles))
             {
-                if($checkUserRoles->role_id == 3)
-                {
+                /*if($checkUserRoles->role_id == 3)
+                {*/
                     $credentials = array('email' => $request->getUser(), 'password' => $request->getPassword());
 
                     if (!$token = auth('api')->attempt($credentials)) {
@@ -83,54 +83,22 @@ class UserController extends Controller
                     {
                         return response()->json(['errors'=> ['login_failed' => ['Your account is currently disabled by admin']], 'user' => $user->account_enabled], $this->successStatus);
 
-                        /*return response()->json(['success' => false,
-                                                 'user' => $user->account_enabled,
-                                                 'message' => 'Your account is currently disabled by admin'
-                                                ], $this->successStatus);*/
                     }
                     elseif($user->account_enabled == '3')
                     {
                         return response()->json(['errors'=> ['login_failed' => ['Your account is pending for verification']], 'user' => $user->account_enabled], $this->successStatus);
-                        
-                        /*return response()->json(['success' => false,
-                                                 'user' => $user->account_enabled,
-                                                 'message' => 'Your account is pending for verification'
-                                                ], $this->successStatus);*/
+                       
                     }
 
-                     
-
-                    /*if (Auth::attempt(array('email' => $request->getUser(), 'password' => $request->getPassword()), true)){
-                        $user = Auth::user(); 
-                        Auth::user()->roles;
-                        Auth::user()->country;
-                        $token =  $user->createToken('yss')->accessToken; 
-
-        	            return response()->json(['success' => true,
-        	            						 'user' => $user,
-        	            						 'token'=> $token,
-                                                 'expires' => auth('api')->factory()->getTTL() * 60*24*30
-        	            						], $this->successStatus); 
-        	        } 
-        	        else{ 
-        	            return response()->json(['error'=> ['login_failed' => ['Username or Password is not correct']]], 401); 
-        	        } */
-                } 
-                else
+                //} 
+                /*else
                 {
-                    //$url = env('WORDPRESS_LOGIN_URL')."?email=".$request->getUser()."&password=".$request->getPassword();
-
+                    
                     $url = "https://soberlistic.com/login.php?email=".urlencode($request->getUser())."&password=".urlencode($request->getPassword());
-                    //return $url;
-                    //echo $url; die; 
-
+                   
                     $cURL = $this->url_get_contents($url); 
                     $cURL = json_decode($cURL, true);
-                    //return $cURL; 
-                    //echo $cURL['status']; die;
-                    //$json = file_get_contents($url);
-                    //$cURL = json_decode($json, true);
-
+                   
                     if($cURL['status'] == true) 
                     {
                          $token = JWTAuth::fromUser($checkUserRoles);
@@ -150,33 +118,18 @@ class UserController extends Controller
                         {
                             return response()->json(['errors'=> ['login_failed' => ['Your account is currently disabled by admin']], 'user' => $user->account_enabled], $this->successStatus);
 
-                            /*return response()->json(['success' => false,
+                            return response()->json(['success' => false,
                                                      'user' => $user->account_enabled,
                                                      'message' => 'Your account is currently disabled by admin'
-                                                    ], $this->successStatus);*/
+                                                    ], $this->successStatus);
                         }
                         elseif($user->account_enabled == '3')
                         {
                             return response()->json(['errors'=> ['login_failed' => ['Your account is pending for verification']], 'user' => $user->account_enabled], $this->successStatus);
                         
-                        /*return response()->json(['success' => false,
-                                                 'user' => $user->account_enabled,
-                                                 'message' => 'Your account is pending for verification'
-                                                ], $this->successStatus);*/
+                       
                         }
-                         
-
-                        /*if(Auth::loginUsingId($checkUserRoles->id))
-                        {
-                            $user = Auth::user(); 
-                            Auth::user()->roles;
-                            $token =  $user->createToken('yss')->accessToken; 
-
-                            return response()->json(['success' => true,
-                                                     'user' => $user,
-                                                     'token'=> $token
-                                                    ], $this->successStatus);
-                        }*/
+                        
                     }
                     else
                     {
@@ -184,7 +137,7 @@ class UserController extends Controller
                     }
 
                     
-                }
+                }*/
             }  
             else
             {
