@@ -12,6 +12,7 @@ use App\StripeConnect;
 use App\Booking;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use App\Listing;
 use JWTAuth;
 use Event;
 use Carbon\Carbon;
@@ -503,6 +504,7 @@ class UserController extends Controller
     { 
         $profilePercentage = '';
         $totalRevenue = '';
+        $location = null;
 
         $user = Auth::user(); 
         Auth::user()->roles;
@@ -512,6 +514,7 @@ class UserController extends Controller
         }
         else
         {
+            $listingData = Listing::where('user_id', $user->id)->first();
             $totalRev = Booking::where('counsellor_id', $user->id)->get(); 
             if(count($totalRev) > 0)
             {
@@ -531,6 +534,7 @@ class UserController extends Controller
         
         return response()->json(['success' => true,
                                 //'profile_percentage' => $profilePercentage,
+                                'location' => $listingData->location,
                                 'revenue' => $totalRevenue,
                                  'user' => $userData,
                                  'channel_data' => $channelData,
