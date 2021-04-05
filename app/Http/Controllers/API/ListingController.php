@@ -137,13 +137,13 @@ class ListingController extends Controller
     { 
         try
         {
-            $user = Auth::user();
-            $listingData = Listing::with('listing_category','listing_label','listing_region')->with('user:id,avatar_id,email')->where('id', $listingId)->first();
+            //$user = Auth::user();
+            $listingData = Listing::with('listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage')->where('id', $listingId)->first();
             
             if(!empty($listingData))
             {
                 return response()->json(['success' => true,
-                                        'profile_percentage' => $user->profile_percentage,
+                                        //'profile_percentage' => $user->profile_percentage,
                                         'data' => $listingData
                                         ], $this->successStatus);
             }
