@@ -73,7 +73,7 @@ class ListingController extends Controller
             $user->password = bcrypt($requestedFields['password']);
             $user->role_id = 2;
             $user->timezone = $requestedFields['timezone'];
-            $user->account_enabled = '3';
+            $user->account_enabled = '1';
 
             if(!empty($requestedFields['avatar_id']))
             {
