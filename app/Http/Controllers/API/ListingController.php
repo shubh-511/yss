@@ -13,6 +13,7 @@ use JWTAuth;
 use JWT;
 use App\User;
 use App\ListingRegion;
+use App\ListingGallery;
 use App\Listing;
 use Event;
 use Carbon\Carbon;
@@ -108,6 +109,18 @@ class ListingController extends Controller
                 $listingData->cover_img = $user->cover_id;
             }
             $listingData->save();
+
+
+            if(count($requestedFields['gallery_images']) > 0)
+            {
+                foreach($requestedFields['gallery_images'] as $galleryImages)
+                {
+                    $galleryimg = new ListingGallery;
+                    $galleryimg->listing_id = $listingData->id;
+                    $galleryimg->gallery_img = $this->createImage($galleryImages);
+                    $galleryimg->save();
+                }
+            }
 
             $insertedListingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
