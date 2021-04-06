@@ -26,5 +26,10 @@ class Listing extends Model
         return $this->belongsTo('App\User','user_id','id');
     }
 
+    public function gallery()
+    {
+        return $this->hasMany('App\ListingGallery','listing_id','id');
+    }
+
     
 }

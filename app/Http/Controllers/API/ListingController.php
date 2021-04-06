@@ -122,7 +122,7 @@ class ListingController extends Controller
                 }
             }
 
-            $insertedListingData = Listing::with('listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
+            $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
             $userData = User::with('roles')->where('id', $user->id)->first();
 
@@ -151,7 +151,7 @@ class ListingController extends Controller
         try
         {
             //$user = Auth::user();
-            $listingData = Listing::with('listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage')->where('id', $listingId)->first();
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage')->where('id', $listingId)->first();
             
             if(!empty($listingData))
             {
@@ -185,7 +185,7 @@ class ListingController extends Controller
         {
             if(!empty($request->all_records))
             {
-                $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(8);
                 
             }
             elseif(!empty($request->lattitude) && !empty($request->longitude))
@@ -198,7 +198,7 @@ class ListingController extends Controller
                 { 
                     return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
                 }
-                $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
             }
             else
             {
@@ -242,22 +242,22 @@ class ListingController extends Controller
     { 
         switch ($sortBy) {
         case 1:
-            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
         break;
         case 2:
-            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'ASC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'ASC')->paginate(8);
         break;
         case 3:
-            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
         break;
         case 4:
-            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
         break;
         case 5:
-            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
         break;
         default:
-            $listingData = Listing::with('listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
         }
 
         return $listingData;
