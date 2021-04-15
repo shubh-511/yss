@@ -121,6 +121,11 @@
                   </a>
                 </li>
                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                <li class="">
                   <a href="{{url('login/send-notification')}}">
                     <i class="fa fa-bell"></i> <span>Notification</span>
                   </a>

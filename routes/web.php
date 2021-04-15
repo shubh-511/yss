@@ -37,6 +37,9 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 	Route::get('/send-notification', 'Admin\SendNotificationController@sendNotification');
 	Route::post('/send', 'Admin\SendNotificationController@send');
 
+	Route::get('/listings', 'Admin\AdminListingController@getListings');
+	Route::get('/listingStatus', 'Admin\AdminListingController@listingStatus');
+
 });
 
 
