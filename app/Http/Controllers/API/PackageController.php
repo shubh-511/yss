@@ -10,6 +10,7 @@ use Validator;
 use App\User; 
 use App\AvailaibleHours;
 use App\Booking;
+use App\Listing;
 use App\Availability;
 use Event;
 use Carbon\Carbon;
@@ -171,7 +172,7 @@ class PackageController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [ 
-                'user_id' => 'required',
+                'listing_id' => 'required',
             ]);
 
             if ($validator->fails()) 
@@ -179,25 +180,26 @@ class PackageController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
             //$user = Auth::user()->id;
-            $allPackages = Package::where('user_id', $request->user_id)->paginate(8); 
-
-            if(count($allPackages) > 0)
+            $userListing = Listing::where('id', $request->listing_id)->where('status', '1')->first();
+            if(!empty($userListing))
             {
-                return response()->json(['success' => true,
-                                     'packages' => $allPackages,
-                                    ], $this->successStatus); 
+                $allPackages = Package::where('user_id', $userListing->user_id)->paginate(8); 
+                if(count($allPackages) > 0)
+                {
+                    return response()->json(['success' => true,
+                                         'packages' => $allPackages,
+                                        ], $this->successStatus); 
+                }
+                else
+                {
+                    return response()->json(['success'=>false,'errors' =>['exception' => ['No package found for this counsellor']]], $this->successStatus);
+
+                }
             }
             else
             {
-                /*return response()->json(['success' => false,
-                                     'message' => 'No package found for this counsellor',
-                                    ], $this->successStatus); */
-
-                return response()->json(['success'=>false,'errors' =>['exception' => ['No package found for this counsellor']]], $this->successStatus);
-
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Listing id is not valid']]], $this->successStatus);
             }
-            
-
         }
         catch(\Exception $e)
         {
