@@ -21,6 +21,21 @@ class Listing extends Model
     	return $this->belongsTo('App\ListingRegion','listing_region','id');
     }
 
+    public function category()
+    {
+        return $this->belongsTo('App\ListingCategory','listing_category','id');
+    }
+
+    public function label()
+    {
+        return $this->belongsTo('App\ListingLabel','listing_label','id');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo('App\ListingRegion','listing_region','id');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User','user_id','id');

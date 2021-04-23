@@ -151,7 +151,7 @@ class ListingController extends Controller
         try
         {
             //$user = Auth::user();
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage')->where('id', $listingId)->first();
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage,name')->where('id', $listingId)->first();
             
             if(!empty($listingData))
             {
