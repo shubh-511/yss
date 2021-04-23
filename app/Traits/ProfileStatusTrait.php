@@ -77,7 +77,13 @@ trait ProfileStatusTrait
         elseif($packagePerct > 0 && ($stripePerct == 0 && $avalPerct == 0) && $userTimezone > 0)
         {
             $profilePercentage = "60";
-        }/****/
+        }
+        elseif($packagePerct == 0 && $stripePerct == 0 && ($avalPerct > 0 && $userTimezone > 0))
+        {
+            $profilePercentage = "60";
+        }
+
+        /****/
 
         /****/
         elseif(($packagePerct > 0 && $stripePerct > 0 && $avalPerct > 0) && $userTimezone == 0)
