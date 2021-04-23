@@ -45,6 +45,7 @@ class PackageController extends Controller
     	            'package_description' => 'required', 
     	            'session_minutes' => 'required', 
                     'session_hours' => 'required', 
+                    'no_of_slots'   =>  'required',
                     'amount' => 'required',
     	        ]);
 
@@ -259,6 +260,10 @@ class PackageController extends Controller
             if(isset($request->amount) && !empty($request->amount))
             {
                 $package->amount = $request->amount; 
+            }
+            if(isset($request->no_of_slots) && !empty($request->no_of_slots))
+            {
+                $package->no_of_slots = $request->no_of_slots; 
             }
             $package->save();
 

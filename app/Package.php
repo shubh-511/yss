@@ -13,6 +13,7 @@ class Package extends Model
         'package_description',
         'session_minutes',
         'session_hours',
+        'no_of_slots',
         'amount',
     ];
 

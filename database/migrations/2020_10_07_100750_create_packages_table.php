@@ -16,6 +16,7 @@ class CreatePackagesTable extends Migration
         Schema::create('packages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->string('no_of_slots')->nullable()->comment("total number of slots allowed to book at a time");
             $table->string('package_name')->nullable();
             $table->longText('package_description')->nullable();
             $table->integer('session_minutes')->nullable();
