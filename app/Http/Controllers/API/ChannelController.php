@@ -77,9 +77,10 @@ class ChannelController extends Controller
         {
             $validator = Validator::make($request->all(), [ 
                 //'from_id' => 'required',  
-                'counsellor_id' => 'required', 
+                'from_id' => 'required', 
+                'to_id' => 'required',
                 'booking_id'   => 'required',
-                //'channel_id' => 'required|max:190', 
+                'channel_id' => 'required|max:190', 
                 'timing' => 'required', 
                 //'uid' => 'required|max:190',
                 //'status' => 'required',
@@ -93,16 +94,17 @@ class ChannelController extends Controller
             $user = Auth::user()->id;
 
             //checking existing channel data
-            $checkExist = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
+            $checkExist = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $request->from_id)->where('to_id', $request->to_id)->first();
 
             //saving video channel data
             if(empty($checkExist))
             {
               $channelData = new VideoChannel; 
               $channelData->booking_id = $request->booking_id;
-              $channelData->from_id = $user;
-              $channelData->to_id = $request->counsellor_id;
-              $channelData->channel_id = $this->generateRandomString(20);
+              $channelData->from_id = $request->from_id;
+              $channelData->to_id = $request->to_id;
+              //$channelData->channel_id = $this->generateRandomString(20);
+              $channelData->channel_id = $request->channel_id;
               $channelData->timing = $request->timing;
               //$channelData->uid = $request->uid;
               $channelData->status = '0';  //waiting
@@ -110,9 +112,9 @@ class ChannelController extends Controller
             }
             else
             {
-                VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $user)->where('to_id', $request->counsellor_id)->update(['status' => '0']);
+                VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $request->from_id)->where('to_id', $request->to_id)->update(['status' => '0']);
 
-                $channelData = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $user)->where('to_id', $request->counsellor_id)->first();
+                $channelData = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $from_id)->where('to_id', $request->to_id)->first();
             }
 
             return response()->json(['success' => true,
@@ -229,10 +231,17 @@ class ChannelController extends Controller
             }*/
 
             $user = Auth::user()->id;
-
-            $waitingList = VideoChannel::with('user:id,name')->with('counsellor:id,name')->with('booking')->where('to_id', $user)->where('status', '0')->get();
+//return $user;
+            $waitingList = VideoChannel::with('booking')->where('to_id', $user)->orWhere('from_id', $user)->where('status', '0')->get();
             if(count($waitingList) > 0)
             {
+                foreach($waitingList as $key => $list)
+                {
+                  $fromUserDetail = User::select('id','name','email','avatar_id','role_id')->where('id', $list->from_id)->first();
+                  $toUserDetail = User::select('id','name','email','avatar_id','role_id')->where('id', $list->to_id)->first();
+                  $waitingList[$key]->from_id = $fromUserDetail;
+                  $waitingList[$key]->to_id = $toUserDetail;
+                }
                 return response()->json(['success' => true,
                                      'data' => $waitingList,
                                     ], $this->successStatus);

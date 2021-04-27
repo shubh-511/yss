@@ -8,7 +8,7 @@ class VideoChannel extends Model
 {
     public function user()
     {
-    	return $this->belongsTo('App\User','from_id','id');
+        return $this->belongsTo('App\User','from_id','id');
     }
 
     public function counsellor()
