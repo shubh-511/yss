@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\AvailaibleHours;
 use App\Booking;
+use App\User;
 use App\Availability;
 use App\VideoChannel;
 use Event;
