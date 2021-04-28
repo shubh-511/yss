@@ -198,7 +198,8 @@ class ListingController extends Controller
             $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
             return response()->json(['success' => true,
-                         'listing_data' => $insertedListingData
+                        'message' => 'Listing updated',
+                        'listing_data' => $insertedListingData
                         ], $this->successStatus); 
 
         }
