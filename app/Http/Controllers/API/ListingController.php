@@ -176,15 +176,15 @@ class ListingController extends Controller
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
-            if(!empty($requestedFields['cover_img']))
+            /*if(!empty($requestedFields['cover_img']))
             {
                 $coverImage = $this->createImage($requestedFields['cover_img']);
                 $listingData->cover_img = $coverImage;
-            }
+            }*/
             $listingData->save();
 
 
-            if(count($requestedFields['gallery_images']) > 0)
+            /*if(count($requestedFields['gallery_images']) > 0)
             {
                 foreach($requestedFields['gallery_images'] as $galleryImages)
                 {
@@ -193,7 +193,7 @@ class ListingController extends Controller
                     $galleryimg->gallery_img = $this->createImage($galleryImages);
                     $galleryimg->save();
                 }
-            }
+            }*/
 
             $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
