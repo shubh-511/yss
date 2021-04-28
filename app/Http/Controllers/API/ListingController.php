@@ -164,7 +164,6 @@ class ListingController extends Controller
             }
 
             $listingData = Listing::where('user_id', Auth::user()->id)->first();
-            $listingData->user_id = $user->id;
             $listingData->listing_name = $requestedFields['listing_name'];
             $listingData->location = $requestedFields['location'];
             $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
