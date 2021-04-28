@@ -518,7 +518,7 @@ class UserController extends Controller
         }
         else
         {
-            $listingData = Listing::with(]'gallery')->where('user_id', $user->id)->first();
+            $listingData = Listing::with('gallery')->where('user_id', $user->id)->first();
             $listingLabel = ListingLabel::where('id', $listingData->listing_label)->first();
             $ListingCategory = ListingCategory::where('id', $listingData->listing_category)->first();
             $ListingRegion = ListingRegion::where('id', $listingData->listing_region)->first();
