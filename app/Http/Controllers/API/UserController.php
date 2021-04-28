@@ -13,6 +13,9 @@ use App\Booking;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use App\Listing;
+use App\ListingCategory;
+use App\ListingLabel;
+use App\ListingRegion;
 use JWTAuth;
 use Event;
 use Carbon\Carbon;
@@ -515,7 +518,15 @@ class UserController extends Controller
         }
         else
         {
-            $listingData = Listing::with('listing_category','listing_label','listing_region','gallery')->where('user_id', $user->id)->first();
+            $listingData = Listing::with(]'gallery')->where('user_id', $user->id)->first();
+            $listingLabel = ListingLabel::where('id', $listingData->listing_label)->first();
+            $ListingCategory = ListingCategory::where('id', $listingData->listing_category)->first();
+            $ListingRegion = ListingRegion::where('id', $listingData->listing_region)->first();
+
+            $listingData->listing_label = (!empty($listingLabel))?$listingLabel->label_name:'';
+            $listingData->listing_category = (!empty($ListingCategory))?$ListingCategory->category_name:'';
+            $listingData->listing_region = (!empty($ListingRegion))?$ListingRegion->region_name:'';
+
             $location = $listingData->location;
             $totalRev = Booking::where('counsellor_id', $user->id)->get(); 
             if(count($totalRev) > 0)
