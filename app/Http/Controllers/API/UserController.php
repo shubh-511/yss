@@ -505,6 +505,7 @@ class UserController extends Controller
         $profilePercentage = '';
         $totalRevenue = '';
         $location = '';
+        $listingData = '';
 
         $user = Auth::user(); 
         Auth::user()->roles;
@@ -514,7 +515,7 @@ class UserController extends Controller
         }
         else
         {
-            $listingData = Listing::where('user_id', $user->id)->first();
+            $listingData = Listing::with('listing_category','listing_label','listing_region','gallery')->where('user_id', $user->id)->first();
             $location = $listingData->location;
             $totalRev = Booking::where('counsellor_id', $user->id)->get(); 
             if(count($totalRev) > 0)
@@ -537,6 +538,7 @@ class UserController extends Controller
                                 //'profile_percentage' => $profilePercentage,
                                 'location' => $location,
                                 'revenue' => $totalRevenue,
+                                'listing_data' => $listingData,
                                  'user' => $userData,
                                  'channel_data' => $channelData,
                                 ], $this->successStatus);  

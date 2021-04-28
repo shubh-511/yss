@@ -21,4 +21,8 @@ class Booking extends Model
     {
     	return $this->belongsTo('App\Package','package_id','id');
     }
+
+    public function listing(){
+        return $this->belongsTo('App\Listing', 'counsellor_id','user_id');
+    }
 }

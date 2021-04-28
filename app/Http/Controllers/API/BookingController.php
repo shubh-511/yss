@@ -628,7 +628,7 @@ class BookingController extends Controller
                 if(count($allBookings) > 0)
                 { 
                     
-                    $pastBookings = Booking::with('counsellor','package','user')
+                    $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '<', Carbon::today($counsellorTimeZone))
                     ->orderBy('booking_date','DESC')
@@ -653,7 +653,7 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
-                    $pastBookings = Booking::with('counsellor','package','user')
+                    $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', '<', Carbon::today($userTimeZone))
                     ->orderBy('counsellor_booking_date','DESC')
@@ -700,7 +700,7 @@ class BookingController extends Controller
                   if($request->page == -1)
                   {
                    
-                    $todaysBooking = Booking::with('counsellor','package','user')
+                    $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
                     ->orderBy('slot','ASC')
@@ -709,7 +709,7 @@ class BookingController extends Controller
                   else
                   {
                     
-                    $todaysBooking = Booking::with('counsellor','package','user')
+                    $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
                     ->orderBy('slot','ASC')
@@ -737,7 +737,7 @@ class BookingController extends Controller
                 { 
                   if($request->page == -1)
                   {
-                    $todaysBooking = Booking::with('counsellor','package','user')
+                    $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', Carbon::today($userTimeZone))
                     ->orderBy('counsellor_timezone_slot','ASC')
@@ -745,7 +745,7 @@ class BookingController extends Controller
                   }
                   else
                   {
-                    $todaysBooking = Booking::with('counsellor','package','user')
+                    $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', Carbon::today($userTimeZone))
                     ->orderBy('counsellor_timezone_slot','ASC')

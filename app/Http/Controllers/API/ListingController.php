@@ -148,8 +148,8 @@ class ListingController extends Controller
      */ 
     public function updateListing(Request $request) 
     {
-        try
-        {
+        /*try
+        {*/
 
             $requestedFields = $request->params;
             //$requestedFields = json_decode($requestedFields, true);
@@ -202,11 +202,11 @@ class ListingController extends Controller
                         'listing_data' => $insertedListingData
                         ], $this->successStatus); 
 
-        }
+        /*}
         catch(\Exception $e)
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } 
+        } */
     }
 
     /** 
@@ -257,8 +257,7 @@ class ListingController extends Controller
             if(!empty($image))
             {
                 return response()->json(['success' => true,
-                                        //'profile_percentage' => $user->profile_percentage,
-                                        'data' => $listingData
+                                        'message' => 'Deleted successfully'
                                         ], $this->successStatus);
             }
             else
