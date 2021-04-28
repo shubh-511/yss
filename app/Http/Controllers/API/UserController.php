@@ -523,9 +523,9 @@ class UserController extends Controller
             $ListingCategory = ListingCategory::where('id', $listingData->listing_category)->first();
             $ListingRegion = ListingRegion::where('id', $listingData->listing_region)->first();
 
-            $listingData->listing_label = (!empty($listingLabel))?$listingLabel->label_name:'';
-            $listingData->listing_category = (!empty($ListingCategory))?$ListingCategory->category_name:'';
-            $listingData->listing_region = (!empty($ListingRegion))?$ListingRegion->region_name:'';
+            $listingData->listing_label = (!empty($listingLabel))?$listingLabel->id:'';
+            $listingData->listing_category = (!empty($ListingCategory))?$ListingCategory->id:'';
+            $listingData->listing_region = (!empty($ListingRegion))?$ListingRegion->id:'';
 
             $location = $listingData->location;
             $totalRev = Booking::where('counsellor_id', $user->id)->get(); 
