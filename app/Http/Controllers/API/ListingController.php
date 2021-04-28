@@ -142,6 +142,77 @@ class ListingController extends Controller
     }
 
     /** 
+     * Update Listing api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function updateListing(Request $request) 
+    {
+        try
+        {
+
+            $requestedFields = $request->params;
+            //$requestedFields = json_decode($requestedFields, true);
+
+            $rules = $this->validateUpdateListingData($requestedFields);
+            
+            $validator = Validator::make($requestedFields, $rules);
+
+            if ($validator->fails()) 
+            { 
+                return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
+            }
+
+            $listingData = Listing::where('user_id', Auth::user()->id)->first();
+            $listingData->user_id = $user->id;
+            $listingData->listing_name = $requestedFields['listing_name'];
+            $listingData->location = $requestedFields['location'];
+            $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
+            $listingData->description = $requestedFields['description'];
+            $listingData->listing_category = $requestedFields['listing_category'];
+            $listingData->lattitude = $requestedFields['lattitude'];
+            $listingData->longitude = $requestedFields['longitude'];
+            $listingData->listing_region = $requestedFields['listing_region'];
+            $listingData->listing_label = $requestedFields['listing_label'];
+            $listingData->website = $requestedFields['website'];
+            $listingData->phone = $requestedFields['phone'];
+            $listingData->video_url = $requestedFields['video_url'];
+            if(!empty($requestedFields['cover_img']))
+            {
+                $coverImage = $this->createImage($requestedFields['cover_img']);
+                $listingData->cover_img = $coverImage;
+            }
+            $listingData->save();
+
+
+            if(count($requestedFields['gallery_images']) > 0)
+            {
+                foreach($requestedFields['gallery_images'] as $galleryImages)
+                {
+                    $galleryimg = new ListingGallery;
+                    $galleryimg->listing_id = $listingData->id;
+                    $galleryimg->gallery_img = $this->createImage($galleryImages);
+                    $galleryimg->save();
+                }
+            }
+
+            $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
+
+            $userData = User::with('roles')->where('id', $user->id)->first();
+
+            return response()->json(['success' => true,
+                         'user_data' => $userData,
+                         'listing_data' => $insertedListingData
+                        ], $this->successStatus); 
+
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+    }
+
+    /** 
      * Get Listing Detail By ID
      * 
      * @return \Illuminate\Http\Response 
@@ -293,6 +364,57 @@ class ListingController extends Controller
                 $rules[$key] = 'required';
             }
             else if($key == 'listing_name')
+            {
+                $rules[$key] = 'required|max:190';
+            }
+            else if($key == 'location')
+            {
+                $rules[$key] = 'required|max:190';
+            }
+            else if($key == 'contact_email_or_url')
+            {
+                $rules[$key] = 'required|max:190';
+            }
+            else if($key == 'description')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'listing_category')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'listing_region')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'website')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'phone')
+            {
+                $rules[$key] = 'required';
+            }
+            else if($key == 'video_url')
+            {
+                $rules[$key] = 'required';
+            }
+        }
+
+        return $rules;
+
+    }
+
+    /*
+     * Validate Update Listing Data
+     * @Params $requestedfields
+     */
+
+    public function validateUpdateListingData($requestedFields){
+        $rules = [];
+        foreach ($requestedFields as $key => $field) 
+        {
+            if($key == 'listing_name')
             {
                 $rules[$key] = 'required|max:190';
             }
