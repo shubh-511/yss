@@ -197,10 +197,7 @@ class ListingController extends Controller
 
             $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
-            $userData = User::with('roles')->where('id', $user->id)->first();
-
             return response()->json(['success' => true,
-                         'user_data' => $userData,
                          'listing_data' => $insertedListingData
                         ], $this->successStatus); 
 
