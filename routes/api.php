@@ -27,7 +27,7 @@ Route::get('get/listing/region', 'API\ListingController@listingRegion');
 Route::get('get/listing/label', 'API\ListingController@listingLabels');
 Route::get('get/listing/category', 'API\ListingController@listingCategories');
 Route::post('add/listing', 'API\ListingController@createListing');
-Route::post('update/listing', 'API\ListingController@updateListing');
+
 Route::get('search/listing', 'API\ListingController@searchListing');
 
 //Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
@@ -104,5 +104,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 
 
 	Route::get('details', 'API\UserController@details');
+	Route::post('update/listing', 'API\ListingController@updateListing');
+	Route::post('delete/gallery/{id}', 'API\ListingController@deleteListingGallery');
 	
 });

@@ -246,6 +246,39 @@ class ListingController extends Controller
     }
 
     /** 
+     * Delete Listing Gallery Image By ID
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function deleteListingGallery($imageId) 
+    { 
+        try
+        {
+            $user = Auth::user();
+            $image = ListingGallery::where('id', $imageId)->first();
+            
+            if(!empty($image))
+            {
+                return response()->json(['success' => true,
+                                        //'profile_percentage' => $user->profile_percentage,
+                                        'data' => $listingData
+                                        ], $this->successStatus);
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'errors' => [ 'exception' => 'Invalid image Id'],
+                                    ], $this->successStatus);
+            }
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
+    }
+
+    /** 
      * Search Listing
      * 
      * @return \Illuminate\Http\Response 
