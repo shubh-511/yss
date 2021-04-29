@@ -821,7 +821,7 @@ class BookingController extends Controller
                       }                   
                     }
 
-                    $upcomingBookings = Booking::with('counsellor','package','user')
+                    $upcomingBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
 
                     ->where(function ($query) use ($counsellorTimeZone){
@@ -876,7 +876,7 @@ class BookingController extends Controller
                     }
 
 
-                    $upcomingBooking = Booking::with('counsellor','package','user')
+                    $upcomingBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('user_id', $user->id)
                     
                     ->where(function ($query) use ($userTimeZone){
@@ -924,7 +924,7 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
-                    $currentWeekBooking = Booking::with('counsellor','package','user')->where('counsellor_id', $user->id)
+                    $currentWeekBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')->where('counsellor_id', $user->id)
                     ->where('booking_date', '>', Carbon::now($counsellorTimeZone)->startOfWeek(Carbon::SUNDAY))
                     ->where('booking_date', '<', Carbon::now($counsellorTimeZone)->endOfWeek(Carbon::SATURDAY))
                     ->orderBy('booking_date','ASC')
@@ -949,7 +949,7 @@ class BookingController extends Controller
                 if(count($allBookings) > 0)
                 { 
                    
-                    $currentWeekBooking = Booking::with('counsellor','package','user')->where('user_id', $user->id)
+                    $currentWeekBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')->where('user_id', $user->id)
                     ->where('counsellor_booking_date', '>', Carbon::now($userTimeZone)->startOfWeek(Carbon::SUNDAY))
                     ->where('counsellor_booking_date', '<', Carbon::now($userTimeZone)->endOfWeek(Carbon::SATURDAY))
                     ->orderBy('counsellor_booking_date','ASC')

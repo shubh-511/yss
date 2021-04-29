@@ -233,7 +233,7 @@ class ChannelController extends Controller
 
             $user = Auth::user()->id;
 //return $user;
-            $waitingList = VideoChannel::with('booking')->where('to_id', $user)->orWhere('from_id', $user)->where('status', '0')->get();
+            $waitingList = VideoChannel::with('booking')->where('to_id', $user)->where('status', '0')->get();
             if(count($waitingList) > 0)
             {
                 foreach($waitingList as $key => $list)
