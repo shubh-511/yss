@@ -122,10 +122,7 @@ class BookingController extends Controller
         }
         else
         {
-        $bookings = Booking::where(function ($query) use($request) {
-        $query->where('booking_date', 'like', '%' . date('Y-m-d', strtotime($request->get('booking_date'))). '%')
-        ->orwhere('status', 'like', '%' . $request->get('status') . '%'); 
-       })->where('counsellor_id', Auth::user()->id)->orderBy('id','DESC')->paginate(25);
+        $bookings = Booking::where('counsellor_id', Auth::user()->id)->orderBy('id','DESC')->paginate(25);
             return view('admin.bookings.index',compact('bookings'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
         }

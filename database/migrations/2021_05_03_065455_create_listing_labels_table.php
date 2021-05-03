@@ -13,10 +13,11 @@ class CreateListingLabelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('listing_labels', function (Blueprint $table) {
+         Schema::create('listing_labels', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('label_name');
             $table->enum('status',[0,1])->default(1)->comment("0=Inactive,1=Active");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

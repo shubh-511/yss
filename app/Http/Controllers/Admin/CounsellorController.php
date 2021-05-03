@@ -5,6 +5,10 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Booking;
 use App\Package;
+use App\Listing;
+use App\ListingCategory;
+use App\ListingRegion;
+use App\ListingLabel;
 use DB;
 use Auth;
 use Hash;
@@ -368,5 +372,50 @@ class CounsellorController extends Controller
         //echo $request->id; die;
         User::where('id', $request->id)->delete();
         return redirect('login/counselors')->with('success','Counsellor deleted successfully');
+    }
+    public function listedit($id)
+    {
+        $list_category=ListingCategory::get();
+        $list_region=ListingRegion::get();
+        $list_label=ListingLabel::get();
+        $list_data=Listing::where('user_id',$id)->first();
+       return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label'));
+    }
+    public function listupdate(Request $request, $id)
+    {
+        try
+        {
+           $validator = Validator::make($request->all(), [ 
+            'listing_name' => 'required',
+            'location' => 'required',
+            'contact_email_or_url' => 'required',
+            'website' => 'required',
+            'phone' => 'required',
+            'video_url' => 'required',
+            'description' => 'required',
+          ]);
+           if ($validator->fails()) 
+           { 
+              return redirect()->back()->with('err_message',$validator->messages()->first());
+            }
+            $list_update_data=Listing::where('user_id',$id)->first();
+            $list_update_data->listing_name = $request->listing_name;
+            $list_update_data->location = $request->location;
+            $list_update_data->contact_email_or_url = $request->contact_email_or_url;
+            $list_update_data->listing_category = $request->listing_category;
+            $list_update_data->listing_region = $request->listing_region;
+            $list_update_data->listing_label = $request->listing_label;
+            $list_update_data->status = $request->status;
+            $list_update_data->website = $request->website;
+            $list_update_data->phone = $request->phone;
+            $list_update_data->video_url = $request->video_url;
+            $list_update_data->description = $request->description;
+            $list_update_data->save();
+            return redirect('login/counsellors/list/listedit/'.$id)->with('success','Listing updated successfully');
+        }
+        catch(\Exception $e)
+        {
+            return redirect()->back()->with('err_message','Something went wrong!');
+        }
     }
 }

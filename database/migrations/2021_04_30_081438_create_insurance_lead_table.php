@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInsuranceLeadsTable extends Migration
+class CreateInsuranceLeadTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,12 +15,12 @@ class CreateInsuranceLeadsTable extends Migration
     {
         Schema::create('insurance_leads', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('first_name')->nullable();
+            $table->string('first_name');
             $table->string('last_name')->nullable();
-            $table->string('email')->unique();
-            $table->string('phone')->nullable();
-            $table->string('insurance_provider')->nullable();
-            $table->string('insurance_no')->nullable();
+            $table->string('email');
+            $table->string('phone');
+            $table->string('insurance_provider');
+            $table->string('insurance_no');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ class CreateInsuranceLeadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('insurance_leads');
+        Schema::dropIfExists('insurance_lead');
     }
 }

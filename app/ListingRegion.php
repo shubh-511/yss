@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ListingRegion extends Model
 {
+	use SoftDeletes;
     /*public function counsellor()
     {
     	return $this->belongsTo('App\User','counsellor_id','id');

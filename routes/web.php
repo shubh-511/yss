@@ -33,19 +33,46 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
     Route::get('user/create','Admin\UserController@form');
     Route::post('user/save','Admin\UserController@save');
     
-
-
-
-	//counsellors
+//counsellors
 	Route::get('/counsellors', 'Admin\CounsellorController@index');
 	Route::get('/counsellors/create', 'Admin\CounsellorController@create');
 	Route::post('/counsellors/store', 'Admin\CounsellorController@store');
 	Route::get('/counsellors/edit/{id}', 'Admin\CounsellorController@edit');
 	Route::post('/counsellors/update/{id}', 'Admin\CounsellorController@update');
 	Route::get('/counsellors/show/{id}', 'Admin\CounsellorController@show');
-	 Route::get('/counsellors/bulk','Admin\CounsellorController@active');
+	Route::get('/counsellors/bulk','Admin\CounsellorController@active');
 	Route::get('/counsellors/revenue/{id}', 'Admin\CounsellorController@revenue');
+	 Route::get('/counsellors/list/listedit/{id}','Admin\CounsellorController@listedit');
+	 Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupdate');
 
+	//Category
+	Route::get('category/create','Admin\CategoryController@create');
+	Route::post('category/save','Admin\CategoryController@save');	
+    Route::get('category','Admin\CategoryController@categorylist');	
+    Route::get('/category/edit/{id}', 'Admin\CategoryController@edit');
+    Route::post('/category/update/{id}','Admin\CategoryController@update');
+    Route::get('category/destroy/{id?}','Admin\CategoryController@destroy');
+    Route::get('category/bulk','Admin\CategoryController@bulkaction');
+
+    //region
+    Route::get('region','Admin\RegionController@regionlist');
+    Route::get('region/create','Admin\RegionController@create');
+    Route::post('region/save','Admin\RegionController@save');
+    Route::get('/region/edit/{id}', 'Admin\RegionController@edit');
+    Route::post('/region/update/{id}','Admin\RegionController@update');
+    Route::get('region/destroy/{id?}','Admin\RegionController@destroy');
+    Route::get('region/bulk','Admin\RegionController@bulkaction');
+
+   //label
+    Route::get('label','Admin\LabelController@labellist');
+    Route::get('label/create','Admin\LabelController@create');
+    Route::post('label/save','Admin\LabelController@save');
+    Route::get('/label/edit/{id}', 'Admin\LabelController@edit');
+    Route::post('/label/update/{id}','Admin\LabelController@update');
+    Route::get('label/destroy/{id?}','Admin\LabelController@destroy');
+   Route::get('label/bulk','Admin\LabelController@bulkaction');
+
+  
 	Route::get('/profile', 'Admin\UserController@profile');
 	Route::post('/profile/update', 'Admin\UserController@profileUpdate');
 
@@ -86,5 +113,9 @@ Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(
 
 
 });
-
-
+// Route::group(['prefix'=>'login','middleware'=>['web','IsCounsellor']], function(){
+// 	Route::get('/dashboard', 'Admin\AdminController@dashboard');
+// 	Route::get('/bookings', 'Admin\BookingController@bookingList');
+// 	Route::get('/counsellors/list/listedit/{id}','Admin\CounsellorController@listedit');
+// 	Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupdate');
+// });

@@ -129,7 +129,6 @@
       <!-- /.box -->
     </div>
   </div>
-</div>
 
 <div class="container">
   @foreach($insurance_data as $insurance)

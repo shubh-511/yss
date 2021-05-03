@@ -101,16 +101,31 @@
                 </div>
                 <div class="pull-left info">
                   <p>{{Auth::user()->name}}</p>
+
                   <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
               </div>
               <!-- sidebar menu: : style can be found in sidebar.less -->
-
+              @if(Auth::user()->role_id == 2)
+               <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                 <li>
+                    <a href="{{url('login/bookings')}}"><i class="fa fa-list"></i> <span>All Bookings</span></a>
+                 </li>
+                
+                <li>
+                 <a href="{{url('login/counsellors/list/listedit',Auth::user()->id)}}">
+                    <i class="fa fa-list"></i> <span>Update Listing</span>
+                  </a>
+                </li>
+              </ul>
+              @else
               <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="">
                   <a href="{{url('login/dashboard')}}">
                     <i class="fa fa-th"></i> <span>Dashboard</span>
+
                   </a>
                 </li>
                 
@@ -181,11 +196,26 @@
                     <i class="fa fa-hospital-o"></i> <span>Insurance</span>
                   </a>
                 </li>
+                <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="{{url('login/label')}}">
+                    <i class="fa fa-globe"></i> <span>Labels</span>
+                  </a>
+                </li>
 
                
               </ul>
 
-
+            @endif
               
             </section>
         <!-- /.sidebar -->

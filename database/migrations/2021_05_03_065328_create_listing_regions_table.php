@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateListingCategoriesTable extends Migration
+class CreateListingRegionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateListingCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('listing_categories', function (Blueprint $table) {
+         Schema::create('listing_regions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('category_name');
+            $table->string('region_name');
             $table->enum('status',[0,1])->default(1)->comment("0=Inactive,1=Active");
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateListingCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('listing_categories');
+        Schema::dropIfExists('listing_regions');
     }
 }

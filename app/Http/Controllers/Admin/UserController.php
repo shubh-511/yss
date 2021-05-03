@@ -7,6 +7,13 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Booking;
+use App\Availability;
+use App\Listing;
+use App\Package;
+use App\Payment;
+use App\StripeConnect;
+use App\UserTickets;
 use DB;
 use Auth;
 use Hash;
@@ -55,7 +62,7 @@ class UserController extends Controller
     }
     public function form()
     {
-        return view('admin.users.add');
+     return view('admin.users.add');
     }
     public function active(Request $request)
     {
@@ -81,6 +88,7 @@ class UserController extends Controller
        }
         else
        {
+        
           $data=\App\User::whereIn('id',$id)->delete();
           return response()->json(array('message' => 'success'));
        }
@@ -126,19 +134,20 @@ class UserController extends Controller
 
             if ($validator->fails()) 
             {
+
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            $user = new User;
-            $user->name = ucwords(strtolower($request->name));
-            $user->email = strtolower($request->email);
-            $user->password = bcrypt($request->password);
-            $user->timezone = $request->timezone;
-            $user->role_id = '3';
-            $user->account_enabled = '1';
-            $user->save();
+            $user_data = new User;
+            $user_data->name = ucwords(strtolower($request->name));
+            $user_data->email = strtolower($request->email);
+            $user_data->password = bcrypt($request->password);
+            $user_data->timezone = $request->timezone;
+            $user_data->role_id = '3';
+            $user_data->account_enabled = '1';
+            $user_data->save();
 
-            event(new CounsellorRegisterEvent($user->id, $request->password));
+            event(new CounsellorRegisterEvent($user_data->id, $request->password));
 
             return redirect('login/users')->with('success','User added successfully');
         }
@@ -261,8 +270,21 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id='')
     {
-        //echo $request->id; die;
-        User::where('id', $request->id)->delete();
-        return redirect('login/users')->with('success','User deleted successfully');
+         $booking_id=Booking::where('user_id', $request->id)->first();
+         $availability_id=Availability::where('user_id', $request->id)->first();
+         $listing_id=Listing::where('user_id', $request->id)->first();
+         $pacakage_id=Package::where('user_id', $request->id)->first();
+         $payment_id=Payment::where('user_id', $request->id)->first();
+         $stripe_connect=StripeConnect::where('user_id', $request->id)->first();
+         $user_ticket=UserTickets::where('user_id', $request->id)->first();
+         if($booking_id == "" && $availability_id == "" && $listing_id== "" && $pacakage_id == "" && $payment_id == "" && $stripe_connect =="" && $user_ticket=="")
+         {
+            User::where('id', $request->id)->delete();
+           return redirect('login/users')->with('success','User deleted successfully');
+         }
+         else
+         {
+             return redirect('login/users')->with('err_message','Something went wrong!');
+         }
     }
 }
