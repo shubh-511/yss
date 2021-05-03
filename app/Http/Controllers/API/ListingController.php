@@ -424,10 +424,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required';
             }
-            else if($key == 'video_url')
+            /*else if($key == 'video_url')
             {
                 $rules[$key] = 'required';
-            }
+            }*/
         }
 
         return $rules;
@@ -475,10 +475,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required';
             }
-            else if($key == 'video_url')
+            /*else if($key == 'video_url')
             {
                 $rules[$key] = 'required';
-            }
+            }*/
         }
 
         return $rules;
