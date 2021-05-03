@@ -33,11 +33,11 @@
           </div>
           <div class="box-body">
             <div class="row">
-                 <div class="col-md-6">
+                <div class="col-md-6">
                   <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
                   
                 </div>
-              <form method="get" url="{{('/users')}}" enctype="multipart/form-data">
+              <form method="get" url="{{('/counsellors')}}" enctype="multipart/form-data">
               <div class="col-md-12">
                 <div class="col-md-3">
                   <label>Name Or Email</label>
@@ -46,7 +46,7 @@
                 <div class="col-md-3">
                   <label>Status</label>
                  <select name="status" class="form-control">
-                    <option disabled selected value>select</option>
+                   <option disabled selected value>select</option>
                     <option value="1">Active</option>
                     <option value="0">Account Disabled</option>
                     <option value="3">Pending for verification</option>
@@ -74,18 +74,16 @@
                   <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
                 </div>
               </div>
-           
-              
-                <br>
+           <br>
+                
                 <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Users</h3>
+                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Counsellors</h3>
                   
                 </div>
                 <div class="col-md-6">
-                  <a href="{{url('login/user/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add user</a>
+                  <a href="{{url('login/counsellors/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Counsellor</a>
                 </div>
             </div>
-            
             <div class="row">
               <div class="col-sm-12">
                 <table id="table" class="table table-bordered table-striped">
@@ -101,19 +99,23 @@
                   <tbody>
                       @forelse($users as $user)
                         <tr id='user{{$user->id}}'>
-                          <th><input type="checkbox" class='sub_chk bulk-action-btn' data-id="{{$user->id}}" value="{{$user->id}}" name="user_id[]"></th>
+                          <th><input type="checkbox" class='sub_chk' value="{{$user->id}}" data-id="{{$user->id}}" name="user_id[]"></th>
                           <td>{{ $user->name}}</td>
                           
                           <td>{{ $user->email}}</td>
-                          <td><a href="javascript:void();">
+                          <td>
+
+                            <a href="javascript:void();">
                               <span class="label  @if($user->account_enabled == '1' || $user->account_enabled == '2') {{'label-success'}} @else {{'label-warning'}} @endif">
                                 @if($user->account_enabled == '1' || $user->account_enabled == '2') {{'Active'}} @elseif($user->account_enabled == '0') {{'Account Disabled'}} @elseif($user->account_enabled == '3') {{'Pending for verification'}} @endif
                               </span>
-                            </a></td>
+                            </a>
+                          </td> 
                            <td>
-                             <a class="fa fa-desktop" href="{{ url('login/users/show',$user->id) }}"></a>
-                             <a class="fa fa-edit" href="{{ url('login/users/edit',$user->id) }}"></a>
-                             <a class="fa fa-trash" onClick="deleteUser({{$user->id}})" title="Delete"></a>
+                             <a class="fa fa-desktop" href="{{ url('login/counsellors/show',$user->id) }}"></a>
+                             <a class="fa fa-edit" href="{{ url('login/counsellors/edit',$user->id) }}"></a>
+                             <a class="fa fa-trash" onClick="deleteCounsellor({{$user->id}})" title="Delete"></a>
+                              <a class="fa fa-ils" href="{{ url('login/counsellors/revenue',$user->id) }}"></a>
                           </td>
                           
                         </tr>
@@ -141,11 +143,12 @@
   </div>
 </div>
 @endsection
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 function myFunction() {
   
-  var urlLike = '{{ url('login/users/bulk') }}';
+  var urlLike = '{{ url('login/counsellors/bulk') }}';
   var action = $("#action").val();
   var multiple_id = [];    
       $('input:checkbox[name="user_id[]"]:checked').each(function() {
@@ -166,7 +169,7 @@ function myFunction() {
                 success: function(response)
                 {
                   alert("Action Activate successfully");
-                  window.location.href = '{{ url('login/users') }}';
+                  window.location.href = '{{ url('login/counsellors') }}';
                   
                 }
 

@@ -8,7 +8,7 @@
             <h2></h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ url('login/users') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ url('login/counsellors') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -29,9 +29,10 @@
     <div class="col-xs-12">
     <!-- Default box -->
             <div class="box-header">
+
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">User Details: #{{$user->id}}</h4>
+                        <h4 class="modal-title">Counsellor Details: #{{$user->id}}</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -83,16 +84,17 @@
                                     <label class="form-control">{{$user->phone}}</label>
                                 </div>
                             </div>
-                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Whether stripe is connected or not:</label>
+                                    <label class="form-control">@if($user->is_acct_connected == 1){{'Connected'}} @else {{'Not connected'}} @endif</label>
+                                </div>
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
 
-
-
-
-
-                
 
             </div>
     </div>

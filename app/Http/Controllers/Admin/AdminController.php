@@ -54,7 +54,7 @@ class AdminController extends Controller
         if(Auth::attempt([
                 'email' => $request->email,
                 'password' => $request->password,
-                'role_id' => 1,
+                'role_id' => [1,2],
             ]))
         {
             return redirect('login/dashboard');

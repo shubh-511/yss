@@ -10,12 +10,15 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
     <!-- Styles -->
+    <link href="{{ asset('css/select2.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/bower_components/Ionicons/css/ionicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/dist/css/skins/_all-skins.min.css')}}">
     <link href="{{ asset('assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+
+    @stack('calander')
     <style type="text/css">
       .image-area{
         width: 50%;
@@ -110,15 +113,53 @@
                     <i class="fa fa-th"></i> <span>Dashboard</span>
                   </a>
                 </li>
-                <li class="">
-                  <a href="{{url('login/users')}}">
+                
+                <li class="treeview">
+                  <a href="">
                     <i class="fa fa-user"></i> <span>Users</span>
                   </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/users')}}">Users</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    </li>
+                       
+                  </ul>
+
                 </li>
-                <li class="">
+                <li class="treeview">
+                  <a href="">
+                    <i class="fa fa-tasks"></i> <span>CMS</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+                  <li>
+                    <a href="{{url('login/settings')}}">General Settings</a>
+                  </li>
+                   
+                  </ul>
+
+                </li>
+                <li class="treeview">
                   <a href="{{url('login/bookings')}}">
                     <i class="fa fa-ticket"></i> <span>Bookings</span>
                   </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
                 </li>
                 <li class="">
                   <a href="{{url('login/listings')}}">
@@ -126,12 +167,22 @@
                   </a>
                 </li>
                 <li class="">
+                  <a href="{{url('login/tickets')}}">
+                    <i class="fa fa-font-awesome"></i> <span>Tickets</span>
+                  </a>
+                </li>
+                <li class="">
                   <a href="{{url('login/send-notification')}}">
                     <i class="fa fa-bell"></i> <span>Notification</span>
                   </a>
                 </li>
-                
-                
+                <li class="">
+                  <a href="{{url('login/insurance')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Insurance</span>
+                  </a>
+                </li>
+
+               
               </ul>
 
 
@@ -180,17 +231,36 @@
     <script src="{{ asset('assets/bower_components/ckeditor/ckeditor.js')}}"></script>
     <script src="{{ asset('assets/dist/js/adminlte.min.js')}}"></script>
     <script src="{{ asset('assets/js/main.js')}}"></script>
+
+    <script src="{{asset('js/jsRapCalendar.js')}}"></script>
+    <script src="{{ asset('js/select2.js')}}"></script>
+    @stack('select2')
     <script type="text/javascript">
       $( document ).ready(function(){
             $('.alert').fadeIn('slow', function(){
                $('.alert').delay(4000).fadeOut(); 
             });
         });
-      function deleteMe(id)
+      function deleteUser(id)
       {
         if (confirm("Are you sure you want to delete?") == true) {
         $.ajax({
         url:"{{url('login/users/destroy')}}",
+        type:'post',
+        data:{'id':id,'_token':'{{ csrf_token() }}'},
+        success: function(path){
+        location.reload();
+        }
+        });
+        } else {
+        return false;
+        }
+      }
+      function deleteCounsellor(id)
+      {
+        if (confirm("Are you sure you want to delete?") == true) {
+        $.ajax({
+        url:"{{url('login/counsellors/destroy')}}",
         type:'post',
         data:{'id':id,'_token':'{{ csrf_token() }}'},
         success: function(path){

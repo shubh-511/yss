@@ -42,6 +42,7 @@ Route::post('verify/register/account', 'API\UserController@verifyAccount');
 Route::get('get/user/notification', 'API\NotificationController@getUserNotification');
 
 Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingById');
+Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
 
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();
@@ -106,5 +107,12 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::get('details', 'API\UserController@details');
 	Route::post('update/listing', 'API\ListingController@updateListing');
 	Route::post('delete/gallery/{id}', 'API\ListingController@deleteListingGallery');
+
+	Route::post('raise/ticket/to/cancel/appointment', 'API\TicketController@raiseTicket');
+
+	Route::get('get/logs/{bookingid}', 'API\CallLogsController@getLogs');
+	Route::post('save/logs', 'API\CallLogsController@saveLogs');
+
+	Route::get('get/invoice/{bookingid}', 'API\InvoiceController@getInvoiceOverEmail');
 	
 });

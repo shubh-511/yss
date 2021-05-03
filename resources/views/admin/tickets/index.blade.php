@@ -33,23 +33,26 @@
           </div>
           <div class="box-body">
             <div class="row">
-                 <div class="col-md-6">
+               <div class="col-md-6">
                   <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
                   
                 </div>
-              <form method="get" url="{{('/users')}}" enctype="multipart/form-data">
+              <form method="get" url="{{('/tickets')}}" enctype="multipart/form-data">
               <div class="col-md-12">
                 <div class="col-md-3">
-                  <label>Name Or Email</label>
-                  <input type="text" class="form-control" name="email" placeholder="Search by name or email">
+                  <label>Username</label>
+                  <input type="text" class="form-control" name="name" placeholder="Search by User name">
                 </div>
                 <div class="col-md-3">
+                  <label>Date</label>
+                  <input type="date" class="form-control" name="date" placeholder="Search by Date">
+                </div>
+                 <div class="col-md-3">
                   <label>Status</label>
                  <select name="status" class="form-control">
-                    <option disabled selected value>select</option>
-                    <option value="1">Active</option>
-                    <option value="0">Account Disabled</option>
-                    <option value="3">Pending for verification</option>
+                  <option disabled selected value>select</option>
+                    <option value="1">Refund Initiated</option>
+                    <option value="0">Pending</option>
                   </select>
                 </div>
                 <br>
@@ -58,65 +61,65 @@
                 </div>
                 </div>
               </form>
-               <div class="col-md-12">
+              <div class="col-md-12">
                   <div class="col-md-3">
                   <label>Action</label>
                  <select name="action" class="form-control" id="action">
                     <option disabled selected value>Bulk Action</option>
-                    <option value="active">Active</option>
-                    <option value="disabled">Account Disabled</option>
-                    <option value="verification">Pending for verification</option>
+                    <option value="refund">Refund Initiated</option>
+                    <option value="pending">Pending</option>
                     <option value="delete">Delete</option>
                   </select>
               </div>
-              <br>
+               <br>
               <div class="col-md-3">
                   <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
                 </div>
               </div>
-           
-              
                 <br>
                 <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Users</h3>
+                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Tickets</h3>
                   
                 </div>
-                <div class="col-md-6">
-                  <a href="{{url('login/user/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add user</a>
-                </div>
             </div>
-            
             <div class="row">
               <div class="col-sm-12">
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th><input type="checkbox" id="check_all_checkbox"></th>
-                      <th>Name</th>
-                      <th>Email</th>
+                      <th>Ticket ID</th>
+                      <th>User Name</th>
+                      <th>Booking ID</th>
+                      <th>Date</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                      @forelse($users as $user)
-                        <tr id='user{{$user->id}}'>
-                          <th><input type="checkbox" class='sub_chk bulk-action-btn' data-id="{{$user->id}}" value="{{$user->id}}" name="user_id[]"></th>
-                          <td>{{ $user->name}}</td>
+                      @forelse($tickets as $ticket)
+                        <tr id='booking{{$ticket->id}}'>
+                          <th><input type="checkbox" class='sub_chk' value="{{$ticket->id}}" data-id="{{$ticket->id}}" name="user_id[]"></th>
+                          <td>#{{ $ticket->id}}</td>
+                          <td>{{ $ticket->user->name ?? ''}}</td>
+                          <td>#<a href="" title="view booking details">{{ $ticket->booking_id}}</a></td>
                           
-                          <td>{{ $user->email}}</td>
-                          <td><a href="javascript:void();">
-                              <span class="label  @if($user->account_enabled == '1' || $user->account_enabled == '2') {{'label-success'}} @else {{'label-warning'}} @endif">
-                                @if($user->account_enabled == '1' || $user->account_enabled == '2') {{'Active'}} @elseif($user->account_enabled == '0') {{'Account Disabled'}} @elseif($user->account_enabled == '3') {{'Pending for verification'}} @endif
+                          <td>{{ date('j F, Y', strtotime($ticket->created_at)) }}</td>
+                          <td>
+                            <a title="Click to proceed for refund" href="{{url('login/tickets/refund-ticket',[$ticket->id])}}">
+                              <span class="label  @if($ticket->status!='0') {{'label-success'}} @else {{'label-warning'}} @endif">
+                                @if($ticket->status=='1') {{'Refund Initiated'}} @else {{'Pending'}} @endif 
                               </span>
-                            </a></td>
-                           <td>
-                             <a class="fa fa-desktop" href="{{ url('login/users/show',$user->id) }}"></a>
-                             <a class="fa fa-edit" href="{{ url('login/users/edit',$user->id) }}"></a>
-                             <a class="fa fa-trash" onClick="deleteUser({{$user->id}})" title="Delete"></a>
+                            </a>
                           </td>
-                          
+                                                    
+                        <td>
+                            <a class="fa fa-desktop" href="{{url('login/tickets/detail',[$ticket->id])}}"></a>
+                           
+                          </td>
+                                                    
                         </tr>
+
                       @empty
                           <tr>
                           <td colspan="3" class="text-center">No records found</td>
@@ -128,10 +131,10 @@
           </div>
           <div class="row">
             <div class="col-sm-5">
-              <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($users->currentpage()-1)*$users->perpage()+1}} to {{$users->currentpage()*$users->perpage()}}
-    of  {{$users->total()}} entries</div>
+              <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($tickets->currentpage()-1)*$tickets->perpage()+1}} to {{$tickets->currentpage()*$tickets->perpage()}}
+    of  {{$tickets->total()}} entries</div>
             </div>
-            <div class="col-sm-7">{{ $users->links() }}</div>
+            <div class="col-sm-7">{{ $tickets->links() }}</div>
           </div>
         
       </div>
@@ -141,11 +144,30 @@
   </div>
 </div>
 @endsection
+
+<script type="text/javascript">
+    function update_status(id,value)
+    {     
+        if(confirm("Are you sure you want to proceed with the refund?"))
+        {
+            $.ajax({
+            type: 'GET',
+            data: {'id':id,'value':value},
+            url: "tickets/updateTicketStatus",
+            success: function(result){
+              //alert( 'Update Action Completed.');
+              location.reload();
+
+            }});
+        }
+      
+    }
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 function myFunction() {
   
-  var urlLike = '{{ url('login/users/bulk') }}';
+  var urlLike = '{{ url('login/tickets/bulk') }}';
   var action = $("#action").val();
   var multiple_id = [];    
       $('input:checkbox[name="user_id[]"]:checked').each(function() {
@@ -166,7 +188,7 @@ function myFunction() {
                 success: function(response)
                 {
                   alert("Action Activate successfully");
-                  window.location.href = '{{ url('login/users') }}';
+                  window.location.href = '{{ url('login/tickets') }}';
                   
                 }
 

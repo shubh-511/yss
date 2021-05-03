@@ -19,7 +19,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="/"><b>Admin</b></a>
+            <b>Soberlistic</b>
+            <img src="https://connect.soberlistic.com/images/soberlistic_logo.png" style="width:80px;">
         </div>
         <div class="login-box-body">
             @yield('content')

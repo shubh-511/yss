@@ -7,11 +7,11 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
-use Spatie\Permission\Models\Role;
 use DB;
 use Auth;
 use Hash;
 use Validator;
+use App\Events\CounsellorRegisterEvent;
 
 class UserController extends Controller
 {
@@ -22,7 +22,22 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::where('role_id','!=',1)->orderBy('id','DESC')->paginate(25);
+        $users = User::where(function ($query) use($request) {
+        if ($request->get('status') != null) { 
+        $query->where('account_enabled',$request->get('status'));
+        } 
+        if ($request->get('email') != null) {
+        $query->where('name', 'like', '%' . $request->get('email') . '%')
+        ->orwhere('email', 'like', '%' . $request->get('email') . '%');
+        }
+       if ($request->get('email') != null && $request->get('status') != null)
+       {
+         $query->where('name', 'like', '%' . $request->get('email') . '%')
+        ->orwhere('email', 'like', '%' . $request->get('email') . '%')
+        ->where('account_enabled',$request->get('status'));
+    
+       }
+      })->where('role_id','=',3)->orderBy('id','DESC')->paginate(25);
         return view('admin.users.index',compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -38,7 +53,38 @@ class UserController extends Controller
         $roles = Role::pluck('name','name')->all();
         return view('users.create',compact('roles'));
     }
-
+    public function form()
+    {
+        return view('admin.users.add');
+    }
+    public function active(Request $request)
+    {
+       $data=$request['action'];
+       $id=$request['id'];
+       if($data=="active")
+       {
+        $user_data=User::whereIn('id', $id)
+       ->update(['account_enabled' => '1']);
+       return response()->json(array('message' => 'success'));
+       }
+       else if($data=="disabled")
+       {
+        $user_data=User::whereIn('id', $id)
+       ->update(['account_enabled' => '0']);
+       return response()->json(array('message' => 'success'));
+      }
+        else if($data=="verification")
+       {
+        $user_data=User::whereIn('id', $id)
+       ->update(['account_enabled' => '3']);
+       return response()->json(array('message' => 'success'));
+       }
+        else
+       {
+          $data=\App\User::whereIn('id',$id)->delete();
+          return response()->json(array('message' => 'success'));
+       }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -66,6 +112,43 @@ class UserController extends Controller
 
         return redirect('login/users')->with('success','User created successfully');
     }
+
+     public function save(Request $request)
+     {
+        try
+        {
+            $validator =  Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|same:confirm-password',
+            'timezone' => 'required',
+            ]);
+
+            if ($validator->fails()) 
+            {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $user = new User;
+            $user->name = ucwords(strtolower($request->name));
+            $user->email = strtolower($request->email);
+            $user->password = bcrypt($request->password);
+            $user->timezone = $request->timezone;
+            $user->role_id = '3';
+            $user->account_enabled = '1';
+            $user->save();
+
+            event(new CounsellorRegisterEvent($user->id, $request->password));
+
+            return redirect('login/users')->with('success','User added successfully');
+        }
+        catch(\Exception $e)
+        {
+            return redirect()->back()->with('err_message','Something went wrong!');
+        }
+        
+    }
+
 
 
     /**
