@@ -43,8 +43,6 @@
 <script type="text/javascript">
     var users =  <?php echo json_encode($bookings) ?>;
     var month =  <?php echo json_encode($month_name) ?>;
-
-   alert(month);
     Highcharts.chart('bookingChart', {
         title: {
             text: 'Current month Bookings'

@@ -34,9 +34,29 @@
           <div class="box-body">
             <div class="row">
                 
-                <div class="col-md-6">
-                  <!--<a href="" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Create Artist</a>-->
+                 <div class="col-md-6">
+                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
+                  
                 </div>
+              <form method="get" url="{{('/listings')}}" enctype="multipart/form-data">
+              
+                <div class="col-md-12">
+                <div class="col-md-5">
+                  <label>Listing Name</label>
+                  <input type="text" class="form-control" name="listing_name" placeholder="Search by Listing name">
+                </div>
+                 <div class="col-md-5">
+                  <label>Created By</label>
+                  <input type="text" class="form-control" name="email" placeholder="Search created by">
+                </div>
+                
+                <br>
+                <div class="col-md-2">
+                  <input type="submit" class="btn btn-primary" value="Filter">
+                </div>
+                </div>
+              </form>
+              <br>
             </div>
             <div class="row">
               <div class="col-sm-12">

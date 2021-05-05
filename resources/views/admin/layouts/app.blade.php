@@ -42,9 +42,9 @@
             <!-- Logo -->
             <a href="{{ url('login/dashboard') }}" class="logo">
               <!-- mini logo for sidebar mini 50x50 pixels -->
-              <span class="logo-mini"><b>{{ config('app.name', 'Laravel') }}</b></span>
+              <span class="logo-mini"><b>Your Safe Space</b></span>
               <!-- logo for regular state and mobile devices -->
-              <span class="logo-lg"><b>{{ config('app.name', 'Laravel') }}</b></span>
+              <span class="logo-lg"><img src="{{asset('uploads/yss_new_logo4x.svg')}}" alt="Logo" style="width:40px;"><b>Your Safe Space</b></span>
             </a>
             <nav class="navbar navbar-static-top">
               <!-- Sidebar toggle button-->
@@ -147,16 +147,10 @@
 
                 </li>
                 <li class="treeview">
-                  <a href="">
-                    <i class="fa fa-tasks"></i> <span>CMS</span>
-                  </a>
-
-                  <ul class="treeview-menu">
+                  
                   <li>
-                    <a href="{{url('login/settings')}}">General Settings</a>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
                   </li>
-                   
-                  </ul>
 
                 </li>
                 <li class="treeview">

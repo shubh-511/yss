@@ -71,7 +71,19 @@ class RegionController extends Controller
     {
        $data=$request['action'];
        $id=$request['id'];
-       if($data=="delete")
+        if($data=="active")
+       {
+        $data=ListingRegion::whereIn('id', $id)
+       ->update(['status' => '1']);
+       return response()->json(array('message' => 'success'));
+       }
+       else if($data=="inactive")
+       {
+        $data=ListingRegion::whereIn('id', $id)
+       ->update(['status' => '0']);
+       return response()->json(array('message' => 'success'));
+       }
+       else
        {
        	  $data=\App\ListingRegion::whereIn('id',$id)->delete();
           return response()->json(array('message' => 'success'));

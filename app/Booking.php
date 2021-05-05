@@ -25,4 +25,8 @@ class Booking extends Model
     public function listing(){
         return $this->belongsTo('App\Listing', 'counsellor_id','user_id');
     }
+   public function payment_detail()
+    {
+        return $this->belongsTo('App\Payment','payment_id','id');
+    }
 }

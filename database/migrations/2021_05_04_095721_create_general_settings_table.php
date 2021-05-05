@@ -15,10 +15,15 @@ class CreateGeneralSettingsTable extends Migration
     {
         Schema::create('general_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('email');
             $table->unsignedDecimal('admin_commission', 10, 2);
             $table->unsignedDecimal('counsellor_commission', 10, 2);
             $table->text('stripe_secret');
             $table->text('stripe_public');
+            $table->string('logo_url');
+            $table->string('fb_url')->nullable();
+            $table->string('google_url')->nullable();
+            $table->string('twitter_url')->nullable();
             $table->timestamps();
         });
     }

@@ -70,11 +70,22 @@ class CategoryController extends Controller
     {
        $data=$request['action'];
        $id=$request['id'];
-       if($data=="delete")
+       if($data=="active")
        {
-       	  $data=\App\listingCategory::whereIn('id',$id)->delete();
+        $data=listingCategory::whereIn('id', $id)
+       ->update(['status' => '1']);
+       return response()->json(array('message' => 'success'));
+       }
+       else if($data=="inactive")
+       {
+        $data=listingCategory::whereIn('id', $id)
+       ->update(['status' => '0']);
+       return response()->json(array('message' => 'success'));
+       }
+       else
+       {
+        $data=\App\listingCategory::whereIn('id',$id)->delete();
           return response()->json(array('message' => 'success'));
-       
        }
     }
 }

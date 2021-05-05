@@ -71,7 +71,19 @@ class LabelController extends Controller
     {
        $data=$request['action'];
        $id=$request['id'];
-       if($data=="delete")
+        if($data=="active")
+       {
+        $data=ListingLabel::whereIn('id', $id)
+       ->update(['status' => '1']);
+       return response()->json(array('message' => 'success'));
+       }
+       else if($data=="inactive")
+       {
+        $data=ListingLabel::whereIn('id', $id)
+       ->update(['status' => '0']);
+       return response()->json(array('message' => 'success'));
+       }
+       else
        {
        	  $data=\App\ListingLabel::whereIn('id',$id)->delete();
           return response()->json(array('message' => 'success'));

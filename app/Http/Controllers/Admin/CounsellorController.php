@@ -240,6 +240,7 @@ class CounsellorController extends Controller
         ->groupBy(DB::raw('month(booking_date)'))
         ->get();
          $array=$month_data->toArray();
+         
             $month_array=json_decode( json_encode($array), true);
             $mon[]='';
             foreach ($month_array as $k=>$obj)
@@ -247,6 +248,10 @@ class CounsellorController extends Controller
 
             $mon[]=date("F", mktime(0, 0, 0, $obj['month(booking_date)'], 1));
         }
+           if($array == array())
+             {
+                return view('admin.counsellor.blankrevenue');
+             }
              $mon_result = array_diff_key($mon,array_flip((array) ['0']));
              $users_mon_data=array_values($mon_result);
     

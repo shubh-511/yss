@@ -33,17 +33,13 @@
         </div>
           </div>
           <div class="box-body">
-                <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Region</h3>
-                  
-                </div>
-                <div class="col-md-6">
-                  <a href="{{url('login/region/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Region</a>
-                </div>
+               
                  <div class="col-md-12">
                   <div class="col-md-6">
                   <label>Bulk Action</label>
                  <select name="action" class="form-control" id="regdel">
+                   <option value="active">Active</option>
+                   <option value="inactive">InActive</option>
                     <option value="delete">Delete</option>
                   </select>
               </div>
@@ -52,6 +48,13 @@
                   <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
                 </div>
               </div>
+               <div class="col-md-6">
+                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Region</h3>
+                  
+                </div>
+                <div class="col-md-6">
+                  <a href="{{url('login/region/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Region</a>
+                </div>
             </div>
 
             <div class="row">
@@ -82,7 +85,7 @@
                                                     
                         <td>
                             
-                            <a class="fa fa-edit" href="{{ url('login/region/edit',$region->id) }}"></a>
+                            <a class="fa fa-edit" href="{{ url('login/region/edit',$region->id) }}" title="Edit"></a>
                              <a class="fa fa-trash" onClick="deletereg({{$region->id}})" title="Delete"></a>
                            
                           </td>

@@ -69,8 +69,21 @@ class AdminController extends Controller
     /***
     dashboard
     ***/
-    public function dashboard(Request $request)
+     public function dashboard(Request $request)
     {
+        $id=Auth::user()->role_id;
+        if($id == 2)
+        {
+            $bookingCount = Booking::where('status', '1')->where('counsellor_id',Auth::user()->id)->count();
+            $bookings = Booking::select(\DB::raw("COUNT(*) as count"))
+                        ->whereMonth('booking_date', Carbon::now()->month)
+                        ->where('counsellor_id',Auth::user()->id)
+                    ->pluck('count'); 
+                    $date = \Carbon\Carbon::now();
+             $month_name=$date->format('F');
+            return view('admin.counsellor.home',compact('bookingCount','bookings','month_name'));
+
+        }
         $userCount = User::where('role_id','!=',1)->count();
         $bookingCount = Booking::where('status', '1')->count();
 
@@ -87,6 +100,7 @@ class AdminController extends Controller
 
         return view('admin.home',compact('userCount','bookingCount','users','bookings'));
     }
+
 
     
     /***

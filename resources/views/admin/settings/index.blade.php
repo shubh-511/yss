@@ -32,7 +32,7 @@
                         <h4 class="modal-title">General settings</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="{{url('login/settings/update-commission')}}" method="post">
+                        <form action="{{url('login/settings/update-commission')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -71,7 +71,40 @@
                                   @enderror
                                 </div>
                             </div>
-                            
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Email:</label>
+                                    <input type="text" class="form-control" value="{{$commission->email}}" name="email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Logo:</label>
+                                    <input type="file" class="form-control @error('input_img') is-invalid @enderror"  name="input_img">
+                                    @error('input_img')
+                                    <p style="color:red">{{ $errors->first('input_img') }}</p>
+                                  @enderror
+                                </div>
+                                <span><img src="{{ asset('logo/'.$commission['logo_url']) }}" width="50px" height="50px"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Facebook Url:</label>
+                                    <input type="text" class="form-control" value="{{$commission->fb_url}}" name="fb_url" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Google Url:</label>
+                                    <input type="text" class="form-control" value="{{$commission->google_url}}" name="google_url" required>
+                                </div>
+                            </div>
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Twitter Url:</label>
+                                    <input type="text" class="form-control" value="{{$commission->twitter_url}}" name="twitter_url" required>
+                                </div>
+                            </div>
                             <div class="col-md-12">
                               <div class="form-group">
                                 <button style="float:right;" name="editcounsellor" type="submit" class="btn btn-primary ">Update</button>

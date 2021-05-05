@@ -38,7 +38,8 @@ class SettingController extends Controller
             'admin_commission' => 'required|numeric',
             'counsellor_commission' => 'required|numeric',
             'stripe_secret' => 'required',
-            'stripe_public' => 'required'
+            'stripe_public' => 'required',
+            'input_img' => 'required',
         ]);
 
         if ($validator->fails()) 
@@ -51,6 +52,21 @@ class SettingController extends Controller
         $commission->counsellor_commission = $request->counsellor_commission;
         $commission->stripe_secret = $request->stripe_secret;
         $commission->stripe_public = $request->stripe_public;
+        $commission->email = $request->email;
+        $commission->fb_url = $request->fb_url;
+        $commission->google_url = $request->google_url;
+        $commission->twitter_url = $request->twitter_url;
+         if ($request->hasFile('input_img')) {
+        $image = $request->file('input_img');
+        $name = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path('/logo/');
+        if($commission->logo_url != ''  && $commission->logo_url != null){
+               $file_old = $destinationPath.$commission->logo_url;
+               unlink($file_old);
+          }
+        $image->move($destinationPath, $name);
+        $commission->logo_url=$name;
+        }
         $commission->save();
 
         return redirect('login/settings')->with('success', 'Successfully updated');

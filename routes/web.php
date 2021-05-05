@@ -21,101 +21,93 @@ Route::get('login', 'Admin\AdminController@login');
 Route::get('/logout', 'Admin\AdminController@logout');
 Route::post('login/admin-login', 'Admin\AdminController@adminLogin');
 
-Route::group(['prefix'=>'login','middleware'=>['web','isAdminLogin']], function(){
+Route::group(['prefix'=>'login'], function(){
 
 	//users
 	Route::get('/dashboard', 'Admin\AdminController@dashboard');
-	Route::get('/users', 'Admin\UserController@index');
-	Route::get('/users/edit/{id}', 'Admin\UserController@edit');
-	Route::post('/users/update/{id}', 'Admin\UserController@update');
-	Route::get('/users/show/{id}', 'Admin\UserController@show');
-    Route::get('/users/bulk','Admin\UserController@active');
-    Route::get('user/create','Admin\UserController@form');
-    Route::post('user/save','Admin\UserController@save');
+	Route::get('/users', 'Admin\UserController@index')->middleware(isAdminLogin::class);
+	Route::get('/users/edit/{id}', 'Admin\UserController@edit')->middleware(isAdminLogin::class);
+	Route::post('/users/update/{id}', 'Admin\UserController@update')->middleware(isAdminLogin::class);
+	Route::get('/users/show/{id}', 'Admin\UserController@show')->middleware(isAdminLogin::class);
+    Route::get('/users/bulk','Admin\UserController@active')->middleware(isAdminLogin::class);
+    Route::get('user/create','Admin\UserController@form')->middleware(isAdminLogin::class);
+    Route::post('user/save','Admin\UserController@save')->middleware(isAdminLogin::class);
     
 //counsellors
-	Route::get('/counsellors', 'Admin\CounsellorController@index');
-	Route::get('/counsellors/create', 'Admin\CounsellorController@create');
-	Route::post('/counsellors/store', 'Admin\CounsellorController@store');
-	Route::get('/counsellors/edit/{id}', 'Admin\CounsellorController@edit');
-	Route::post('/counsellors/update/{id}', 'Admin\CounsellorController@update');
-	Route::get('/counsellors/show/{id}', 'Admin\CounsellorController@show');
-	Route::get('/counsellors/bulk','Admin\CounsellorController@active');
-	Route::get('/counsellors/revenue/{id}', 'Admin\CounsellorController@revenue');
-	 Route::get('/counsellors/list/listedit/{id}','Admin\CounsellorController@listedit');
-	 Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupdate');
+Route::get('/counsellors', 'Admin\CounsellorController@index')->middleware(isAdminLogin::class);
+Route::get('/counsellors/create', 'Admin\CounsellorController@create')->middleware(isAdminLogin::class);
+Route::post('/counsellors/store', 'Admin\CounsellorController@store')->middleware(isAdminLogin::class);
+Route::get('/counsellors/edit/{id}', 'Admin\CounsellorController@edit')->middleware(isAdminLogin::class);
+Route::post('/counsellors/update/{id}', 'Admin\CounsellorController@update')->middleware(isAdminLogin::class);
+Route::get('/counsellors/show/{id}', 'Admin\CounsellorController@show')->middleware(isAdminLogin::class);
+Route::get('/counsellors/bulk','Admin\CounsellorController@active')->middleware(isAdminLogin::class);
+Route::get('/counsellors/revenue/{id}', 'Admin\CounsellorController@revenue');
+Route::get('/counsellors/list/listedit/{id}','Admin\CounsellorController@listedit');
+Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupdate');
 
 	//Category
-	Route::get('category/create','Admin\CategoryController@create');
-	Route::post('category/save','Admin\CategoryController@save');	
-    Route::get('category','Admin\CategoryController@categorylist');	
-    Route::get('/category/edit/{id}', 'Admin\CategoryController@edit');
-    Route::post('/category/update/{id}','Admin\CategoryController@update');
-    Route::get('category/destroy/{id?}','Admin\CategoryController@destroy');
-    Route::get('category/bulk','Admin\CategoryController@bulkaction');
+	Route::get('category/create','Admin\CategoryController@create')->middleware(isAdminLogin::class);
+	Route::post('category/save','Admin\CategoryController@save')->middleware(isAdminLogin::class);	
+    Route::get('category','Admin\CategoryController@categorylist')->middleware(isAdminLogin::class);	
+    Route::get('/category/edit/{id}', 'Admin\CategoryController@edit')->middleware(isAdminLogin::class);
+    Route::post('/category/update/{id}','Admin\CategoryController@update')->middleware(isAdminLogin::class);
+    Route::get('category/destroy/{id?}','Admin\CategoryController@destroy')->middleware(isAdminLogin::class);
+    Route::get('category/bulk','Admin\CategoryController@bulkaction')->middleware(isAdminLogin::class);
 
     //region
-    Route::get('region','Admin\RegionController@regionlist');
-    Route::get('region/create','Admin\RegionController@create');
-    Route::post('region/save','Admin\RegionController@save');
-    Route::get('/region/edit/{id}', 'Admin\RegionController@edit');
-    Route::post('/region/update/{id}','Admin\RegionController@update');
-    Route::get('region/destroy/{id?}','Admin\RegionController@destroy');
-    Route::get('region/bulk','Admin\RegionController@bulkaction');
+    Route::get('region','Admin\RegionController@regionlist')->middleware(isAdminLogin::class);
+    Route::get('region/create','Admin\RegionController@create')->middleware(isAdminLogin::class);
+    Route::post('region/save','Admin\RegionController@save')->middleware(isAdminLogin::class);
+    Route::get('/region/edit/{id}', 'Admin\RegionController@edit')->middleware(isAdminLogin::class);
+    Route::post('/region/update/{id}','Admin\RegionController@update')->middleware(isAdminLogin::class);
+    Route::get('region/destroy/{id?}','Admin\RegionController@destroy')->middleware(isAdminLogin::class);
+    Route::get('region/bulk','Admin\RegionController@bulkaction')->middleware(isAdminLogin::class);
 
    //label
-    Route::get('label','Admin\LabelController@labellist');
-    Route::get('label/create','Admin\LabelController@create');
-    Route::post('label/save','Admin\LabelController@save');
-    Route::get('/label/edit/{id}', 'Admin\LabelController@edit');
-    Route::post('/label/update/{id}','Admin\LabelController@update');
-    Route::get('label/destroy/{id?}','Admin\LabelController@destroy');
-   Route::get('label/bulk','Admin\LabelController@bulkaction');
+    Route::get('label','Admin\LabelController@labellist')->middleware(isAdminLogin::class);
+    Route::get('label/create','Admin\LabelController@create')->middleware(isAdminLogin::class);
+    Route::post('label/save','Admin\LabelController@save')->middleware(isAdminLogin::class);
+    Route::get('/label/edit/{id}', 'Admin\LabelController@edit')->middleware(isAdminLogin::class);
+    Route::post('/label/update/{id}','Admin\LabelController@update')->middleware(isAdminLogin::class);
+    Route::get('label/destroy/{id?}','Admin\LabelController@destroy')->middleware(isAdminLogin::class);
+   Route::get('label/bulk','Admin\LabelController@bulkaction')->middleware(isAdminLogin::class);
 
   
-	Route::get('/profile', 'Admin\UserController@profile');
-	Route::post('/profile/update', 'Admin\UserController@profileUpdate');
+	Route::get('/profile', 'Admin\UserController@profile')->middleware(isAdminLogin::class);
+	Route::post('/profile/update', 'Admin\UserController@profileUpdate')->middleware(isAdminLogin::class);
 
-	Route::post('/users/destroy/{id?}', 'Admin\UserController@destroy');
-	Route::post('/counsellors/destroy/{id?}', 'Admin\CounsellorController@destroy');
+	Route::post('/users/destroy/{id?}', 'Admin\UserController@destroy')->middleware(isAdminLogin::class);
+	Route::post('/counsellors/destroy/{id?}', 'Admin\CounsellorController@destroy')->middleware(isAdminLogin::class);
 
-	Route::get('/settings', 'Admin\SettingController@index');
-	Route::post('/settings/update-commission', 'Admin\SettingController@updateCommission');
+	Route::get('/settings', 'Admin\SettingController@index')->middleware(isAdminLogin::class);
+	Route::post('/settings/update-commission', 'Admin\SettingController@updateCommission')->middleware(isAdminLogin::class);
 
 	Route::get('/bookings', 'Admin\BookingController@bookingList');
-	Route::get('/bookings/bulk', 'Admin\BookingController@active');
+	Route::get('/bookings/bulk', 'Admin\BookingController@active')->middleware(isAdminLogin::class);
 	Route::get('/call-history/{bookingid}', 'Admin\BookingController@callHistory');
-	Route::get('/send-notification', 'Admin\SendNotificationController@sendNotification');
-	Route::post('/send', 'Admin\SendNotificationController@send');
+	Route::get('/send-notification', 'Admin\SendNotificationController@sendNotification')->middleware(isAdminLogin::class);
+	Route::post('/send', 'Admin\SendNotificationController@send')->middleware(isAdminLogin::class);
 
-	Route::get('/tickets', 'Admin\TicketController@getTickets');
-	Route::get('/tickets/detail/{id}', 'Admin\TicketController@getTicketDetail');
+	Route::get('/tickets', 'Admin\TicketController@getTickets')->middleware(isAdminLogin::class);
+	Route::get('/tickets/detail/{id}', 'Admin\TicketController@getTicketDetail')->middleware(isAdminLogin::class);
 
-	Route::get('/tickets/refund-ticket/{ticketId}', 'Admin\TicketController@refundTicket');
-    Route::get('/tickets/bulk', 'Admin\TicketController@active');
+	Route::get('/tickets/refund-ticket/{ticketId}', 'Admin\TicketController@refundTicket')->middleware(isAdminLogin::class);
+    Route::get('/tickets/bulk', 'Admin\TicketController@active')->middleware(isAdminLogin::class);
 
-	Route::get('/create-booking', 'Admin\BookingController@createBooking');
-	Route::get('/counsellor/select-package/{counsellorId}', 'Admin\BookingController@getAllPackages');
+	Route::get('/create-booking', 'Admin\BookingController@createBooking')->middleware(isAdminLogin::class);
+	Route::get('/counsellor/select-package/{counsellorId}', 'Admin\BookingController@getAllPackages')->middleware(isAdminLogin::class);
 
-	Route::get('/listings', 'Admin\AdminListingController@getListings');
-	Route::get('/listingStatus', 'Admin\AdminListingController@listingStatus');
-	Route::get('/listings/detail/{listingid}', 'Admin\AdminListingController@getListingDetails');
+	Route::get('/listings', 'Admin\AdminListingController@getListings')->middleware(isAdminLogin::class);
+	Route::get('/listingStatus', 'Admin\AdminListingController@listingStatus')->middleware(isAdminLogin::class);
+	Route::get('/listings/detail/{listingid}', 'Admin\AdminListingController@getListingDetails')->middleware(isAdminLogin::class);
 
-	Route::get('/getCounsellorPackage', 'Admin\BookingController@getCounsellorPackage');
-	Route::get('/getSlotsByDate', 'Admin\BookingController@getSlotsByDate');
-	Route::post('/make/custom/booking', 'Admin\BookingController@makeCustomBooking');
-
-
-	Route::get('insurance','Admin\InsuranceLeadController@insurancelist');
-	Route::get('insurance/bulk','Admin\InsuranceLeadController@bulkaction');
-	Route::get('insurance/destroy/{id?}','Admin\InsuranceLeadController@destroy');
-	Route::get('insurance/view/{id?}','Admin\InsuranceLeadController@view');
+	Route::get('/getCounsellorPackage', 'Admin\BookingController@getCounsellorPackage')->middleware(isAdminLogin::class);
+	Route::get('/getSlotsByDate', 'Admin\BookingController@getSlotsByDate')->middleware(isAdminLogin::class);
+	Route::post('/make/custom/booking', 'Admin\BookingController@makeCustomBooking')->middleware(isAdminLogin::class);
 
 
+	Route::get('insurance','Admin\InsuranceLeadController@insurancelist')->middleware(isAdminLogin::class);
+	Route::get('insurance/bulk','Admin\InsuranceLeadController@bulkaction')->middleware(isAdminLogin::class);
+	Route::get('insurance/destroy/{id?}','Admin\InsuranceLeadController@destroy')->middleware(isAdminLogin::class);
+	Route::get('insurance/view/{id?}','Admin\InsuranceLeadController@view')->middleware(isAdminLogin::class);
 });
-// Route::group(['prefix'=>'login','middleware'=>['web','IsCounsellor']], function(){
-// 	Route::get('/dashboard', 'Admin\AdminController@dashboard');
-// 	Route::get('/bookings', 'Admin\BookingController@bookingList');
-// 	Route::get('/counsellors/list/listedit/{id}','Admin\CounsellorController@listedit');
-// 	Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupdate');
-// });

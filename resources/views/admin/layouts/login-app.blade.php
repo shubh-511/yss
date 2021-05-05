@@ -19,8 +19,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <b>Soberlistic</b>
-            <img src="https://connect.soberlistic.com/images/soberlistic_logo.png" style="width:80px;">
+            <b>YSS</b>
+            <img src="{{asset('uploads/yss_new_logo4x.svg')}}" alt="Logo" style="width:80px;">
         </div>
         <div class="login-box-body">
             @yield('content')

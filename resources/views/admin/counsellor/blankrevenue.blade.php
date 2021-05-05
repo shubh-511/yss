@@ -49,7 +49,7 @@
              </div>
             <div class="col-md-12">
                 
-             <div id="revenueChart"></div>
+             <div id="container"></div>
             </div>
         </div>
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
@@ -57,25 +57,23 @@
   <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
   
       <script type="text/javascript">
-    Highcharts.chart('revenueChart', {
-        title: {
-            text: 'Counsellors Revenue'
-        },
-        chart: {
-            type: 'area'
-        },
-        subtitle: {
-            text: ''
-        },
-         xAxis: {
-            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        },
-        yAxis: {
-            title: {
+   document.addEventListener('DOMContentLoaded', function () {
+        const chart = Highcharts.chart('container', {
+            chart: {
+                type: 'area'
+            },
+             title: {
                 text: 'Counsellors Revenue'
-            }
-        },
-        legend: {
+            },
+            xAxis: {
+                 categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            },
+            yAxis: {
+                title: {
+                    text: 'Counsellors Revenue'
+                }
+            },
+             legend: {
             layout: 'vertical',
             align: 'right',
             verticalAlign: 'middle'
@@ -85,29 +83,12 @@
                 allowPointSelect: true
             }
         },
-        series: [{
-            name: 'Counsellors Revenue',
-            data: 'Counsellors Revenue',
-          //   tooltip: {
-          //   valueDecimals: 2
-          // }
-            
-        }],
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
+            series: [{
+                name: 'Counsellors Revenue',
+                data: ['', '', '','','','','', '', '','','','']
             }]
-        }
-});
+        });
+    });
 </script>
 @endsection
 <script type="text/javascript">
