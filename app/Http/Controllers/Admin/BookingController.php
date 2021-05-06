@@ -266,7 +266,7 @@ class BookingController extends Controller
             $customBooking = new Booking;
             $customBooking->counsellor_id = $request->counsellor_id;
             $customBooking->user_id = $request->user_id;
-            $customBooking->booking_type = '2';
+            $customBooking->created_by = '2';
             $customBooking->payment_id = 0;
             $customBooking->package_id = $request->package_id;
             
@@ -305,6 +305,7 @@ class BookingController extends Controller
             $customBooking->status = '1';
             $customBooking->save();
         }
+        echo 1;
         
     }
 

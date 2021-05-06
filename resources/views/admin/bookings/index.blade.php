@@ -187,7 +187,7 @@
                                       margin-top: 8px;">Payment Details</label>
                                     </div>
                                   </div>
-
+                                  @if($booking->created_by == 1)
                                   <div class="col-md-6" style="margin-top: 10px;">
                                       <div class="form-group">
                                           <label>Charge ID</label>
@@ -230,6 +230,11 @@
                                           <label class="form-control"><a href="{{ $booking->payment_detail->receipt_url ?? '' }}" target="_blank">View reciept</a></label>
                                       </div>
                                   </div>
+                                  @else
+                                  <div class="col-md-12">
+                                  <p>This Booking was made by YSS admin hence no payment details found for this booking..</p>
+                                  </div>
+                                  @endif
                                   
                                   
                                   
