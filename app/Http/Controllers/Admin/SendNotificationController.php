@@ -9,6 +9,7 @@ use App\User;
 use App\Notification;
 use Validator;
 use Event;
+use Carbon\Carbon;
 
 class SendNotificationController extends Controller
 {
@@ -45,12 +46,14 @@ class SendNotificationController extends Controller
         { 
             return redirect()->back()->with('err_message',$validator->messages()->first());
         }
-
+         $user_data=User::where('id',$request->user)->first();
+         $time=Carbon::now($user_data->timezone)->toDateTimeString();
         $notif = new Notification;
         $notif->sender = 1;
         $notif->receiver = $request->user;
         $notif->title = $request->title;
         $notif->body = $request->body;
+        $notif->created_at = $time;
         $notif->save();
 
 

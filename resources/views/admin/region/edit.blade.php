@@ -50,8 +50,13 @@
                                 <div class="form-group">
                                   <label>Status:</label>
                                    <select name="status" class="form-control ">
-                                        <option value="1">Active</option>
+                                       @if($region_edit->status==1)
+                                        <option value="1" selected>Active</option>
                                         <option value="0">InActive</option>
+                                        @else
+                                        <option value="1">Active</option>
+                                        <option value="0" selected>InActive</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
