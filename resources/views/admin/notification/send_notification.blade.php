@@ -41,10 +41,10 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Select User:</label>
-                                <select name="user" required class="form-control">
+                                <select name="user" class="form-control" id="notification-tags">
                                     <option value="">Select</option>
                                     @foreach($users as $user)
-                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                        <option value="{{$user->id}}">{{$user->email}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -76,3 +76,12 @@
 
 
 @endsection
+
+@push('select2')
+
+<script type="text/javascript">
+    $("#notification-tags").select2({
+  tags: true
+});
+</script>
+@endpush

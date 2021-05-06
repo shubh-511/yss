@@ -63,7 +63,7 @@
                 <div class="col-md-3">
                   <label>Status</label>
                  <select name="status" class="form-control">
-                    <option disabled selected value>select</option>
+                    <option value="">select</option>
                     <option value="1">Booking confirmed</option>
                     <option value="0">Booking Failed</option>
                     <option value="4">Booking cancelled</option>
@@ -75,7 +75,7 @@
                 </div>
                 </div>
               </form>
-               <div class="col-md-12">
+              <!--  <div class="col-md-12">
                   <div class="col-md-3">
                   <label>Action</label>
                  <select name="action" class="form-control" id="action">
@@ -90,7 +90,7 @@
               <div class="col-md-3">
                   <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
                 </div>
-              </div>
+              </div> -->
            
                 <br>
                 <div class="col-md-6">

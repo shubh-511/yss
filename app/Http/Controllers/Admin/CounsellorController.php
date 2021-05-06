@@ -9,6 +9,7 @@ use App\Listing;
 use App\ListingCategory;
 use App\ListingRegion;
 use App\ListingLabel;
+use App\ListingGallery;
 use DB;
 use Auth;
 use Hash;
@@ -53,7 +54,10 @@ class CounsellorController extends Controller
      */
     public function create()
     {
-        return view('admin.counsellor.add');
+        $list_category=ListingCategory::get();
+        $list_region=ListingRegion::get();
+        $list_label=ListingLabel::get();
+        return view('admin.counsellor.add',compact('list_category','list_region','list_label'));
     }
 
       public function active(Request $request)
@@ -93,6 +97,7 @@ class CounsellorController extends Controller
      */
     public function store(Request $request)
     {
+        
         try
         {
             $validator =  Validator::make($request->all(), [
@@ -100,6 +105,13 @@ class CounsellorController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'timezone' => 'required',
+            'listing_name' => 'required|max:190',
+            'location' => 'required|max:190',
+            'contact_email_or_url' => 'required|max:190',
+            'description' => 'required',
+            'listing_category' => 'required',
+            'listing_region' => 'required',
+            'website' => 'required',
             ]);
 
             if ($validator->fails()) 
@@ -114,19 +126,78 @@ class CounsellorController extends Controller
             $counsellor->timezone = $request->timezone;
             $counsellor->role_id = '2';
             $counsellor->account_enabled = '1';
-            $counsellor->save();
 
+            if(!empty($request->avatar_id))
+            {
+                $avtarImage = $this->genImage($request->avatar_id);
+                $counsellor->avatar_id = $avtarImage;
+            }
+
+            if(!empty($request->cover_img))
+            {
+                $coverImage = $this->genImage($request->cover_img);
+
+                $counsellor->cover_id = $coverImage;
+            }
+            $counsellor->save();
+            $listingData = new Listing;
+            $listingData->user_id = $counsellor->id;
+            $listingData->listing_name = $request->listing_name;
+            $listingData->location = $request->location;
+            $listingData->contact_email_or_url = $request->contact_email_or_url;
+            $listingData->description = $request->description;
+            $listingData->listing_category = $request->listing_category;
+            $listingData->listing_region = $request->listing_region;
+            $listingData->listing_label = $request->listing_label;
+            $listingData->lattitude = "123";
+            $listingData->longitude = "456";
+            $listingData->website = $request->website;
+            $listingData->phone = $request->phone;
+            $listingData->video_url = $request->video_url;
+             if(!empty($request->cover_img))
+            {
+                $listingData->cover_img = $counsellor->cover_id;
+            }
+            $listingData->save();
+            
+             if($request->gallery_images)
+            {
+
+                foreach($request->gallery_images as $galleryImages)
+                {
+                    $galleryimg = new ListingGallery;
+                    $galleryimg->listing_id = $listingData->id;
+                    $galleryimg->gallery_img = $this->genImage($galleryImages);
+                    $galleryimg->save();
+                }
+            }
             event(new CounsellorRegisterEvent($counsellor->id, $request->password));
 
             return redirect('login/counsellors')->with('success','Counsellor added successfully');
+        
         }
-        catch(\Exception $e)
+         catch(\Exception $e)
         {
             return redirect()->back()->with('err_message','Something went wrong!');
         }
-        
     }
 
+
+  public function genImage($img)
+    {
+        $folderPath = "uploads/";
+
+        $image_parts = explode(";base64,", $img);
+
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[0];
+        $image_base64 = base64_decode($image_parts[0]);
+        $file = $folderPath . uniqid() . '. '.$image_type;
+
+        file_put_contents($file, $image_base64);
+        return $file;
+
+    }
 
     /**
      * Display the specified resource.

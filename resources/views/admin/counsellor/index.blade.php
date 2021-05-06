@@ -46,7 +46,7 @@
                 <div class="col-md-3">
                   <label>Status</label>
                  <select name="status" class="form-control">
-                   <option disabled selected value>select</option>
+                   <option value="">select</option>
                     <option value="1">Active</option>
                     <option value="0">Account Disabled</option>
                     <option value="3">Pending for verification</option>

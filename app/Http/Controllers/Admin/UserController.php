@@ -195,6 +195,9 @@ class UserController extends Controller
     { 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required',
+            'old_pass' => 'required',
+            'new_pass' => 'required',
+            'conf_pass' => 'required',
             //'email' => 'required|email|unique:users,email,'.$id,
         ]);
 
@@ -202,16 +205,37 @@ class UserController extends Controller
         { 
             return redirect()->back()->with('err_message',$validator->messages()->first());
         }
-
-        $user = Auth::user();
-        //return $user;
+        if ((Hash::check($request->get('old_pass'), Auth::User()->password)))
+        {
+            if(strcmp($request->get('old_pass'), $request->get('new_pass')) != 0)
+                {
+                    if(strcmp($request->get('new_pass'),$request->get('conf_pass'))==0)
+                       {
+                       }
+                       else{
+                         return redirect('login/profile')->with('err_message','Newpassword confpassword does not match!');
+                         }
+                 }
+            else
+               {
+                
+                return redirect('login/profile')->with('err_message','Current password and new password are same!');
+                }
+       }
+         else
+            {
+                return redirect('login/profile')->with('err_message','Incorrect old password!');
+                 
+            }
+        $user = User::find(Auth::user()->id);
+        $user->password=bcrypt($request->get('new_pass'));
         $user->name = $request->name;
         $user->first_name = $request->first_name;
         $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->save();
 
-        return redirect('login/profile')->with('success', 'Successfully updated');
+        return redirect('login/profile')->with('success', 'Profile successfully updated');
         
     }
 
