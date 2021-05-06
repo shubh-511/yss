@@ -400,10 +400,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required|max:190';
             }
-            else if($key == 'contact_email_or_url')
+            /*else if($key == 'contact_email_or_url')
             {
                 $rules[$key] = 'required|max:190';
-            }
+            }*/
             else if($key == 'description')
             {
                 $rules[$key] = 'required';
@@ -451,10 +451,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required|max:190';
             }
-            else if($key == 'contact_email_or_url')
+            /*else if($key == 'contact_email_or_url')
             {
                 $rules[$key] = 'required|max:190';
-            }
+            }*/
             else if($key == 'description')
             {
                 $rules[$key] = 'required';
