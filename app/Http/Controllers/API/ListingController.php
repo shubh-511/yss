@@ -184,15 +184,14 @@ class ListingController extends Controller
             $listingData->save();
 
 
-            if(!empty($requestedFields['gallery']) && count($requestedFields['gallery']) > 0)
+            if(!empty($requestedFields['gallery_images']) && count($requestedFields['gallery_images']) > 0)
             {
-                foreach($requestedFields['gallery'] as $galleryImages)
+                foreach($requestedFields['gallery_images'] as $galleryImages)
                 {
                     $galleryimg = new ListingGallery;
                     $galleryimg->listing_id = $listingData->id;
                     $galleryimg->gallery_img = $this->createImage($galleryImages);
                     $galleryimg->save();
-
                 }
             }
 
@@ -505,19 +504,14 @@ class ListingController extends Controller
     public function createImage($img)
     {
         $folderPath = "uploads/";
+        $file = $folderPath . uniqid() . '.png';
 
-        $image_parts = explode(";base64,", $img);
-        $image_type_aux = explode("image/", $image_parts[0]);
-       
-        $image_type = $image_type_aux[1];
-
-        $image_base64 = base64_decode($image_parts[1]);
-
-        $file = $folderPath . uniqid() . '.'.$image_type;
-
-        file_put_contents($file, $image_base64);
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        //file_put_contents($file, $data);
+        file_put_contents($file, $data);
         return $file;
-
     }
 
     /** 
