@@ -82,8 +82,8 @@
                                 <div class="form-group">
                                   <div class="form-group">
                                     <label>Old Password:</label>
-                                      <input type="Password" class="form-control"  name="old_pass" placeholder="Old Password">
-                                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                      <input type="Password" class="form-control"  name="old_pass" placeholder="Old Password" id="myInputOld">
+                                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password" onclick="myFunctionOld()"></span>
                                      </div>
                                 </div>
                             </div>
@@ -91,8 +91,8 @@
                                 <div class="form-group">
                                   <div class="form-group">
                                     <label>New Password:</label>
-                                      <input type="Password" class="form-control"  name="new_pass" placeholder="New Password">
-                                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                      <input type="Password" class="form-control"  name="new_pass" placeholder="New Password" id="myInputNew">
+                                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password" onclick="myFunctionNew()"></span>
                                      </div>
                                 </div>
                             </div>
@@ -100,11 +100,12 @@
                                 <div class="form-group">
                                   <div class="form-group">
                                     <label>Confirm Password:</label>
-                                      <input type="Password" class="form-control"  name="conf_pass" placeholder="Confirm Password">
-                                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                      <input type="Password" class="form-control"  name="conf_pass" placeholder="Confirm Password" id="myInput">
+                                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"  onclick="myFunction()"></span>
                                   </div>
                                 </div>
                             </div>
+
                             <div class="col-md-12">
                               <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Update</button>
@@ -122,15 +123,30 @@
 </div>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(".toggle-password").click(function() {
-  $(this).toggleClass("fa-eye fa-eye-slash");
-  var input = $($(this).attr("toggle"));
-  if (input.attr("type") == "password") {
-    input.attr("type", "text");
-  } else {
-    input.attr("type", "password");
+<script>
+  function myFunction() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
   }
-});
-
+   function myFunctionNew() {
+    var x = document.getElementById("myInputNew");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+  function myFunctionOld() {
+    var x = document.getElementById("myInputOld");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+  
 </script>

@@ -41,9 +41,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Location:</label>
-                                    <input type="text" class="form-control" value="{{$list_data->location}}" name="location" required placeholder="Location">
+                                    <input type="text" id="autocomplete" class="form-control" value="{{$list_data->location}}" name="location" required placeholder="Location">
                                 </div>
                             </div>
+                            <input type="hidden" name="longitude" id="longitude" class="form-control">
+                        <input type="hidden" id="latitude" name="latitude" class="form-control">
+                        
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Contact Email Or Url:</label>
@@ -140,3 +143,33 @@
 
 
 @endsection
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    
+        <script src='http://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=AIzaSyCzf8RXQS27SPKYkdq6UMdZV0JctvWNFv0'></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#latitudeArea").addClass("d-none");
+            $("#longtitudeArea").addClass("d-none");
+        });
+    </script>
+    <script>
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+        function initialize() {
+            var input = document.getElementById('autocomplete');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                $('#latitude').val(place.geometry['location'].lat());
+                $('#longitude').val(place.geometry['location'].lng());
+
+                $("#latitudeArea").removeClass("d-none");
+                $("#longtitudeArea").removeClass("d-none");
+            });
+        }
+    </script>

@@ -477,6 +477,8 @@ class CounsellorController extends Controller
             $list_update_data=Listing::where('user_id',$id)->first();
             $list_update_data->listing_name = $request->listing_name;
             $list_update_data->location = $request->location;
+            $list_update_data->longitude = $request->longitude;
+            $list_update_data->lattitude = $request->latitude;
             $list_update_data->contact_email_or_url = $request->contact_email_or_url;
             $list_update_data->listing_category = $request->listing_category;
             $list_update_data->listing_region = $request->listing_region;
