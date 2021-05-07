@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use Hash;
 use Validator;
+use File;
 
 class SettingController extends Controller
 {
@@ -61,8 +62,10 @@ class SettingController extends Controller
         $name = time().'.'.$image->getClientOriginalExtension();
         $destinationPath = public_path('/logo/');
         if($commission->logo_url != ''  && $commission->logo_url != null){
+            if (file_exists($destinationPath.$name)){
                $file_old = $destinationPath.$commission->logo_url;
                unlink($file_old);
+           }
           }
         $image->move($destinationPath, $name);
         $commission->logo_url=$name;

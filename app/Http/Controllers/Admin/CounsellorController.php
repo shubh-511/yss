@@ -149,8 +149,8 @@ class CounsellorController extends Controller
             $listingData->listing_category = $request->listing_category;
             $listingData->listing_region = $request->listing_region;
             $listingData->listing_label = $request->listing_label;
-            $listingData->lattitude = "123";
-            $listingData->longitude = "456";
+            $listingData->lattitude = $request->latitude;
+            $listingData->longitude = $request->longitude;
             $listingData->website = $request->website;
             $listingData->phone = $request->phone;
             $listingData->video_url = $request->video_url;
