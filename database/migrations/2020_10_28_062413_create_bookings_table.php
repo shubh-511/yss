@@ -23,6 +23,7 @@ class CreateBookingsTable extends Migration
             $table->date('booking_date')->nullable();
             $table->string('counsellor_timezone_slot')->nullable();
             $table->date('counsellor_booking_date')->nullable();
+            $table->enum('created_by',[1,2])->default(1)->comment("1=created by user, 2=created by admin");
             $table->softDeletes();
             $table->timestamps();
         });

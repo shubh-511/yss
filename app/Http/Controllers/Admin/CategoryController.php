@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\listingCategory;
+use App\ListingCategory;
 use Validator;
 
 class CategoryController extends Controller
@@ -23,7 +23,7 @@ class CategoryController extends Controller
         { 
             return redirect()->back()->with('err_message',$validator->messages()->first());
         }
-            $category_data = new listingCategory;
+            $category_data = new ListingCategory;
             $category_data->category_name = $request->category_name;
             $category_data->status = $request->status;
             $category_data->save();
@@ -36,12 +36,12 @@ class CategoryController extends Controller
 	}
     Public function categorylist()
     {
-    	$listing_category=listingCategory::orderBy('id','DESC')->paginate(25);
+    	$listing_category=ListingCategory::orderBy('id','DESC')->paginate(25);
     	return view('admin.category.index',compact('listing_category'));
     }
     Public function edit($id)
     {
-    	$category_edit=listingCategory::where('id',$id)->first();
+    	$category_edit=ListingCategory::where('id',$id)->first();
     	return view('admin.category.edit',compact('category_edit'));
     }
     Public function update(Request $request, $id)
@@ -54,7 +54,7 @@ class CategoryController extends Controller
         { 
             return redirect()->back()->with('err_message',$validator->messages()->first());
         }
-    	   $category = listingCategory::find($id);
+    	   $category = ListingCategory::find($id);
            $category->category_name = $request->category_name;
            $category->status = $request->status;
            $category->save();
@@ -63,7 +63,7 @@ class CategoryController extends Controller
     }
     public function destroy(Request $request, $id='')
     {
-        listingCategory::where('id', $request->id)->delete();
+        ListingCategory::where('id', $request->id)->delete();
         return redirect('login/category')->with('success','Category deleted successfully');
     }
      public function bulkaction(Request $request)
@@ -72,19 +72,19 @@ class CategoryController extends Controller
        $id=$request['id'];
        if($data=="active")
        {
-        $data=listingCategory::whereIn('id', $id)
+        $data=ListingCategory::whereIn('id', $id)
        ->update(['status' => '1']);
        return response()->json(array('message' => 'success'));
        }
        else if($data=="inactive")
        {
-        $data=listingCategory::whereIn('id', $id)
+        $data=ListingCategory::whereIn('id', $id)
        ->update(['status' => '0']);
        return response()->json(array('message' => 'success'));
        }
        else
        {
-        $data=\App\listingCategory::whereIn('id',$id)->delete();
+        $data=\App\ListingCategory::whereIn('id',$id)->delete();
           return response()->json(array('message' => 'success'));
        }
     }

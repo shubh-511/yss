@@ -148,8 +148,8 @@ class ListingController extends Controller
      */ 
     public function updateListing(Request $request) 
     {
-        /*try
-        {*/
+        try
+        {
 
             $requestedFields = $request->params;
             //$requestedFields = json_decode($requestedFields, true);
@@ -176,15 +176,15 @@ class ListingController extends Controller
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
-            /*if(!empty($requestedFields['cover_img']))
+            if(!empty($requestedFields['cover_img']))
             {
                 $coverImage = $this->createImage($requestedFields['cover_img']);
                 $listingData->cover_img = $coverImage;
-            }*/
+            }
             $listingData->save();
 
 
-            /*if(count($requestedFields['gallery_images']) > 0)
+            if(!empty($requestedFields['gallery_images']) && count($requestedFields['gallery_images']) > 0)
             {
                 foreach($requestedFields['gallery_images'] as $galleryImages)
                 {
@@ -193,7 +193,7 @@ class ListingController extends Controller
                     $galleryimg->gallery_img = $this->createImage($galleryImages);
                     $galleryimg->save();
                 }
-            }*/
+            }
 
             $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
 
@@ -202,11 +202,11 @@ class ListingController extends Controller
                         'listing_data' => $insertedListingData
                         ], $this->successStatus); 
 
-        /*}
+        }
         catch(\Exception $e)
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } */
+        } 
     }
 
     /** 
@@ -256,9 +256,20 @@ class ListingController extends Controller
             
             if(!empty($image))
             {
-                return response()->json(['success' => true,
+                $status = ListingGallery::where('id', $imageId)->delete();
+                if($status == 1)
+                {
+                    return response()->json(['success' => true,
                                         'message' => 'Deleted successfully'
                                         ], $this->successStatus);
+                }
+                else
+                {
+                    return response()->json(['success' => false,
+                                     'errors' => [ 'exception' => 'Invalid image Id'],
+                                    ], $this->successStatus);
+                }
+                
             }
             else
             {
@@ -400,10 +411,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required|max:190';
             }
-            else if($key == 'contact_email_or_url')
+            /*else if($key == 'contact_email_or_url')
             {
                 $rules[$key] = 'required|max:190';
-            }
+            }*/
             else if($key == 'description')
             {
                 $rules[$key] = 'required';
@@ -451,10 +462,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required|max:190';
             }
-            else if($key == 'contact_email_or_url')
+            /*else if($key == 'contact_email_or_url')
             {
                 $rules[$key] = 'required|max:190';
-            }
+            }*/
             else if($key == 'description')
             {
                 $rules[$key] = 'required';
@@ -493,16 +504,15 @@ class ListingController extends Controller
     public function createImage($img)
     {
         $folderPath = "uploads/";
-
         $image_parts = explode(";base64,", $img);
         $image_type_aux = explode("image/", $image_parts[0]);
-        $image_type = $image_type_aux[1];
-        $image_base64 = base64_decode($image_parts[1]);
-        $file = $folderPath . uniqid() . '. '.$image_type;
-
+        $image_type = end($image_type_aux);
+        $img = str_replace("data:image/".$image_type.";base64,", '', $img);
+        $img = str_replace(' ', '+', $img);
+        $image_base64 = base64_decode($img);
+        $file = $folderPath . uniqid() . ".".$image_type;
         file_put_contents($file, $image_base64);
         return $file;
-
     }
 
     /** 
