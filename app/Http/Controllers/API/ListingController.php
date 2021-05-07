@@ -504,13 +504,14 @@ class ListingController extends Controller
     public function createImage($img)
     {
         $folderPath = "uploads/";
-        $file = $folderPath . uniqid() . '.png';
-
-        $img = str_replace('data:image/png;base64,', '', $img);
+        $image_parts = explode(";base64,", $img);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = end($image_type_aux);
+        $img = str_replace("data:image/".$image_type.";base64,", '', $img);
         $img = str_replace(' ', '+', $img);
-        $data = base64_decode($img);
-        //file_put_contents($file, $data);
-        file_put_contents($file, $data);
+        $image_base64 = base64_decode($img);
+        $file = $folderPath . uniqid() . ".".$image_type;
+        file_put_contents($file, $image_base64);
         return $file;
     }
 
