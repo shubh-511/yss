@@ -12,6 +12,7 @@ use App\Listing;
 use Event;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
+use App\Events\ListingEvent;
 
 class AdminListingController extends Controller
 {
@@ -79,13 +80,42 @@ class AdminListingController extends Controller
         $id=$_GET['id'];
         $status=$_GET['value'];
         $model = Listing::find($id);
-        if($model) 
+        if($model->status==0)
         {
-            $model->status = $status;
-            $model->save();
+            event(new ListingEvent($model->user_id));
+            if($model) 
+            {
+                $model->status = $status;
+                $model->save();
+            }
+        }
+        else 
+        {
+             if($model) 
+            {
+                $model->status = $status;
+                $model->save();
+            }
+
         }
     }
 
-    
+    public function bulk(Request $request)
+    {
+       $data=$request['action'];
+       $id=$request['id'];
+        if($data=="enable")
+       {
+        $data=Listing::whereIn('id', $id)
+       ->update(['status' => '1']);
+       return response()->json(array('message' => 'success'));
+       }
+       else
+       {
+        $data=Listing::whereIn('id', $id)
+       ->update(['status' => '0']);
+       return response()->json(array('message' => 'success'));
+       }
+    }
 
 }

@@ -42,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\FailedBookingEvent' => [
             'App\Listeners\FailedBookingListner',
         ],
+        'App\Events\ListingEvent' => [
+            'App\Listeners\ListingEventListener',
+        ],
         /*'App\Events\CancelBookingByCounsellorEvent' => [
             'App\Listeners\CancelBookingByCounsellorListner',
         ],*/

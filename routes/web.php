@@ -73,8 +73,8 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
    Route::get('label/bulk','Admin\LabelController@bulkaction')->middleware(isAdminLogin::class);
 
   
-	Route::get('/profile', 'Admin\UserController@profile')->middleware(isAdminLogin::class);
-	Route::post('/profile/update', 'Admin\UserController@profileUpdate')->middleware(isAdminLogin::class);
+	Route::get('/profile', 'Admin\UserController@profile');
+	Route::post('/profile/update', 'Admin\UserController@profileUpdate');
 
 	Route::post('/users/destroy/{id?}', 'Admin\UserController@destroy')->middleware(isAdminLogin::class);
 	Route::post('/counsellors/destroy/{id?}', 'Admin\CounsellorController@destroy')->middleware(isAdminLogin::class);
@@ -100,6 +100,7 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
 	Route::get('/listings', 'Admin\AdminListingController@getListings')->middleware(isAdminLogin::class);
 	Route::get('/listingStatus', 'Admin\AdminListingController@listingStatus')->middleware(isAdminLogin::class);
 	Route::get('/listings/detail/{listingid}', 'Admin\AdminListingController@getListingDetails')->middleware(isAdminLogin::class);
+	Route::get('/listings/bulk/', 'Admin\AdminListingController@bulk')->middleware(isAdminLogin::class);
 
 	Route::get('/getCounsellorPackage', 'Admin\BookingController@getCounsellorPackage')->middleware(isAdminLogin::class);
 	Route::get('/getSlotsByDate', 'Admin\BookingController@getSlotsByDate')->middleware(isAdminLogin::class);

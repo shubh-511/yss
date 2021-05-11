@@ -10,21 +10,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CounsellorRegisterEvent
+class ListingEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $userId;
-    public $userPassword;
+     public $id;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($userId, $userPassword)
+    public function __construct($id)
     {
-        
-        $this->userId = $userId;
-        $this->userPassword = $userPassword;
+
+        $this->id = $id;
     }
 
     /**
@@ -34,7 +33,7 @@ class CounsellorRegisterEvent
      */
     public function broadcastOn()
     {
-        //return new PrivateChannel('channel-name');
-        return []; 
+        // return new PrivateChannel('channel-name');
+         return []; 
     }
 }

@@ -34,21 +34,22 @@
                     <div class="form-group">
                     <h4 class="control-label nopadding " style="margin-bottom: 25px;">1. Select counsellor and user from droplist you want to make booking:</h4>
                      <div class="col-md-6">
+                      <label>Select Counsellor</label>
                          <select id="select-counsellor" class="form-control counsellor-tags">
-                          <option value=""></option>
+                          <option value="">Select Counsellor</option>
                           @foreach($counsellors as $counsellor)
-                          <option data-counsellor="{{$counsellor->id}}" value="{{$counsellor->name}}">{{$counsellor->name}}</option>
+                          <option data-counsellor="{{$counsellor->id}}" value="{{$counsellor->email}}">{{$counsellor->email}}</option>
                           @endforeach
                           
                         </select>
                 
                       </div>
                       <div class="col-md-6">
-                       
+                       <label>Select User</label>
                          <select id="select-user" class="form-control user-tags">
-                          <option value=""></option>
+                          <option value="">Select User</option>
                           @foreach($users as $user)
-                          <option data-user="{{$user->id}}" value="{{$user->name}}">{{$user->name}}</option>
+                          <option data-user="{{$user->id}}" value="{{$user->eamil}}">{{$user->email}}</option>
                           @endforeach
                           
                         </select>
