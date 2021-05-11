@@ -122,7 +122,7 @@ class ListingController extends Controller
                 }
             }
 
-            $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
+            $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
 
             $userData = User::with('roles')->where('id', $user->id)->first();
 
@@ -163,7 +163,7 @@ class ListingController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
             }
 
-            $listingData = Listing::where('user_id', Auth::user()->id)->first();
+            $listingData = Listing::where('user_id', Auth::user()->id)->where('status', '1')->first();
             $listingData->listing_name = $requestedFields['listing_name'];
             $listingData->location = $requestedFields['location'];
             $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
@@ -195,7 +195,7 @@ class ListingController extends Controller
                 }
             }
 
-            $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('id', $listingData->id)->first();
+            $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
 
             return response()->json(['success' => true,
                         'message' => 'Listing updated',
@@ -219,7 +219,7 @@ class ListingController extends Controller
         try
         {
             //$user = Auth::user();
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage,name')->where('id', $listingId)->first();
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage,name')->where('id', $listingId)->where('status', '1')->first();
             
             if(!empty($listingData))
             {
