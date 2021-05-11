@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select User:</label>
+                                <label>Select User Or Counsellor:</label>
                                 <select name="user" class="form-control" id="notification-tags">
                                     <option value="">Select</option>
                                     @foreach($users as $user)
@@ -76,7 +76,6 @@
 
 
 @endsection
-
 @push('select2')
 
 <script type="text/javascript">

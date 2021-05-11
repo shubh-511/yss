@@ -56,6 +56,19 @@
                 </div>
                 </div>
               </form>
+              <div class="col-md-12">
+                  <div class="col-md-5">
+                  <label>Bulk Action</label>
+                 <select name="action" class="form-control" id="listdel">
+                   <option value="enable">Enabled</option>
+                   <option value="disable">Disable</option>
+                  </select>
+              </div>
+               <br>
+              <div class="col-md-2">
+                  <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+                </div>
+              </div>
               <br>
             </div>
             <div class="row">
@@ -76,7 +89,7 @@
                   <tbody>
                       @forelse($listings as $listing)
                         <tr id='booking{{$listing->id}}'>
-                          <th><input type="checkbox" class='sub_chk' data-id="{{$listing->id}}" name="listing_id[]"></th>
+                          <th><input type="checkbox" class='sub_chk' value="{{$listing->id}}" data-id="{{$listing->id}}" name="listing_id[]"></th>
                           <td>{{ $listing->listing_name ?? ''}}</td>
                           <td>{{ $listing->phone ?? ''}}</td>
                           <td>{{ $listing->listing_category->category_name ?? ''}}</td>
@@ -129,10 +142,41 @@
           type: 'GET',
           data: {'id':id,'value':value},
           url: "../login/listingStatus",
-          success: function(result){
+           success: function(result){
             //alert( 'Update Action Completed.');
             location.reload();
             
-          }});
+           }});
       }
+</script>
+ <script>
+    function myFunction() {
+  
+  var urlLike = '{{ url('login/listings/bulk') }}';
+  var action = $("#listdel").val();
+  var multiple_id = [];    
+      $('input:checkbox[name="listing_id[]"]:checked').each(function() {
+      multiple_id.push($(this).val());
+    });
+      if(multiple_id == "")
+      {
+        alert('Please Checked At List one Checkbox');
+      }
+   $.ajax({
+     headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+                type: 'GET',
+                url: urlLike,
+                data: {id: multiple_id,action:action},
+                dataType: 'json',
+                success: function(response)
+                {
+                  alert("Action Activate successfully");
+                  window.location.href = '{{ url('login/listings') }}';
+                  
+                }
+
+            });
+}
 </script>

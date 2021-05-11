@@ -54,9 +54,9 @@ class CounsellorController extends Controller
      */
     public function create()
     {
-        $list_category=ListingCategory::get();
-        $list_region=ListingRegion::get();
-        $list_label=ListingLabel::get();
+        $list_category=ListingCategory::where('status', '1')->get();
+        $list_region=ListingRegion::where('status', '1')->get();
+        $list_label=ListingLabel::where('status', '1')->get();
         return view('admin.counsellor.add',compact('list_category','list_region','list_label'));
     }
 
@@ -98,8 +98,8 @@ class CounsellorController extends Controller
     public function store(Request $request)
     {
         
-        try
-        {
+        // try
+        // {
             $validator =  Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -175,28 +175,26 @@ class CounsellorController extends Controller
 
             return redirect('login/counsellors')->with('success','Counsellor added successfully');
         
-        }
-         catch(\Exception $e)
-        {
-            return redirect()->back()->with('err_message','Something went wrong!');
-        }
+        //}
+        //  catch(\Exception $e)
+        // {
+        //     return redirect()->back()->with('err_message','Something went wrong!');
+        // }
     }
 
 
-  public function genImage($img)
+    public function genImage($img)
     {
-        $folderPath = "uploads/";
-
+       $folderPath = "uploads/";
         $image_parts = explode(";base64,", $img);
-
-        $image_type_aux = explode("image/", $image_parts[0]);
-        $image_type = $image_type_aux[0];
-        $image_base64 = base64_decode($image_parts[0]);
-        $file = $folderPath . uniqid() . '. '.$image_type;
-
+        $image_type_aux = explode('.', $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $img = str_replace("data:image/".$image_type.";base64,", '', $img);
+        $img = str_replace(' ', '+', $img);
+        $image_base64 = base64_decode($img);
+        $file = $folderPath . uniqid() . ".".$image_type;
         file_put_contents($file, $image_base64);
         return $file;
-
     }
 
     /**
@@ -451,9 +449,10 @@ class CounsellorController extends Controller
     }
     public function listedit($id)
     {
-        $list_category=ListingCategory::get();
-        $list_region=ListingRegion::get();
-        $list_label=ListingLabel::get();
+       
+         $list_category=ListingCategory::where('status', '1')->get();
+        $list_region=ListingRegion::where('status', '1')->get();
+        $list_label=ListingLabel::where('status', '1')->get();
         $list_data=Listing::where('user_id',$id)->first();
        return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label'));
     }

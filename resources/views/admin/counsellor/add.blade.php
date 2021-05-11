@@ -160,7 +160,7 @@
                         </div>
                          <div class="col-md-6">
                             <div class="form-group">
-                              <label>Website</label>
+                              <label>Website Url</label>
                               <input type="text" name="website" class="form-control @error('website') is-invalid @enderror">
                               @error('website')
                                 <p style="color:red">{{ $errors->first('website') }}</p>
@@ -175,7 +175,7 @@
                         </div>
                          <div class="col-md-6">
                             <div class="form-group">
-                              <label>Video</label>
+                              <label>Video Url</label>
                               <input type="text" name="video_url" class="form-control">
                             </div>
                         </div>

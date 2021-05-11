@@ -16,6 +16,7 @@ use DateTimeZone;
 use Event;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
+use App\Notification;
 
 class BookingController extends Controller
 {
@@ -282,7 +283,7 @@ class BookingController extends Controller
     {
         $counsellor = User::where('id', $request->counsellor_id)->first();
         $user = User::where('id', $request->user_id)->first();
-
+        $packageDetail = Package::with('user')->where('id', $request->package_id)->first();
         $selectedSlots = join(",", $request->my_slots);
         $myslots = explode(",", $selectedSlots);
         foreach($myslots as $slot) 
@@ -290,7 +291,7 @@ class BookingController extends Controller
             $customBooking = new Booking;
             $customBooking->counsellor_id = $request->counsellor_id;
             $customBooking->user_id = $request->user_id;
-            $customBooking->created_by = '2';
+           // $customBooking->created_by = '2';
             $customBooking->payment_id = 0;
             $customBooking->package_id = $request->package_id;
             
@@ -325,9 +326,21 @@ class BookingController extends Controller
               $customBooking->counsellor_booking_date = $request->date;
               
             }
-
+             $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
             $customBooking->status = '1';
             $customBooking->save();
+            $newNotif = new Notification;
+            $newNotif->receiver = $user->id;
+            $newNotif->title = "Booking created";
+            $newNotif->body = $userBody;
+            $newNotif->save();
+            $CounsellorBody = $user->name." successfully booked your ".$packageDetail->package_name." Package.";
+            $newNotif = new Notification;
+            $newNotif->receiver = $counsellor->id;
+            $newNotif->title = "Booking created";
+            $newNotif->body = $CounsellorBody;
+            $newNotif->save();
+
         }
         echo 1;
         

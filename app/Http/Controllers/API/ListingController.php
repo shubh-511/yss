@@ -103,6 +103,7 @@ class ListingController extends Controller
             $listingData->listing_label = $requestedFields['listing_label'];
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
+            $listingData->status = "0";
             $listingData->video_url = $requestedFields['video_url'];
             if(!empty($requestedFields['cover_img']))
             {
