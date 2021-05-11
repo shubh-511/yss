@@ -103,7 +103,6 @@ class ListingController extends Controller
             $listingData->listing_label = $requestedFields['listing_label'];
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
-            $listingData->status = "0";
             $listingData->video_url = $requestedFields['video_url'];
             if(!empty($requestedFields['cover_img']))
             {
@@ -177,9 +176,9 @@ class ListingController extends Controller
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
-            if(!empty($requestedFields['cover_img']))
+            if(!empty($requestedFields['cover_image']))
             {
-                $coverImage = $this->createImage($requestedFields['cover_img']);
+                $coverImage = $this->createImage($requestedFields['cover_image']);
                 $listingData->cover_img = $coverImage;
             }
             $listingData->save();

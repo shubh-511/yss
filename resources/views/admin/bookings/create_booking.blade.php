@@ -173,7 +173,10 @@ function getAppointment(packageId)
                         jQuery.each(value,function(key,val){
                           console.log(val.slot);
                           if(val.enabled == 1)
-                          $( "#dateSlots" ).append( "<input type='checkbox' class='checklist' name='slots' value='"+val.slot+"'><div class='boxslots'>"+val.slot+"</div>" );
+
+                          $( "#dateSlots" ).append( "<div class='boxslots'><input type='checkbox' id='"+val.slot.replace(/:|\s/g,"")+"' class='checklist' name='slots' value='"+val.slot+"' style='display: none;'><label for='"+val.slot.replace(/:|\s/g,"")+"'>"+val.slot+"</label></div>" );  
+
+                          //$( "#dateSlots" ).append( "<input type='checkbox' class='checklist' name='slots' value='"+val.slot+"'><div class='boxslots'>"+val.slot+"</div>" );
                         });
 
                        });
