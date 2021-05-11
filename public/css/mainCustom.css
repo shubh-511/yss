@@ -1,0 +1,55 @@
+.box-body .rapCalendar{
+	background: #fff;
+	border-radius: 0;
+	box-shadow: none;
+    margin-left: 1.5rem;
+    margin-right: -.3125rem;
+}
+.box-body .rapCalendar table{
+	width: 100%;
+}
+.box-body .rapCalendar table *{
+	text-shadow: none;
+}
+.box-body .rapCalendar table caption{
+	text-align: center;
+	font-weight: 600;
+	color: #000;
+}
+.box-body .rapCalendar table .larr,
+.box-body .rapCalendar table .rarr{
+	color: #000;
+}
+.box-body .rapCalendar table .larr:hover,
+.box-body .rapCalendar table .rarr:hover{
+	color: #777;
+}
+.box-body .rapCalendar table th,
+.box-body .rapCalendar table td{
+	text-align: center;
+	padding: 1rem .5rem;
+	color: #000;
+	border: none;
+}
+.box-body .rapCalendar table td.calDisable{
+	color: #999;
+	opacity: .75;
+}
+
+/* Availbility time slots styling */
+.box-body #dateSlots{
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.box-body #dateSlots .boxslots {
+    border: 0.1rem solid #e2e8f0;
+    padding: 1rem;
+    width: 8.5rem;
+    margin-right: 3.25rem;
+    margin-left: .5rem;
+    margin-top: 2.5rem;
+}
+.box-body #dateSlots input[type=checkbox]{
+	margin-top: 2.5rem;
+}

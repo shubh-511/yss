@@ -37,7 +37,7 @@
                          <select id="select-counsellor" class="form-control counsellor-tags">
                           <option value=""></option>
                           @foreach($counsellors as $counsellor)
-                          <option data-counsellor="{{$counsellor->id}}" value="{{$counsellor->name}}">{{$counsellor->name}}</option>
+                          <option data-counsellor="{{$counsellor->id}}" value="{{$counsellor->email}}">{{$counsellor->email}}</option>
                           @endforeach
                           
                         </select>
@@ -48,7 +48,7 @@
                          <select id="select-user" class="form-control user-tags">
                           <option value=""></option>
                           @foreach($users as $user)
-                          <option data-user="{{$user->id}}" value="{{$user->name}}">{{$user->name}}</option>
+                          <option data-user="{{$user->id}}" value="{{$user->email}}">{{$user->email}}</option>
                           @endforeach
                           
                         </select>
@@ -88,13 +88,14 @@
 @push('select2')
 
 <script type="text/javascript">
-
  
 $(".counsellor-tags").select2({
-  tags: true
+  tags: true,
+  placeholder: "Select Counsellor"
 });
 $(".user-tags").select2({
-  tags: true
+  tags: true,
+  placeholder: "Select User"
 });
 
 
