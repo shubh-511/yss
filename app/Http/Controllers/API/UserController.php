@@ -622,10 +622,7 @@ class UserController extends Controller
                     'name' => 'required|max:190',  
                     'timezone' => 'required',
                     'country_code' => 'required', 
-                    'phone' => 'required|unique:users,phone,'.Auth()->user()->id
-                ],
-                [
-                    'phone.unique' => 'This phone number has already been registered'
+                    //'phone' => 'unique:users,phone,'.Auth()->user()->id
                 ]
             );
             }
