@@ -241,7 +241,7 @@ class BookingController extends Controller
                 {
                       echo "<div class='col-lg-4 col-md-12 mb-4'>
                         
-                        <div class='card' onClick=getAppointment($package->id)>
+                        <div class='card' onClick=getAppointment($package->id,$package->no_of_slots)>
 
                           <div class=card-body'>
 
@@ -251,6 +251,11 @@ class BookingController extends Controller
                               <small class='text-success ml-2'>
                                 <i class='fas fa-arrow-up fa-sm pr-1'></i></small>
                             </h5>
+                            <h5 class='font-weight-bold mb-0'>
+                              <strong>Session: </strong>".$package->no_of_slots."
+                              
+                            </h5>
+                            <p>Selected:<span id='resultids'></span></p>
                             <p class='small mb-2'><strong>Duration: </strong>".$package->session_hours.":".$package->session_minutes." Hours";
                             echo "</p>
 
@@ -291,7 +296,7 @@ class BookingController extends Controller
             $customBooking = new Booking;
             $customBooking->counsellor_id = $request->counsellor_id;
             $customBooking->user_id = $request->user_id;
-            $customBooking->created_by = '2';
+           // $customBooking->created_by = '2';
             $customBooking->payment_id = 0;
             $customBooking->package_id = $request->package_id;
             
@@ -326,21 +331,22 @@ class BookingController extends Controller
               $customBooking->counsellor_booking_date = $request->date;
               
             }
+             $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
+            $customBooking->status = '1';
+            $customBooking->save();
+            $newNotif = new Notification;
+            $newNotif->receiver = $user->id;
+            $newNotif->title = "Booking created";
+            $newNotif->body = $userBody;
+            $newNotif->save();
+            $CounsellorBody = $user->name." successfully booked your ".$packageDetail->package_name." Package.";
+            $newNotif = new Notification;
+            $newNotif->receiver = $counsellor->id;
+            $newNotif->title = "Booking created";
+            $newNotif->body = $CounsellorBody;
+            $newNotif->save();
+
         }
-        $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
-        $customBooking->status = '1';
-        $customBooking->save();
-        $newNotif = new Notification;
-        $newNotif->receiver = $user->id;
-        $newNotif->title = "Booking created";
-        $newNotif->body = $userBody;
-        $newNotif->save();
-        $CounsellorBody = $user->name." successfully booked your ".$packageDetail->package_name." Package.";
-        $newNotif = new Notification;
-        $newNotif->receiver = $counsellor->id;
-        $newNotif->title = "Booking created";
-        $newNotif->body = $CounsellorBody;
-        $newNotif->save();
         echo 1;
         
     }

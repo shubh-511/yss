@@ -39,7 +39,7 @@
                   </div>
                   <div class="modal-body">
                     
-                    <form action="{{url('login/counsellors/store')}}" method="post">
+                    <form action="{{url('login/counsellors/store')}}" method="post" enctype="multipart/form-data">
                     <div class="row">
                         @csrf
                         <div class="col-md-6">

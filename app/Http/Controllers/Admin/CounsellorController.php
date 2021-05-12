@@ -15,6 +15,7 @@ use Auth;
 use Hash;
 use Event;
 use Validator;
+use File;
 use App\Events\CounsellorRegisterEvent;
 
 class CounsellorController extends Controller
@@ -185,15 +186,10 @@ class CounsellorController extends Controller
 
     public function genImage($img)
     {
-       $folderPath = "uploads/";
-        $image_parts = explode(";base64,", $img);
-        $image_type_aux = explode('.', $image_parts[0]);
-        $image_type = $image_type_aux[1];
-        $img = str_replace("data:image/".$image_type.";base64,", '', $img);
-        $img = str_replace(' ', '+', $img);
-        $image_base64 = base64_decode($img);
-        $file = $folderPath . uniqid() . ".".$image_type;
-        file_put_contents($file, $image_base64);
+        $name = time().'.'.$img->getClientOriginalExtension();
+        $destinationPath = public_path('/uploads/');
+        $file='uploads/'.$name;
+        $img->move($destinationPath, $name);
         return $file;
     }
 
