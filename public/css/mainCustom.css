@@ -40,10 +40,16 @@
 .box-body .rapCalendar table td:hover,
 .box-body .rapCalendar table td.calSelected,
 body .btn-primary,
-body.skin-blue .main-header .navbar{
+body.skin-blue .main-header .navbar,
+body.skin-blue .main-header .logo{
 	background: #34558b;
 	color: #fff;
 	border-color: #34558b;
+}
+.box-body .rapCalendar table td:empty:hover,
+.box-body .rapCalendar table td.calDisable{
+	background: none;
+	color: #999;
 }
 
 /* Availbility time slots styling */
@@ -52,10 +58,10 @@ body.skin-blue .main-header .navbar{
     flex-wrap: wrap;
     align-items: center;
 	width: auto;
+	margin: 0 -1.5rem;
 }
 .box-body #dateSlots .boxslots{
-    margin-left: .5rem;
-    margin-top: 2.5rem;
+    margin: 1.5rem;
 	padding: 0;
 }
 .box-body #dateSlots .boxslots label{
