@@ -30,10 +30,20 @@
 	padding: 1rem .5rem;
 	color: #000;
 	border: none;
+	width: auto;
+	height: auto;
 }
 .box-body .rapCalendar table td.calDisable{
 	color: #999;
 	opacity: .75;
+}
+.box-body .rapCalendar table td:hover,
+.box-body .rapCalendar table td.calSelected,
+body .btn-primary,
+body.skin-blue .main-header .navbar{
+	background: #34558b;
+	color: #fff;
+	border-color: #34558b;
 }
 
 /* Availbility time slots styling */
@@ -41,15 +51,21 @@
 	display: flex;
     flex-wrap: wrap;
     align-items: center;
+	width: auto;
 }
-.box-body #dateSlots .boxslots {
+.box-body #dateSlots .boxslots{
+    margin-left: .5rem;
+    margin-top: 2.5rem;
+	padding: 0;
+}
+.box-body #dateSlots .boxslots label{
     border: 0.1rem solid #e2e8f0;
     padding: 1rem;
     width: 8.5rem;
     margin-right: 3.25rem;
-    margin-left: .5rem;
-    margin-top: 2.5rem;
+	margin-bottom: 0;
 }
-.box-body #dateSlots input[type=checkbox]{
-	margin-top: 2.5rem;
+.box-body #dateSlots .boxslots input[type=checkbox]:checked + label{
+	background: #34558b;
+	color: #fff;
 }
