@@ -72,6 +72,7 @@
     <div style="margin-bottom: 5px;" id="availabilityOn"></div>
     <input type="hidden" id="availabilityDate">
     <input type="hidden" id="packageToBook">
+    <input type="hidden" id="slot">
     <a id="bookSlots" style="display: none;" class="btn btn-primary">Proceed to book</a>
     <div id="dateSlots"></div>
   </div>
@@ -120,7 +121,7 @@ var counsellorId = $(this).find(':selected').data("counsellor");
 });
 
 
-function getAppointment(packageId)
+function getAppointment(packageId,slot)
 {
   var userId = $( "#select-user" ).find(':selected').data("user");
   var counsellorId = $( "#select-counsellor" ).find(':selected').data("counsellor");
@@ -130,8 +131,6 @@ function getAppointment(packageId)
       alert('Select user from the droplist!');
       return false;
   }
-  
-  
   /*else
   {*/
       $(document).ready(function(){
@@ -157,6 +156,7 @@ function getAppointment(packageId)
             $( "#availabilityOn" ).html( "<strong>Availability on "+y + '-' + m + '-' + d+"</strong>" );
             $( "#availabilityDate" ).val(y + '-' + m + '-' + d);
             $( "#packageToBook" ).val(packageId);
+            $( "#slot" ).val(slot);
 
             $.ajax({
             url: '../api/break-packages',
@@ -200,6 +200,7 @@ function getAppointment(packageId)
 
 $(document).on('change', '.checklist', function() {
 var checkedNum = $('input.checklist:checked').length
+$('#resultids').text(checkedNum);
       if (checkedNum > 0) {
           
           $("#bookSlots"). show()
@@ -216,15 +217,25 @@ var checkedNum = $('input.checklist:checked').length
           var userId = $( "#select-user" ).find(':selected').data("user");
           var date = $('#availabilityDate').val();
           var package = $('#packageToBook').val();
-
+          var slot = $('#slot').val();
           var counsellorId = $( "#select-counsellor" ).find(':selected').data("counsellor");
-
+          var checkedNum = $('input.checklist:checked').length
             var mySlots = [];
             $.each($("input[name='slots']:checked"), function(){
                 mySlots.push($(this).val());
             });
             //alert("" + mySlots);
-            if(userId!=null && date!=null && package!=null && counsellorId!=null && mySlots!='')
+            if(slot<checkedNum)
+            {
+              
+              var first="You can select only ";
+              var last=" slots";
+              alert(first+slot+last);
+
+            }
+            else if(slot <=checkedNum)
+            {
+               if(userId!=null && date!=null && package!=null && counsellorId!=null && mySlots!='')
             {
               if(confirm("Are you sure you want to proceed with booking for the selected slot(s)?"))
               {
@@ -259,6 +270,14 @@ var checkedNum = $('input.checklist:checked').length
             {
                 alert('Some thing went wrong. Please try again!');
             }
+            }
+            else
+            {
+             var result=slot-checkedNum;
+              var first="Please add ";
+              var last=" more slots";
+              alert(first+result+last);
+          }
         });
     });
 
