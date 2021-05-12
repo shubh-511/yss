@@ -96,7 +96,7 @@
                           <td>{{ $listing->user->email ?? ''}}</td>
                           <td>{{ date('j F, Y', strtotime($listing->created_at)) }}</td>
                           <td>
-                            <a href="javascript:" onclick="update_status('{{ $listing->id}}',{{abs($listing->status-1)}})">
+                            <!-- <a href="javascript:" onclick="update_status('{{ $listing->id}}',{{abs($listing->status-1)}})"> -->
                               <span class="label  @if($listing->status!='0') {{'label-success'}} @else {{'label-warning'}} @endif">
                                 @if($listing->status=='1') {{'Enabled'}} @else {{'Disabled'}} @endif 
                               </span>

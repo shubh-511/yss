@@ -119,13 +119,6 @@
                               <label class="form-control">{{ date('j F, Y', strtotime($listing->created_at)) }}</label>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                              <label>Video URL:</label>
-                              <label class="form-control">{{$listing->video_url}}</label>
-                            </div>
-                        </div>
-                       
                        
                     </div>
                    

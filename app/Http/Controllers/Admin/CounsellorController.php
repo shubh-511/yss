@@ -99,8 +99,8 @@ class CounsellorController extends Controller
     public function store(Request $request)
     {
         
-        // try
-        // {
+         try
+         {
             $validator =  Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -140,6 +140,7 @@ class CounsellorController extends Controller
 
                 $counsellor->cover_id = $coverImage;
             }
+
             $counsellor->save();
             $listingData = new Listing;
             $listingData->user_id = $counsellor->id;
@@ -176,17 +177,17 @@ class CounsellorController extends Controller
 
             return redirect('login/counsellors')->with('success','Counsellor added successfully');
         
-        //}
-        //  catch(\Exception $e)
-        // {
-        //     return redirect()->back()->with('err_message','Something went wrong!');
-        // }
+        }
+         catch(\Exception $e)
+        {
+             return redirect()->back()->with('err_message','Something went wrong!');
+     }
     }
 
 
     public function genImage($img)
     {
-        $name = time().'.'.$img->getClientOriginalExtension();
+        $name = uniqid().'.'.$img->getClientOriginalExtension();
         $destinationPath = public_path('/uploads/');
         $file='uploads/'.$name;
         $img->move($destinationPath, $name);
