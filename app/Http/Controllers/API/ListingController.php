@@ -104,6 +104,7 @@ class ListingController extends Controller
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
+            $listingData->status = '0';
             if(!empty($requestedFields['cover_img']))
             {
                 $listingData->cover_img = $user->cover_id;
