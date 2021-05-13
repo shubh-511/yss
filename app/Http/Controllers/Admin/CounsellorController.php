@@ -189,7 +189,7 @@ class CounsellorController extends Controller
     {
         $fileName = uniqid().''.time().'.'.$img->extension();  
             
-        $request->image->move('uploads/', $fileName);
+        $img->move('uploads/', $fileName);
         
         return "uploads/".$fileName;
         
