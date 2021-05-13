@@ -94,11 +94,11 @@
 <script type="text/javascript">
  
 $(".counsellor-tags").select2({
-  tags: true,
+  tags: false,
   placeholder: "Select Counsellor"
 });
 $(".user-tags").select2({
-  tags: true,
+  tags: false,
   placeholder: "Select User"
 });
 

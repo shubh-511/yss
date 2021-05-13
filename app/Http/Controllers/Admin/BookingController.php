@@ -338,12 +338,16 @@ class BookingController extends Controller
             $newNotif->receiver = $user->id;
             $newNotif->title = "Booking created";
             $newNotif->body = $userBody;
+            $time=Carbon::now($user->timezone)->toDateTimeString();
+            $newNotif->created_at=$time;
             $newNotif->save();
             $CounsellorBody = $user->name." successfully booked your ".$packageDetail->package_name." Package.";
             $newNotif = new Notification;
             $newNotif->receiver = $counsellor->id;
             $newNotif->title = "Booking created";
             $newNotif->body = $CounsellorBody;
+            $time=Carbon::now($counsellor->timezone)->toDateTimeString();
+            $newNotif->created_at=$time;
             $newNotif->save();
 
         }

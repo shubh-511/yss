@@ -78,7 +78,7 @@
                             </div>
                         </div>
                        
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <div class="form-group">
                               <label>Timezone</label>
                               <br>
@@ -140,7 +140,7 @@
 
 <script type="text/javascript">
     $("#timezone-tags").select2({
-  tags: true
+  tags: false
 });
 </script>
 @endpush

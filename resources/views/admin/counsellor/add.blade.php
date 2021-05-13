@@ -236,7 +236,7 @@
 
 <script type="text/javascript">
     $("#coun-timezone-tags").select2({
-  tags: true
+  tags: false
 });
 </script>
 @endpush
