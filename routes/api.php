@@ -43,6 +43,8 @@ Route::get('get/user/notification', 'API\NotificationController@getUserNotificat
 
 Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingById');
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
+Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
+
 
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();
