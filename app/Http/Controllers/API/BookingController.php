@@ -15,6 +15,7 @@ use App\Notification;
 use App\User;
 use App\VideoChannel;
 use App\Payment;
+use DB;
 use Event;
 use Stripe;
 use Carbon\Carbon;
@@ -632,7 +633,7 @@ class BookingController extends Controller
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '<', Carbon::today($counsellorTimeZone))
                     ->orderBy('booking_date','DESC')
-                    ->orderBy('slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%A')"), 'ASC')
                     ->paginate(5);
                     
 
@@ -657,7 +658,7 @@ class BookingController extends Controller
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', '<', Carbon::today($userTimeZone))
                     ->orderBy('counsellor_booking_date','DESC')
-                    ->orderBy('counsellor_timezone_slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%A')"), 'ASC')
                     ->paginate(5);
                     //->get();
 
@@ -703,7 +704,7 @@ class BookingController extends Controller
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
-                    ->orderBy('slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%A')"), 'ASC')
                     ->get();
                   }
                   else
@@ -712,7 +713,7 @@ class BookingController extends Controller
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
-                    ->orderBy('slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%A')"), 'ASC')
                     ->paginate(5);
                   }
                     
@@ -740,7 +741,7 @@ class BookingController extends Controller
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', Carbon::today($userTimeZone))
-                    ->orderBy('counsellor_timezone_slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%A')"), 'ASC')
                     ->get();
                   }
                   else
@@ -748,7 +749,8 @@ class BookingController extends Controller
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', Carbon::today($userTimeZone))
-                    ->orderBy('counsellor_timezone_slot','ASC')
+                    //->orderBy('counsellor_timezone_slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%A')"), 'ASC')
                     ->paginate(5);
                   }
 
@@ -831,7 +833,8 @@ class BookingController extends Controller
                     })
 
                     ->orderBy('booking_date','ASC')
-                    ->orderBy('slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%A')"), 'ASC')
+                    //->orderBy('slot','ASC')
                     ->paginate(5);
                     
 
@@ -885,7 +888,8 @@ class BookingController extends Controller
                         $query->whereIn('id', $common);
                     })
                     ->orderBy('counsellor_booking_date','ASC')
-                    ->orderBy('counsellor_timezone_slot','ASC')
+                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%A')"), 'ASC')
+                    //->orderBy('counsellor_timezone_slot','ASC')
                     ->paginate(5);
                     //->get();
 
