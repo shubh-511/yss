@@ -80,7 +80,7 @@
 
 <script type="text/javascript">
     $("#notification-tags").select2({
-  tags: true
+  tags: false
 });
 </script>
 @endpush
