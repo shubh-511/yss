@@ -15,13 +15,13 @@
 
               <div class="card-body">
 
-                <a href=""><p class="text-uppercase small mb-2"><strong>{{$package->package_name}}</strong></p></a>
-                <h5 class="font-weight-bold mb-0">
+                <a href=""><p class="pack__title"><strong>{{$package->package_name}}</strong></p></a>
+                <h5 class="pack__amnt">
                   <strong>Amount: </strong>{{$package->amount}}
                   <small class="text-success ml-2">
                     <i class="fas fa-arrow-up fa-sm pr-1"></i>13,48%</small>
                 </h5>
-                <p class="small mb-2"><strong>Duration: </strong>{{$package->session_hours}}:{{$package->session_minutes}} Hours</p>
+                <p class="pack_timing"><strong>Duration: </strong>{{$package->session_hours}}:{{$package->session_minutes}} Hours</p>
 
                 <hr>
 

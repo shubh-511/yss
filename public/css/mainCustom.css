@@ -75,3 +75,37 @@ body.skin-blue .main-header .logo{
 	background: #34558b;
 	color: #fff;
 }
+a:hover,
+.sidebar-menu > li.menu-open > a,
+.skin-blue .main-header .navbar .sidebar-toggle:hover{
+	background: #26416d !important;
+	color: #fff;
+}
+.sidebar-mini.sidebar-collapse .wrapper .main-header .logo{
+	padding: 0;
+}
+.sidebar-mini.sidebar-collapse .wrapper .main-header .logo > .logo-lg{
+	display: block;
+	padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.sidebar-mini.sidebar-collapse .wrapper .main-header .logo > .logo-lg b{
+	display: none;
+}
+.sidebar-mini.sidebar-collapse .wrapper .main-header .logo > .logo-lg img{
+	width: auto !important;
+	height: 4rem;
+    margin: .3125rem 0 0;
+}
+.sidebar-mini.sidebar-collapse .wrapper .main-header .logo > .logo-mini{
+	display: none;
+}
+.card hr {
+    display: none;
+}
+.card {
+    margin-bottom: 3rem;
+    background: #f2f2f2;
+    padding: 1.5rem;
+}
