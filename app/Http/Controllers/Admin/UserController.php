@@ -195,16 +195,26 @@ class UserController extends Controller
     { 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required',
+            ]);
+         if ($validator->fails()) 
+        { 
+            return redirect()->back()->with('err_message',$validator->messages()->first());
+        }
+       if($request->get('old_pass'))
+       {
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required',
             'old_pass' => 'required',
             'new_pass' => 'required',
             'conf_pass' => 'required',
             //'email' => 'required|email|unique:users,email,'.$id,
         ]);
-
+        
         if ($validator->fails()) 
         { 
             return redirect()->back()->with('err_message',$validator->messages()->first());
         }
+
         if ((Hash::check($request->get('old_pass'), Auth::User()->password)))
         {
             if(strcmp($request->get('old_pass'), $request->get('new_pass')) != 0)
@@ -227,8 +237,18 @@ class UserController extends Controller
                 return redirect('login/profile')->with('err_message','Incorrect old password!');
                  
             }
+
         $user = User::find(Auth::user()->id);
         $user->password=bcrypt($request->get('new_pass'));
+        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->save();
+
+        return redirect('login/profile')->with('success', 'Profile successfully updated');
+        }
+        $user = User::find(Auth::user()->id);
         $user->name = $request->name;
         $user->first_name = $request->first_name;
         $user->middle_name = $request->middle_name;

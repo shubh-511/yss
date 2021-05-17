@@ -46,6 +46,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                  <label>Counsellor Type:</label>
+                                   <select name="counsellor_type" class="form-control ">
+                                       @if($user->counsellor_type==1)
+                                        <option value="1" selected>Outside Counsellor</option>
+                                        <option value="0">Inside Counsellor</option>
+                                        @else
+                                        <option value="1">Outside Counsellor</option>
+                                        <option value="0" selected>Inside Counsellor</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                   <label>Name:</label>
                                     <input type="text" class="form-control" value="{{$user->name}}" name="name" required placeholder="Name"> 
                                 </div>

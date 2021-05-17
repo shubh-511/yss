@@ -127,6 +127,7 @@ class CounsellorController extends Controller
             $counsellor->timezone = $request->timezone;
             $counsellor->role_id = '2';
             $counsellor->account_enabled = '1';
+            $counsellor->counsellor_type = $request->counsellor_type;
 
             if(!empty($request->avatar_id))
             {
@@ -432,6 +433,7 @@ class CounsellorController extends Controller
         $user->first_name = $request->first_name;
         $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
+        $user->counsellor_type = $request->counsellor_type;
         $user->save();
 
         return redirect('login/counsellors')->with('success', 'Successfully updated');

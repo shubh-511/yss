@@ -399,6 +399,8 @@ class UserController extends Controller
 
                 $newNotif = new Notification;
                 $newNotif->receiver = $userDetail->id;
+                $time=Carbon::now($userDetail->timezone)->toDateTimeString();
+                $newNotif->created_at=$time;
                 $newNotif->title = "Password Reset";
                 $newNotif->body = "Your password has been reset!";
                 $newNotif->save();
@@ -430,6 +432,7 @@ class UserController extends Controller
     public function updateProfileImage(Request $request) 
     {
         try{
+           
 
             $validator = Validator::make($request->all(), [ 
                 'image' => 'required|mimes:jpeg,png,jpg,JPG,JPEG,PNG',  
@@ -1159,6 +1162,8 @@ class UserController extends Controller
 
                     $newNotif = new Notification;
                     $newNotif->receiver = $user->id;
+                    $time=Carbon::now($user->timezone)->toDateTimeString();
+                    $newNotif->created_at=$time;
                     $newNotif->title = "Successfully Registered";
                     $newNotif->body = "You have been successfully registered!";
                     $newNotif->save();

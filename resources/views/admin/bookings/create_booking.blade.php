@@ -38,7 +38,7 @@
                          <select id="select-counsellor" class="form-control counsellor-tags">
                           <option value="">Select Counsellor</option>
                           @foreach($counsellors as $counsellor)
-                          <option data-counsellor="{{$counsellor->id}}" value="{{$counsellor->email}}">{{$counsellor->email}}</option>
+                          <option data-counsellor="{{$counsellor->id}}" value="{{$counsellor->email}}">{{$counsellor->name}} - {{$counsellor->email}}</option>
                           @endforeach
                           
                         </select>
@@ -50,7 +50,7 @@
                           <option value="">Select User</option>
                           @foreach($users as $user)
 
-                          <option data-user="{{$user->id}}" value="{{$user->email}}">{{$user->email}}</option>
+                          <option data-user="{{$user->id}}" value="{{$user->email}}">{{$user->name}} - {{$user->email}}</option>
 
                           @endforeach
                           
@@ -106,6 +106,10 @@ $(".user-tags").select2({
 $(document).on('change', '#select-counsellor', function() {
   $( ".demo" ).empty();
   $( ".demo" ).removeClass("rapCalendar");
+  $( "#dateSlots" ).empty();
+  $( "#availabilityOn" ).empty();
+  $("#bookSlots"). hide();
+
 var counsellorId = $(this).find(':selected').data("counsellor");
     $.ajax({
             url: 'getCounsellorPackage',
