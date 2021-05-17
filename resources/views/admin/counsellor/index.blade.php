@@ -92,6 +92,7 @@
                       <th><input type="checkbox" id="check_all_checkbox"></th>
                       <th>Name</th>
                       <th>Email</th>
+                      <th>Counsellor Type</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -103,6 +104,14 @@
                           <td>{{ $user->name}}</td>
                           
                           <td>{{ $user->email}}</td>
+                           <td>
+
+                            <a >
+                              <span class="label  @if($user->counsellor_type == '0') {{'label-success'}} @else {{'label-warning'}} @endif">
+                                @if($user->counsellor_type == '1') {{'Outside Counsellor'}} @elseif($user->counsellor_type == '0') {{'Inside Counsellor'}}  @endif
+                              </span>
+                            </a>
+                          </td> 
                           <td>
 
                             <a href="javascript:void();">

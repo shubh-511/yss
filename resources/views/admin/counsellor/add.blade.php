@@ -60,6 +60,7 @@
                               @enderror
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Password</label>
@@ -188,6 +189,15 @@
                               @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Counsellor Type</label>
+                                  <select name="counsellor_type" class="form-control ">
+                                       <option value="0">Inside Counsellor</option>
+                                       <option value="1">Outside Counsellor</option>
+                                  </select>
+                                   </div>
+                            </div>
                         <div class="col-md-12">
                           <div class="form-group">
                             <button style="float: right;" name="addcounsellor" type="submit" class="btn btn-primary ">Save</button>

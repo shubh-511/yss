@@ -44,7 +44,7 @@
                                 <select name="user" class="form-control" id="notification-tags">
                                     <option value="">Select</option>
                                     @foreach($users as $user)
-                                        <option value="{{$user->id}}">{{$user->email}}</option>
+                                        <option value="{{$user->id}}">{{$user->name}}     -      {{$user->email}}</option>
                                     @endforeach
                                 </select>
                             </div>

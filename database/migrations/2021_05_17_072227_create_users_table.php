@@ -51,6 +51,8 @@ class CreateUsersTable extends Migration
             $table->integer('role_id')->nullable();
             $table->string('timezone')->nullable();
             $table->integer('profile_percentage')->default(25);
+            $table->enum('counsellor_type',[0,1])->default(1)->comment("0=Inside,1=Outside");
+            $table->integer('is_payment')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
