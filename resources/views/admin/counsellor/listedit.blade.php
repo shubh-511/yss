@@ -26,10 +26,10 @@
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Edit List: #{{$list_data->user_id}}</h4>
+                        <h4 class="modal-title">Edit List: #{{$list_data->id}}</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="{{url('login/counsellors/list/update',[$list_data->user_id])}}" method="post">
+                        <form action="{{url('login/counsellors/list/update',[$list_data->id])}}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -77,7 +77,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing label:</label>
-                                  <select  multiple name="listing_label[]" class="form-control ">
+                                  <select  name="listing_label" class="form-control ">
                                        @foreach($list_label as $key => $label)
                                        <option value="{{$label->id}}" {{ ( $label->id == $list_data->listing_label) ? 'selected' : '' }}>{{$label->label_name}}</option>
                                        @endforeach
