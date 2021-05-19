@@ -465,7 +465,7 @@ class CounsellorController extends Controller
          $list_category=ListingCategory::where('status', '1')->get();
         $list_region=ListingRegion::where('status', '1')->get();
         $list_label=ListingLabel::where('status', '1')->get();
-        $list_data=Listing::where('user_id',$id)->first();
+        $list_data=Listing::where('id',$id)->first();
        return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label'));
     }
     public function listupdate(Request $request, $id)
@@ -485,7 +485,7 @@ class CounsellorController extends Controller
            { 
               return redirect()->back()->with('err_message',$validator->messages()->first());
             }
-            $list_update_data=Listing::where('user_id',$id)->first();
+            $list_update_data=Listing::where('id',$id)->first();
             $list_update_data->listing_name = $request->listing_name;
             $list_update_data->location = $request->location;
             $list_update_data->longitude = $request->longitude;
@@ -499,12 +499,6 @@ class CounsellorController extends Controller
             $list_update_data->video_url = $request->video_url;
             $list_update_data->description = $request->description;
             $list_update_data->save();
-            foreach($request->listing_label as $label_id) {
-            multilabel::find([
-            'listing_id' => $list_update_data->id,
-            'label_id' => $label_id
-                ]);
-                }
             return redirect('login/counsellors/list/listedit/'.$id)->with('success','Listing updated successfully');
         }
         catch(\Exception $e)
