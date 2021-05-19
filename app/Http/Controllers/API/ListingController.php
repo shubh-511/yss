@@ -101,7 +101,7 @@ class ListingController extends Controller
             $listingData->lattitude = $requestedFields['lattitude'];
             $listingData->longitude = $requestedFields['longitude'];
             $listingData->listing_region = $requestedFields['listing_region'];
-            $listingData->listing_label = $requestedFields['listing_label'];
+            //$listingData->listing_label = $requestedFields['listing_label'];
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
@@ -124,12 +124,16 @@ class ListingController extends Controller
                 }
             }
 
-            foreach($requestedFields['listing_label'] as $label_id) {
-            multilabel::create([
-            'listing_id' => $listingData->id,
-            'label_id' => $label_id
-                ]);
-                }
+            if(!empty($requestedFields['listing_label']) && count($requestedFields['listing_label']) > 0)
+            {
+                foreach($requestedFields['listing_label'] as $label_id) {
+                multilabel::create([
+                'listing_id' => $listingData->id,
+                'label_id' => $label_id
+                    ]);
+                    }
+            }
+            
             $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
 
             $userData = User::with('roles')->where('id', $user->id)->first();

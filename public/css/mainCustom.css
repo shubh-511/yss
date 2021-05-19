@@ -24,13 +24,17 @@
 .box-body .rapCalendar table .rarr:hover{
 	color: #777;
 }
+.box-body .rapCalendar table tr{
+	display: flex;
+	width: 100%;
+}
 .box-body .rapCalendar table th,
 .box-body .rapCalendar table td{
 	text-align: center;
 	padding: 1rem .5rem;
 	color: #000;
 	border: none;
-	width: auto;
+	width: calc(100% / 7);
 	height: auto;
 }
 .box-body .rapCalendar table td.calDisable{
@@ -58,16 +62,18 @@ body.skin-blue .main-header .logo{
     flex-wrap: wrap;
     align-items: center;
 	width: auto;
-	margin: 0 -1.5rem;
+	margin: 0 -1rem;
 }
 .box-body #dateSlots .boxslots{
-    margin: 1.5rem;
+    margin: 1rem;
 	padding: 0;
+	text-align: center;
+	width: 10rem;
 }
 .box-body #dateSlots .boxslots label{
     border: 0.1rem solid #e2e8f0;
     padding: 1rem;
-    width: 8.5rem;
+    width: 100%;
     margin-right: 3.25rem;
 	margin-bottom: 0;
 }
