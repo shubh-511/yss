@@ -16,6 +16,7 @@ use Hash;
 use Event;
 use Validator;
 use File;
+use App\multilabel;
 use App\Events\CounsellorRegisterEvent;
 
 class CounsellorController extends Controller
@@ -151,7 +152,6 @@ class CounsellorController extends Controller
             $listingData->description = $request->description;
             $listingData->listing_category = $request->listing_category;
             $listingData->listing_region = $request->listing_region;
-            $listingData->listing_label = $request->listing_label;
             $listingData->lattitude = $request->latitude;
             $listingData->longitude = $request->longitude;
             $listingData->website = $request->website;
@@ -162,6 +162,12 @@ class CounsellorController extends Controller
                 $listingData->cover_img = $counsellor->cover_id;
             }
             $listingData->save();
+            foreach($request->listing_label as $label_id) {
+            multilabel::create([
+            'listing_id' => $listingData->id,
+            'label_id' => $label_id
+                ]);
+                }
             
              if($request->gallery_images)
             {
@@ -480,13 +486,18 @@ class CounsellorController extends Controller
             $list_update_data->contact_email_or_url = $request->contact_email_or_url;
             $list_update_data->listing_category = $request->listing_category;
             $list_update_data->listing_region = $request->listing_region;
-            $list_update_data->listing_label = $request->listing_label;
             $list_update_data->status = $request->status;
             $list_update_data->website = $request->website;
             $list_update_data->phone = $request->phone;
             $list_update_data->video_url = $request->video_url;
             $list_update_data->description = $request->description;
             $list_update_data->save();
+            foreach($request->listing_label as $label_id) {
+            multilabel::find([
+            'listing_id' => $list_update_data->id,
+            'label_id' => $label_id
+                ]);
+                }
             return redirect('login/counsellors/list/listedit/'.$id)->with('success','Listing updated successfully');
         }
         catch(\Exception $e)

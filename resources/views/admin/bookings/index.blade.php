@@ -131,6 +131,7 @@
                         <td>
                             <a data-toggle="modal" data-target="#myModal<?php echo $booking->id?>"><i class="fa fa-desktop" title="View Details"></i></a> |
                             <a href="{{url('login/call-history',[$booking->id])}}"><i class="fa fa-history" aria-hidden="true" title="view call history"></i></a>
+                            <a href="{{url('login/download/report',[$booking->id])}}"><i class="fa fa-Download" aria-hidden="true" title="download report"></i></a>
                            
                           </td>
                                                     

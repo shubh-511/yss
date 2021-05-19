@@ -14,6 +14,7 @@ use App\Availability;
 use DateTime;
 use DateTimeZone;
 use Event;
+use PDF;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 use App\Notification;
@@ -355,6 +356,29 @@ class BookingController extends Controller
         
     }
 
-    
+    public function downloadreport($bookingId)
+    {
+      try
+      {
+        $user = Auth::user();
+        $booking = Booking::with('payment_detail','counsellor','user','package')->where('id', $bookingId)->first();
+        if(!empty($booking))
+      {
+        $userTimezone = $booking->user->timezone;
+        $currentUserTime = Carbon::now($userTimezone)->format('Y-m-d h:i A');
+        $logs = CallLog::with('init_by','pick_by','cut_by','booking')->where('booking_id', $bookingId)->get();
+        $data["currentUserTime"] = $currentUserTime;
+        $data["logs"] = $logs;
+          $data["bookingData"] = $booking;
+      
+            $pdf = PDF::loadView('emails.report', $data);
+            return $pdf->download('report.pdf');
+        }
+      }
+        catch(\Exception $e)
+        {
+        return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+      } 
+    }
 
 }

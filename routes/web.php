@@ -85,6 +85,7 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
 	Route::get('/bookings', 'Admin\BookingController@bookingList');
 	Route::get('/bookings/bulk', 'Admin\BookingController@active')->middleware(isAdminLogin::class);
 	Route::get('/call-history/{bookingid}', 'Admin\BookingController@callHistory');
+	Route::get('/download/report/{bookingid}', 'Admin\BookingController@downloadreport');
 	Route::get('/send-notification', 'Admin\SendNotificationController@sendNotification')->middleware(isAdminLogin::class);
 	Route::post('/send', 'Admin\SendNotificationController@send')->middleware(isAdminLogin::class);
 
