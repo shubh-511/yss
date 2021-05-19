@@ -44,8 +44,8 @@
                                     <input type="text" id="autocomplete" class="form-control" value="{{$list_data->location}}" name="location" required placeholder="Location">
                                 </div>
                             </div>
-                            <input type="hidden" name="longitude" id="longitude" class="form-control">
-                        <input type="hidden" id="latitude" name="latitude" class="form-control">
+                            <input type="hidden" value="{{$list_data->longitude}}" name="longitude" id="longitude" class="form-control">
+                        <input type="hidden" id="latitude" value="{{$list_data->lattitude}}" name="latitude" class="form-control">
                         
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -77,7 +77,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing label:</label>
-                                  <select name="listing_label" class="form-control ">
+                                  <select  multiple name="listing_label[]" class="form-control ">
                                        @foreach($list_label as $key => $label)
                                        <option value="{{$label->id}}" {{ ( $label->id == $list_data->listing_label) ? 'selected' : '' }}>{{$label->label_name}}</option>
                                        @endforeach

@@ -113,6 +113,8 @@ trait ProfileStatusTrait
             {
                 $newNotif = new Notification;
                 $newNotif->receiver = $userId;
+                $time=Carbon::now($user->timezone)->toDateTimeString();
+                $newNotif->created_at=$time;
                 $newNotif->title = "Profile Completed";
                 $newNotif->body = "Your profile has been completed!";
                 $newNotif->save();

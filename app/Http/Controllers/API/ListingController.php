@@ -14,6 +14,7 @@ use JWT;
 use App\User;
 use App\ListingRegion;
 use App\ListingGallery;
+use App\multilabel;
 use App\Listing;
 use Event;
 use Carbon\Carbon;
@@ -123,6 +124,12 @@ class ListingController extends Controller
                 }
             }
 
+            foreach($requestedFields['listing_label'] as $label_id) {
+            multilabel::create([
+            'listing_id' => $listingData->id,
+            'label_id' => $label_id
+                ]);
+                }
             $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
 
             $userData = User::with('roles')->where('id', $user->id)->first();

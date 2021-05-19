@@ -130,7 +130,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Label</label>
-                                  <select name="listing_label" class="form-control ">
+                                  <select multiple name="listing_label[]" class="form-control ">
                                        @foreach($list_label as $label)
                                        <option value="{{$label->id}}">{{$label->label_name}}</option>
                                        @endforeach
