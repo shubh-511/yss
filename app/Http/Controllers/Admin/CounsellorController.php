@@ -194,11 +194,12 @@ class CounsellorController extends Controller
 
     public function genImage($img)
     {
-        $name = uniqid().'.'.$img->getClientOriginalExtension();
-        $destinationPath = 'uploads/';
-        $file='uploads/'.$name;
-        $img->move($destinationPath, $name);
-        return $file;
+
+        $fileName = uniqid().''.time().'.'.$img->extension();  
+            
+        $img->move('uploads/', $fileName);
+        
+        return "uploads/".$fileName;
     }
 
     /**

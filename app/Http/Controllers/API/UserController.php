@@ -525,11 +525,23 @@ class UserController extends Controller
         {
             $listingData = Listing::with('gallery')->where('user_id', $user->id)->first();
             $listing_label =multilabel::where('listing_id',$listingData->id)->get();
-            $listingLabel = ListingLabel::where('id', $listingData->listing_label)->first();
+            if(count($listing_label) > 0)
+            {
+                $listing_label = $listing_label->pluck('label_id');
+                $listingLabel = ListingLabel::whereIn('id', $listing_label)->get();
+                $listingData->multilabel = $listingLabel;
+            }
+            else
+            {
+                $listingData->multilabel = [];   
+            }
+            //
+
             $ListingCategory = ListingCategory::where('id', $listingData->listing_category)->first();
             $ListingRegion = ListingRegion::where('id', $listingData->listing_region)->first();
 
             $listingData->listing_label = (count($listingLabel) > 0)?$listingLabel:[];
+
             $listingData->listing_category = (!empty($ListingCategory))?$ListingCategory->id:'';
             $listingData->listing_region = (!empty($ListingRegion))?$ListingRegion->id:'';
 
@@ -628,10 +640,7 @@ class UserController extends Controller
                     'name' => 'required|max:190',  
                     'timezone' => 'required',
                     'country_code' => 'required', 
-                    'phone' => 'required|unique:users,phone,'.Auth()->user()->id
-                ],
-                [
-                    'phone.unique' => 'This phone number has already been registered'
+                    //'phone' => 'unique:users,phone,'.Auth()->user()->id
                 ]
             );
             }

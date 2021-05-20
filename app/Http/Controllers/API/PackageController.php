@@ -543,7 +543,13 @@ $date6 = DateTime::createFromFormat('h:i A', $extendedBookedSlot);
                                 }
                                 else
                                 {
-                                    if( !in_array($datas, $books) )
+                                    $dateAndTime = $date.' '.$datas;
+
+                                    $inputTimestamp = Carbon::createFromFormat('Y-m-d h:i A', $dateAndTime, $counsellor->timezone);
+                                    $currentTimestamp = Carbon::now($user->timezone);
+                                    $idate = Carbon::parse($dateAndTime)->format('d');
+                                    $uDate = Carbon::parse($date)->format('d');
+                                    if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate))
                                     {
                                         $existingSlotArray[] = $datas;
                                     }
