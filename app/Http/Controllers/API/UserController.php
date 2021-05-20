@@ -540,7 +540,7 @@ class UserController extends Controller
             $ListingCategory = ListingCategory::where('id', $listingData->listing_category)->first();
             $ListingRegion = ListingRegion::where('id', $listingData->listing_region)->first();
 
-            $listingData->listing_label = (count($listingLabel) > 0)?$listingLabel:[];
+            //$listingData->listing_label = (count($listingLabel) > 0)?$listingLabel:[];
 
             $listingData->listing_category = (!empty($ListingCategory))?$ListingCategory->id:'';
             $listingData->listing_region = (!empty($ListingRegion))?$ListingRegion->id:'';
