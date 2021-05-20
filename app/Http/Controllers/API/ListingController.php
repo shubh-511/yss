@@ -14,6 +14,7 @@ use JWT;
 use App\User;
 use App\ListingRegion;
 use App\ListingGallery;
+use App\multilabel;
 use App\Listing;
 use Event;
 use Carbon\Carbon;
@@ -100,8 +101,7 @@ class ListingController extends Controller
             $listingData->lattitude = $requestedFields['lattitude'];
             $listingData->longitude = $requestedFields['longitude'];
             $listingData->listing_region = $requestedFields['listing_region'];
-
->>>>>>> e7cfe4a46ee3ab6c2da95636745606270f90d8ff
+            //$listingData->listing_label = $requestedFields['listing_label'];
             $listingData->website = $requestedFields['website'];
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
@@ -124,7 +124,6 @@ class ListingController extends Controller
                 }
             }
 
-
             if(!empty($requestedFields['listing_label']) && count($requestedFields['listing_label']) > 0)
             {
                 foreach($requestedFields['listing_label'] as $label_id) {
@@ -135,7 +134,6 @@ class ListingController extends Controller
                     }
             }
             
-
             $insertedListingData = Listing::with('gallery','listing_category','listing_label','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
 
             $userData = User::with('roles')->where('id', $user->id)->first();
