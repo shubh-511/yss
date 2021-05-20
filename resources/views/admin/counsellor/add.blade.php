@@ -143,13 +143,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Cover Image</label>
-                              <input type="file" name="cover_img" value="{{old('cover_img')}}" class="form-control" required>
+                              <input type="file" name="cover_img" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Gallery Image</label>
-                              <input type="file" name="gallery_images[]" value="{{old('gallery_images[]')}}" class="form-control" multiple>
+                              <input type="file" name="gallery_images[]"  class="form-control" multiple>
                             </div>
                         </div>
                          <div class="col-md-6">
