@@ -104,7 +104,7 @@
                              <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Phone:</label>
-                                    <input type="text" class="form-control" value="{{$list_data->phone}}" name="phone" required placeholder="Location">
+                                    <input type="text" class="form-control" value="{{$list_data->phone}}" name="phone"  placeholder="Phone">
                                 </div>
                             </div>
                             <div class="col-md-6">
