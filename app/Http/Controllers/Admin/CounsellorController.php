@@ -114,6 +114,8 @@ class CounsellorController extends Controller
             'listing_category' => 'required',
             'listing_region' => 'required',
             'website' => 'required',
+            'listing_category' => 'required|not_in:0',
+            'listing_region' => 'required',
             ]);
 
             if ($validator->fails()) 
@@ -194,12 +196,11 @@ class CounsellorController extends Controller
 
     public function genImage($img)
     {
-
-        $fileName = uniqid().''.time().'.'.$img->extension();  
-            
-        $img->move('uploads/', $fileName);
-        
-        return "uploads/".$fileName;
+        $name = uniqid().'.'.$img->getClientOriginalExtension();
+        $destinationPath = 'uploads/';
+        $file='uploads/'.$name;
+        $img->move($destinationPath, $name);
+        return $file;
     }
 
     /**

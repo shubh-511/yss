@@ -113,17 +113,22 @@
                           <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Category</label>
-                                  <select name="listing_category" class="form-control ">
+                                  <select name="listing_category" class="form-control @error('listing_category') is-invalid @enderror">
+                                    <option>select</option>
                                        @foreach($list_category as $category)
                                        <option value="{{$category->id}}">{{$category->category_name}}</option>
                                        @endforeach
                                   </select>
+                                   @error('listing_category')
+                                <p style="color:red">{{ $errors->first('listing_category') }}</p>
+                              @enderror
                                    </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Label</label>
                                   <select name="listing_label[]" class="form-control">
+                                    <option>select</option>
                                        @foreach($list_label as $label)
                                        <option value="{{$label->id}}">{{$label->label_name}}</option>
                                        @endforeach
@@ -133,11 +138,15 @@
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Region</label>
-                                  <select name="listing_region" class="form-control ">
+                                  <select name="listing_region" class="form-control @error('listing_region') is-invalid @enderror" value="{{old('listing_region')}}">
+                                       <option>select</option>
                                        @foreach($list_region as $region)
                                        <option value="{{$region->id}}">{{$region->region_name}}</option>
                                        @endforeach
                                   </select>
+                                   @error('listing_region')
+                                <p style="color:red">{{ $errors->first('listing_region') }}</p>
+                              @enderror
                                    </div>
                             </div>
                         <div class="col-md-6">
@@ -196,6 +205,7 @@
                                 <div class="form-group">
                                   <label>Counsellor Type</label>
                                   <select name="counsellor_type" class="form-control ">
+                                    <option>select</option>
                                        <option value="0">Inside Counsellor</option>
                                        <option value="1">Outside Counsellor</option>
                                   </select>

@@ -244,6 +244,17 @@ class ListingController extends Controller
         {
             //$user = Auth::user();
             $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage,name')->where('id', $listingId)->where('status', '1')->first();
+            $listing_label =multilabel::where('listing_id',$listingData->id)->get();
+            if(count($listing_label) > 0)
+            {
+                $listing_label = $listing_label->pluck('label_id');
+                $listingLabel = ListingLabel::whereIn('id', $listing_label)->get();
+                $listingData->multilabel = $listingLabel;
+            }
+            else
+            {
+                $listingData->multilabel = [];   
+            }
             
             if(!empty($listingData))
             {
