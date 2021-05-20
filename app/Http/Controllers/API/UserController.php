@@ -513,6 +513,7 @@ class UserController extends Controller
         $totalRevenue = '';
         $location = '';
         $listingData = '';
+        $listing_label='';
 
         $user = Auth::user(); 
         Auth::user()->roles;

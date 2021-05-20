@@ -77,7 +77,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing label:</label>
-                                  <select  name="listing_label" class="form-control ">
+                                  <select  name="listing_label" class="form-control">
                                        @foreach($list_label as $key => $label)
                                        <option value="{{$label->id}}" {{ ( $label->id == $list_data->listing_label) ? 'selected' : '' }}>{{$label->label_name}}</option>
                                        @endforeach
@@ -116,7 +116,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Description:</label>
-                                  <textarea class="form-control " name="description" id="exampleFormControlTextarea2"  rows="3" placeholder="Description">{{$list_data->description}}</textarea>
+                                  <textarea class="ckeditor form-control " name="description" id="exampleFormControlTextarea2"  rows="3" placeholder="Description">{{$list_data->description}}</textarea>
 
                                 </div>
                             </div>
@@ -173,3 +173,9 @@
             });
         }
     </script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+       $('.ckeditor').ckeditor();
+    });
+</script>
