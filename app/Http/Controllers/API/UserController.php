@@ -525,11 +525,22 @@ class UserController extends Controller
         {
             $listingData = Listing::with('gallery')->where('user_id', $user->id)->first();
             $listing_label =multilabel::where('listing_id',$listingData->id)->get();
-            $listingLabel = ListingLabel::where('id', $listingData->listing_label)->first();
+            if(count($listing_label) > 0)
+            {
+                $listing_label = $listing_label->pluck('label_id');
+                $listingLabel = ListingLabel::whereIn('id', $listing_label)->get();
+                $listingData->multilabel = $listingLabel;
+            }
+            else
+            {
+                $listingData->multilabel = [];   
+            }
+            //
+
             $ListingCategory = ListingCategory::where('id', $listingData->listing_category)->first();
             $ListingRegion = ListingRegion::where('id', $listingData->listing_region)->first();
 
-            $listingData->listing_label = (!empty($listingLabel))?$listingLabel->id:'';
+            
             $listingData->listing_category = (!empty($ListingCategory))?$ListingCategory->id:'';
             $listingData->listing_region = (!empty($ListingRegion))?$ListingRegion->id:'';
 
@@ -555,7 +566,6 @@ class UserController extends Controller
                                 //'profile_percentage' => $profilePercentage,
                                 'location' => $location,
                                 'revenue' => $totalRevenue,
-                                'listing_label'=>$listing_label,
                                 'listing_data' => $listingData,
                                  'user' => $userData,
                                  'channel_data' => $channelData,
