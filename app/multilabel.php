@@ -10,4 +10,5 @@ class multilabel extends Model
         'listing_id', 
         'label_id',  
     ];
+    
 }
