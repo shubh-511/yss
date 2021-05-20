@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
 
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
 
 @section('content')
 <div class="row">
@@ -108,15 +109,7 @@
                               @enderror
                             </div>
                         </div>
-                         <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Description</label>
-                              <textarea class="form-control @error('description') is-invalid @enderror" name="description"></textarea>
-                              @error('description')
-                                <p style="color:red">{{ $errors->first('description') }}</p>
-                              @enderror
-                            </div>
-                        </div>
+                        
                           <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Category</label>
@@ -168,6 +161,7 @@
                               @enderror
                             </div>
                         </div>
+                          
                          <div class="col-md-6">
                             <div class="form-group">
                               <label>Phone Number</label>
@@ -189,6 +183,15 @@
                               @enderror
                             </div>
                         </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Description</label>
+                              <textarea class="form-control ckeditor @error('description') is-invalid @enderror" name="description"></textarea>
+                              @error('description')
+                                <p style="color:red">{{ $errors->first('description') }}</p>
+                              @enderror
+                            </div>
+                        </div>
                         <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Counsellor Type</label>
@@ -198,6 +201,7 @@
                                   </select>
                                    </div>
                             </div>
+
                         <div class="col-md-12">
                           <div class="form-group">
                             <button style="float: right;" name="addcounsellor" type="submit" class="btn btn-primary ">Save</button>
@@ -280,3 +284,8 @@
             });
         }
     </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+       $('.ckeditor').ckeditor();
+    });
+</script>
