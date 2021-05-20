@@ -29,7 +29,7 @@
                         <h4 class="modal-title">Edit List: #{{$list_data->id}}</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="{{url('login/counsellors/list/update',[$list_data->id])}}" method="post">
+                        <form action="{{url('login/counsellors/list/update',[$list_data->id])}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -77,7 +77,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing label:</label>
-                                  <select  name="listing_label" class="form-control">
+                                  <select  name="listing_label[]" class="form-control" multiple>
                                        @foreach($list_label as $key => $label)
                                        <option value="{{$label->id}}" {{ ( $label->id == $list_data->listing_label) ? 'selected' : '' }}>{{$label->label_name}}</option>
                                        @endforeach
@@ -113,6 +113,22 @@
                                     <input type="text" class="form-control" value="{{$list_data->video_url}}" name="video_url" required placeholder="Location">
                                 </div>
                             </div>
+                             <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Cover Image</label>
+                              <input type="file" name="cover_img" class="form-control">
+                            </div>
+                             <span><img src="{{ asset($list_data->cover_img) }}" width="50px" height="50px"></span>
+                           </div>
+                            <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Gallery Image</label>
+                              <input type="file" name="gallery_images[]"  class="form-control" multiple>
+                              @foreach($gallery_data as $gallery)
+                               <span><img src="{{ asset($gallery->gallery_img) }}" width="50px" height="50px"></span>
+                               @endforeach
+                            </div>
+                        </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Description:</label>

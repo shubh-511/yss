@@ -113,22 +113,18 @@
                           <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Category</label>
-                                  <select name="listing_category" class="form-control @error('listing_category') is-invalid @enderror">
+                                  <select name="listing_category" class="form-control">
                                     <option>select</option>
                                        @foreach($list_category as $category)
                                        <option value="{{$category->id}}">{{$category->category_name}}</option>
                                        @endforeach
                                   </select>
-                                   @error('listing_category')
-                                <p style="color:red">{{ $errors->first('listing_category') }}</p>
-                              @enderror
                                    </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Label</label>
-                                  <select name="listing_label[]" class="form-control">
-                                    <option>select</option>
+                                  <select name="listing_label[]" class="form-control" multiple>
                                        @foreach($list_label as $label)
                                        <option value="{{$label->id}}">{{$label->label_name}}</option>
                                        @endforeach
@@ -138,15 +134,13 @@
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Region</label>
-                                  <select name="listing_region" class="form-control @error('listing_region') is-invalid @enderror" value="{{old('listing_region')}}">
+                                  <select name="listing_region" class="form-control">
                                        <option>select</option>
                                        @foreach($list_region as $region)
                                        <option value="{{$region->id}}">{{$region->region_name}}</option>
                                        @endforeach
                                   </select>
-                                   @error('listing_region')
-                                <p style="color:red">{{ $errors->first('listing_region') }}</p>
-                              @enderror
+                                  
                                    </div>
                             </div>
                         <div class="col-md-6">
@@ -192,15 +186,6 @@
                               @enderror
                             </div>
                         </div>
-                         <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Description</label>
-                              <textarea class="form-control ckeditor @error('description') is-invalid @enderror" value="{{old('description')}}" name="description"></textarea>
-                              @error('description')
-                                <p style="color:red">{{ $errors->first('description') }}</p>
-                              @enderror
-                            </div>
-                        </div>
                         <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Counsellor Type</label>
@@ -212,6 +197,15 @@
                                    </div>
                             </div>
 
+                         <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Description</label>
+                              <textarea class="form-control ckeditor @error('description') is-invalid @enderror" value="{{old('description')}}" name="description"></textarea>
+                              @error('description')
+                                <p style="color:red">{{ $errors->first('description') }}</p>
+                              @enderror
+                            </div>
+                        </div>
                         <div class="col-md-12">
                           <div class="form-group">
                             <button style="float: right;" name="addcounsellor" type="submit" class="btn btn-primary ">Save</button>

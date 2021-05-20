@@ -457,16 +457,18 @@ class CounsellorController extends Controller
     public function listedit($id)
     {
        
-         $list_category=ListingCategory::where('status', '1')->get();
+        $list_category=ListingCategory::where('status', '1')->get();
         $list_region=ListingRegion::where('status', '1')->get();
         $list_label=ListingLabel::where('status', '1')->get();
         $list_data=Listing::where('id',$id)->first();
-       return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label'));
+        $gallery_data=ListingGallery::where('listing_id',$list_data->id)->get();
+        $multilabel=multilabel::where('listing_id',$list_data->id)->get();
+       return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label','gallery_data','multilabel'));
     }
     public function listupdate(Request $request, $id)
     {
-        try
-        {
+        // try
+        // {
            $validator = Validator::make($request->all(), [ 
             'listing_name' => 'required',
             'location' => 'required',
@@ -493,12 +495,42 @@ class CounsellorController extends Controller
             $list_update_data->phone = $request->phone;
             $list_update_data->video_url = $request->video_url;
             $list_update_data->description = $request->description;
+            if(!empty($request->cover_img))
+            {
+                $coverImage = $this->genImage($request->cover_img);
+
+                $list_update_data->cover_img = $coverImage;
+            }
             $list_update_data->save();
+             if(!empty($request->gallery_images) && count($request->gallery_images) > 0)
+            {
+                ListingGallery::where('listing_id', $list_update_data->id)->delete();
+                foreach($request->gallery_images as $galleryImages)
+                {
+                    $galleryimg = new ListingGallery;
+                    $galleryimg->listing_id = $list_update_data->id;
+                    $galleryimg->gallery_img = $this->genImage($galleryImages);
+                    $galleryimg->save();
+                }
+            }
+             
+
+            if(!empty($request->listing_label) && count($request->listing_label) > 0)
+            {
+                multilabel::where('listing_id', $list_update_data->id)->delete();
+                foreach($request->listing_label as $label_id) {
+                multilabel::create([
+                'listing_id' => $list_update_data->id,
+                'label_id' => $label_id
+                    ]);
+                    }
+            }
+
             return redirect('login/counsellors/list/listedit/'.$id)->with('success','Listing updated successfully');
-        }
-        catch(\Exception $e)
-        {
-            return redirect()->back()->with('err_message','Something went wrong!');
-        }
+        // }
+        // catch(\Exception $e)
+        // {
+        //     return redirect()->back()->with('err_message','Something went wrong!');
+        // }
     }
 }
