@@ -1,6 +1,4 @@
 @extends('admin.layouts.app')
-
-
 @section('content')
 @if (count($errors) > 0)
   <div class="alert alert-danger">
@@ -147,12 +145,7 @@
                         </form>
                     </div>
                 </div>
-
-
-
-                
-                
-            </div>
+               </div>
         
     </div>            
 </div>
