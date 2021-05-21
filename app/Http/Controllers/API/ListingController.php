@@ -218,8 +218,20 @@ class ListingController extends Controller
                     ]);
                     }
             }
+            $allSelectedLabels = multilabel::where('listing_id', $listingData->id)->get();
 
-            $insertedListingData = Listing::with('gallery','listing_category','multilabel','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
+
+            $insertedListingData = Listing::with('gallery','listing_category','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
+            if(count($allSelectedLabels) > 0)
+            {
+                $allSelectedLabels = $allSelectedLabels->pluck('label_id');
+                $getSelectedLabels = ListingLabel::whereIn('id', $allSelectedLabels)->get();
+                $insertedListingData->multilabel = $getSelectedLabels;
+            }
+            else
+            {
+                $insertedListingData->multilabel = [];
+            }
 
             return response()->json(['success' => true,
                         'message' => 'Listing updated',

@@ -198,7 +198,7 @@ class CounsellorController extends Controller
     {
         $name = uniqid().'.'.$img->getClientOriginalExtension();
         $destinationPath = 'uploads/';
-        $file='uploads/'.$name;
+        $file='public/uploads/'.$name;
         $img->move($destinationPath, $name);
         return $file;
     }

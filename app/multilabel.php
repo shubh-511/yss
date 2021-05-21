@@ -10,5 +10,10 @@ class multilabel extends Model
         'listing_id', 
         'label_id',  
     ];
+
+    public function label()
+    {
+    	return $this->belongsTo('App\ListingLabel','label_id','id');
+    }
     
 }
