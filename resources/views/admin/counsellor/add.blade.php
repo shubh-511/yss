@@ -103,10 +103,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Contact Email/URL</label>
-                              <input type="text" name="contact_email_or_url" value="{{old('contact_email_or_url')}}" class="form-control @error('contact_email_or_url') is-invalid @enderror">
-                               @error('contact_email_or_url')
-                                <p style="color:red">{{ $errors->first('contact_email_or_url') }}</p>
-                              @enderror
+                              <input type="text" name="contact_email_or_url" value="{{old('contact_email_or_url')}}" class="form-control">
+                               
                             </div>
                         </div>
                         

@@ -366,11 +366,10 @@ class BookingController extends Controller
       {
         $userTimezone = $booking->user->timezone;
         $currentUserTime = Carbon::now($userTimezone)->format('Y-m-d h:i A');
-        $logs = CallLog::with('init_by','pick_by','cut_by','booking')->where('booking_id', $bookingId)->get();
+        $logs = CallLog::with('initiated_by','picked_by','cutted_by','booking')->where('booking_id', $bookingId)->get();
         $data["currentUserTime"] = $currentUserTime;
         $data["logs"] = $logs;
-          $data["bookingData"] = $booking;
-      
+        $data["bookingData"] = $booking;
             $pdf = PDF::loadView('emails.report', $data);
             return $pdf->download('report.pdf');
         }

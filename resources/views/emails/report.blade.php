@@ -107,7 +107,12 @@
 						<table>
 							<tr>
 								<td class="title">
-									<img src="https://connect.soberlistic.com/images/soberlistic_logo.png" style="width: 100%; max-width: 100px;" />
+									<img src="https://connect.yoursafespaceonline.com/images/yss_new_logo4x.svg" style="width: 100%; max-width: 100px;" />
+								</td>
+
+								<td>
+									Report <br />
+									Created: {{ date('j F, Y', strtotime($bookingData['created_at'])) }}<br />
 								</td>
 							</tr>
 						</table>
@@ -119,13 +124,54 @@
 						<table>
 							<tr>
 								<td>
-									YSS<br />
-									
+									Your Safe Space<br />
+									United Kingdom
+								</td>
+
+								<td>
+									{{$bookingData['user']['name']}}<br />
+									{{$bookingData['user']['email']}}<br />
 								</td>
 							</tr>
 						</table>
 					</td>
 				</tr>
+
+				<tr class="heading">
+					<td>Payment Method</td>
+
+					<td>@if($bookingData['created_by'] == 1) {{'Online'}} @else {{'Cash'}} @endif#</td>
+				</tr>
+
+				<tr class="details">
+					<td>@if($bookingData['created_by'] == 1) {{'Online'}} @else {{'Cash'}} @endif</td>
+
+					
+				</tr>
+
+				<tr class="heading">
+
+					<td>Appointment Details</td>
+					<td></td>
+				</tr>
+
+				<tr class="details">
+					<td>{{'Counsellor Name'}}</td>
+					<td>{{$bookingData['counsellor']['name']}}</td>
+				</tr>
+				<tr>
+					<td>{{'Package Name'}}</td>
+					<td>{{$bookingData['package']['package_name']}}</td>
+				</tr>
+				<tr>
+					<td>{{'Session Duration'}}</td>
+					<td>{{$bookingData['package']['session_hours']}} {{$bookingData['package']['session_minutes']}}</td>
+				</tr>
+				<tr>
+					<td>{{'Amount To Paid'}}</td>
+					<td>{{($bookingData['payment_detail']['amount'])/100}}</td>
+				</tr>
+				
 				@if((count($logs) > 0))
 				<tr class="heading">
 
@@ -137,15 +183,15 @@
 				@foreach($logs as $log)
 				<tr class="details">
 						<td>{{'Initiated By'}}</td>
-						<td>{{$log['init_by']['name']?? '--'}}</td>
+						<td>{{$log->initiated_by->name ?? '--'}}</td>
 				</tr>
 				<tr>
 						<td>{{'Call Pick By'}}</td>
-						<td>{{$log['pick_by']['name']?? '--'}}</td>
+						<td>{{$log->picked_by->name ?? '--'}}</td>
 				</tr>
 				<tr>
 						<td>{{'Call Cut By'}}</td>
-						<td>{{$log['cut_by']['name']?? '--'}}</td>
+						<td>{{$log->cutted_by->name ?? '--'}}</td>
 				</tr>
 				<tr>
 						<td>{{'Call Status'}}</td>
@@ -158,8 +204,26 @@
 				@endforeach
 				
 				@endif
+				<tr class="heading">
+
+					<td>Selected Date & Slot</td>
+
+					<td>Price</td>
+				</tr>
+
+				<tr class="item">
+					<td>{{$bookingData['booking_date']}} - {{$bookingData['counsellor_timezone_slot']}}</td>
+
+					<td>{{($bookingData['payment_detail']['amount'])/100}}</td>
+				</tr>
 
 				
+				
+				<tr class="total">
+					<td></td>
+
+					<td>Total: {{($bookingData['payment_detail']['amount'])/100}}</td>
+				</tr>
 			</table>
 		</div>
 	</body>

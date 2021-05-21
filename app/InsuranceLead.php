@@ -9,5 +9,5 @@ class InsuranceLead extends Model
 {
 	use SoftDeletes;
     protected $fillable = ['first_name','last_name', 
-        'email','phone','insurance_no','insurance_provider'];
+        'email','phone','insurance_provider','country','state','city'];
 }

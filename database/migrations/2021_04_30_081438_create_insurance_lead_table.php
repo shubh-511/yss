@@ -20,7 +20,9 @@ class CreateInsuranceLeadTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('insurance_provider');
-            $table->string('insurance_no');
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

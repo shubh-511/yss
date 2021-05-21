@@ -109,7 +109,6 @@ class CounsellorController extends Controller
             'timezone' => 'required',
             'listing_name' => 'required|max:190',
             'location' => 'required|max:190',
-            'contact_email_or_url' => 'required|max:190',
             'description' => 'required',
             'listing_category' => 'required',
             'listing_region' => 'required',
@@ -467,12 +466,11 @@ class CounsellorController extends Controller
     }
     public function listupdate(Request $request, $id)
     {
-        // try
-        // {
+         try
+         {
            $validator = Validator::make($request->all(), [ 
             'listing_name' => 'required',
             'location' => 'required',
-            'contact_email_or_url' => 'required',
             'website' => 'required',
             'phone' => 'required',
             'video_url' => 'required',
@@ -527,10 +525,10 @@ class CounsellorController extends Controller
             }
 
             return redirect('login/counsellors/list/listedit/'.$id)->with('success','Listing updated successfully');
-        // }
-        // catch(\Exception $e)
-        // {
-        //     return redirect()->back()->with('err_message','Something went wrong!');
-        // }
+        }
+        catch(\Exception $e)
+        {
+            return redirect()->back()->with('err_message','Something went wrong!');
+        }
     }
 }

@@ -19,8 +19,10 @@ class InsuranceLeadController extends Controller
 	            'last_name' => 'required|max:190',  
 	            'email' => 'required|max:190|email|unique:insurance_leads',  
 	            'phone' => 'required|numeric',
-	            'insurance_provider'=>'required|max:190', 
-	            'insurance_no'=>'required|max:190', 
+	            'insurance_provider'=>'required|max:190',
+	            'state'=>'required',
+	            'state'=>'required',  
+	            'city'=>'required',
 	        ]);
 
 			if ($validator->fails())
@@ -32,8 +34,10 @@ class InsuranceLeadController extends Controller
 			$input['last_name'] = $input['last_name']; 
             $input['email'] = $input['email'];
 			$input['phone'] = $input['phone'];
-			$input['insurance_no'] = $input['insurance_no'];
-			$input['insurance_provider'] = $input['insurance_provider']; 
+			$input['insurance_provider'] = $input['insurance_provider'];
+			$input['country'] = $input['country']; 
+			$input['state'] = $input['state']; 
+			$input['city'] = $input['city']; 
 			$insurance = InsuranceLead::create($input); 
 			return response()->json(['success' => true,
 	            					 'insurance' => $insurance,
