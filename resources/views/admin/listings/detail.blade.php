@@ -77,12 +77,6 @@
                               <label class="form-control">{{$listing->website}}</label>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                              <label>Description:</label>
-                              <textarea class="form-control">{{$listing->description}}</textarea>
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Category:</label>
@@ -98,7 +92,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Label:</label>
-                              <label class="form-control">{{$listing->label->label_name}}</label>
+                              
+                              <label class="form-control">@foreach($label_data as $data){{$data->multilable->label_name}},@endforeach</label>
+                              
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -117,6 +113,12 @@
                             <div class="form-group">
                               <label>Created on:</label>
                               <label class="form-control">{{ date('j F, Y', strtotime($listing->created_at)) }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Description:</label>
+                              <textarea class="ckeditor form-control" id="exampleFormControlTextarea2">{{$listing->description}}</textarea>
                             </div>
                         </div>
                        
@@ -152,4 +154,10 @@
         }
       
     }
+</script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+       $('.ckeditor').ckeditor();
+    });
 </script>

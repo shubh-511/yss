@@ -186,11 +186,11 @@
                     <i class="fa fa-bell"></i> <span>Notification</span>
                   </a>
                 </li>
-                <li class="">
+               <!--  <li class="">
                   <a href="{{url('login/insurance')}}">
                     <i class="fa fa-hospital-o"></i> <span>Insurance</span>
                   </a>
-                </li>
+                </li> -->
                 <li class="">
                   <a href="{{url('login/category')}}">
                     <i class="fa fa-hospital-o"></i> <span>Category</span>

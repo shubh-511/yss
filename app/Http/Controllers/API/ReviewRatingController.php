@@ -16,7 +16,8 @@ class ReviewRatingController extends Controller
 		{
 		 $validator = Validator::make($request->all(), [ 
 	            'review' => 'required',
-	            'rating' => 'required',  
+	            'rating' => 'required',
+	            'listing_id' =>'required', 
 	        ]);
 
 			if ($validator->fails())
@@ -36,6 +37,7 @@ class ReviewRatingController extends Controller
 			$input['user_id'] = $input['user_id'];
 			$input['review'] = $input['review'];
 			$input['rating'] = $input['rating'];
+			$input['listing_id']=$input['listing_id'];
 			$listingreview = ListingReview::create($input); 
 			return response()->json(['success' => true,
 	            					 'listingreview' => $listingreview,

@@ -11,6 +11,7 @@ use App\Booking;
 use App\Listing;
 use Event;
 use Carbon\Carbon;
+use App\multilabel;
 use App\Events\UserRegisterEvent;
 use App\Events\ListingEvent;
 
@@ -65,8 +66,9 @@ class AdminListingController extends Controller
      */ 
     public function getListingDetails($listingId='') 
     {
-        $listing = Listing::with('user','listing_category','listing_label','listing_region')->where('id',$listingId)->first();
-        return view('admin.listings.detail',compact('listing'));
+        $listing = Listing::with('user','listing_category','listing_region')->where('id',$listingId)->first();
+        $label_data=multilabel::where('listing_id',$listingId)->get();
+        return view('admin.listings.detail',compact('listing','label_data'));
         
     }
 
