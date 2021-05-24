@@ -16,6 +16,7 @@ class CreateListingReviewsTable extends Migration
         Schema::create('listing_reviews', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
+            $table->integer('listing_id');
             $table->decimal('rating');
             $table->text('review');
             $table->timestamps();

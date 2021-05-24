@@ -165,11 +165,11 @@
 				</tr>
 				<tr>
 					<td>{{'Session Duration'}}</td>
-					<td>{{$bookingData['package']['session_hours']}} {{$bookingData['package']['session_minutes']}}</td>
+					<td>{{$bookingData['package']['session_hours']}} :{{$bookingData['package']['session_minutes']}} hour</td>
 				</tr>
 				<tr>
 					<td>{{'Amount To Paid'}}</td>
-					<td>{{($bookingData['payment_detail']['amount'])/100}}</td>
+					<td>{{($bookingData['payment_detail']['amount'])/100}}€</td>
 				</tr>
 				
 				@if((count($logs) > 0))
@@ -179,9 +179,10 @@
 					<td></td>
 				</tr>
 
-				
-				@foreach($logs as $log)
+				@foreach($logs as  $index => $log)
 				<tr class="details">
+				<td>{{$index+1}}-</td></tr>
+				<tr>
 						<td>{{'Initiated By'}}</td>
 						<td>{{$log->initiated_by->name ?? '--'}}</td>
 				</tr>
@@ -214,7 +215,7 @@
 				<tr class="item">
 					<td>{{$bookingData['booking_date']}} - {{$bookingData['counsellor_timezone_slot']}}</td>
 
-					<td>{{($bookingData['payment_detail']['amount'])/100}}</td>
+					<td>{{($bookingData['payment_detail']['amount'])/100}}€</td>
 				</tr>
 
 				
@@ -222,7 +223,7 @@
 				<tr class="total">
 					<td></td>
 
-					<td>Total: {{($bookingData['payment_detail']['amount'])/100}}</td>
+					<td>Total: {{($bookingData['payment_detail']['amount'])/100}}€</td>
 				</tr>
 			</table>
 		</div>
