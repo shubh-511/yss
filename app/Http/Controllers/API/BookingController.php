@@ -14,6 +14,7 @@ use App\Availability;
 use App\Notification;
 use App\User;
 use App\VideoChannel;
+use App\LeftSession;
 use App\Payment;
 use DB;
 use Event;
@@ -363,6 +364,14 @@ class BookingController extends Controller
                 
                 
               }
+               $left_session=new LeftSession();
+               $left_session->package_id=$user->id;
+               $left_session->package_id=$params['package_id'];
+               $left_session->package_id=$booking->id;
+               $left_session->package_id=(int($packageDetail->no_of_slot)-int($params['selected_slots']);
+                $left_session->save();
+
+
 
                 //saving notification 
 
