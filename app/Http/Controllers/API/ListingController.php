@@ -54,7 +54,6 @@ class ListingController extends Controller
                 'description' => 'required',
                 'listing_category' => 'required',
                 'listing_region' => 'required',
-                //'listing_label' => 'required',
                 'website' => 'required',
                 'phone' => 'required',
                 'video_url' => 'required',
@@ -176,67 +175,79 @@ class ListingController extends Controller
             }
 
             $listingData = Listing::where('user_id', Auth::user()->id)->where('status', '1')->first();
-            $listingData->listing_name = $requestedFields['listing_name'];
-            $listingData->location = $requestedFields['location'];
-            $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
-            $listingData->description = $requestedFields['description'];
-            $listingData->listing_category = $requestedFields['listing_category'];
-            $listingData->lattitude = $requestedFields['lattitude'];
-            $listingData->longitude = $requestedFields['longitude'];
-            $listingData->listing_region = $requestedFields['listing_region'];
-            //$listingData->listing_label = $requestedFields['listing_label'];
-            $listingData->website = $requestedFields['website'];
-            $listingData->phone = $requestedFields['phone'];
-            $listingData->video_url = $requestedFields['video_url'];
-            if(!empty($requestedFields['cover_image']))
+            if(!empty($listingData))
             {
-                $coverImage = $this->createImage($requestedFields['cover_image']);
-                $listingData->cover_img = $coverImage;
-            }
-            $listingData->save();
-
-
-            if(!empty($requestedFields['gallery_images']) && count($requestedFields['gallery_images']) > 0)
-            {
-                foreach($requestedFields['gallery_images'] as $galleryImages)
+                $listingData->listing_name = $requestedFields['listing_name'];
+                $listingData->location = $requestedFields['location'];
+                $listingData->contact_email_or_url = $requestedFields['contact_email_or_url'];
+                $listingData->description = $requestedFields['description'];
+                $listingData->listing_category = $requestedFields['listing_category'];
+                $listingData->lattitude = $requestedFields['lattitude'];
+                $listingData->longitude = $requestedFields['longitude'];
+                $listingData->listing_region = $requestedFields['listing_region'];
+                $listingData->website = $requestedFields['website'];
+                $listingData->phone = $requestedFields['phone'];
+                $listingData->video_url = $requestedFields['video_url'];
+                if(!empty($requestedFields['cover_image']))
                 {
-                    $galleryimg = new ListingGallery;
-                    $galleryimg->listing_id = $listingData->id;
-                    $galleryimg->gallery_img = $this->createImage($galleryImages);
-                    $galleryimg->save();
+                    $coverImage = $this->createImage($requestedFields['cover_image']);
+                    $listingData->cover_img = $coverImage;
                 }
-            }
+                $listingData->save();
 
-            multilabel::where('listing_id', $listingData->id)->delete();
 
-            if(!empty($requestedFields['listing_label']) && count($requestedFields['listing_label']) > 0)
-            {
-                foreach($requestedFields['listing_label'] as $label_id) {
-                multilabel::create([
-                'listing_id' => $listingData->id,
-                'label_id' => $label_id
-                    ]);
+                if(!empty($requestedFields['gallery_images']) && count($requestedFields['gallery_images']) > 0)
+                {
+                    foreach($requestedFields['gallery_images'] as $galleryImages)
+                    {
+                        $galleryimg = new ListingGallery;
+                        $galleryimg->listing_id = $listingData->id;
+                        $galleryimg->gallery_img = $this->createImage($galleryImages);
+                        $galleryimg->save();
                     }
-            }
-            $allSelectedLabels = multilabel::where('listing_id', $listingData->id)->get();
+                }
 
+                
 
-            $insertedListingData = Listing::with('gallery','listing_category','listing_region')->where('status', '1')->where('id', $listingData->id)->first();
-            if(count($allSelectedLabels) > 0)
-            {
-                $allSelectedLabels = $allSelectedLabels->pluck('label_id');
-                $getSelectedLabels = ListingLabel::whereIn('id', $allSelectedLabels)->get();
-                $insertedListingData->multilabel = $getSelectedLabels;
+                if(!empty($requestedFields['listing_label']) && count($requestedFields['listing_label']) > 0)
+                {
+                   multilabel::where('listing_id', $listingData->id)->delete();
+                    foreach($requestedFields['listing_label'] as $label_id) {
+                    multilabel::create([
+                    'listing_id' => $listingData->id,
+                    'label_id' => $label_id
+                        ]);
+                        }
+                }
+                $allSelectedLabels = multilabel::where('listing_id', $listingData->id)->get();
+
+                
+                $insertedListingData = Listing::with('gallery')->where('status', '1')->where('id', $listingData->id)->first();
+                $ListingCategory = ListingCategory::where('id', $insertedListingData->listing_category)->first();
+                $ListingRegion = ListingRegion::where('id', $insertedListingData->listing_region)->first();
+                $insertedListingData ->listing_category = (!empty($ListingCategory))?$ListingCategory->id:'';
+                $insertedListingData ->listing_region = (!empty($ListingRegion))?$ListingRegion->id:'';
+                if(count($allSelectedLabels) > 0)
+                {
+                    $allSelectedLabels = $allSelectedLabels->pluck('label_id');
+                    $getSelectedLabels = ListingLabel::whereIn('id', $allSelectedLabels)->get();
+                    $insertedListingData->multilabel = $getSelectedLabels;
+                }
+                else
+                {
+                    $insertedListingData->multilabel = [];
+                }
+
+                return response()->json(['success' => true,
+                            'message' => 'Listing updated',
+                            'listing_data' => $insertedListingData
+                            ], $this->successStatus); 
             }
             else
             {
-                $insertedListingData->multilabel = [];
+                return response()->json(['errors'=> ['exception' => ['Your listing is currently not approved by admin']]], $this->successStatus);
             }
-
-            return response()->json(['success' => true,
-                        'message' => 'Listing updated',
-                        'listing_data' => $insertedListingData
-                        ], $this->successStatus); 
+            
 
         }
         catch(\Exception $e)
@@ -550,7 +561,7 @@ class ListingController extends Controller
      */ 
     public function createImage($img)
     {
-        $folderPath = "uploads/";
+        $folderPath = "public/uploads/";
         $image_parts = explode(";base64,", $img);
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = end($image_type_aux);
