@@ -45,6 +45,9 @@ Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingByI
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
 Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
 
+Route::post('join-session', 'API\ChannelController@joinSession');
+Route::post('remove-channel', 'API\ChannelController@removeChannel');
+
 
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();
@@ -82,13 +85,13 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 
 	Route::post('create-channel', 'API\ChannelController@createChannel');
 
-	Route::post('join-session', 'API\ChannelController@joinSession');
+	
 
 	Route::post('accept/or/reject', 'API\ChannelController@acceptOrDecline');
 
 	Route::get('waiting-list', 'API\ChannelController@waitingList');
 
-	Route::post('remove-channel', 'API\ChannelController@removeChannel');
+	
 	Route::post('delete/profile/image', 'API\UserController@deleteProfileImage');
 
 	Route::get('get/past/booking', 'API\BookingController@getPastBooking');
