@@ -83,6 +83,7 @@ class ChannelController extends Controller
                 'booking_id'   => 'required',
                 'channel_id' => 'required|max:190', 
                 'timing' => 'required', 
+                'socket_id' => 'required', 
                 //'uid' => 'required|max:190',
                 //'status' => 'required',
             ]);
@@ -91,8 +92,6 @@ class ChannelController extends Controller
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
             }
-
-            $user = Auth::user()->id;
 
             //checking existing channel data
             $checkExist = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $request->from_id)->where('to_id', $request->to_id)->first();
@@ -104,18 +103,20 @@ class ChannelController extends Controller
               $channelData->booking_id = $request->booking_id;
               $channelData->from_id = $request->from_id;
               $channelData->to_id = $request->to_id;
-              //$channelData->channel_id = $this->generateRandomString(20);
+              $channelData->socket_id = $request->socket_id;
               $channelData->channel_id = $request->channel_id;
               $channelData->timing = $request->timing;
               //$channelData->uid = $request->uid;
               $channelData->status = '0';  //waiting
-              $channelData->save();              
+              $channelData->save();      
+
+              $channelData = VideoChannel::with('booking.package')->with('user:id,name,email,avatar_id')->where('booking_id', $request->booking_id)->where('from_id', $request->from_id)->where('to_id', $request->to_id)->first();        
             }
             else
             {
                 VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $request->from_id)->where('to_id', $request->to_id)->update(['status' => '0']);
 
-                $channelData = VideoChannel::where('booking_id', $request->booking_id)->where('from_id', $from_id)->where('to_id', $request->to_id)->first();
+                $channelData = VideoChannel::with('booking.package')->with('user:id,name,email,avatar_id')->where('booking_id', $request->booking_id)->where('from_id', $request->from_id)->where('to_id', $request->to_id)->first();
             }
 
             return response()->json(['success' => true,
@@ -233,6 +234,8 @@ class ChannelController extends Controller
 
             $user = Auth::user()->id;
 //return $user;
+            //$channelData = VideoChannel::with('booking.package')->with('user:id,name,email,avatar_id')->where('booking_id', $request->booking_id)->where('from_id', $request->from_id)->where('to_id', $request->to_id)->first();
+
             $waitingList = VideoChannel::with('booking')->where('to_id', $user)->where('status', '0')->get();
             if(count($waitingList) > 0)
             {
@@ -282,34 +285,26 @@ class ChannelController extends Controller
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
             }
 
-            $user = Auth::user();
-            if(!empty($user))
+            $waitingList = VideoChannel::where('booking_id', $request->booking_id)->first();
+            if(!empty($waitingList))
             {
-              $waitingList = VideoChannel::where('booking_id', $request->booking_id)->first();
-              if(!empty($waitingList))
+              if($waitingList->delete())
               {
-                if($waitingList->delete())
-                {
-                  return response()->json(['success' => true,
-                                       'message' => 'Removed',
-                                      ], $this->successStatus);
-                }
-                else
-                {
-                  return response()->json(['success'=>false,'errors' =>['exception' => ['Record not exist']]], $this->successStatus);
-                }
-                  
+                return response()->json(['success' => true,
+                                     'message' => 'Removed',
+                                    ], $this->successStatus);
               }
               else
               {
-                  return response()->json(['success'=>false,'errors' =>['exception' => ['Record not exist']]], $this->successStatus);
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Record not exist']]], $this->successStatus);
               }
+                
             }
             else
             {
-              return response()->json(['success'=>false,'errors' =>['exception' => ['You are not authorized']]], $this->successStatus);
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Record not exist']]], $this->successStatus);
             }
-             
+            
         }
         catch(\Exception $e)
         {

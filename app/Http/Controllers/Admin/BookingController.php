@@ -256,7 +256,7 @@ class BookingController extends Controller
                               <strong>Session: </strong>".$package->no_of_slots."
                               
                             </h5>
-                            <p>Selected:<span id='resultids'></span></p>
+                           
                             <p class='small mb-2'><strong>Duration: </strong>".$package->session_hours.":".$package->session_minutes." Hours";
                             echo "</p>
 

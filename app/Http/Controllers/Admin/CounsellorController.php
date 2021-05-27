@@ -115,6 +115,7 @@ class CounsellorController extends Controller
             'website' => 'required',
             'listing_category' => 'required|not_in:0',
             'listing_region' => 'required',
+            'cover_img' => 'mimes:jpeg,jpg,png,gif',
             ]);
 
             if ($validator->fails()) 
@@ -195,11 +196,15 @@ class CounsellorController extends Controller
 
     public function genImage($img)
     {
-        $name = uniqid().'.'.$img->getClientOriginalExtension();
+        /*$name = uniqid().'.'.$img->getClientOriginalExtension();
         $destinationPath = 'uploads/';
-        $file='uploads/'.$name;
+        $file='public/uploads/'.$name;
         $img->move($destinationPath, $name);
-        return $file;
+        return $file;*/
+
+        $fileName = uniqid().'.'.$img->extension(); 
+        $img->move(public_path().'/uploads/', $fileName);
+        return "public/uploads/".$fileName;
     }
 
     /**
@@ -434,6 +439,7 @@ class CounsellorController extends Controller
         $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->counsellor_type = $request->counsellor_type;
+        $user->timezone = $request->timezone;
         $user->save();
 
         return redirect('login/counsellors')->with('success', 'Successfully updated');
@@ -475,7 +481,9 @@ class CounsellorController extends Controller
             'phone' => 'required',
             'video_url' => 'required',
             'description' => 'required',
-          ]);
+            'cover_img' => 'mimes:jpeg,jpg,png,gif',
+            'gallery_images.*' => 'mimes:jpeg,jpg,png,gif',
+           ]);
            if ($validator->fails()) 
            { 
               return redirect()->back()->with('err_message',$validator->messages()->first());

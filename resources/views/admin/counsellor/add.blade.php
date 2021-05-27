@@ -144,14 +144,18 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Cover Image</label>
-                              <input type="file" name="cover_img" class="form-control" required>
+                              <input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror" required>
+                             @error('cover_img')
+                                <p style="color:red">{{ $errors->first('cover_img') }}</p>
+                              @enderror
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Gallery Image</label>
                               <input type="file" name="gallery_images[]"  class="form-control" multiple>
-                            </div>
+                               </div>
                         </div>
                          <div class="col-md-6">
                             <div class="form-group">

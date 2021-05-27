@@ -114,16 +114,20 @@
                              <div class="col-md-6">
                             <div class="form-group">
                               <label>Cover Image</label>
-                              <input type="file" name="cover_img" class="form-control">
+                              <input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
+                               @error('cover_img')
+                                <p style="color:red">{{ $errors->first('cover_img') }}</p>
+                              @enderror
+
                             </div>
-                             <span><img src="{{ asset($list_data->cover_img) }}" width="50px" height="50px"></span>
+                             <span><img src="{{ "http://178.62.24.141/dev/".$list_data->cover_img }}" width="50px" height="50px"></span>
                            </div>
                             <div class="col-md-6">
                             <div class="form-group">
                               <label>Gallery Image</label>
                               <input type="file" name="gallery_images[]"  class="form-control" multiple>
                               @foreach($gallery_data as $gallery)
-                               <span><img src="{{ asset($gallery->gallery_img) }}" width="50px" height="50px"></span>
+                               <span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
                                @endforeach
                             </div>
                         </div>

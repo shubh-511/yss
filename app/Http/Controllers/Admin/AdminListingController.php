@@ -12,6 +12,7 @@ use App\Listing;
 use Event;
 use Carbon\Carbon;
 use App\multilabel;
+use App\ListingGallery;
 use App\Events\UserRegisterEvent;
 use App\Events\ListingEvent;
 
@@ -67,8 +68,9 @@ class AdminListingController extends Controller
     public function getListingDetails($listingId='') 
     {
         $listing = Listing::with('user','listing_category','listing_region')->where('id',$listingId)->first();
+        $gallery_data=ListingGallery::where('listing_id',$listingId)->get();
         $label_data=multilabel::where('listing_id',$listingId)->get();
-        return view('admin.listings.detail',compact('listing','label_data'));
+        return view('admin.listings.detail',compact('listing','label_data','gallery_data'));
         
     }
 

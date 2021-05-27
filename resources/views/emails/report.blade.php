@@ -223,7 +223,7 @@
 				<tr class="total">
 					<td></td>
 
-					<td>Total: €{{($bookingData['payment_detail']['amount'])/100}}</td>
+					<td>Total:€ {{($bookingData['payment_detail']['amount'])/100}}</td>
 				</tr>
 			</table>
 		</div>

@@ -115,10 +115,32 @@
                               <label class="form-control">{{ date('j F, Y', strtotime($listing->created_at)) }}</label>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                          <div class="col-md-6">
                             <div class="form-group">
                               <label>Description:</label>
                               <textarea class="ckeditor form-control" id="exampleFormControlTextarea2">{{$listing->description}}</textarea>
+                            </div>
+                        </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Timezone:</label>
+                              <label class="form-control">{{$listing->user->timezone}}</label>
+                            </div>
+                        </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Cover Image:</label>
+                             <br>
+                      <span><img src="{{ "http://178.62.24.141/dev/".$listing->cover_img }}" width="50px" height="50px"></span>
+                       </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Gallery Image</label>
+                              <br>
+                              @foreach($gallery_data as $gallery)
+                               <span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
+                               @endforeach
                             </div>
                         </div>
                        
