@@ -78,7 +78,9 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	Route::get('get/bookings', 'API\BookingController@getBooking');
 	Route::get('get/all/bookings', 'API\BookingController@allBookings');
-	Route::post('get/left/session', 'API\BookingController@leftsession');	
+	Route::post('get/left/session', 'API\BookingController@leftsession');
+
+	
 
 	Route::post('create-channel', 'API\ChannelController@createChannel');
 
