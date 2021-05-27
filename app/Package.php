@@ -21,4 +21,8 @@ class Package extends Model
     {
     	return $this->belongsTo('App\User','user_id','id');
     }
+    public function leftsession()
+    {
+        return $this->belongsTo('App\LeftSession','id','package_id');
+    }
 }

@@ -364,6 +364,7 @@ class BookingController extends Controller
                 
                 
               }
+
               if($slotArray != array())
                {
                $left_session_val=$packageDetail->no_of_slots-count($slotArray[0]);
@@ -922,6 +923,29 @@ class BookingController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         }  
         
+    }
+    public function leftsession(Request $request)
+    {
+      
+      try
+      {
+            $user = Auth::user();
+            $package_id=LeftSession::where('user_id',$user->id)->pluck('package_id')->toArray();
+            $allBookings = Package::whereIn('id', $package_id)->get();
+              if(count($allBookings) > 0)
+                { 
+                   
+              $leftsession = Package::with('user','leftsession')->whereIn('id', $package_id)->orderBy('id','DESC')->paginate(5);
+                    return response()->json(['success' => true,
+                                         'upcoming' => $leftsession
+                                        ], $this->successStatus);
+                }
+              }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
     }
 
     /** 
