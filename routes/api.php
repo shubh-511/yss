@@ -78,7 +78,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	Route::get('get/bookings', 'API\BookingController@getBooking');
 	Route::get('get/all/bookings', 'API\BookingController@allBookings');
-	
+	Route::post('get/left/session', 'API\BookingController@leftsession');	
 
 	Route::post('create-channel', 'API\ChannelController@createChannel');
 
@@ -95,6 +95,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::get('get/todays/booking', 'API\BookingController@getTodaysBooking');
 	Route::get('get/upcoming/booking', 'API\BookingController@getUpcomingBooking');
 	Route::get('get/current/week/booking', 'API\BookingController@getCurrentWeekBooking');
+
 	
 	Route::get('get/all/notification', 'API\NotificationController@getAllNotification');
 	Route::post('delete/notification', 'API\NotificationController@deleteNotification');

@@ -315,7 +315,7 @@ class BookingController extends Controller
               $slotArray = [];
               foreach($params['selected_slots'] as $date => $slots)
               {                     
-                //array_push($slotArray, $slot);
+                array_push($slotArray, $slots);
                 if(count($slots) > 0)
                 {
                   foreach($slots as $slot)
@@ -364,13 +364,19 @@ class BookingController extends Controller
                 
                 
               }
+             if($slotArray != array())
+               {
+               $left_session_val=$packageDetail->no_of_slots-count($slotArray[0]);
+              if($left_session_val > 0)
+              {
                $left_session=new LeftSession();
-               $left_session->package_id=$user->id;
+               $left_session->user_id=$user->id;
                $left_session->package_id=$params['package_id'];
-               $left_session->package_id=$booking->id;
-               $left_session->package_id=(int($packageDetail->no_of_slot)-int($params['selected_slots']);
-                $left_session->save();
-
+               $left_session->payment_id=$payment->id;
+               $left_session->left_sessions=$left_session_val;
+               $left_session->save();
+              }
+             }
 
 
                 //saving notification 
@@ -917,6 +923,29 @@ class BookingController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         }  
         
+    }
+    public function leftsession(Request $request)
+    {
+      
+      try
+      {
+            $user = Auth::user();
+            $package_id=LeftSession::where('user_id',$user->id)->pluck('package_id')->toArray();
+            $allBookings = Package::whereIn('id', $package_id)->get();
+              if(count($allBookings) > 0)
+                { 
+                   
+              $leftsession = Package::with('user','leftsession')->whereIn('id', $package_id)->orderBy('id','DESC')->paginate(5);
+                    return response()->json(['success' => true,
+                                         'upcoming' => $leftsession
+                                        ], $this->successStatus);
+                }
+              }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
     }
 
     /** 
