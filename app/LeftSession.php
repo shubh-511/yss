@@ -15,4 +15,13 @@ class LeftSession extends Model
         'left_sessions',
         
     ];
+
+    public function user()
+    {
+    	return $this->belongsTo('App\User','user_id','id');
+    }
+    public function package()
+    {
+        return $this->belongsTo('App\Package','package_id','id');
+    }
 }
