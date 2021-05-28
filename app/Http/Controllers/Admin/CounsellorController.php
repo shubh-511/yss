@@ -478,8 +478,6 @@ class CounsellorController extends Controller
             'listing_name' => 'required',
             'location' => 'required',
             'website' => 'required',
-            'phone' => 'required',
-            'video_url' => 'required',
             'description' => 'required',
             'cover_img' => 'mimes:jpeg,jpg,png,gif',
             'gallery_images.*' => 'mimes:jpeg,jpg,png,gif',

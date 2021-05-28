@@ -182,7 +182,140 @@ class BookingController extends Controller
         }  
         
     }
+     public function bookleftsession(Request $request)
+     {
+      try{
+          $params=json_decode($request->getContent(), true);
+          $rules = $this->validateData($params);
+           
+          $validator = Validator::make($params, $rules);
 
+          if ($validator->fails()) 
+          { 
+              return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
+          }
+          $packageId = Package::with('user')->where('id', $params['package_id'])->first();
+          if($packageId)
+          {    
+          $user = Auth::user();        
+          $sessionDetail = LeftSession::where('user_id',$user->id)->where('package_id', $params['package_id'])->first();
+          $counsellorTimeZone = $packageId->user->timezone;
+          $userTimeZone = $user->timezone;
+          $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
+          $offsetCounsellor = $offsetCounsellor/2;
+          $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
+          $offsetUser = $offsetUser/2;
+              $slotArray = [];
+              foreach($params['selected_slots'] as $date => $slots)
+              {                     
+                array_push($newArray, $slots);
+                if(count($slots) > 0)
+                {
+                  foreach($slots as $slot)
+                  {
+                    $booking = new Booking;
+                    $booking->user_id = $user->id;
+                    $booking->payment_id = $sessionDetail->payment_id;
+                    $booking->counsellor_id = $packageId->user_id;
+
+                    if($counsellorTimeZone == $userTimeZone)
+                    {
+                      $booking->slot = $slot;
+                      $booking->booking_date = $date;
+
+                      $booking->counsellor_timezone_slot = $slot;
+                      $booking->counsellor_booking_date = $date;
+                    }
+                    else
+                    {
+                      
+                      date_default_timezone_set($userTimeZone);
+                      $slotFromTimeCounsellor = strtotime( $date . ' '.$slot );
+                      $cc = (new DateTime('@' . $slotFromTimeCounsellor))->setTimezone(new DateTimeZone($userTimeZone));
+                      date_default_timezone_set($counsellorTimeZone);
+                      $ts = $cc->getTimestamp();
+                      $ucc = (new DateTime('@' . $ts))->setTimezone(new DateTimeZone($counsellorTimeZone));
+                      $counsellorTime = $ucc->format('g:i A');
+                      $convertedDateCounsellor = $ucc->format('Y-m-d');
+
+                     
+                         
+                      $booking->slot = $counsellorTime; //$convertedSlotCounsellor;
+                      $booking->booking_date = $convertedDateCounsellor;
+
+                      $booking->counsellor_timezone_slot = $slot;
+                      $booking->counsellor_booking_date = $date;
+                    }
+                    
+
+                    $booking->package_id = $params['package_id'];
+                    $booking->status =1;
+                    $booking->save();
+                  }
+                }
+                
+                
+              }
+
+              
+               $left_session_val=$sessionDetail->no_of_slots-$params['no_of_slot'];
+              if($left_session_val > 0)
+              {
+               $left_session=LeftSession::where('id',$sessionDetail->id)->first();
+               $left_session->user_id=$user->id;
+               $left_session->package_id=$params['package_id'];
+               $left_session->payment_id=$sessionDetail->payment_id;
+               $left_session->left_sessions=$left_session_val;
+               $left_session->save();
+               if($left_session->left_sessions==0)
+               {
+                $left_session->delete();
+              }
+              }
+             
+                $selectedSlots = '';
+
+                $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
+                $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
+
+                $userCreatedNotification = Carbon::now($userTimeZone);
+                $userCreatedNotification = Carbon::parse($userCreatedNotification)->format('Y-m-d H:i:s');
+
+                $counselorCreatedNotification = Carbon::now($counsellorTimeZone);
+                $counselorCreatedNotification = Carbon::parse($counselorCreatedNotification)->format('Y-m-d H:i:s');
+                $userBody = "Your booking for ".$packageId->package_name." Package has been successfull.";
+                $newNotif = new Notification;
+                $newNotif->receiver = $user->id;
+                $newNotif->title = "Booking Successful";
+                $newNotif->body = $userBody;
+                $newNotif->created_at = $userCreatedNotification;
+                $newNotif->updated_at = $userCreatedNotification;
+                $newNotif->save();
+                $CounsellorBody = $user->name." successfully booked your ".$packageId->package_name." Package.";
+                $newNotif = new Notification;
+                $newNotif->receiver = $packageId->user_id;
+                $newNotif->title = "Booking Successful";
+                $newNotif->body = $CounsellorBody;
+                $newNotif->created_at = $counselorCreatedNotification;
+                $newNotif->updated_at = $counselorCreatedNotification;
+                $newNotif->save();
+                return response()->json(['success' => true,
+                                         'message' => 'Booking Successful!',
+                                        ], $this->successStatus); 
+              }
+              else
+              {
+                return response()->json(['success' => false,
+                                         'message' => 'This package dose not exist!',
+                                        ], $this->successStatus);
+              }
+         }
+         catch(\Exception $e)
+      {
+          return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+      } 
+
+     }
 
     /** 
      * Make booking api 
@@ -316,7 +449,9 @@ class BookingController extends Controller
               $newArray = [];
               foreach($params['selected_slots'] as $date => $slots)
               {                     
-                array_push($newArray , $slots);
+
+                array_push($newArray, $slots);
+
                 if(count($slots) > 0)
                 {
                   foreach($slots as $slot)
@@ -365,6 +500,7 @@ class BookingController extends Controller
                 
                 
               }
+
               if($newArray != array())
                {
                $left_session_val=$packageDetail->no_of_slots-count($newArray[0]);
