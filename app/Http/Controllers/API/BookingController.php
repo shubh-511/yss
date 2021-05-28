@@ -313,9 +313,10 @@ class BookingController extends Controller
             if($conf->status == 'succeeded')
             {
               $slotArray = [];
+              $newArray = [];
               foreach($params['selected_slots'] as $date => $slots)
               {                     
-                array_push($slotArray, $slots);
+                array_push($newArray , $slots);
                 if(count($slots) > 0)
                 {
                   foreach($slots as $slot)
@@ -364,10 +365,9 @@ class BookingController extends Controller
                 
                 
               }
-
-              if($slotArray != array())
+              if($newArray != array())
                {
-               $left_session_val=$packageDetail->no_of_slots-count($slotArray[0]);
+               $left_session_val=$packageDetail->no_of_slots-count($newArray[0]);
               if($left_session_val > 0)
               {
                $left_session=new LeftSession();
@@ -378,8 +378,8 @@ class BookingController extends Controller
                $left_session->save();
               }
              }
-
-                //saving notification 
+ 
+               //saving notification 
 
                 /*if(count($params['slot']) > 0)
                 {
