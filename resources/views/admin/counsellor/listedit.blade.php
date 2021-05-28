@@ -108,7 +108,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Video Url:</label>
-                                    <input type="text" class="form-control" value="{{$list_data->video_url}}" name="video_url" required placeholder="Location">
+                                    <input type="text" class="form-control" value="{{$list_data->video_url}}" name="video_url"  placeholder="Location">
                                 </div>
                             </div>
                              <div class="col-md-6">
