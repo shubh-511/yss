@@ -210,7 +210,7 @@
                                   <div class="col-md-6">
                                       <div class="form-group">
                                           <label>Amount paid</label>
-                                          <label class="form-control">{{$booking->payment_detail->amount/100 ?? ''}}</label>
+                                          
                                       </div>
                                   </div>
                                   <div class="col-md-6">

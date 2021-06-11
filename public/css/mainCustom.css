@@ -1,3 +1,9 @@
+body a{
+	color: #34558b;
+}
+body a:hover{
+	color: #26416d;
+}
 .box-body .rapCalendar{
 	background: #fff;
 	border-radius: 0;
@@ -49,6 +55,11 @@ body.skin-blue .main-header .logo{
 	background: #34558b;
 	color: #fff;
 	border-color: #34558b;
+}
+body .btn-primary:hover,
+body .btn:hover{
+	background-color: #26416d;
+	border-color: #26416d;
 }
 .box-body .rapCalendar table td:empty:hover,
 .box-body .rapCalendar table td.calDisable{
@@ -114,4 +125,47 @@ a:hover,
     margin-bottom: 3rem;
     background: #f2f2f2;
     padding: 1.5rem;
+}
+
+/* Table Styling */
+body .dataTables_wrapper{
+	margin: 3rem 1.45rem;
+} 
+body .table > tbody > tr > td, 
+body .table > tbody > tr > th, 
+body .table > tfoot > tr > td, 
+body .table > tfoot > tr > th, 
+body .table > thead > tr > td, 
+body .table > thead > tr > th{
+	padding: 1.5rem 1rem;
+	vertical-align: middle;
+}
+/*body .table > thead > tr > th{
+	vertical-align: top;
+}*/
+form input.form-control, 
+form select.form-control, 
+body select.form-control, 
+body input[type="submit"].btn {
+    margin-bottom: 1.5em;
+    padding: 1em;
+    height: auto;
+    font-size: 1em;
+    line-height: normal;
+    min-width: 10em;
+}
+body input.btn.btn-primary {
+    margin-top: .3125em;
+}
+body .table > tbody > tr > td span{
+	display: block;
+	padding: 1em;
+}
+body .table > tbody > tr > td span.label.label-success{
+	background: #34558b !important;
+	color: #fff !important;
+}
+body .table > tbody > tr > td span.label.label-warning{
+	background: #e5e5e5 !important;
+	color: #34558b !important;
 }

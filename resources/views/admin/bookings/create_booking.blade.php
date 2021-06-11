@@ -46,7 +46,7 @@
                       </div>
                       <div class="col-md-6">
                        <label>Select User</label>
-                         <select id="select-user" class="form-control user-tags">
+                         <select id="select-user" class="form-control user-tags" onchange="myFunction()">
                           <option value="">Select User</option>
                           @foreach($users as $user)
 
@@ -102,7 +102,13 @@ $(".user-tags").select2({
   placeholder: "Select User"
 });
 
-
+ function myFunction() { 
+  $( ".demo" ).empty();
+ $( ".demo" ).removeClass("rapCalendar");
+ $( "#dateSlots" ).empty();
+  $( "#availabilityOn" ).empty();
+  $("#bookSlots"). hide();
+}
 $(document).on('change', '#select-counsellor', function() {
   $( ".demo" ).empty();
   $( ".demo" ).removeClass("rapCalendar");
@@ -143,6 +149,8 @@ function getAppointment(packageId,slot)
         $( "#dateSlots" ).empty();
         $( "#availabilityDate" ).empty();
         $( "#packageToBook" ).empty();
+        $( "#availabilityOn" ).empty();
+        $("#bookSlots"). hide();
         $('.demo').jsRapCalendar({
           week:6,
           onClick:function(y,m,d){

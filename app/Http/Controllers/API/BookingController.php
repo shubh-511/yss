@@ -187,7 +187,6 @@ class BookingController extends Controller
       try{
           $params=json_decode($request->getContent(), true);
           $rules = $this->validateData($params);
-           
           $validator = Validator::make($params, $rules);
 
           if ($validator->fails()) 
@@ -198,7 +197,7 @@ class BookingController extends Controller
           if($packageId)
           {    
           $user = Auth::user();        
-          $sessionDetail = LeftSession::where('user_id',$user->id)->where('package_id', $params['package_id'])->first();
+          $sessionDetail = LeftSession::where('user_id',$user->id)->where('package_id',$params['package_id'])->where('payment_id',$params['payment_id'])->first();
           $counsellorTimeZone = $packageId->user->timezone;
           $userTimeZone = $user->timezone;
           $offsetCounsellor = Carbon::now($counsellorTimeZone)->offsetMinutes;
@@ -208,7 +207,7 @@ class BookingController extends Controller
               $slotArray = [];
               foreach($params['selected_slots'] as $date => $slots)
               {                     
-                array_push($newArray, $slots);
+                
                 if(count($slots) > 0)
                 {
                   foreach($slots as $slot)
@@ -249,16 +248,14 @@ class BookingController extends Controller
                     
 
                     $booking->package_id = $params['package_id'];
-                    $booking->status =1;
+                    $booking->status ="1";
                     $booking->save();
                   }
                 }
                 
                 
               }
-
-              
-               $left_session_val=$sessionDetail->no_of_slots-$params['no_of_slot'];
+               $left_session_val=$sessionDetail->left_sessions-$params['no_of_slots'];
               if($left_session_val > 0)
               {
                $left_session=LeftSession::where('id',$sessionDetail->id)->first();
@@ -267,12 +264,13 @@ class BookingController extends Controller
                $left_session->payment_id=$sessionDetail->payment_id;
                $left_session->left_sessions=$left_session_val;
                $left_session->save();
-               if($left_session->left_sessions==0)
-               {
-                $left_session->delete();
+               }
+             else
+              {
+                $sessionDetail->delete();
+
               }
-              }
-             
+                $Left_Sessions=LeftSession::with('package')->with('package.user:id,name,email,avatar_id')->where('user_id',$user->id)->paginate(5);
                 $selectedSlots = '';
 
                 $offsetUser = Carbon::now($userTimeZone)->offsetMinutes;
@@ -301,6 +299,7 @@ class BookingController extends Controller
                 $newNotif->save();
                 return response()->json(['success' => true,
                                          'message' => 'Booking Successful!',
+                                         'left_session'=>$Left_Sessions,
                                         ], $this->successStatus); 
               }
               else
@@ -513,8 +512,7 @@ class BookingController extends Controller
                $left_session->left_sessions=$left_session_val;
                $left_session->save();
               }
-             }
- 
+             } 
                //saving notification 
 
                 /*if(count($params['slot']) > 0)

@@ -42,6 +42,7 @@ Route::post('verify/register/account', 'API\UserController@verifyAccount');
 Route::get('get/user/notification', 'API\NotificationController@getUserNotification');
 
 Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingById');
+Route::post('get/availability', 'API\ListingController@availability');
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
 Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
 
@@ -82,7 +83,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::get('get/bookings', 'API\BookingController@getBooking');
 	Route::get('get/all/bookings', 'API\BookingController@allBookings');
 	Route::get('get/left/session', 'API\BookingController@leftsession');
-    Route::post('book/left/session', 'API\BookingController@bookleftsession');
+        Route::post('book/left/session', 'API\BookingController@bookleftsession');
 
 
 	Route::post('create-channel', 'API\ChannelController@createChannel');

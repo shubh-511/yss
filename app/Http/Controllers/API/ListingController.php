@@ -16,6 +16,7 @@ use App\ListingRegion;
 use App\ListingGallery;
 use App\multilabel;
 use App\Listing;
+use DateTime;
 use Event;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
@@ -151,6 +152,41 @@ class ListingController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
     }
+    public function availability(Request $request)
+    {
+        try
+        {
+        $user_id=$request->user_id;
+        $counsellor_id=$request->counsellor_id;
+        $counsellor_data=User::where('id',$counsellor_id)->first();
+        $user_data=User::where('id',$user_id)->first();
+        $counsellor_day=Carbon::now($counsellor_data->timezone)->toDateString();
+        $user_day=Carbon::now($user_data->timezone)->toDateString();        
+        $counsellor_d= new DateTime($counsellor_day);
+        $counsellor_d->format('l');
+        $user_d= new DateTime($user_day);
+        $user_d->format('l');
+        $day_of_user=$user_d->format('l');
+        $day_of_counsellor=$counsellor_d->format('l');
+         if($day_of_user == $day_of_counsellor)
+           {
+             return response()->json(['success' => true,
+                                        'data' => true
+                                        ], $this->successStatus);
+           }
+           else
+          {
+           return response()->json(['success' => false,
+                                     'data' =>false
+                                    ], $this->successStatus);
+
+          }
+      }
+       catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+    }
 
     /** 
      * Update Listing api 
@@ -265,7 +301,7 @@ class ListingController extends Controller
     { 
         try
         {
-            //$user = Auth::user();
+            $user = Auth::user();
             $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage,name')->where('id', $listingId)->where('status', '1')->first();
             $listing_label =multilabel::where('listing_id',$listingData->id)->get();
             if(count($listing_label) > 0)
@@ -278,8 +314,7 @@ class ListingController extends Controller
             {
                 $listingData->multilabel = [];   
             }
-            
-            if(!empty($listingData))
+           if(!empty($listingData))
             {
                 return response()->json(['success' => true,
                                         //'profile_percentage' => $user->profile_percentage,
