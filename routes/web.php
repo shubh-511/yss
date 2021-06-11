@@ -22,7 +22,7 @@ Route::get('/logout', 'Admin\AdminController@logout');
 Route::post('login/admin-login', 'Admin\AdminController@adminLogin');
 
 Route::group(['prefix'=>'login'], function(){
-
+Route::get('goggle/calender', 'Admin\CategoryController@getClient');
 	//users
 	Route::get('/dashboard', 'Admin\AdminController@dashboard');
 	Route::get('/users', 'Admin\UserController@index')->middleware(isAdminLogin::class);
@@ -112,4 +112,7 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
 	Route::get('insurance/bulk','Admin\InsuranceLeadController@bulkaction')->middleware(isAdminLogin::class);
 	Route::get('insurance/destroy/{id?}','Admin\InsuranceLeadController@destroy')->middleware(isAdminLogin::class);
 	Route::get('insurance/view/{id?}','Admin\InsuranceLeadController@view')->middleware(isAdminLogin::class);
+	Route::get('/transaction','Admin\TransactionController@transactionlist')->middleware(isAdminLogin::class);
+	Route::get('/transaction/download','Admin\TransactionController@download')->middleware(isAdminLogin::class);
+	
 });

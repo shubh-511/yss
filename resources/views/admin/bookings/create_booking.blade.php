@@ -102,6 +102,7 @@ $(".user-tags").select2({
   placeholder: "Select User"
 });
 
+
  function myFunction() { 
   $( ".demo" ).empty();
  $( ".demo" ).removeClass("rapCalendar");
@@ -229,6 +230,7 @@ $('#resultids').text(checkedNum);
           var userId = $( "#select-user" ).find(':selected').data("user");
           var date = $('#availabilityDate').val();
           var package = $('#packageToBook').val();
+          var checklist = $('.checklist').val();
           var slot = $('#slot').val();
           var counsellorId = $( "#select-counsellor" ).find(':selected').data("counsellor");
           var checkedNum = $('input.checklist:checked').length
@@ -245,7 +247,7 @@ $('#resultids').text(checkedNum);
               alert(first+slot+last);
 
             }
-            else if(slot <=checkedNum)
+            else 
             {
                if(userId!=null && date!=null && package!=null && counsellorId!=null && mySlots!='')
             {
@@ -283,13 +285,6 @@ $('#resultids').text(checkedNum);
                 alert('Some thing went wrong. Please try again!');
             }
             }
-            else
-            {
-             var result=slot-checkedNum;
-              var first="Please add ";
-              var last=" more slots";
-              alert(first+result+last);
-          }
         });
     });
 

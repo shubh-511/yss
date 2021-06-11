@@ -28,6 +28,7 @@ use App\Events\ForgotPasswordEvent;
 use App\Events\ProfileCompleteEvent;
 use App\Events\WelcomeUserEvent;
 use App\Traits\ProfileStatusTrait;
+use URL;
 
 class UserController extends Controller
 {
@@ -158,6 +159,7 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */ 
+   
     public function loginWithEmail(Request $request) 
     {
         try{

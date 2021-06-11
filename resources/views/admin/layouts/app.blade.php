@@ -206,6 +206,11 @@
                     <i class="fa fa-globe"></i> <span>Labels</span>
                   </a>
                 </li>
+                <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>
 
                
               </ul>
