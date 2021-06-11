@@ -46,7 +46,7 @@
                       </div>
                       <div class="col-md-6">
                        <label>Select User</label>
-                         <select id="select-user" class="form-control user-tags">
+                         <select id="select-user" class="form-control user-tags" onchange="myFunction()">
                           <option value="">Select User</option>
                           @foreach($users as $user)
 
@@ -102,7 +102,13 @@ $(".user-tags").select2({
   placeholder: "Select User"
 });
 
-
+function myFunction() { 
+  $( ".demo" ).empty();
+ $( ".demo" ).removeClass("rapCalendar");
+ $( "#dateSlots" ).empty();
+  $( "#availabilityOn" ).empty();
+  $("#bookSlots"). hide();
+}
 $(document).on('change', '#select-counsellor', function() {
   $( ".demo" ).empty();
   $( ".demo" ).removeClass("rapCalendar");
@@ -143,6 +149,8 @@ function getAppointment(packageId,slot)
         $( "#dateSlots" ).empty();
         $( "#availabilityDate" ).empty();
         $( "#packageToBook" ).empty();
+        $( "#availabilityOn" ).empty();
+        $("#bookSlots"). hide();
         $('.demo').jsRapCalendar({
           week:6,
           onClick:function(y,m,d){
@@ -221,6 +229,7 @@ $('#resultids').text(checkedNum);
           var userId = $( "#select-user" ).find(':selected').data("user");
           var date = $('#availabilityDate').val();
           var package = $('#packageToBook').val();
+          var checklist = $('.checklist').val();
           var slot = $('#slot').val();
           var counsellorId = $( "#select-counsellor" ).find(':selected').data("counsellor");
           var checkedNum = $('input.checklist:checked').length
@@ -237,7 +246,7 @@ $('#resultids').text(checkedNum);
               alert(first+slot+last);
 
             }
-            else if(slot <=checkedNum)
+            else 
             {
                if(userId!=null && date!=null && package!=null && counsellorId!=null && mySlots!='')
             {
@@ -275,13 +284,6 @@ $('#resultids').text(checkedNum);
                 alert('Some thing went wrong. Please try again!');
             }
             }
-            else
-            {
-             var result=slot-checkedNum;
-              var first="Please add ";
-              var last=" more slots";
-              alert(first+result+last);
-          }
         });
     });
 

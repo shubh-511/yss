@@ -42,12 +42,14 @@ Route::post('verify/register/account', 'API\UserController@verifyAccount');
 Route::get('get/user/notification', 'API\NotificationController@getUserNotification');
 
 Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingById');
+
+Route::post('get/availability', 'API\ListingController@availability');
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
 Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
 
 Route::post('join-session', 'API\ChannelController@joinSession');
 Route::post('remove-channel', 'API\ChannelController@removeChannel');
-
+Route::get('goggle/calender', 'API\UserController@calender');
 
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();

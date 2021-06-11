@@ -18,6 +18,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 use App\Notification;
+use App\LeftSession;
 
 class BookingController extends Controller
 {
@@ -256,6 +257,10 @@ class BookingController extends Controller
                               <strong>Session: </strong>".$package->no_of_slots."
                               
                             </h5>
+                             <h5 class='font-weight-bold mb-0'>
+                              <strong>Seleted: </strong><span id='packageToBook'></span>
+                              
+                            </h5>
                            
                             <p class='small mb-2'><strong>Duration: </strong>".$package->session_hours.":".$package->session_minutes." Hours";
                             echo "</p>
@@ -297,7 +302,7 @@ class BookingController extends Controller
             $customBooking = new Booking;
             $customBooking->counsellor_id = $request->counsellor_id;
             $customBooking->user_id = $request->user_id;
-            $customBooking->created_by = '2';
+            //$customBooking->created_by = '2';
             $customBooking->payment_id = 0;
             $customBooking->package_id = $request->package_id;
             
@@ -351,7 +356,18 @@ class BookingController extends Controller
             $newNotif->created_at=$time;
             $newNotif->save();
 
-        }
+            }
+               $left_session_val=$packageDetail->no_of_slots-count($myslots);
+              if($left_session_val > 0)
+              {
+               $left_session=new LeftSession();
+               $left_session->user_id=$user->id;
+               $left_session->package_id=$packageDetail->id;
+               $left_session->payment_id=1;
+               $left_session->left_sessions=$left_session_val;
+               $left_session->save();
+              }
+             
         echo 1;
         
     }

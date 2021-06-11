@@ -18,6 +18,7 @@ use App\multilabel;
 use App\Listing;
 use Event;
 use Carbon\Carbon;
+use DateTime;
 use App\Events\UserRegisterEvent;
 
 class ListingController extends Controller
@@ -261,6 +262,41 @@ class ListingController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */ 
+    public function availability(Request $request)
+    {
+        try
+        {
+        $user_id=$request->user_id;
+        $counsellor_id=$request->counsellor_id;
+        $counsellor_data=User::where('id',$counsellor_id)->first();
+        $user_data=User::where('id',$user_id)->first();
+        $counsellor_day=Carbon::now($counsellor_data->timezone)->toDateString();
+        $user_day=Carbon::now($user_data->timezone)->toDateString();        
+        $counsellor_d= new DateTime($counsellor_day);
+        $counsellor_d->format('l');
+        $user_d= new DateTime($user_day);
+        $user_d->format('l');
+        $day_of_user=$user_d->format('l');
+        $day_of_counsellor=$counsellor_d->format('l');
+         if($day_of_user == $day_of_counsellor)
+           {
+             return response()->json(['success' => true,
+                                        'data' => true
+                                        ], $this->successStatus);
+           }
+           else
+          {
+           return response()->json(['success' => false,
+                                     'data' =>false
+                                    ], $this->successStatus);
+
+          }
+      }
+       catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+    }
     public function getListingById($listingId) 
     { 
         try

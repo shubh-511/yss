@@ -208,7 +208,7 @@ class BookingController extends Controller
               $slotArray = [];
               foreach($params['selected_slots'] as $date => $slots)
               {                     
-                array_push($newArray, $slots);
+                
                 if(count($slots) > 0)
                 {
                   foreach($slots as $slot)
