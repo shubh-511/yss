@@ -42,10 +42,7 @@ Route::post('verify/register/account', 'API\UserController@verifyAccount');
 Route::get('get/user/notification', 'API\NotificationController@getUserNotification');
 
 Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingById');
-<<<<<<< HEAD
-=======
 
->>>>>>> 4ccf176c7309b364436b84df493984bcbe2dea4b
 Route::post('get/availability', 'API\ListingController@availability');
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
 Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
