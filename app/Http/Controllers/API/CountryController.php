@@ -110,6 +110,7 @@ class CountryController extends Controller
     $user_data->google_token=$accessToken;
     $user_data->save();
     $booking_data=Booking::where('user_id',$user->id)->get();
+
     if(!empty($user_data->google_token))
     {
     $client->setAccessToken($user_data->google_token,true);
@@ -126,19 +127,24 @@ class CountryController extends Controller
       
       $events = $results->getItems();
 
-      if (empty($events)) {
+      if (empty($events)) 
+      {
           print "No upcoming events found.\n";
-      } else {
+      } else 
+        {
           print "Upcoming events:\n";
-          foreach ($events as $event) {
+          foreach ($events as $event) 
+           {
               $start = $event->start->dateTime;
-              if (empty($start)) {
+              if (empty($start)) 
+               {
                   $start = $event->start->date;
-              }
+               }
               printf("%s (%s)\n", $event->getSummary(), $start);
-          }
-      }
+            }
+        }
   }
-}
+
+  }
 
 }

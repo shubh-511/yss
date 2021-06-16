@@ -19,16 +19,16 @@ class ReviewRatingController extends Controller
 	            'rating' => 'required',
 	            'listing_id' =>'required', 
 	        ]);
-            	  if ($validator->fails())
-			     { 
-	                return response()->json(['errors'=>$validator->errors()], $this->successStatus);
-			    }
+            	if ($validator->fails())
+			       { 
+	                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+	                }
 			$user = Auth::user();
 			$user_alreday_exist=ListingReview::where('user_id',$user->id)->first();
 			if($user_alreday_exist)
 			{
                 return response()->json(['success' => false,
-	            	'message' => "Review already given",
+	            					 'message' => "Review already given",
 	            					], $this->successStatus);
             
 			}

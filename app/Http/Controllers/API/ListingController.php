@@ -19,7 +19,6 @@ use App\Listing;
 use DateTime;
 use Event;
 use Carbon\Carbon;
-use DateTime;
 use App\Events\UserRegisterEvent;
 
 class ListingController extends Controller
@@ -153,7 +152,7 @@ class ListingController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
     }
-    public function availability(Request $request)
+    /*public function availability(Request $request)
     {
         try
         {
@@ -187,7 +186,7 @@ class ListingController extends Controller
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
-    }
+    }*/
 
     /** 
      * Update Listing api 
