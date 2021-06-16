@@ -45,12 +45,8 @@ Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingByI
 
 Route::post('get/availability', 'API\ListingController@availability');
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
-Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
-
 Route::post('join-session', 'API\ChannelController@joinSession');
 Route::post('remove-channel', 'API\ChannelController@removeChannel');
-Route::get('goggle/calender', 'API\UserController@calender');
-
 Route::middleware('jwt.auth')->get('users', function () {
     return auth('api')->user();
 });
@@ -78,7 +74,8 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('make/booking', 'API\BookingController@makeBooking');
 	Route::post('confirm/booking', 'API\BookingController@confirmBooking');
 	Route::get('view/package', 'API\PackageController@viewPackage');
-
+        Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
+        Route::post('goggle/calender', 'API\CountryController@calender');
 	
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	Route::get('get/bookings', 'API\BookingController@getBooking');

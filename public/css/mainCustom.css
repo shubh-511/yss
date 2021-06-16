@@ -4,6 +4,13 @@ body a{
 body a:hover{
 	color: #26416d;
 }
+body .btn{
+	min-width: 10em;    
+	padding: 1em;
+    line-height: normal;
+    height: auto;
+	border-radius: 0;
+}
 .box-body .rapCalendar{
 	background: #fff;
 	border-radius: 0;
@@ -55,6 +62,7 @@ body.skin-blue .main-header .logo{
 	background: #34558b;
 	color: #fff;
 	border-color: #34558b;
+	border-radius: 0;
 }
 body .btn-primary:hover,
 body .btn:hover{
@@ -65,6 +73,9 @@ body .btn:hover{
 .box-body .rapCalendar table td.calDisable{
 	background: none;
 	color: #999;
+}
+.skin-blue .main-header li.user-header{
+	background: #34558b;
 }
 
 /* Availbility time slots styling */
@@ -144,8 +155,6 @@ body .table > thead > tr > th{
 	vertical-align: top;
 }*/
 form input.form-control, 
-form select.form-control, 
-body select.form-control, 
 body input[type="submit"].btn {
     margin-bottom: 1.5em;
     padding: 1em;
@@ -153,19 +162,66 @@ body input[type="submit"].btn {
     font-size: 1em;
     line-height: normal;
     min-width: 10em;
+} 
+form select.form-control,
+body select.form-control{
+	padding: .972em 1em;
+    margin-bottom: 1.5em;
+    height: auto;
+    font-size: 1em;
+    line-height: normal;
+    min-width: 10em;
+}
+/*.form-group select.form-control{
+	display: none;
+}*/
+.form-group .select2-container{
+	max-width: 100%;
+}
+.form-group .select2-container .select2-selection--single{
+	padding: 0;
+	line-height: normal;
+	height: auto;
+}
+.form-group .select2-container .select2-selection--single .select2-selection__rendered{
+	margin-top: 0;
+	padding: 1em;
+	line-height: normal;
+	height: auto;
+}
+.form-group .field-icon{
+	margin: 0;
+	top: 3em;
+	right: 1.5em;
+	position: absolute;
+}
+body input[type=date].form-control,
+body input[type=datetime-local].form-control, 
+body input[type=month].form-control, 
+body input[type=time].form-control{
+	padding: .858em 1em;
+	line-height: normal;
 }
 body input.btn.btn-primary {
     margin-top: .3125em;
+	border-radius: 0;
 }
 body .table > tbody > tr > td span{
-	display: block;
+	display: inline-block;
 	padding: 1em;
+	min-width: 10em;
 }
-body .table > tbody > tr > td span.label.label-success{
+body .table > tbody > tr > td span.label.label-success,
+.btn.create_list_margin{
 	background: #34558b !important;
 	color: #fff !important;
+	padding: 0.75em 1em;
 }
 body .table > tbody > tr > td span.label.label-warning{
 	background: #e5e5e5 !important;
 	color: #34558b !important;
+}
+.btn.create_list_margin:hover{
+	background: #26416d !important;
+	color: #fff !important;
 }
