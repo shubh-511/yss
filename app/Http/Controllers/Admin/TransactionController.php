@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use Carbon\Carbon;
 use App\Package; 
+use DB;
 
 class TransactionController extends Controller
 {
@@ -18,11 +19,13 @@ class TransactionController extends Controller
 	       if ($request->get('name') != null && $request->get('date') != null) 
 	        {
 
-	          $bookings = Booking::with('user')->whereHas('counsellor', function ($query) use ($request)
+	          $bookings = Booking::with('user','payment_detail')->whereHas('counsellor', function ($query) use ($request)
 	                {
 		             $query->where('name','=',$request->name);
 		             })->whereHas('user', function ($query) use ($request){
 		             $query->where('booking_date','>=',Carbon::now()->subDays($request->get('date')));
+		             })->whereHas('payment_detail', function ($query) use ($request){
+		             $query->where('user_id','2')->select(DB::raw('SUM(amount)'));
 		             })->orderBy('id','DESC')->paginate(25);
 		            return view('admin.transaction.index',compact('bookings'));
 	        }

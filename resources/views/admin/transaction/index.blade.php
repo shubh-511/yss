@@ -78,6 +78,7 @@
                       <th>Counsellor Name</th>
                       <th>Package Name</th>
                       <th>Date Of Booking</th>
+                      <th>Total Revenue</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -87,7 +88,8 @@
                           <td>@php echo $i; @endphp</td>
                           <td>{{ $booking->counsellor->name ?? ''}}</td>
                           <td>{{ $booking->package->package_name ?? ''}}</td>
-                          <td>{{ date('j F, Y', strtotime($booking->booking_date)) }}</td>                          
+                          <td>{{ date('j F, Y', strtotime($booking->booking_date)) }}</td>   
+                          <td>€{{ $booking->payment_detail->amount/100 ?? ''}}</td>                       
                         </tr>
                        @php $i++; @endphp
                       @empty

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\ListingReview; 
+use Illuminate\Support\Facades\Auth;
 
 class ReviewRatingController extends Controller
 {
@@ -15,32 +16,30 @@ class ReviewRatingController extends Controller
 		try
 		{
 		 $validator = Validator::make($request->all(), [ 
-	            'review' => 'required',
 	            'rating' => 'required',
 	            'listing_id' =>'required', 
 	        ]);
-
-			if ($validator->fails())
-			   { 
-	             return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+            	  if ($validator->fails())
+			     { 
+	                return response()->json(['errors'=>$validator->errors()], $this->successStatus);
 			    }
-			$input = $request->all();
-			$user=$input['user_id'];
-			$user_alreday_exist=ListingReview::where('user_id',$user)->first();
+			$user = Auth::user();
+			$user_alreday_exist=ListingReview::where('user_id',$user->id)->first();
 			if($user_alreday_exist)
 			{
-             return response()->json(['success' => false,
-	            					 'message' => "Review already given",
+                return response()->json(['success' => false,
+	            	'message' => "Review already given",
 	            					], $this->successStatus);
             
 			}
-			$input['user_id'] = $input['user_id'];
-			$input['review'] = $input['review'];
-			$input['rating'] = $input['rating'];
-			$input['listing_id']=$input['listing_id'];
-			$listingreview = ListingReview::create($input); 
+            $review_data=new ListingReview();
+			$review_data->user_id =$user->id;
+			$review_data->review = $request->review;
+			$review_data->rating = $request->rating;
+			$review_data->listing_id=$request->listing_id;
+			$review_data->save(); 
 			return response()->json(['success' => true,
-	            					 'listingreview' => $listingreview,
+	            					 'listingreview' => $review_data,
 	            					], $this->successStatus);
 		}
 		catch(\Exception $e){
