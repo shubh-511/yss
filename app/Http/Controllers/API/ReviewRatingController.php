@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
@@ -15,16 +14,16 @@ class ReviewRatingController extends Controller
 	{
 		try
 		{
-		 $validator = Validator::make($request->all(), [ 
+		    $validator = Validator::make($request->all(), [ 
 	            'rating' => 'required',
 	            'listing_id' =>'required', 
 	        ]);
-            	if ($validator->fails())
-			       { 
-	                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);
-	                }
+        	if ($validator->fails())
+		       { 
+                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+                }
 			$user = Auth::user();
-			$user_alreday_exist=ListingReview::where('user_id',$user->id)->first();
+			$user_alreday_exist=ListingReview::where('user_id',$user->id)->where('listing_id',$request->listing_id)->first();
 			if($user_alreday_exist)
 			{
                 return response()->json(['success' => false,

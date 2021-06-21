@@ -17,6 +17,8 @@ use Event;
 use Validator;
 use File;
 use App\multilabel;
+use App\Notification;
+use Carbon\Carbon;
 use App\Events\CounsellorRegisterEvent;
 
 class CounsellorController extends Controller
@@ -516,6 +518,38 @@ class CounsellorController extends Controller
                     $galleryimg->gallery_img = $this->genImage($galleryImages);
                     $galleryimg->save();
                 }
+            }
+            $user = User::where('id', $list_update_data->user_id)->first();
+            if($request->status=="0")
+            {
+                $newNotif = new Notification;
+                $newNotif->receiver = $list_update_data->user_id;
+                $newNotif->title = "Admin disable your listing";
+                $newNotif->body = "Listing disable by admin";
+                $time=Carbon::now($user->timezone)->toDateTimeString();
+                $newNotif->created_at=$time;
+                $newNotif->save();
+            }
+             else if($request->status=="1")
+            {
+                $newNotif = new Notification;
+                $newNotif->receiver = $list_update_data->user_id;
+                $newNotif->title = "Admin enable your listing";
+                $newNotif->body = "Listing enable by admin";
+                $time=Carbon::now($user->timezone)->toDateTimeString();
+                $newNotif->created_at=$time;
+                $newNotif->save();
+            }
+            else
+            {
+                $newNotif = new Notification;
+                $newNotif->receiver = $list_update_data->user_id;
+                $newNotif->title = "Admin reject your listing";
+                $newNotif->body = "Listing reject by admin";
+                $time=Carbon::now($user->timezone)->toDateTimeString();
+                $newNotif->created_at=$time;
+                $newNotif->save();
+
             }
              
 

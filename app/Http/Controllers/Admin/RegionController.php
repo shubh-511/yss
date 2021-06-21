@@ -15,8 +15,8 @@ class RegionController extends Controller
 	}
 	Public function save( Request $request)
 	{
-		try{
-		$validator = Validator::make($request->all(), [ 
+	 try{
+		     $validator = Validator::make($request->all(), [ 
             'region_name' => 'required',
         ]);
 

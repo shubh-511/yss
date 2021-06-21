@@ -424,20 +424,22 @@ class ListingController extends Controller
         {
             if(!empty($request->all_records))
             {
+                
                 $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(8);
                 
             }
             elseif(!empty($request->lattitude) && !empty($request->longitude))
             {
                 $validator = Validator::make($request->all(), [ 
-                'listing_category' => 'required'
+                'listing_category' => 'required',
+                'listing_region' => 'required'
                 ]);
 
                 if ($validator->fails()) 
                 { 
                     return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
                 }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
             }
             else
             {

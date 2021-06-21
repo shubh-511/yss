@@ -176,11 +176,11 @@
                     <i class="fa fa-list"></i> <span>Listings</span>
                   </a>
                 </li>
-                <li class="">
+               <!--  <li class="">
                   <a href="{{url('login/tickets')}}">
                     <i class="fa fa-font-awesome"></i> <span>Tickets</span>
                   </a>
-                </li>
+                </li> -->
                 <li class="">
                   <a href="{{url('login/send-notification')}}">
                     <i class="fa fa-bell"></i> <span>Notification</span>

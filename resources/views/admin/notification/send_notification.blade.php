@@ -40,9 +40,9 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select User Or Counsellor:</label>
-                                <select name="user" class="form-control" id="notification-tags">
-                                    <option value="">Select</option>
+                                <label>Select User Or Counsellor:</label><br>
+                                <input type="checkbox" id="checkbox" >Select All
+                                <select name="user[]" class="form-control" id="notification-tags" multiple>
                                     @foreach($users as $user)
                                         <option value="{{$user->id}}">{{$user->name}}     -      {{$user->email}}</option>
                                     @endforeach
@@ -58,7 +58,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Notification Body:</label>
-                                <textarea style="resize: vertical;" class="form-control" name="body"></textarea>
+                                <textarea style="resize: vertical;" class="form-control ckeditor" name="body"></textarea>
                             </div>
                         </div>
                         
@@ -82,5 +82,18 @@
     $("#notification-tags").select2({
   tags: false
 });
+$("#checkbox").click(function()
+{
+    if($("#checkbox").is(':checked') ){
+        $("#notification-tags > option").prop("selected","selected");
+    }else{
+        $('#notification-tags> option').prop('selected', false);
+     }
+});
+
+$(document).ready(function()
+    {
+     $('.ckeditor').ckeditor();
+    });
 </script>
 @endpush

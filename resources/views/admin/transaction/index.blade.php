@@ -39,7 +39,12 @@
               <div class="col-md-12">
                 <div class="col-md-3">
                   <label>Counsellor Name</label>
-                  <input type="text" class="form-control"  value="{{old('name')}}" name="name" placeholder="Search by Counsellor Name">
+                  <select class="form-control transaction" name="counsellor">
+                    <option value="">Select Counsellor</option>
+                    @foreach($counsellor_data as $data)
+                    <option value="{{$data->id}}">{{$data->name}}</option>
+                    @endforeach
+                  </select>
                 </div>
                 <div class="col-md-3">
                   <label>Date</label>
@@ -75,21 +80,23 @@
                   <thead>
                     <tr>
                       <th>Serial No</th>
+                      <th>Transaction No</th>
+                      <th>Total Revenue</th>
                       <th>Counsellor Name</th>
                       <th>Package Name</th>
                       <th>Date Of Booking</th>
-                      <th>Total Revenue</th>
                     </tr>
                   </thead>
                   <tbody>
                     @php  $i=1; @endphp
-                      @forelse($bookings as $booking)
+                      @forelse($bookings->unique('payment_id') as $booking)
                         <tr id='booking{{$booking->id}}'>
                           <td>@php echo $i; @endphp</td>
+                           <td>{{$booking->payment_detail->balance_transaction}}</td>
+                           <td>€{{ $booking->payment_detail->amount/100 ?? ''}}.00</td>
                           <td>{{ $booking->counsellor->name ?? ''}}</td>
                           <td>{{ $booking->package->package_name ?? ''}}</td>
-                          <td>{{ date('j F, Y', strtotime($booking->booking_date)) }}</td>   
-                          <td>€{{ $booking->payment_detail->amount/100 ?? ''}}</td>                       
+                          <td>{{ date('j F, Y', strtotime($booking->booking_date)) }}</td>                     
                         </tr>
                        @php $i++; @endphp
                       @empty
@@ -117,17 +124,17 @@
   </div>
 </div>
 @endsection
+@push('select2')
 <script type="text/javascript">
 function Myfunction()
 {
   var searchParams = new URLSearchParams(window.location.search);
-  let name = searchParams.get('name');
+  let counsellor = searchParams.get('counsellor');
   let date = searchParams.get('date');
   var urlLike = '{{ url('login/transaction/download') }}';
-  if(searchParams == "" || name == "" || date =="")
+  if(searchParams == "")
       {
-        alert('Please search with counselor name and date');
-      }
+       }
       else
       {
        $.ajax({
@@ -137,7 +144,7 @@ function Myfunction()
     
                 type: 'GET',
                 url: urlLike,
-                data: {name: name,date:date},
+                data: {counsellor: counsellor,date:date},
                  xhrFields: {
                 responseType: 'blob'
             },
@@ -155,4 +162,9 @@ function Myfunction()
      }
   
 }
+$(".transaction").select2({
+  tags: false,
+  placeholder: "Select Counsellor"
+});
   </script>
+  @endpush
