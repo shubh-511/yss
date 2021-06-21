@@ -184,7 +184,7 @@ class PackageController extends Controller
             $userListing = Listing::where('id', $request->listing_id)->where('status', '1')->first();
             if(!empty($userListing))
             {
-                $allPackages = Package::where('user_id', $userListing->user_id)->paginate(4); 
+                $allPackages = Package::where('user_id', $userListing->user_id)->paginate(2); 
                 if(count($allPackages) > 0)
                 {
                     return response()->json(['success' => true,

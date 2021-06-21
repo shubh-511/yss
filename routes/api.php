@@ -35,6 +35,8 @@ Route::post('reset/password', 'API\UserController@resetPassword');
 
 Route::get('get/counsellor/packages', 'API\PackageController@getCounsellorPackages');
 
+Route::get('get/all/reviews', 'API\ReviewRatingController@gatAllReviews');
+
 Route::get('hook/callback', 'API\BookingController@hookCallback');
 Route::get('get/counsellor/details', 'API\UserController@counsellorProfile');
 Route::post('get/channel', 'API\ChannelController@getChannel');
@@ -56,7 +58,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 
 	Route::post('profile-update', 'API\UserController@updateProfile');
 	
-	
+	Route::get('check/if/listing/rated', 'API\ReviewRatingController@checkRatingForListing');
 	Route::get('getPackagesByCounsellorId', 'API\PackageController@getPackagesByCounsellorId');
 	Route::post('create-package', 'API\PackageController@createPackage');
 	Route::post('edit-package', 'API\PackageController@editPackage');

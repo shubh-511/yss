@@ -16,6 +16,7 @@ use App\ListingRegion;
 use App\ListingGallery;
 use App\multilabel;
 use App\Listing;
+use App\ListingReview;
 use DateTime;
 use Event;
 use Carbon\Carbon;
@@ -338,23 +339,33 @@ class ListingController extends Controller
         {
             $user = Auth::user();
             $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage,name')->where('id', $listingId)->where('status', '1')->first();
-            $listing_label =multilabel::where('listing_id',$listingData->id)->get();
-            if(count($listing_label) > 0)
+
+            if(!empty($listingData))
             {
-                $listing_label = $listing_label->pluck('label_id');
-                $listingLabel = ListingLabel::whereIn('id', $listing_label)->get();
-                $listingData->multilabel = $listingLabel;
-            }
-            else
-            {
-                $listingData->multilabel = [];   
-            }
-           if(!empty($listingData))
-            {
+                $listing_label = multilabel::where('listing_id',$listingData->id)->get();
+                $listingTotalReviews = ListingReview::where('listing_id',$listingId)->count();
+                $listingAvgRating = ListingReview::where('listing_id',$listingId)->avg('rating');
+
+                if(count($listing_label) > 0)
+                {
+                    $listing_label = $listing_label->pluck('label_id');
+                    $listingLabel = ListingLabel::whereIn('id', $listing_label)->get();
+                    $listingData->multilabel = $listingLabel;
+                }
+                else
+                {
+                    $listingData->multilabel = [];   
+                }
+
+
+                $listingData->total_reviews = $listingTotalReviews;
+                $listingData->avg_rating = $listingAvgRating;
+
                 return response()->json(['success' => true,
                                         //'profile_percentage' => $user->profile_percentage,
                                         'data' => $listingData
                                         ], $this->successStatus);
+            
             }
             else
             {
@@ -430,14 +441,15 @@ class ListingController extends Controller
             elseif(!empty($request->lattitude) && !empty($request->longitude))
             {
                 $validator = Validator::make($request->all(), [ 
-                'listing_category' => 'required'
+                'listing_category' => 'required',
+                'listing_region' => 'required'   
                 ]);
 
                 if ($validator->fails()) 
                 { 
                     return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
                 }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
             }
             else
             {
@@ -454,6 +466,14 @@ class ListingController extends Controller
             
             if(count($listingData) > 0)
             {
+                foreach($listingData as $key => $data)
+                {
+                    $listingTotalReviews = ListingReview::where('listing_id',$data->id)->count();
+                    $listingAvgRating = ListingReview::where('listing_id',$data->id)->avg('rating');
+
+                    $listingData[$key]->total_reviews = $listingTotalReviews;
+                    $listingData[$key]->avg_rating = $listingAvgRating;
+                }
                 return response()->json(['success' => true,
                                       'data' => $listingData,
                                     ], $this->successStatus);
