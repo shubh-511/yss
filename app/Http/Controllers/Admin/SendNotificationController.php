@@ -36,28 +36,35 @@ class SendNotificationController extends Controller
      */
     public function send(Request $request)
     {
-        $validator = Validator::make($request->all(), [ 
-            'user' => 'required', 
-            'title' => 'required',
-            'body' => 'required',
-        ]);
+     try
+       {
+            $validator = Validator::make($request->all(), [ 
+                'user' => 'required', 
+                'title' => 'required',
+                'body' => 'required',
+            ]);
 
-        if ($validator->fails()) 
-        { 
-            return redirect()->back()->with('err_message',$validator->messages()->first());
+            if ($validator->fails()) 
+            { 
+                return redirect()->back()->with('err_message',$validator->messages()->first());
+            }
+             $user_data=User::whereIn('id',$request->user)->get();
+              foreach ($user_data as  $data)
+                {
+                    $notif = new Notification;
+                    $notif->sender = 1;
+                    $notif->receiver = $data->id;
+                    $notif->title = $request->title;
+                    $notif->body = $request->body;
+                    $notif->created_at =Carbon::now($data->timezone)->toDateTimeString();
+                    $notif->save();
+                }
+            return redirect('login/send-notification')->with('success','Notification sent successfully');
         }
-         $user_data=User::where('id',$request->user)->first();
-         $time=Carbon::now($user_data->timezone)->toDateTimeString();
-        $notif = new Notification;
-        $notif->sender = 1;
-        $notif->receiver = $request->user;
-        $notif->title = $request->title;
-        $notif->body = $request->body;
-        $notif->created_at = $time;
-        $notif->save();
-
-
-        return redirect('login/send-notification')->with('success','Notification sent successfully');
+        catch(\Exception $e)
+        {
+            return redirect()->back()->with('err_message','Something went wrong!');
+        }
     }
 
 }

@@ -435,6 +435,7 @@ class ListingController extends Controller
         {
             if(!empty($request->all_records))
             {
+                
                 $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(8);
                 
             }
@@ -443,6 +444,7 @@ class ListingController extends Controller
                 $validator = Validator::make($request->all(), [ 
                 'listing_category' => 'required',
                 'listing_region' => 'required'   
+
                 ]);
 
                 if ($validator->fails()) 

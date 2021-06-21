@@ -136,11 +136,14 @@
 					<td></td>
 				</tr>
 				@php  $totalCost = 0; @endphp
-                @foreach($bookingData as $booking)
+                @foreach($bookingData->unique('payment_id') as $booking)
                 @php $totalCost += $booking['payment_detail']['amount']/100; @endphp
                 @if($booking['package']['id'] == $booking['package_id'] )
-
-				<tr class="details">
+                <tr class="details">
+					<td>{{'Transaction No'}}</td>
+					<td>{{$booking['payment_detail']['balance_transaction']}}</td>
+				</tr>
+				<tr>
 					<td>{{'Counsellor Name'}}</td>
 					<td>{{$booking['counsellor']['name']}}</td>
 				</tr>
@@ -162,7 +165,7 @@
 				<tr class="total">
 					<td></td>
 
-					<td>Total:€ {{$totalCost}}</td>
+					<td>Total Revenue:€ {{$totalCost}}</td>
 				</tr>
 			</table>
 		</div>
