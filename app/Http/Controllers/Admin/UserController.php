@@ -14,11 +14,15 @@ use App\Package;
 use App\Payment;
 use App\StripeConnect;
 use App\UserTickets;
+use App\Role;
+use App\Module;
+use App\RoleModule;
 use DB;
 use Auth;
 use Hash;
 use Validator;
 use App\Events\CounsellorRegisterEvent;
+use App\GeneralSetting;
 
 class UserController extends Controller
 {
@@ -29,6 +33,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $general_setting= GeneralSetting::where('id','=',1)->first();
         $users = User::where(function ($query) use($request) {
         if ($request->get('status') != null) { 
         $query->where('account_enabled',$request->get('status'));
@@ -44,7 +49,7 @@ class UserController extends Controller
         ->where('account_enabled',$request->get('status'));
     
        }
-      })->where('role_id','=',3)->orderBy('id','DESC')->paginate(25);
+      })->where('role_id','=',3)->orderBy('id','DESC')->paginate($general_setting->pagination_value);
         return view('admin.users.index',compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -62,7 +67,9 @@ class UserController extends Controller
     }
     public function form()
     {
-     return view('admin.users.add');
+     $role_data=Role::whereNotIn('role',['counsellor'])->get();
+     $module_data=Module::get();
+     return view('admin.users.add',compact('role_data','module_data'));
     }
     public function active(Request $request)
     {
@@ -143,10 +150,16 @@ class UserController extends Controller
             $user_data->email = strtolower($request->email);
             $user_data->password = bcrypt($request->password);
             $user_data->timezone = $request->timezone;
-            $user_data->role_id = '3';
+            $user_data->role_id = $request->role;
             $user_data->account_enabled = '1';
             $user_data->save();
-
+            foreach ($request->module as $module) 
+            {
+                $module_data=new RoleModule;
+                $module_data->role_id=$request->role;
+                $module_data->module_id=$module;
+                $module_data->save();
+            }
             event(new CounsellorRegisterEvent($user_data->id, $request->password));
 
             return redirect('login/users')->with('success','User added successfully');
@@ -269,8 +282,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $userRole = $user->roles->pluck('name','name')->all();
-        return view('admin.users.edit',compact('user','userRole'));
+        $role_data=Role::whereNotIn('role',['counsellor'])->get();
+        $module_data=Module::get();
+        //$userRole = $user->roles->pluck('name','name')->all();
+        return view('admin.users.edit',compact('user','role_data','module_data'));
     }
 
 
@@ -331,4 +346,5 @@ class UserController extends Controller
              return redirect('login/users')->with('err_message','Something went wrong!');
          }
     }
+
 }

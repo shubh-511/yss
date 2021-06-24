@@ -72,7 +72,7 @@
 <!-- User Chart -->
 <script type="text/javascript">
     var users =  <?php echo json_encode($users) ?>;
-   
+    var array_month =  <?php echo json_encode($users_mon_data) ?>;
     Highcharts.chart('userChart', {
         title: {
             text: 'New Users'
@@ -84,7 +84,7 @@
             text: ''
         },
          xAxis: {
-            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            categories: array_month,
         },
         yAxis: {
             title: {
@@ -129,7 +129,7 @@
 <!-- Booking Chart -->
 <script type="text/javascript">
     var users =  <?php echo json_encode($bookings) ?>;
-   
+   var booking_array_month =  <?php echo json_encode($booking_data) ?>;
     Highcharts.chart('bookingChart', {
         title: {
             text: 'New Bookings'
@@ -141,7 +141,7 @@
             text: ''
         },
          xAxis: {
-            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            categories: booking_array_month,
         },
         yAxis: {
             title: {

@@ -88,17 +88,41 @@ class AdminController extends Controller
         $bookingCount = Booking::where('status', '1')->count();
 
         //return $request;
+        $Second_month = Carbon::now()->startOfMonth()->subMonth(1);
+        $first_month = Carbon::now();
         $users = User::select(\DB::raw("COUNT(*) as count"))
                     ->whereYear('created_at', date('Y'))
+                    ->whereBetween('created_at',[$Second_month,$first_month])
                     ->groupBy(\DB::raw("Month(created_at)"))
                     ->pluck('count');
+        $users_month_value = User::whereYear('created_at', date('Y'))
+                    ->whereBetween('created_at',[$Second_month,$first_month])->get();
+        $mon_data=$users_month_value->pluck('created_at','id')->map->format('F')->unique();
+        $mon[]='';
+         foreach ($mon_data as $k=>$obj)
+                {
 
+                    $mon[]=$obj;
+                }
+        $mon_result = array_diff_key($mon,array_flip((array) ['0']));
+        $users_mon_data=array_values($mon_result);
         $bookings = Booking::select(\DB::raw("COUNT(*) as count"))
                     ->whereYear('created_at', date('Y'))
+                    ->whereBetween('created_at',[$Second_month,$first_month])
                     ->groupBy(\DB::raw("Month(created_at)"))
                     ->pluck('count');            
+       $booking_month_value = Booking::whereYear('created_at', date('Y'))
+                    ->whereBetween('created_at',[$Second_month,$first_month])->get();
+        $booking_mon_data=$booking_month_value->pluck('created_at','id')->map->format('F')->unique();
+        $bookin_mon[]='';
+         foreach ($booking_mon_data as $k=>$obj)
+                {
 
-        return view('admin.home',compact('userCount','bookingCount','users','bookings'));
+                    $bookin_mon[]=$obj;
+                }
+        $booking_mon_result = array_diff_key($bookin_mon,array_flip((array) ['0']));
+        $booking_data=array_values($booking_mon_result);
+        return view('admin.home',compact('userCount','bookingCount','users','bookings','users_mon_data','booking_data'));
     }
 
 

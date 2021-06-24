@@ -50,6 +50,7 @@ class User extends Authenticatable implements JWTSubject
         'user_type',
         'avatar_id',
         'role_id',
+        'module_id',
         'timezone'
     ];
 

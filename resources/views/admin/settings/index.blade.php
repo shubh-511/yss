@@ -80,7 +80,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Logo:</label>
-                                    <input type="file" class="form-control @error('input_img') is-invalid @enderror"  name="input_img">
+                                    <input type="file" class="form-control @error('input_img') is-invalid @enderror"  value="{{$commission->logo_url}}"  name="input_img">
                                     @error('input_img')
                                     <p style="color:red">{{ $errors->first('input_img') }}</p>
                                   @enderror
@@ -103,6 +103,15 @@
                                 <div class="form-group">
                                   <label>Twitter Url:</label>
                                     <input type="text" class="form-control" value="{{$commission->twitter_url}}" name="twitter_url" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Pagination Value:</label>
+                                    <input type="text" class="form-control @error('pagination_value') is-invalid @enderror" value="{{$commission->pagination_value}}" name="pagination_value" required>
+                                    @error('pagination_value')
+                                    <p style="color:red">{{ $errors->first('pagination_value') }}</p>
+                                  @enderror
                                 </div>
                             </div>
                             <div class="col-md-12">

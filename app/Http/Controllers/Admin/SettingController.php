@@ -41,6 +41,7 @@ class SettingController extends Controller
             'stripe_secret' => 'required',
             'stripe_public' => 'required',
             'input_img' => 'required',
+            'pagination_value' => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) 
@@ -57,6 +58,7 @@ class SettingController extends Controller
         $commission->fb_url = $request->fb_url;
         $commission->google_url = $request->google_url;
         $commission->twitter_url = $request->twitter_url;
+        $commission->pagination_value = $request->pagination_value;
          if ($request->hasFile('input_img')) {
         $image = $request->file('input_img');
         $name = time().'.'.$image->getClientOriginalExtension();

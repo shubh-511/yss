@@ -10,6 +10,7 @@ use Google_Client;
 use GoogleCalendarHelper;
 use Google_Service_Calendar;
 use URL;
+use App\GeneralSetting;
 
 class CategoryController extends Controller
 {
@@ -42,7 +43,8 @@ class CategoryController extends Controller
 	}
     Public function categorylist()
     {
-    	$listing_category=ListingCategory::orderBy('id','DESC')->paginate(25);
+      $general_setting= GeneralSetting::where('id','=',1)->first();
+    	$listing_category=ListingCategory::orderBy('id','DESC')->paginate($general_setting->pagination_value);
     	return view('admin.category.index',compact('listing_category'));
     }
     Public function edit($id)

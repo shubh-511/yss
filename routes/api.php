@@ -27,7 +27,7 @@ Route::get('get/listing/region', 'API\ListingController@listingRegion');
 Route::get('get/listing/label', 'API\ListingController@listingLabels');
 Route::get('get/listing/category', 'API\ListingController@listingCategories');
 Route::post('add/listing', 'API\ListingController@createListing');
-
+Route::post('goggle/calender', 'API\CountryController@calender');
 Route::get('search/listing', 'API\ListingController@searchListing');
 
 //Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
@@ -76,9 +76,11 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('make/booking', 'API\BookingController@makeBooking');
 	Route::post('confirm/booking', 'API\BookingController@confirmBooking');
 	Route::get('view/package', 'API\PackageController@viewPackage');
+
         Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
         Route::post('update/review', 'API\ReviewRatingController@updateReview');
         Route::post('goggle/calender', 'API\CountryController@calender');
+
 	
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	Route::get('get/bookings', 'API\BookingController@getBooking');
@@ -88,7 +90,9 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 
 
 	Route::post('create-channel', 'API\ChannelController@createChannel');
+
 	Route::post('accept/or/reject', 'API\ChannelController@acceptOrDecline');
+
 
 	Route::get('waiting-list', 'API\ChannelController@waitingList');
 

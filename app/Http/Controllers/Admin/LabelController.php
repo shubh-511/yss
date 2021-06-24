@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ListingLabel;
 use Validator;
+use App\GeneralSetting;
 
 class LabelController extends Controller
 {
@@ -37,7 +38,8 @@ class LabelController extends Controller
 	}
      Public function labellist()
     {
-    	$listing_label=ListingLabel::orderBy('id','DESC')->paginate(25);
+      $general_setting= GeneralSetting::where('id','=',1)->first();
+    	$listing_label=ListingLabel::orderBy('id','DESC')->paginate($general_setting->pagination_value);
     	return view('admin.label.index',compact('listing_label'));
     }
      public function edit($id)

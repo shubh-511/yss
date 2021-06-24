@@ -1,6 +1,8 @@
 @extends('admin.layouts.app')
 @section('content')
-
+<style type="text/css">
+ .select2-results__option--selected { display: none;}
+</style>
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
@@ -86,6 +88,7 @@ $("#checkbox").click(function()
 {
     if($("#checkbox").is(':checked') ){
         $("#notification-tags > option").prop("selected","selected");
+        
     }else{
         $('#notification-tags> option').prop('selected', false);
      }

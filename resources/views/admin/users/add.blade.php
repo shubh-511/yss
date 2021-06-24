@@ -41,6 +41,24 @@
                     <form action="{{url('login/user/save')}}" method="post">
                     <div class="row">
                         @csrf
+                         <div class="col-md-6">
+                            <label>User Role</label>
+                            <select class="form-control role" name="role">
+                              <option value="">Select Role</option>
+                              @foreach($role_data as $role)
+                              <option value="{{$role->id}}">{{$role->role}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                           <div class="col-md-6">
+                            <label>User Module</label>
+                            <select class="form-control module" name="module[]" multiple>
+                              <option value="">Select Module</option>
+                              @foreach($module_data as $module)
+                              <option value="{{$module->id}}">{{$module->module_name}}</option>
+                              @endforeach
+                            </select>
+                          </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>User name</label>
@@ -78,7 +96,7 @@
                             </div>
                         </div>
                        
-                        <div class="col-md-7">
+                        <div class="col-md-6">
                             <div class="form-group">
                               <label>Timezone</label>
                               <br>
@@ -141,6 +159,14 @@
 <script type="text/javascript">
     $("#timezone-tags").select2({
   tags: false
+});
+  $(".role").select2({
+  tags: false,
+  placeholder: "Select Role"
+});
+  $(".module").select2({
+  tags: false,
+  placeholder: "Select Module"
 });
 </script>
 @endpush
