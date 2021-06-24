@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\ListingReview; 
 use App\Booking;
+use App\CallLog;
 use App\Listing;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,43 @@ class ReviewRatingController extends Controller
     	} 
 	}
 
+	public function updateReview(Request $request)
+	{
+		try
+		{
+			$validator = Validator::make($request->all(), [ 
+	            'review_id' => 'required',
+	            'rating' => 'required'
+		    ]);
+	        if ($validator->fails())
+			{ 
+		        return response()->json(['errors'=>$validator->errors()], $this->successStatus);
+			}
+
+			$user = Auth::user();
+			$checkReview = ListingReview::where('user_id', $user->id)->where('id', $request->review_id)->first();
+			if(!empty($checkReview))
+			{
+				$checkReview->review = $request->review;
+				$checkReview->rating = $request->rating;
+				$checkReview->save(); 
+
+				return response()->json(['success' => true,
+	            					 'listingreview' => $checkReview,
+	            					], $this->successStatus);
+			}
+			else
+			{
+				return response()->json(['success' => false,
+				 						'message' => "Invalid review id",
+										], $this->successStatus);
+			}			
+		}
+		catch(\Exception $e){
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	} 
+	}
+
 	public function checkRatingForListing(Request $request)
 	{
 		try
@@ -68,11 +106,21 @@ class ReviewRatingController extends Controller
 			$listingCounsellor = Listing::where('id', $request->listing_id)->first();
 			if(!empty($listingCounsellor))
 			{
-				$checkIfBooked = Booking::where('user_id', $user->id)->where('counsellor_id', $listingCounsellor->user_id)->first();
+				$chackIfCallDone = '';
+				$checkIfBooked = Booking::where('user_id', $user->id)->where('counsellor_id', $listingCounsellor->user_id)->get();
+				if(count($checkIfBooked) > 0)
+				{
+					foreach($checkIfBooked as $checkIfPackageBooked)
+					{
+						$bookingIds[] = $checkIfPackageBooked->id;
+					}
+
+					$chackIfCallDone = CallLog::whereIn('booking_id', $bookingIds)->where('call_duration','>',0)->first();
+				}
 
 				$checkIfAlreadyReviewed=ListingReview::where('user_id',$user->id)->where('listing_id',$request->listing_id)->first();
 
-				$allowToReview = (!empty($checkIfBooked)) ? 1 : 0;
+				$allowToReview = (!empty($chackIfCallDone)) ? 1 : 0;
 				$ratingFlag = (!empty($checkIfAlreadyReviewed)) ? 1 : 0;
 				
 				return response()->json(['success' => true,

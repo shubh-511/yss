@@ -225,3 +225,18 @@ body .table > tbody > tr > td span.label.label-warning{
 	background: #26416d !important;
 	color: #fff !important;
 }
+
+/*23rd June Styling*/
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+	height: 40px !important;
+}
+#rowbody .card:hover {
+    background: #34558b;
+    color: #fff;
+}
+#rowbody .card{
+	cursor: pointer;
+}
+#rowbody .card:hover .fa-arrow-up:before{
+	color: #fff;
+}

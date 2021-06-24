@@ -76,20 +76,18 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('make/booking', 'API\BookingController@makeBooking');
 	Route::post('confirm/booking', 'API\BookingController@confirmBooking');
 	Route::get('view/package', 'API\PackageController@viewPackage');
-    Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
-    Route::post('goggle/calender', 'API\CountryController@calender');
+        Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
+        Route::post('update/review', 'API\ReviewRatingController@updateReview');
+        Route::post('goggle/calender', 'API\CountryController@calender');
 	
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');
 	Route::get('get/bookings', 'API\BookingController@getBooking');
 	Route::get('get/all/bookings', 'API\BookingController@allBookings');
 	Route::get('get/left/session', 'API\BookingController@leftsession');
-    Route::post('book/left/session', 'API\BookingController@bookleftsession');
+        Route::post('book/left/session', 'API\BookingController@bookleftsession');
 
 
 	Route::post('create-channel', 'API\ChannelController@createChannel');
-    Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
-	Route::post('goggle/calender', 'API\CountryController@calender');
-
 	Route::post('accept/or/reject', 'API\ChannelController@acceptOrDecline');
 
 	Route::get('waiting-list', 'API\ChannelController@waitingList');
