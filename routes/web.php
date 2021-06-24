@@ -32,6 +32,19 @@ Route::get('goggle/calender', 'Admin\CategoryController@getClient');
     Route::get('/users/bulk','Admin\UserController@active')->middleware(isAdminLogin::class);
     Route::get('user/create','Admin\UserController@form')->middleware(isAdminLogin::class);
     Route::post('user/save','Admin\UserController@save')->middleware(isAdminLogin::class);
+    //Role
+    Route::get('/role', 'Admin\RoleController@role')->middleware(isAdminLogin::class);
+	Route::get('/role/create', 'Admin\RoleController@createRole')->middleware(isAdminLogin::class);
+	Route::post('/role/save', 'Admin\RoleController@saveRole')->middleware(isAdminLogin::class);
+	Route::get('/role/edit/{id}', 'Admin\RoleController@editRole')->middleware(isAdminLogin::class);
+	Route::post('/role/update/{id}', 'Admin\RoleController@updateRole')->middleware(isAdminLogin::class);
+
+    //Module
+    Route::get('/module', 'Admin\ModuleController@module')->middleware(isAdminLogin::class);
+    Route::get('/module/create', 'Admin\ModuleController@createModule')->middleware(isAdminLogin::class);
+    Route::post('/module/save', 'Admin\ModuleController@saveModule')->middleware(isAdminLogin::class);
+    Route::get('/module/edit/{id}', 'Admin\ModuleController@editModule')->middleware(isAdminLogin::class);
+	Route::post('/module/update/{id}', 'Admin\ModuleController@updateModule')->middleware(isAdminLogin::class);
     
 //counsellors
 Route::get('/counsellors', 'Admin\CounsellorController@index')->middleware(isAdminLogin::class);

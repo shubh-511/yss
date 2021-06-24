@@ -20,6 +20,8 @@ use App\multilabel;
 use App\Notification;
 use Carbon\Carbon;
 use App\Events\CounsellorRegisterEvent;
+use App\GeneralSetting;
+
 
 class CounsellorController extends Controller
 {
@@ -30,6 +32,7 @@ class CounsellorController extends Controller
      */
     public function index(Request $request)
     {
+        $general_setting= GeneralSetting::where('id','=',1)->first();
         $users = User::where(function ($query) use($request) {
         if ($request->get('status') != null) { 
         $query->where('account_enabled',$request->get('status'));
@@ -45,7 +48,7 @@ class CounsellorController extends Controller
         ->where('account_enabled',$request->get('status'));
     
        } 
-      })->where('role_id','=',2)->orderBy('id','DESC')->paginate(25);
+      })->where('role_id','=',2)->orderBy('id','DESC')->paginate($general_setting->pagination_value);
         return view('admin.counsellor.index',compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }

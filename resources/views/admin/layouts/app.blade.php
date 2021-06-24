@@ -136,7 +136,12 @@
                   </a>
 
                   <ul class="treeview-menu">
-               
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                     <li>
+                    <a href="{{url('login/module')}}">Module</a>
+                    </li>
                     <li>
                     <a href="{{url('login/users')}}">Users</a>
                     </li>
@@ -264,6 +269,12 @@
 
     <script src="{{asset('js/jsRapCalendar.js')}}"></script>
     <script src="{{ asset('js/select2.js')}}"></script>
+    <script>
+       var url = window.location;
+        $('ul.treeview-menu a').filter(function() {
+            return this.href == url;
+        }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
+    </script>
     @stack('select2')
     <script type="text/javascript">
       $( document ).ready(function(){

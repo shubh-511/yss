@@ -47,7 +47,7 @@
                         
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Contact Email Or Url:</label>
+                                  <label>Contact Email Or Url:(Optional)</label>
                                     <input type="text" class="form-control" value="{{$list_data->contact_email_or_url}}" name="contact_email_or_url" placeholder="Contact Email Or Url">
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing label:</label>
-                                  <select  name="listing_label[]" class="form-control" multiple>
+                                  <select  name="listing_label[]" class="form-control label-edit" multiple>
                                        @foreach($list_label as $key => $label)
                                        <option value="{{$label->id}}" {{ ( $label->id == $list_data->listing_label) ? 'selected' : '' }}>{{$label->label_name}}</option>
                                        @endforeach
@@ -102,13 +102,13 @@
                             </div>
                              <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Phone:</label>
+                                  <label>Phone Number:(Optional)</label>
                                     <input type="text" class="form-control" value="{{$list_data->phone}}" name="phone"  placeholder="Phone">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Video Url:</label>
+                                  <label>Video Url:(Optional)</label>
                                     <input type="text" class="form-control" value="{{$list_data->video_url}}" name="video_url"  placeholder="Location">
                                 </div>
                             </div>
@@ -157,13 +157,17 @@
 
 
 @endsection
-
+@push('select2')
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     
         <script src='http://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=AIzaSyCzf8RXQS27SPKYkdq6UMdZV0JctvWNFv0'></script>
-
+  <script>
+  $(".label-edit").select2({
+    tags: false
+    });
+  </script>
     <script>
         $(document).ready(function () {
             $("#latitudeArea").addClass("d-none");
@@ -193,3 +197,4 @@
        $('.ckeditor').ckeditor();
     });
 </script>
+@endpush

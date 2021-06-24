@@ -15,6 +15,7 @@ use App\multilabel;
 use App\ListingGallery;
 use App\Events\UserRegisterEvent;
 use App\Events\ListingEvent;
+use App\GeneralSetting;
 
 class AdminListingController extends Controller
 {
@@ -28,6 +29,7 @@ class AdminListingController extends Controller
      */ 
     public function getListings(Request $request) 
     {
+         $general_setting= GeneralSetting::where('id','=',1)->first();
          if ($request->get('email') != null && $request->get('listing_name') != null) 
           {
                 $listings = Listing::with('user')->whereHas('user', function ($query) use ($request)
@@ -36,7 +38,7 @@ class AdminListingController extends Controller
                 })->whereHas('user', function ($query) use ($request)
                {
                  $query->where('listing_name', 'LIKE', '%' . $request->get('listing_name') . '%');
-                })->orderBy('id','DESC')->paginate(25);
+                })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
                  return view('admin.listings.index',compact('listings'))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
             }
@@ -45,7 +47,7 @@ class AdminListingController extends Controller
               $listings = Listing::with('user')->whereHas('user', function ($query) use ($request)
               {
                 $query->where('email', 'LIKE', '%' . $request->get('email') . '%');
-                 })->orderBy('id','DESC')->paginate(25);
+                 })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
                return view('admin.listings.index',compact('listings'))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
             }
@@ -55,7 +57,7 @@ class AdminListingController extends Controller
                   {
                     $query->where('listing_name', 'like', '%' . $request->get('listing_name') . '%');
                    }
-                 })->orderBy('id','DESC')->paginate(25);
+                 })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
                return view('admin.listings.index',compact('listings'))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
         }

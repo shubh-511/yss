@@ -18,6 +18,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 use App\Notification;
+use App\GeneralSetting;
 use App\LeftSession;
 
 class BookingController extends Controller
@@ -33,6 +34,7 @@ class BookingController extends Controller
     public function bookingList(Request $request) 
     {
         $roleId = Auth::user()->role_id;
+        $general_setting= GeneralSetting::where('id','=',1)->first();
         if($roleId == 1)
         {
 
@@ -57,7 +59,7 @@ class BookingController extends Controller
         })->whereHas('user', function ($query) use ($request)
            {
          $query->where('status', 'LIKE', '%' . $request->get('status') . '%');
-        })->orderBy('id','DESC')->paginate(25);
+        })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
             return view('admin.bookings.index',compact('bookings'));
         }
         if ($request->get('name') != null && $request->get('booking_date') != null) 
@@ -75,7 +77,7 @@ class BookingController extends Controller
             })->whereHas('user', function ($query) use ($request)
            {
          $query->where('booking_date', 'LIKE', '%' . $request->get('booking_date') . '%');
-        })->orderBy('id','DESC')->paginate(25);
+        })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
             return view('admin.bookings.index',compact('bookings'));
         }
         if ($request->get('name') != null && $request->get('status') != null) 
@@ -92,7 +94,7 @@ class BookingController extends Controller
             })->whereHas('user', function ($query) use ($request)
            {
          $query->where('status', 'LIKE', '%' . $request->get('status') . '%');
-        })->orderBy('id','DESC')->paginate(25);
+        })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
             return view('admin.bookings.index',compact('bookings'));
         }
         if ($request->get('name') != null) 
@@ -103,7 +105,7 @@ class BookingController extends Controller
              })->orwhereHas('user', function ($query) use ($request)
            {
          $query->where('name', 'LIKE', '%' . $request->name . '%');
-        })->orderBy('id','DESC')->paginate(25);
+        })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
             return view('admin.bookings.index',compact('bookings'));
         }
         $bookings = Booking::where(function ($query) use($request) {
@@ -119,7 +121,7 @@ class BookingController extends Controller
           $query->where('booking_date', 'like', '%' . $request->get('booking_date') . '%')
           ->where('status',$request->get('status'));
         }
-       })->orderBy('id','DESC')->paginate(25);
+       })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
             return view('admin.bookings.index',compact('bookings'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
         }
@@ -133,7 +135,7 @@ class BookingController extends Controller
              })->orwhereHas('user', function ($query) use ($request)
            {
          $query->where('name', 'LIKE', '%' . $request->name . '%')->where('counsellor_id', Auth::user()->id);
-        })->orderBy('id','DESC')->paginate(25);
+        })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
             return view('admin.bookings.index',compact('bookings'));
         }
         $bookings = Booking::where(function ($query) use($request) {
@@ -149,7 +151,7 @@ class BookingController extends Controller
           $query->where('booking_date', 'like', '%' . $request->get('booking_date') . '%')
           ->where('status',$request->get('status'));
         }
-       })->where('counsellor_id', Auth::user()->id)->orderBy('id','DESC')->paginate(25);
+       })->where('counsellor_id', Auth::user()->id)->orderBy('id','DESC')->paginate($general_setting->pagination_value);
             return view('admin.bookings.index',compact('bookings'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
         }

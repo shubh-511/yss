@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ListingRegion;
 use Validator;
+use App\GeneralSetting;
 
 class RegionController extends Controller
 {
@@ -37,7 +38,8 @@ class RegionController extends Controller
 	}
      Public function regionlist()
     {
-    	$listing_region=ListingRegion::orderBy('id','DESC')->paginate(25);
+      $general_setting= GeneralSetting::where('id','=',1)->first();
+    	$listing_region=ListingRegion::orderBy('id','DESC')->paginate($general_setting->pagination_value);
     	return view('admin.region.index',compact('listing_region'));
     }
      public function edit($id)
