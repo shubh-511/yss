@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-md-3">
                   <label>Status</label>
-                 <select name="status" class="form-control">
+                 <select name="status" class="form-control user-status">
                     <option value="">select</option>
                     <option value="1">Active</option>
                     <option value="0">Account Disabled</option>
@@ -61,7 +61,7 @@
                <div class="col-md-12">
                   <div class="col-md-3">
                   <label>Action</label>
-                 <select name="action" class="form-control" id="action">
+                 <select name="action" class="form-control user-action" id="action">
                     <option disabled selected value>Bulk Action</option>
                     <option value="active">Active</option>
                     <option value="disabled">Account Disabled</option>
@@ -173,3 +173,13 @@ function myFunction() {
             });
 }
 </script>
+@push('select2')
+<script>
+$(".user-status").select2({
+  tags: false
+});
+$(".user-action").select2({
+  tags: false
+});
+</script>
+@endpush

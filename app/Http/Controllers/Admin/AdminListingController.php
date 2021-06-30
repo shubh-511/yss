@@ -16,9 +16,11 @@ use App\ListingGallery;
 use App\Events\UserRegisterEvent;
 use App\Events\ListingEvent;
 use App\GeneralSetting;
+use App\Traits\CheckPermission;
 
 class AdminListingController extends Controller
 {
+    use CheckPermission;
     public $successStatus = 200;
 	
 
@@ -29,6 +31,7 @@ class AdminListingController extends Controller
      */ 
     public function getListings(Request $request) 
     {
+         $module_name=$this->permission(Auth::user()->id);
          $general_setting= GeneralSetting::where('id','=',1)->first();
          if ($request->get('email') != null && $request->get('listing_name') != null) 
           {
@@ -39,7 +42,7 @@ class AdminListingController extends Controller
                {
                  $query->where('listing_name', 'LIKE', '%' . $request->get('listing_name') . '%');
                 })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-                 return view('admin.listings.index',compact('listings'))
+                 return view('admin.listings.index',compact('listings','module_name'))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
             }
           if ($request->get('email') != null) 
@@ -48,7 +51,7 @@ class AdminListingController extends Controller
               {
                 $query->where('email', 'LIKE', '%' . $request->get('email') . '%');
                  })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-               return view('admin.listings.index',compact('listings'))
+               return view('admin.listings.index',compact('listings','module_name'))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
             }
 
@@ -58,7 +61,7 @@ class AdminListingController extends Controller
                     $query->where('listing_name', 'like', '%' . $request->get('listing_name') . '%');
                    }
                  })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-               return view('admin.listings.index',compact('listings'))
+               return view('admin.listings.index',compact('listings','module_name'))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
         }
 
@@ -69,10 +72,11 @@ class AdminListingController extends Controller
      */ 
     public function getListingDetails($listingId='') 
     {
+        $module_name=$this->permission(Auth::user()->id);
         $listing = Listing::with('user','listing_category','listing_region')->where('id',$listingId)->first();
         $gallery_data=ListingGallery::where('listing_id',$listingId)->get();
         $label_data=multilabel::where('listing_id',$listingId)->get();
-        return view('admin.listings.detail',compact('listing','label_data','gallery_data'));
+        return view('admin.listings.detail',compact('listing','label_data','gallery_data','module_name'));
         
     }
 

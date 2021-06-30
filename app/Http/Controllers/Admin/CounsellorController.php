@@ -21,10 +21,13 @@ use App\Notification;
 use Carbon\Carbon;
 use App\Events\CounsellorRegisterEvent;
 use App\GeneralSetting;
+use App\Traits\CheckPermission;
+
 
 
 class CounsellorController extends Controller
 {
+    use CheckPermission;
     /**
      * Display a listing of the resource.
      *
@@ -32,6 +35,7 @@ class CounsellorController extends Controller
      */
     public function index(Request $request)
     {
+        $module_name=$this->permission(Auth::user()->id);
         $general_setting= GeneralSetting::where('id','=',1)->first();
         $users = User::where(function ($query) use($request) {
         if ($request->get('status') != null) { 
@@ -49,7 +53,7 @@ class CounsellorController extends Controller
     
        } 
       })->where('role_id','=',2)->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-        return view('admin.counsellor.index',compact('users'))
+        return view('admin.counsellor.index',compact('users','module_name'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -61,10 +65,11 @@ class CounsellorController extends Controller
      */
     public function create()
     {
+        $module_name=$this->permission(Auth::user()->id);
         $list_category=ListingCategory::where('status', '1')->get();
         $list_region=ListingRegion::where('status', '1')->get();
         $list_label=ListingLabel::where('status', '1')->get();
-        return view('admin.counsellor.add',compact('list_category','list_region','list_label'));
+        return view('admin.counsellor.add',compact('list_category','list_region','list_label','module_name'));
     }
 
       public function active(Request $request)
@@ -220,11 +225,13 @@ class CounsellorController extends Controller
      */
     public function show($id)
     { 
+        $module_name=$this->permission(Auth::user()->id);
         $user = User::find($id);
-        return view('admin.counsellor.show',compact('user'));
+        return view('admin.counsellor.show',compact('user','module_name'));
     }
     public function revenue(Request $request,$id)
     {
+        $module_name=$this->permission(Auth::user()->id);
         if ($request->get('year') != null && $request->get('month') != null) {
 
         $month_data=DB::table('bookings')
@@ -247,7 +254,7 @@ class CounsellorController extends Controller
              $users_mon_data=array_values($mon_result);
               if($users_mon_data==array())
              {
-                return view('admin.counsellor.blankrevenue');
+                return view('admin.counsellor.blankrevenue',compact('module_name'));
              }
             $u_data=DB::table('bookings')
             ->Join('payments','payments.id','=','bookings.payment_id')
@@ -267,7 +274,7 @@ class CounsellorController extends Controller
         }
              $result = array_diff_key($data,array_flip((array) ['0']));
              $users_data=array_values($result);
-             return view('admin.counsellor.revenue',compact('users_data','users_mon_data'));
+             return view('admin.counsellor.revenue',compact('users_data','users_mon_data','module_name'));
             }     
          else if ($request->get('year') != null) {
 
@@ -290,7 +297,7 @@ class CounsellorController extends Controller
              $users_mon_data=array_values($mon_result);
              if($users_mon_data==array())
              {
-                return view('admin.counsellor.blankrevenue');
+                return view('admin.counsellor.blankrevenue',compact('module_name'));
              }
              
             $u_data=DB::table('bookings')
@@ -310,7 +317,7 @@ class CounsellorController extends Controller
         }
              $result = array_diff_key($data,array_flip((array) ['0']));
              $users_data=array_values($result);
-             return view('admin.counsellor.revenue',compact('users_data','users_mon_data'));
+             return view('admin.counsellor.revenue',compact('users_data','users_mon_data','module_name'));
             }     
 
          
@@ -334,7 +341,7 @@ class CounsellorController extends Controller
         }
            if($array == array())
              {
-                return view('admin.counsellor.blankrevenue');
+                return view('admin.counsellor.blankrevenue',compact('module_name'));
              }
              $mon_result = array_diff_key($mon,array_flip((array) ['0']));
              $users_mon_data=array_values($mon_result);
@@ -356,7 +363,7 @@ class CounsellorController extends Controller
         }
          $result = array_diff_key($data,array_flip((array) ['0']));
          $users_data=array_values($result);
-             return view('admin.counsellor.revenue',compact('users_data','users_mon_data'));
+             return view('admin.counsellor.revenue',compact('users_data','users_mon_data','module_name'));
             }        
     }
 
@@ -368,8 +375,9 @@ class CounsellorController extends Controller
      */
     public function profile()
     { 
+        $module_name=$this->permission(Auth::user()->id);
         $user = Auth::user();
-        return view('admin.users.profile',compact('user'));
+        return view('admin.users.profile',compact('user','module_name'));
     }
 
     /**
@@ -412,9 +420,10 @@ class CounsellorController extends Controller
      */
     public function edit($id)
     {
+        $module_name=$this->permission(Auth::user()->id);
         $user = User::find($id);
         $userRole = $user->roles->pluck('name','name')->all();
-        return view('admin.counsellor.edit',compact('user','userRole'));
+        return view('admin.counsellor.edit',compact('user','userRole','module_name'));
     }
 
 
@@ -466,14 +475,14 @@ class CounsellorController extends Controller
     }
     public function listedit($id)
     {
-       
+        $module_name=$this->permission(Auth::user()->id);
         $list_category=ListingCategory::where('status', '1')->get();
         $list_region=ListingRegion::where('status', '1')->get();
         $list_label=ListingLabel::where('status', '1')->get();
         $list_data=Listing::where('id',$id)->first();
         $gallery_data=ListingGallery::where('listing_id',$list_data->id)->get();
         $multilabel=multilabel::where('listing_id',$list_data->id)->get();
-       return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label','gallery_data','multilabel'));
+       return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label','gallery_data','multilabel','module_name'));
     }
     public function listupdate(Request $request, $id)
     {

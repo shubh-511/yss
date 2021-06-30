@@ -43,21 +43,15 @@
                         @csrf
                          <div class="col-md-6">
                             <label>User Role</label>
-                            <select class="form-control role" name="role">
+                            <select class="form-control role @error('role') is-invalid @enderror" name="role">
                               <option value="">Select Role</option>
                               @foreach($role_data as $role)
                               <option value="{{$role->id}}">{{$role->role}}</option>
                               @endforeach
                             </select>
-                          </div>
-                           <div class="col-md-6">
-                            <label>User Module</label>
-                            <select class="form-control module" name="module[]" multiple>
-                              <option value="">Select Module</option>
-                              @foreach($module_data as $module)
-                              <option value="{{$module->id}}">{{$module->module_name}}</option>
-                              @endforeach
-                            </select>
+                            @error('role')
+                                <p style="color:red">{{ $errors->first('role') }}</p>
+                              @enderror
                           </div>
                         <div class="col-md-6">
                             <div class="form-group">

@@ -186,3 +186,13 @@ function myFunction() {
             });
 }
 </script>
+@push('select2')
+<script>
+$(".counsellor-status").select2({
+  tags: false
+});
+$(".counsellor-action").select2({
+  tags: false
+});
+</script>
+@endpush

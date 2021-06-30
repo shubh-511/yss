@@ -38,7 +38,7 @@
                           <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Status:</label>
-                                   <select name="status" class="form-control ">
+                                   <select name="status" class="form-control add-label">
                                         <option value="1">Active</option>
                                         <option value="0">InActive</option>
                                     </select>
@@ -65,3 +65,10 @@
         </div>
 </div>
 @endsection
+@push('select2')
+<script>
+$(".add-label").select2({
+  tags: false
+});
+</script>
+@endpush

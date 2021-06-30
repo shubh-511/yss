@@ -111,7 +111,7 @@
                           <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Category:</label>
-                                  <select name="listing_category" class="form-control">
+                                  <select name="listing_category" class="form-control select-category">
                                     <option>select</option>
                                        @foreach($list_category as $category)
                                        <option value="{{$category->id}}">{{$category->category_name}}</option>
@@ -132,7 +132,7 @@
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Region:</label>
-                                  <select name="listing_region" class="form-control">
+                                  <select name="listing_region" class="form-control select-region">
                                        <option>select</option>
                                        @foreach($list_region as $region)
                                        <option value="{{$region->id}}">{{$region->region_name}}</option>
@@ -261,6 +261,13 @@
   $(".label").select2({
   tags: false
 });
+$(".select-category").select2({
+  tags: false
+});
+$(".select-region").select2({
+  tags: false
+});
+
 </script>
 @endpush
 

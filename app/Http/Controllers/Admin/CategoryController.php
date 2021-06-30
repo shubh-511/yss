@@ -5,18 +5,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ListingCategory;
 use Validator;
-use App\Services\GoogleCalendar;
-use Google_Client;
-use GoogleCalendarHelper;
-use Google_Service_Calendar;
 use URL;
 use App\GeneralSetting;
+use App\Traits\CheckPermission;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+  use CheckPermission;
 	Public function create()
 	{
-		return view('admin.category.add');
+    $module_name=$this->permission(Auth::user()->id);
+		return view('admin.category.add','module_name');
 	}
    
 	Public function save( Request $request)
@@ -43,14 +43,16 @@ class CategoryController extends Controller
 	}
     Public function categorylist()
     {
+      $module_name=$this->permission(Auth::user()->id);
       $general_setting= GeneralSetting::where('id','=',1)->first();
     	$listing_category=ListingCategory::orderBy('id','DESC')->paginate($general_setting->pagination_value);
-    	return view('admin.category.index',compact('listing_category'));
+    	return view('admin.category.index',compact('listing_category','module_name'));
     }
     Public function edit($id)
     {
+      $module_name=$this->permission(Auth::user()->id);
     	$category_edit=ListingCategory::where('id',$id)->first();
-    	return view('admin.category.edit',compact('category_edit'));
+    	return view('admin.category.edit',compact('category_edit','module_name'));
     }
     Public function update(Request $request, $id)
     {

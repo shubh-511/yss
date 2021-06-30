@@ -7,12 +7,16 @@ use App\Http\Controllers\Controller;
 use App\ListingLabel;
 use Validator;
 use App\GeneralSetting;
+use App\Traits\CheckPermission;
+use Illuminate\Support\Facades\Auth;
 
 class LabelController extends Controller
 {
+    use CheckPermission;
     Public function create()
 	{
-		return view('admin.label.add');
+    $module_name=$this->permission(Auth::user()->id);
+		return view('admin.label.add',compact('module_name'));
 	}
 	Public function save( Request $request)
 	{
@@ -38,14 +42,16 @@ class LabelController extends Controller
 	}
      Public function labellist()
     {
+      $module_name=$this->permission(Auth::user()->id);
       $general_setting= GeneralSetting::where('id','=',1)->first();
     	$listing_label=ListingLabel::orderBy('id','DESC')->paginate($general_setting->pagination_value);
-    	return view('admin.label.index',compact('listing_label'));
+    	return view('admin.label.index',compact('listing_label','module_name'));
     }
      public function edit($id)
     {
+      $module_name=$this->permission(Auth::user()->id);
     	$label_edit=ListingLabel::where('id',$id)->first();
-    	return view('admin.label.edit',compact('label_edit'));
+    	return view('admin.label.edit',compact('label_edit','module_name'));
     }
     Public function update(Request $request, $id)
     {

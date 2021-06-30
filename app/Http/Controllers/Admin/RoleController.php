@@ -7,18 +7,25 @@ use App\Http\Controllers\Controller;
 use App\Role;
 use Validator;
 use App\GeneralSetting;
+use App\Module;
+use App\RoleModule;
+use App\Traits\CheckPermission;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
+  use CheckPermission;
     public function role()
     {
+        $module_name=$this->permission(Auth::user()->id);
         $general_setting= GeneralSetting::where('id','=',1)->first();
         $role_data=Role::orderBy('id','DESC')->paginate($general_setting->pagination_value);
-        return view('admin.role.index',compact('role_data'));
+        return view('admin.role.index',compact('role_data','module_name'));
     }
     public function createRole(Request $request)
     {
-        return view('admin.role.add');
+        $module_name=$this->permission(Auth::user()->id);
+        return view('admin.role.add',compact('module_name'));
     }
    public function saveRole(Request $request)
    {
@@ -49,8 +56,9 @@ class RoleController extends Controller
     }
     public function editRole($id)
     {
+            $module_name=$this->permission(Auth::user()->id); 
             $edit_role=Role::where('id',$id)->first();
-            return view('admin.role.edit',compact('edit_role'));
+            return view('admin.role.edit',compact('edit_role','module_name'));
 
     }
     public function updateRole(Request $request, $id)
@@ -78,5 +86,52 @@ class RoleController extends Controller
         {
          return redirect()->back()->with('err_message','Something went wrong!');
         }
+    }
+    public function rolePrivilege()
+    {
+      $module_name=$this->permission(Auth::user()->id);
+       $general_setting= GeneralSetting::where('id','=',1)->first();
+       $r_module=Module::orderBy('id','DESC')->get();
+       $r_role=Role::orderBy('id','DESC')->get();
+       $module_permission=RoleModule::get();
+       $module_arr = array();
+         foreach($module_permission as $permission)
+          {
+            $module_arr[] = $permission->role_id;
+          }
+           $unique_data_role = array_unique($module_arr);
+           $module_id=RoleModule::whereIn('role_id',$unique_data_role)->get();
+           return view('admin.privilege.index',compact('r_module','r_role','unique_data_role','module_id','module_name'));  
+    }
+    public function savePrivilege(Request $request)
+    {
+      $module_name=$this->permission(Auth::user()->id);
+      $role_data=Role::whereNotIn('role',['counsellor'])->get();
+      $module_data=Module::get();
+      return view('admin.privilege.add',compact('role_data','module_data','module_name'));
+    }
+    public function storePrivilege(Request $request)
+    {
+        try
+        {
+           foreach ($request->module as $module) 
+            {
+                $module_data=new RoleModule;
+                $module_data->role_id=$request->role;
+                $module_data->module_id=$module;
+                $module_data->save();
+            }
+            return redirect('login/role/privilege')->with('success','Module added successfully');
+        }
+       catch(\Exception $e)
+        {
+         return redirect()->back()->with('err_message','Something went wrong!');
+        }
+    }
+    public function updatePrivilege(Request $request)
+    {
+        $module_id=$request->module_id;
+        print_r($module_id);
+        die;
     }
 }
