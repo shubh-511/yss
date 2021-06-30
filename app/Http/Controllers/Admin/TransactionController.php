@@ -26,17 +26,31 @@ class TransactionController extends Controller
 	                {
                        if ($request->get('counsellor') != null) 
                        { 
-						 $query->where('counsellor_id','=',$request->get('counsellor'));
-						}
-						if ($request->get('date') != null) 
-                        { 
-						 $query->where('booking_date','<=',Carbon::now())->where('booking_date','>=',Carbon::now()->subDays($request->get('date')));
-						}
+			  $query->where('counsellor_id','=',$request->get('counsellor'));
+			}
+			if ($request->get('date') != null) 
+                          { 
+                              if ($request->get('date') == 0)
+                               {
+				 $query->whereDate('booking_date','=',date('Y-m-d'));
+                                }
+                                else
+                                {
+                                 $query->where('booking_date','<=',Carbon::now())->where('booking_date','>=',Carbon::now()->subDays($request->get('date')));
+                                }
+			}
 
 		                if ($request->get('counsellor') != null && $request->get('date') != null) 
 		                {
-			             $query->where('counsellor_id','=',$request->counsellor)->where('booking_date','<=',Carbon::now())->where('booking_date','>=',Carbon::now()->subDays($request->get('date')));
-			            }
+                                    if ($request->get('counsellor') != null && $request->get('date') == 0)
+                                     {
+			               $query->whereDate('booking_date','=',date('Y-m-d'));
+                                      }
+                                     else
+                                     {
+          	                      $query->where('counsellor_id','=',$request->counsellor)->where('booking_date','<=',Carbon::now())->where('booking_date','>=',Carbon::now()->subDays($request->get('date')));
+			             }
+                                 }
                    })->whereNotIn('payment_id',['0'])->orderBy('id','DESC')->paginate($general_setting->pagination_value);
 	               return view('admin.transaction.index',compact('bookings','counsellor_data','payment_data'))
 	            ->with('i', ($request->input('page', 1) - 1) * 5);

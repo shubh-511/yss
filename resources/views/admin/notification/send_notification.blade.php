@@ -3,17 +3,14 @@
 <style type="text/css">
  .select2-results__option--selected { display: none;}
 </style>
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-            <h2>Send Notification</h2>
-        </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ url('login/dashboard') }}"> Back</a>
-        </div>
+<div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title">Send Notification</h3>
+    </div>
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ url('login/dashboard') }}">Back</a>
     </div>
 </div>
-
 
 @if (count($errors) > 0)
   <div class="alert alert-danger">
@@ -36,7 +33,7 @@
     <div class="col-xs-12">
     <!-- Default box -->
         <div class="box">
-            <div class="box-header">
+            <div class="box-header send--noti">
                 <form action="{{url('login/send')}}" method="post">
                     @csrf
                     <div class="row">
@@ -66,7 +63,7 @@
                         
                         
                          
-                        <div class="col-md-6">
+                        <div class="col-md-12 text-right">
                             <button type="submit" class="btn btn-primary">Send</button>
                         </div>
                     </div>

@@ -2,11 +2,20 @@
 
 @section('content')
 
+<!-- <div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title" for="inputEmail">Roles</h3>
+    </div>
+    <div class="pull-right">
+        <a href="{{url('login/role/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Role</a>
+    </div>
+</div> -->
+
 <div class="row">
   <div class="col-xs-12">
     <!-- Default box -->
       <div class="box">
-          <div class="box-header">
+          <!-- <div class="box-header">
             
              <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4">
@@ -30,16 +39,16 @@
             </ul>
           </div>
         </div>
-          </div>
+          </div> -->
           <div class="box-body">
-            <div class="row">
-                <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Roles</h3>
-                </div>
-                 <div class="col-md-6">
-                  <a href="{{url('login/role/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Role</a>
-                </div>
-            </div>
+            <div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title" for="inputEmail">Roles</h3>
+    </div>
+    <div class="pull-right">
+        <a href="{{url('login/role/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Role</a>
+    </div>
+</div>
             <div class="row">
               <div class="col-sm-12">
                 <table id="table" class="table table-bordered table-striped">

@@ -106,7 +106,7 @@ class ReviewRatingController extends Controller
 			$listingCounsellor = Listing::where('id', $request->listing_id)->first();
 			if(!empty($listingCounsellor))
 			{
-				$chackIfCallDone = '';
+				$chackIfCallDone = 0;
 				$checkIfBooked = Booking::where('user_id', $user->id)->where('counsellor_id', $listingCounsellor->user_id)->get();
 				if(count($checkIfBooked) > 0)
 				{

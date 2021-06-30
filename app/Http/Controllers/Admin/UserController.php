@@ -150,16 +150,9 @@ class UserController extends Controller
             $user_data->email = strtolower($request->email);
             $user_data->password = bcrypt($request->password);
             $user_data->timezone = $request->timezone;
-            $user_data->role_id = $request->role;
+            $user_data->role_id = "3";
             $user_data->account_enabled = '1';
             $user_data->save();
-            foreach ($request->module as $module) 
-            {
-                $module_data=new RoleModule;
-                $module_data->role_id=$request->role;
-                $module_data->module_id=$module;
-                $module_data->save();
-            }
             event(new CounsellorRegisterEvent($user_data->id, $request->password));
 
             return redirect('login/users')->with('success','User added successfully');

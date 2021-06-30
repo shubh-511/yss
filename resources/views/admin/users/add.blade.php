@@ -2,7 +2,17 @@
 
 
 @section('content')
-<div class="row">
+
+<div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title">Create User</h3>
+    </div>
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ url('login/users') }}"> Back</a>
+    </div>
+</div>
+
+<!-- <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2></h2>
@@ -11,7 +21,7 @@
             <a class="btn btn-primary" href="{{ url('login/users') }}"> Back</a>
         </div>
     </div>
-</div>
+</div> -->
 
 <?php /*@if (count($errors) > 0)
   <div class="alert alert-danger">
@@ -32,33 +42,15 @@
             <div class="box-header">
               
                 <div class="modal-content">
-                  <div class="modal-header">
+                  <!-- <div class="modal-header">
                     
                     <h4 class="modal-title">Create User</h4>
-                  </div>
+                  </div> -->
                   <div class="modal-body">
                     
                     <form action="{{url('login/user/save')}}" method="post">
                     <div class="row">
                         @csrf
-                         <div class="col-md-6">
-                            <label>User Role</label>
-                            <select class="form-control role" name="role">
-                              <option value="">Select Role</option>
-                              @foreach($role_data as $role)
-                              <option value="{{$role->id}}">{{$role->role}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                           <div class="col-md-6">
-                            <label>User Module</label>
-                            <select class="form-control module" name="module[]" multiple>
-                              <option value="">Select Module</option>
-                              @foreach($module_data as $module)
-                              <option value="{{$module->id}}">{{$module->module_name}}</option>
-                              @endforeach
-                            </select>
-                          </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>User name</label>
@@ -112,7 +104,7 @@
                           </div>
                         <div class="col-md-12">
                           <div class="form-group">
-                            <button style="float: right;" name="addcounsellor" type="submit" class="btn btn-primary ">Save</button>
+                            <button  name="addcounsellor" type="submit" class="btn btn-primary ">Save</button>
                           </div>
                         </div>
                         

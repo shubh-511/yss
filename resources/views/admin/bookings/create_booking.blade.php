@@ -21,11 +21,6 @@
   <div class="col-xs-12">
     <!-- Default box -->
       <div class="box">
-          <div class="box-header">
-            
-             
-          
-          </div>
           <div class="box-body">
             <div class="row">
                 <div class="col-md-12">
@@ -33,6 +28,7 @@
 
                     <div class="form-group">
                     <h4 class="control-label nopadding " style="margin-bottom: 25px;">1. Select counsellor and user from droplist you want to make booking:</h4>
+                    <div class="row">
                      <div class="col-md-6">
                       <label>Select Counsellor</label>
                          <select id="select-counsellor" class="form-control counsellor-tags">
@@ -57,6 +53,7 @@
                         </select>
                       
                       </div>
+                    </div>
                   </div>
                 </div>
       

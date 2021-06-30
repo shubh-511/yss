@@ -1,6 +1,13 @@
 @extends('admin.layouts.app')
 @section('content')
+
+
 <div class="row">
+  <div class="col-xs-12">
+    <!-- Default box -->
+      <div class="box">
+	   <div class="box-body">
+		<div class="row">
 	        <form method="get" url="{{('/counsellors/revenue/')}}" enctype="multipart/form-data">
                <div class="col-md-4">
                  <label>Select Year</label>
@@ -31,12 +38,12 @@
                  	<option value="12">December</option>
                  </select>
              </div>
-             <br>
-             
+			 
              <div class="col-md-4">
-                  <input type="submit" class="btn btn-primary" value="Filter" onclick="clickFunction()">
-                </div>
-                </form>
+				<label>&nbsp;</label>
+				<input type="submit" class="btn btn-primary" value="Filter" onclick="clickFunction()">
+			 </div>
+			</form>
              <br>
              <div class="col-md-12">
                 <div class="col-md-4">
@@ -52,6 +59,10 @@
              <div id="revenueChart"></div>
             </div>
         </div>
+	   </div>
+	  </div>
+	</div>
+</div>
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
   <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>

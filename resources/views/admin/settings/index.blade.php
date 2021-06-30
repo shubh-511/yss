@@ -2,17 +2,14 @@
 
 
 @section('content')
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-            <h2></h2>
-        </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ url('login/dashboard') }}"> Back</a>
-        </div>
+<div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title">General settings</h3>
+    </div>
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ url('login/dashboard') }}"> Back</a>
     </div>
 </div>
-
 
 
 @if(Session::has('err_message'))
@@ -28,9 +25,9 @@
             <div class="box-header">
 
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <!-- <div class="modal-header">
                         <h4 class="modal-title">General settings</h4>
-                    </div>
+                    </div> -->
                     <div class="modal-body">
                         <form action="{{url('login/settings/update-commission')}}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -84,8 +81,9 @@
                                     @error('input_img')
                                     <p style="color:red">{{ $errors->first('input_img') }}</p>
                                   @enderror
+								  
+									<span style="margin-top: 1em;display: inline-block;"><img src="{{ asset('logo/'.$commission['logo_url']) }}" width="50px" height="50px"></span>
                                 </div>
-                                <span><img src="{{ asset('logo/'.$commission['logo_url']) }}" width="50px" height="50px"></span>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

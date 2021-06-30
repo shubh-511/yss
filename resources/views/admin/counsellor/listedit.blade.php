@@ -54,7 +54,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing Category:</label>
-                                   <select name="listing_category" class="form-control ">
+                                   <select name="listing_category" class="form-control select-category-edit">
                                     @foreach($list_category as $key =>$category)
                                        <option value="{{$category->id}} " {{ ( $category->id == $list_data->listing_category) ? 'selected' : '' }}>{{$category->category_name}}</option>
                                        @endforeach
@@ -65,7 +65,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing Region:</label>
-                                  <select name="listing_region" class="form-control ">
+                                  <select name="listing_region" class="form-control select-region-edit">
                                        @foreach($list_region as $key =>$region)
                                        <option value="{{$region->id}}" {{ ($region->id == $list_data->listing_region) ? 'selected' : '' }}>{{$region->region_name}}</option>
                                        @endforeach
@@ -85,7 +85,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Status:</label>
-                                  <select name="status" class="form-control ">
+                                  <select name="status" class="form-control edit-list-status">
                                       
                                        <option value="1">Active</option>
                                        <option value="0">InActive</option>
@@ -164,10 +164,24 @@
     
         <script src='http://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=AIzaSyCzf8RXQS27SPKYkdq6UMdZV0JctvWNFv0'></script>
   <script>
-  $(".label-edit").select2({
-    tags: false
-    });
-  </script>
+@push('select2')
+<script type="text/javascript">
+    $(".label-edit").select2({
+  tags: false
+});
+$(".select-category-edit").select2({
+  tags: false
+});
+$(".select-region-edit").select2({
+  tags: false
+});
+$(".edit-list-status").select2({
+  tags: false
+});
+</script>
+@endpush
+
+
     <script>
         $(document).ready(function () {
             $("#latitudeArea").addClass("d-none");

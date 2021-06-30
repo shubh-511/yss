@@ -267,7 +267,7 @@ class UserController extends Controller
 	        $user = User::create($input); 
 	        
 	        //Send Register Email
-	        event(new UserRegisterEvent($user->id));
+	        //event(new UserRegisterEvent($user->id));
 
 	        return response()->json(['success' => true,
 	            					 'user' => $user,

@@ -55,7 +55,7 @@ class SendNotificationController extends Controller
                     $notif->sender = 1;
                     $notif->receiver = $data->id;
                     $notif->title = $request->title;
-                    $notif->body = $request->body;
+                    $notif->body = strip_tags($request->body);
                     $notif->created_at =Carbon::now($data->timezone)->toDateTimeString();
                     $notif->save();
                 }

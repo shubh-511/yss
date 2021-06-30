@@ -2,7 +2,17 @@
 
 
 @section('content')
-<div class="row">
+
+<div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title">Edit User: #{{$user->id}}</h3>
+    </div>
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ url('login/users') }}">Back</a>
+    </div>
+</div>
+
+<!-- <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2>Edit User</h2>
@@ -11,7 +21,7 @@
             <a class="btn btn-primary" href="{{ url('login/users') }}"> Back</a>
         </div>
     </div>
-</div>
+</div> -->
 
 
 @if (count($errors) > 0)
@@ -35,9 +45,6 @@
     <!-- Default box -->
             <div class="box-header">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit User: #{{$user->id}}</h4>
-                    </div>
                     <div class="modal-body">
                         <form action="{{url('login/users/update',[$user->id])}}" method="post">
                         @csrf

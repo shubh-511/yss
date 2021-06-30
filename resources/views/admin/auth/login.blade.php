@@ -130,5 +130,32 @@ html .login-page {
     font-size: 1.17rem;
     font-weight: 700;
 }
+.form-group .form-control:focus {
+    border-color: #26416d;
+}
+.checkbox.icheck .icheckbox_square-blue, .iradio_square-blue {
+    background-image: none;
+    border: 1px solid #ddd;
+}
+/*.checkbox.icheck .icheckbox_square-blue:before {
+    content: "";
+    background-position: 0 0;
+    width: 1.7em;
+    height: 1.7em;
+    border: 1px solid #ddd;
+}*/
+.checkbox.icheck .icheckbox_square-blue:hover{
+  border: 1px solid #26416d;
+}
+.checkbox.icheck .icheckbox_square-blue.checked::after {
+    content: "\f00c";
+    font-family: fontawesome;
+    font-weight: 100;
+}
+.checkbox.icheck .icheckbox_square-blue.checked{
+    border: 1px solid #26416d;
+    background: #26416d;
+    color: #fff;
+}
 </style>
 

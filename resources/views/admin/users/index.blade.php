@@ -2,92 +2,76 @@
 
 @section('content')
 
+
 <div class="row">
   <div class="col-xs-12">
     <!-- Default box -->
       <div class="box">
-          <div class="box-header">
-            
-             <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                        
-                    </div>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                       
-                    </div>
-                </div>
-                
-            </div>
-          </form>
-          <div class="row ">
-          <div class="col-md-12">
-            <ul class="pagination pagination-sm" style="margin: 0 0 5px 0;">
-            
-                
-            </ul>
-          </div>
-        </div>
-          </div>
+		<div class="box-header">
+			<div class="pull-left">
+				<h3 class="box-title">Users</h3>
+			</div>
+			<div class="pull-right">
+				<a href="{{url('login/user/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add user</a>
+			</div>
+		</div>
           <div class="box-body">
-            <div class="row">
-                 <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
-                  
-                </div>
+            <div class="">
+                <!--<div class="title">
+                  <h4>Search</h4>
+                </div>-->
               <form method="get" url="{{('/users')}}" enctype="multipart/form-data">
-              <div class="col-md-12">
+                <div class="row">
                 <div class="col-md-3">
+				  <div class="form-group">
                   <label>Name Or Email</label>
                   <input type="text" class="form-control" name="email" placeholder="Search by name or email">
+                  </div>
                 </div>
                 <div class="col-md-3">
-                  <label>Status</label>
-                 <select name="status" class="form-control">
+                  <div class="form-group">
+				  <label>Status</label>
+                 <select name="status" class="form-control user-status">
                     <option value="">select</option>
                     <option value="1">Active</option>
                     <option value="0">Account Disabled</option>
                     <option value="3">Pending for verification</option>
                   </select>
+                  </div>
                 </div>
-                <br>
+				
                 <div class="col-md-3">
-                  <input type="submit" class="btn btn-primary" value="Filter">
+                  <div class="form-group">
+					<label>&nbsp;</label>
+				    <input type="submit" class="btn btn-primary" value="Filter">
+                  </div>
                 </div>
-                </div>
+              </div>
               </form>
-               <div class="col-md-12">
+               <div class="">
+                <div class="row">
                   <div class="col-md-3">
+				  <div class="form-group">
                   <label>Action</label>
-                 <select name="action" class="form-control" id="action">
+                 <select name="action" class="form-control user-action" id="action">
                     <option disabled selected value>Bulk Action</option>
                     <option value="active">Active</option>
                     <option value="disabled">Account Disabled</option>
                     <option value="verification">Pending for verification</option>
                     <option value="delete">Delete</option>
                   </select>
+				  </div>
               </div>
-              <br>
+			  
               <div class="col-md-3">
-                  <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+                <div class="form-group">  
+				  <label>&nbsp;</label>
+				  <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+                </div>
                 </div>
               </div>
-           
-              
-                <br>
-                <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Users</h3>
-                  
-                </div>
-                <div class="col-md-6">
-                  <a href="{{url('login/user/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add user</a>
-                </div>
+              </div>
             </div>
-            
-            <div class="row">
-              <div class="col-sm-12">
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -124,16 +108,9 @@
                       @endforelse
                   </tbody>
               </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-5">
-              <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($users->currentpage()-1)*$users->perpage()+1}} to {{$users->currentpage()*$users->perpage()}}
-    of  {{$users->total()}} entries</div>
-            </div>
-            <div class="col-sm-7">{{ $users->links() }}</div>
-          </div>
-        
+				<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($users->currentpage()-1)*$users->perpage()+1}} to {{$users->currentpage()*$users->perpage()}}
+				of  {{$users->total()}} entries</div>
+				<div class="text-center">{{ $users->links() }}</div>        
       </div>
 
       <!-- /.box -->
@@ -173,3 +150,13 @@ function myFunction() {
             });
 }
 </script>
+ @push('select2')
+<script>
+$(".user-status").select2({
+  tags: false
+});
+$(".user-action").select2({
+  tags: false
+});
+</script>
+@endpush

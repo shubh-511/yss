@@ -1,41 +1,20 @@
 @extends('admin.layouts.app')
 @section('content')
+
+
 <div class="row">
   <div class="col-xs-12">
     <!-- Default box -->
       <div class="box">
-          <div class="box-header">
-            
-             <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                        
-                    </div>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                       
-                    </div>
-                </div>
-                
-            </div>
-          </form>
-          <div class="row ">
-          <div class="col-md-12">
-            <ul class="pagination pagination-sm" style="margin: 0 0 5px 0;">
-            
-                
-            </ul>
-          </div>
-        </div>
-          </div>
+		<div class="box-header">
+			<div class="pull-left">
+				<h3 class="box-title">Bookings</h3>
+			</div>
+		</div>
           <div class="box-body">
             <div class="row">
-                 <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
-                  
-                </div>
               <form method="get" url="{{('/transaction')}}" enctype="multipart/form-data">
+                <div class="row">
               <div class="col-md-12">
                 <div class="col-md-3">
                   <label>Counsellor Name</label>
@@ -48,7 +27,7 @@
                 </div>
                 <div class="col-md-3">
                   <label>Date</label>
-                 <select name="date" class="form-control">
+                 <select name="date" class="form-control transaction-action">
                     <option value="">select</option>
                     <option value="0">Today</option>
                     <option value="7">Past 7 days</option>
@@ -56,26 +35,19 @@
                     <option value="90">Past 90 days</option>
                   </select>
                 </div>
-                <br>
+				
                 <div class="col-md-3">
+				  <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
-                </div>
-              </form>
-                <br>
-                <div class="col-md-12">
-                   <div class="col-md-3">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Bookings</h3>
-                </div>
-                 <div class="col-md-6">
-                 </div>
-                  <div class="col-md-3">
+				<div class="col-md-3 ">
+				  <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" onclick="Myfunction()" value="Download Report">
                 </div>
                 </div>
+              </div>
+              </form>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -107,16 +79,9 @@
                       @endforelse
                   </tbody>
               </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-5">
-              <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($bookings->currentpage()-1)*$bookings->perpage()+1}} to {{$bookings->currentpage()*$bookings->perpage()}}
+			  <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($bookings->currentpage()-1)*$bookings->perpage()+1}} to {{$bookings->currentpage()*$bookings->perpage()}}
               of  {{$bookings->total()}} entries</div>
-            </div>
-            <div class="col-sm-7">{{ $bookings->links() }}</div>
-          </div>
-        
+			  <div class="text-center">{{ $bookings->links() }}</div>
       </div>
 
       <!-- /.box -->
@@ -165,6 +130,9 @@ function Myfunction()
 $(".transaction").select2({
   tags: false,
   placeholder: "Select Counsellor"
+});
+$(".transaction-action").select2({
+  tags: false
 });
   </script>
   @endpush

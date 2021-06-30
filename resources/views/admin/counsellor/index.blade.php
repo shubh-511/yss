@@ -7,37 +7,21 @@
     <!-- Default box -->
       <div class="box">
           <div class="box-header">
-            
-             <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                        
-                    </div>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                       
-                    </div>
-                </div>
-                
-            </div>
-          </form>
-          <div class="row ">
-          <div class="col-md-12">
-            <ul class="pagination pagination-sm" style="margin: 0 0 5px 0;">
-            
-                
-            </ul>
-          </div>
-        </div>
-          </div>
+			<div class="pull-left">
+				<h3 class="box-title">Counsellors</h3>
+			</div>
+			<div class="pull-right">
+				<a href="{{url('login/counsellors/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Counsellor</a>
+			</div>
+		  </div>
           <div class="box-body">
             <div class="row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
                   
-                </div>
+                </div> -->
               <form method="get" url="{{('/counsellors')}}" enctype="multipart/form-data">
+                <div class="row">
               <div class="col-md-12">
                 <div class="col-md-3">
                   <label>Name Or Email</label>
@@ -45,107 +29,94 @@
                 </div>
                 <div class="col-md-3">
                   <label>Status</label>
-                 <select name="status" class="form-control">
+                 <select name="status" class="form-control counsellor-status">
                    <option value="">select</option>
                     <option value="1">Active</option>
                     <option value="0">Account Disabled</option>
                     <option value="3">Pending for verification</option>
                   </select>
                 </div>
-                <br>
+				
                 <div class="col-md-3">
+				  <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
                 </div>
+              </div>
               </form>
-               <div class="col-md-12">
-                  <div class="col-md-3">
-                  <label>Action</label>
-                 <select name="action" class="form-control" id="action">
-                    <option disabled selected value>Bulk Action</option>
-                    <option value="active">Active</option>
-                    <option value="disabled">Account Disabled</option>
-                    <option value="verification">Pending for verification</option>
-                    <option value="delete">Delete</option>
-                  </select>
+               <div class="col-xs-12">
+                <div class="row">
+					<div class="col-md-3">
+					  <div class="form-group">
+						<label>Action</label>
+						<select name="action" class="form-control counsellor-action" id="action">
+							<option disabled selected value>Bulk Action</option>
+							<option value="active">Active</option>
+							<option value="disabled">Account Disabled</option>
+							<option value="verification">Pending for verification</option>
+							<option value="delete">Delete</option>
+						</select>
+					  </div>
+					</div>
+					
+					<div class="col-md-3">
+					  <div class="form-group">
+					    <label>&nbsp;</label>
+						<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+					  </div>
+					</div>
+				</div>
               </div>
-              <br>
-              <div class="col-md-3">
-                  <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
-                </div>
-              </div>
-           <br>
-                
-                <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Counsellors</h3>
-                  
-                </div>
-                <div class="col-md-6">
-                  <a href="{{url('login/counsellors/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Counsellor</a>
-                </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <table id="table" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th><input type="checkbox" id="check_all_checkbox"></th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Counsellor Type</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      @forelse($users as $user)
-                        <tr id='user{{$user->id}}'>
-                          <th><input type="checkbox" class='sub_chk' value="{{$user->id}}" data-id="{{$user->id}}" name="user_id[]"></th>
-                          <td>{{ $user->name}}</td>
-                          
-                          <td>{{ $user->email}}</td>
-                           <td>
-
-                            <a >
-                              <span class="label  @if($user->counsellor_type == '0') {{'label-success'}} @else {{'label-warning'}} @endif">
-                                @if($user->counsellor_type == '1') {{'Outside Counsellor'}} @elseif($user->counsellor_type == '0') {{'Inside Counsellor'}}  @endif
-                              </span>
-                            </a>
-                          </td> 
-                          <td>
-
-                            <a href="javascript:void();">
-                              <span class="label  @if($user->account_enabled == '1' || $user->account_enabled == '2') {{'label-success'}} @else {{'label-warning'}} @endif">
-                                @if($user->account_enabled == '1' || $user->account_enabled == '2') {{'Active'}} @elseif($user->account_enabled == '0') {{'Account Disabled'}} @elseif($user->account_enabled == '3') {{'Pending for verification'}} @endif
-                              </span>
-                            </a>
-                          </td> 
-                           <td>
-                             <a class="fa fa-desktop" href="{{ url('login/counsellors/show',$user->id) }}" title="View"></a>
-                             <a class="fa fa-edit" href="{{ url('login/counsellors/edit',$user->id) }}" title="Edit"></a>
-                             <!-- <a class="fa fa-edit" href="{{ url('login/counsellors/list/listedit',$user->id) }}" title="ListEdit"></a> -->
-                             <a class="fa fa-trash" onClick="deleteCounsellor({{$user->id}})" title="Delete"></a>
-                              <a class="fa fa-ils" href="{{ url('login/counsellors/revenue',$user->id) }}" title="Revenue"></a>
-                          </td>
-                          
-                        </tr>
-                      @empty
-                          <tr>
-                          <td colspan="3" class="text-center">No records found</td>
-                        </tr>
-                      @endforelse
-                  </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-5">
-              <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($users->currentpage()-1)*$users->perpage()+1}} to {{$users->currentpage()*$users->perpage()}}
-    of  {{$users->total()}} entries</div>
-            </div>
-            <div class="col-sm-7">{{ $users->links() }}</div>
-          </div>
-        
+			<table id="table" class="table table-bordered table-striped">
+				<thead>
+					<tr>
+					<th><input type="checkbox" id="check_all_checkbox"></th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Counsellor Type</th>
+					<th>Status</th>
+					<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@forelse($users as $user)
+					<tr id='user{{$user->id}}'>
+						<th><input type="checkbox" class='sub_chk' value="{{$user->id}}" data-id="{{$user->id}}" name="user_id[]"></th>
+						<td>{{ $user->name}}</td>
+						<td>{{ $user->email}}</td>
+						<td>
+							<a>
+								<span class="label  @if($user->counsellor_type == '0') {{'label-success'}} @else {{'label-warning'}} @endif">
+								@if($user->counsellor_type == '1') {{'Outside Counsellor'}} @elseif($user->counsellor_type == '0') {{'Inside Counsellor'}}  @endif
+								</span>
+							</a>
+						</td> 
+						<td>
+							<a href="javascript:void();">
+								<span class="label  @if($user->account_enabled == '1' || $user->account_enabled == '2') {{'label-success'}} @else {{'label-warning'}} @endif">
+								@if($user->account_enabled == '1' || $user->account_enabled == '2') {{'Active'}} @elseif($user->account_enabled == '0') {{'Account Disabled'}} @elseif($user->account_enabled == '3') {{'Pending for verification'}} @endif
+								</span>
+							</a>
+						</td> 
+						<td>
+							<a class="fa fa-desktop" href="{{ url('login/counsellors/show',$user->id) }}" title="View"></a>
+							<a class="fa fa-edit" href="{{ url('login/counsellors/edit',$user->id) }}" title="Edit"></a>
+							<!-- <a class="fa fa-edit" href="{{ url('login/counsellors/list/listedit',$user->id) }}" title="ListEdit"></a> -->
+							<a class="fa fa-trash" onClick="deleteCounsellor({{$user->id}})" title="Delete"></a>
+							<a class="fa fa-ils" href="{{ url('login/counsellors/revenue',$user->id) }}" title="Revenue"></a>
+						</td>
+					</tr>
+					@empty
+					<tr>
+						<td colspan="3" class="text-center">No records found</td>
+					</tr>
+					@endforelse
+				</tbody>
+			</table>
+			<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($users->currentpage()-1)*$users->perpage()+1}} to {{$users->currentpage()*$users->perpage()}}
+			of  {{$users->total()}} entries</div>
+			<div class="text-center">{{ $users->links() }}</div>
       </div>
 
       <!-- /.box -->
@@ -186,3 +157,13 @@ function myFunction() {
             });
 }
 </script>
+@push('select2')
+<script>
+$(".counsellor-status").select2({
+  tags: false
+});
+$(".counsellor-action").select2({
+  tags: false
+});
+</script>
+@endpush

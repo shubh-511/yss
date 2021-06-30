@@ -6,40 +6,17 @@
   <div class="col-xs-12">
     <!-- Default box -->
       <div class="box">
-          <div class="box-header">
-            
-             <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                        
-                    </div>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                       
-                    </div>
-                </div>
-                
-            </div>
-          </form>
-          <div class="row ">
-          <div class="col-md-12">
-            <ul class="pagination pagination-sm" style="margin: 0 0 5px 0;">
-            
-                
-            </ul>
-          </div>
-        </div>
-          </div>
+		<div class="box-header">
+			<div class="pull-left">
+				<h3 class="box-title">Listings</h3>
+			</div>
+		</div>
+
           <div class="box-body">
             <div class="row">
                 
-                 <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
-                  
-                </div>
               <form method="get" url="{{('/listings')}}" enctype="multipart/form-data">
-              
+              <div class="row">
                 <div class="col-md-12">
                 <div class="col-md-5">
                   <label>Listing Name</label>
@@ -49,30 +26,35 @@
                   <label>Created By</label>
                   <input type="text" class="form-control" name="email" placeholder="Search created by">
                 </div>
-                
-                <br>
+				
                 <div class="col-md-2">
+				  <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
                 </div>
+              </div>
               </form>
               <div class="col-md-12">
+                <div class="row">
                   <div class="col-md-5">
+				  <div class="form-group">
                   <label>Bulk Action</label>
-                 <select name="action" class="form-control" id="listdel">
+                 <select name="action" class="form-control listing-action" id="listdel">
                    <option value="enable">Enabled</option>
                    <option value="disable">Disable</option>
                   </select>
+				  </div>
               </div>
-               <br>
+			  
               <div class="col-md-2">
+				<div class="form-group">
+				  <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+				</div>
                 </div>
               </div>
-              <br>
+              </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -91,10 +73,10 @@
                         <tr id='booking{{$listing->id}}'>
                           <th><input type="checkbox" class='sub_chk' value="{{$listing->id}}" data-id="{{$listing->id}}" name="listing_id[]"></th>
                           <td>{{ $listing->listing_name ?? ''}}</td>
-                          <td>{{ $listing->phone ?? ''}}</td>
+                          <td style="width: 15rem; word-break: break-word;">{{ $listing->phone ?? ''}}</td>
                           <td>{{ $listing->listing_category->category_name ?? ''}}</td>
                           <td>{{ $listing->user->email ?? ''}}</td>
-                          <td>{{ date('j F, Y', strtotime($listing->created_at)) }}</td>
+                          <td style="width: 12rem; word-break: break-word;">{{ date('j F, Y', strtotime($listing->created_at)) }}</td>
                           <td>
                             <!-- <a href="javascript:" onclick="update_status('{{ $listing->id}}',{{abs($listing->status-1)}})"> -->
                               <span class="label  @if($listing->status!='0') {{'label-success'}} @else {{'label-warning'}} @endif">
@@ -118,17 +100,9 @@
                         </tr>
                       @endforelse
                   </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-5">
-              <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($listings->currentpage()-1)*$listings->perpage()+1}} to {{$listings->currentpage()*$listings->perpage()}}
-    of  {{$listings->total()}} entries</div>
-            </div>
-            <div class="col-sm-7">{{ $listings->links() }}</div>
-          </div>
-        
+              </table><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($listings->currentpage()-1)*$listings->perpage()+1}} to {{$listings->currentpage()*$listings->perpage()}}
+			  of  {{$listings->total()}} entries</div>
+			  <div class="text-center">{{ $listings->links() }}</div>
       </div>
 
       <!-- /.box -->
@@ -182,3 +156,10 @@
             });
 }
 </script>
+@push('select2')
+<script>
+$(".listing-action").select2({
+  tags: false
+});
+</script>
+@endpush

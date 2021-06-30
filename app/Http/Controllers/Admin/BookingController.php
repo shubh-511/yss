@@ -240,10 +240,10 @@ class BookingController extends Controller
                 </div>
                 <div class='col-md-12'>";
                   
-                
+                $i=1;
                 foreach($packages as $package)
                 {
-                      echo "<div class='col-lg-4 col-md-12 mb-4'>
+                      echo "<div class='col-lg-4 col-md-12 mb-4' id=".$i.">
                         
                         <div class='card' onClick=getAppointment($package->id,$package->no_of_slots)>
 
@@ -274,8 +274,16 @@ class BookingController extends Controller
                         </div>
                         
                        
-                      </div>";
-                }
+                      </div>"; ?>
+
+<script>
+    $('div #<?php echo $i; ?>').click(function(e) {
+        e.preventDefault();
+        $('div').removeClass('active');
+        $(this).addClass('active');
+    });
+</script>
+                <?php $i++; }
                     echo "</div>";
             }
             else
