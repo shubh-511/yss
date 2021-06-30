@@ -23,9 +23,11 @@ use Hash;
 use Validator;
 use App\Events\CounsellorRegisterEvent;
 use App\GeneralSetting;
+use App\Traits\CheckPermission;
 
 class UserController extends Controller
 {
+      use CheckPermission;
     /**
      * Display a listing of the resource.
      *
@@ -33,6 +35,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $module_name=$this->permission(Auth::user()->id);
         $general_setting= GeneralSetting::where('id','=',1)->first();
         $users = User::where(function ($query) use($request) {
         if ($request->get('status') != null) { 
@@ -50,7 +53,7 @@ class UserController extends Controller
     
        }
       })->where('role_id','=',3)->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-        return view('admin.users.index',compact('users'))
+        return view('admin.users.index',compact('users','module_name'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -62,14 +65,16 @@ class UserController extends Controller
      */
     public function create()
     {
+        $module_name=$this->permission(Auth::user()->id);
         $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        return view('users.create',compact('roles','module_name'));
     }
     public function form()
     {
+     $module_name=$this->permission(Auth::user()->id);   
      $role_data=Role::whereNotIn('role',['counsellor'])->get();
      $module_data=Module::get();
-     return view('admin.users.add',compact('role_data','module_data'));
+     return view('admin.users.add',compact('role_data','module_data','module_name'));
     }
     public function active(Request $request)
     {
@@ -137,6 +142,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'timezone' => 'required',
+            'role'=>  'required',
             ]);
 
             if ($validator->fails()) 
@@ -174,8 +180,9 @@ class UserController extends Controller
      */
     public function show($id)
     { 
+        $module_name=$this->permission(Auth::user()->id);
         $user = User::find($id);
-        return view('admin.users.show',compact('user'));
+        return view('admin.users.show',compact('user','module_name'));
     }
 
     /**
@@ -186,8 +193,9 @@ class UserController extends Controller
      */
     public function profile()
     { 
+        $module_name=$this->permission(Auth::user()->id);
         $user = Auth::user();
-        return view('admin.users.profile',compact('user'));
+        return view('admin.users.profile',compact('user','module_name'));
     }
 
     /**
@@ -274,11 +282,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $module_name=$this->permission(Auth::user()->id);
         $user = User::find($id);
         $role_data=Role::whereNotIn('role',['counsellor'])->get();
         $module_data=Module::get();
         //$userRole = $user->roles->pluck('name','name')->all();
-        return view('admin.users.edit',compact('user','role_data','module_data'));
+        return view('admin.users.edit',compact('user','role_data','module_data','module_name'));
     }
 
 

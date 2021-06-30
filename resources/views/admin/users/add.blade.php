@@ -51,6 +51,20 @@
                     <form action="{{url('login/user/save')}}" method="post">
                     <div class="row">
                         @csrf
+
+                         <div class="col-md-6">
+                            <label>User Role</label>
+                            <select class="form-control role @error('role') is-invalid @enderror" name="role">
+                              <option value="">Select Role</option>
+                              @foreach($role_data as $role)
+                              <option value="{{$role->id}}">{{$role->role}}</option>
+                              @endforeach
+                            </select>
+                            @error('role')
+                                <p style="color:red">{{ $errors->first('role') }}</p>
+                              @enderror
+                          </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>User name</label>

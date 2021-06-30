@@ -449,9 +449,11 @@ $(".select-category").select2({
 $(".select-region").select2({
   tags: false
 });
-$(".select-counsellor").select2({
+
+/*$(".select-counsellor").select2({
   tags: false
-});
+});*/
+
 </script>
 @endpush
 

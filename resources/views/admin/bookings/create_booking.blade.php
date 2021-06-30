@@ -131,6 +131,7 @@ var counsellorId = $(this).find(':selected').data("counsellor");
 
 function getAppointment(packageId,slot)
 {
+
   var userId = $( "#select-user" ).find(':selected').data("user");
   var counsellorId = $( "#select-counsellor" ).find(':selected').data("counsellor");
 
@@ -152,6 +153,7 @@ function getAppointment(packageId,slot)
         $('.demo').jsRapCalendar({
           week:6,
           onClick:function(y,m,d){
+            
             m=m+1;
             if(m<10)
             {
@@ -210,6 +212,8 @@ function getAppointment(packageId,slot)
 
 $(document).on('change', '.checklist', function() {
 var checkedNum = $('input.checklist:checked').length
+var package = $('#packageToBook').val();
+$('#package-selected').text(package);
 $('#resultids').text(checkedNum);
       if (checkedNum > 0) {
           

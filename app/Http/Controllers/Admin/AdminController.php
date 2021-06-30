@@ -4,25 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User; 
+use App\User;
+use App\Role; 
 use App\Booking;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use App\Traits\CheckPermission;
 //use App\Events\UserRegisterEvent;
 
 class AdminController extends Controller
 {
+    use CheckPermission;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
+    
     /***
     login page
     ***/
@@ -41,22 +40,26 @@ class AdminController extends Controller
     ***/
     public function adminLogin(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [ 
             'email' => 'required', 
             'password' => 'required',
-        ]);
 
+        ]);
+        
         if ($validator->fails()) 
         { 
             return redirect()->back()->with('err_message',$validator->messages()->first());
         }
-
+         $role_id=Role::pluck('id')->toArray();
         if(Auth::attempt([
                 'email' => $request->email,
                 'password' => $request->password,
-                'role_id' => [1,2],
+                'role_id' => $role_id,
             ]))
         {
+            
+
             return redirect('login/dashboard');
         } 
         else
@@ -81,7 +84,8 @@ class AdminController extends Controller
                     ->pluck('count'); 
                     $date = \Carbon\Carbon::now();
              $month_name=$date->format('F');
-            return view('admin.counsellor.home',compact('bookingCount','bookings','month_name'));
+             $module_name=$this->permission(Auth::user()->id);
+            return view('admin.counsellor.home',compact('bookingCount','bookings','month_name','module_name'));
 
         }
         $userCount = User::where('role_id','!=',1)->count();
@@ -122,7 +126,8 @@ class AdminController extends Controller
                 }
         $booking_mon_result = array_diff_key($bookin_mon,array_flip((array) ['0']));
         $booking_data=array_values($booking_mon_result);
-        return view('admin.home',compact('userCount','bookingCount','users','bookings','users_mon_data','booking_data'));
+        $module_name=$this->permission(Auth::user()->id);
+        return view('admin.home',compact('userCount','bookingCount','users','bookings','users_mon_data','booking_data','module_name'));
     }
 
 

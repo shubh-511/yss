@@ -29,8 +29,9 @@
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <div class="form-group">
-				  <label>Status</label>
+
+                  <label>Status</label>
+
                  <select name="status" class="form-control user-status">
                     <option value="">select</option>
                     <option value="1">Active</option>
@@ -150,7 +151,9 @@ function myFunction() {
             });
 }
 </script>
+
  @push('select2')
+
 <script>
 $(".user-status").select2({
   tags: false

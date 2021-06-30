@@ -20,9 +20,11 @@ use App\Events\UserRegisterEvent;
 use App\Notification;
 use App\GeneralSetting;
 use App\LeftSession;
+use App\Traits\CheckPermission;
 
 class BookingController extends Controller
 {
+    use CheckPermission;
     public $successStatus = 200;
 	
 
@@ -33,6 +35,7 @@ class BookingController extends Controller
      */ 
     public function bookingList(Request $request) 
     {
+        $module_name=$this->permission(Auth::user()->id);
         $roleId = Auth::user()->role_id;
         $general_setting= GeneralSetting::where('id','=',1)->first();
         if($roleId == 1)
@@ -60,7 +63,7 @@ class BookingController extends Controller
            {
          $query->where('status', 'LIKE', '%' . $request->get('status') . '%');
         })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-            return view('admin.bookings.index',compact('bookings'));
+            return view('admin.bookings.index',compact('bookings','module_name'));
         }
         if ($request->get('name') != null && $request->get('booking_date') != null) 
           {
@@ -78,7 +81,7 @@ class BookingController extends Controller
            {
          $query->where('booking_date', 'LIKE', '%' . $request->get('booking_date') . '%');
         })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-            return view('admin.bookings.index',compact('bookings'));
+            return view('admin.bookings.index',compact('bookings','module_name'));
         }
         if ($request->get('name') != null && $request->get('status') != null) 
           {
@@ -95,7 +98,7 @@ class BookingController extends Controller
            {
          $query->where('status', 'LIKE', '%' . $request->get('status') . '%');
         })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-            return view('admin.bookings.index',compact('bookings'));
+            return view('admin.bookings.index',compact('bookings','module_name'));
         }
         if ($request->get('name') != null) 
           {
@@ -106,7 +109,7 @@ class BookingController extends Controller
            {
          $query->where('name', 'LIKE', '%' . $request->name . '%');
         })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-            return view('admin.bookings.index',compact('bookings'));
+            return view('admin.bookings.index',compact('bookings','module_name'));
         }
         $bookings = Booking::where(function ($query) use($request) {
         if ($request->get('status') != null) { 
@@ -122,7 +125,7 @@ class BookingController extends Controller
           ->where('status',$request->get('status'));
         }
        })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-            return view('admin.bookings.index',compact('bookings'))
+            return view('admin.bookings.index',compact('bookings','module_name'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
         }
         else
@@ -136,7 +139,7 @@ class BookingController extends Controller
            {
          $query->where('name', 'LIKE', '%' . $request->name . '%')->where('counsellor_id', Auth::user()->id);
         })->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-            return view('admin.bookings.index',compact('bookings'));
+            return view('admin.bookings.index',compact('bookings','module_name'));
         }
         $bookings = Booking::where(function ($query) use($request) {
         if ($request->get('status') != null) { 
@@ -152,7 +155,7 @@ class BookingController extends Controller
           ->where('status',$request->get('status'));
         }
        })->where('counsellor_id', Auth::user()->id)->orderBy('id','DESC')->paginate($general_setting->pagination_value);
-            return view('admin.bookings.index',compact('bookings'))
+            return view('admin.bookings.index',compact('bookings','module_name'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
         }
     	
@@ -215,9 +218,10 @@ class BookingController extends Controller
      */
     public function createBooking()
     {
+        $module_name=$this->permission(Auth::user()->id);
         $users = User::where('role_id','=',3)->orderBy('id','DESC')->get();
         $counsellors = User::where('role_id','=',2)->orderBy('id','DESC')->get();
-        return view('admin.bookings.create_booking',compact('users','counsellors'));
+        return view('admin.bookings.create_booking',compact('users','counsellors','module_name'));
     }
 
     /**
@@ -259,8 +263,9 @@ class BookingController extends Controller
                               <strong>Session: </strong>".$package->no_of_slots."
                               
                             </h5>
+                            
                              <h5 class='font-weight-bold mb-0'>
-                              <strong>Seleted: </strong><span id='packageToBook'></span>
+                              <strong>Seleted: </strong><span id='resultids'></span>
                               
                             </h5>
                            

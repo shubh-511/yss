@@ -7,12 +7,16 @@ use App\Http\Controllers\Controller;
 use App\ListingRegion;
 use Validator;
 use App\GeneralSetting;
+use App\Traits\CheckPermission;
+use Illuminate\Support\Facades\Auth;
 
 class RegionController extends Controller
 {
+  use CheckPermission;
 	Public function create()
 	{
-		return view('admin.region.add');
+    $module_name=$this->permission(Auth::user()->id);
+		return view('admin.region.add',compact('module_name'));
 	}
 	Public function save( Request $request)
 	{
@@ -38,14 +42,16 @@ class RegionController extends Controller
 	}
      Public function regionlist()
     {
+      $module_name=$this->permission(Auth::user()->id);
       $general_setting= GeneralSetting::where('id','=',1)->first();
     	$listing_region=ListingRegion::orderBy('id','DESC')->paginate($general_setting->pagination_value);
-    	return view('admin.region.index',compact('listing_region'));
+    	return view('admin.region.index',compact('listing_region','module_name'));
     }
      public function edit($id)
     {
+      $module_name=$this->permission(Auth::user()->id);
     	$region_edit=ListingRegion::where('id',$id)->first();
-    	return view('admin.region.edit',compact('region_edit'));
+    	return view('admin.region.edit',compact('region_edit','module_name'));
     }
     Public function update(Request $request, $id)
     {

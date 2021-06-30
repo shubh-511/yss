@@ -10,9 +10,11 @@ use App\Notification;
 use Validator;
 use Event;
 use Carbon\Carbon;
+use App\Traits\CheckPermission;
 
 class SendNotificationController extends Controller
 {
+    use CheckPermission; 
     public $successStatus = 200;
 	
     /**
@@ -23,8 +25,9 @@ class SendNotificationController extends Controller
      */
     public function sendNotification(Request $request)
     {
+        $module_name=$this->permission(Auth::user()->id);
     	$users = User::where('role_id','!=',1)->get();
-    	return view('admin.notification.send_notification',compact('users'));
+    	return view('admin.notification.send_notification',compact('users','module_name'));
     }
 
 

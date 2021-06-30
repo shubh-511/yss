@@ -10,9 +10,11 @@ use Auth;
 use Hash;
 use Validator;
 use File;
+use App\Traits\CheckPermission;
 
 class SettingController extends Controller
 {
+     use CheckPermission;
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +22,9 @@ class SettingController extends Controller
      */
     public function index(Request $request)
     {
+        $module_name=$this->permission(Auth::user()->id);
         $commission = GeneralSetting::where('id','=',1)->first();
-        return view('admin.settings.index',compact('commission'));
+        return view('admin.settings.index',compact('commission','module_name'));
     }
 
 
