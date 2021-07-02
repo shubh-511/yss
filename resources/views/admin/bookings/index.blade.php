@@ -84,7 +84,7 @@
                             <div class="modal-content">
                               <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Appointment/Payment Details</h4>
+                                <h3 class="modal-title" style="font-weight: 600;">Appointment/Payment Details</h3>
                               </div>
                               <div class="modal-body">
                                 
@@ -124,8 +124,7 @@
 
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label style="border-bottom: 1px solid #c3bcbc;
-                                      margin-top: 8px;">Payment Details</label>
+                                      <h3 class="modal-title" style="border-bottom: 1px solid #c3bcbc; margin-top: 8px; font-weight: 600;">Payment Details</h3>
                                     </div>
                                   </div>
                                   @if($booking->created_by == 1)
@@ -150,7 +149,7 @@
                                   <div class="col-md-6">
                                       <div class="form-group">
                                           <label>Amount paid</label>
-                                          
+                                          <label class="form-control"></label>
                                       </div>
                                   </div>
                                   <div class="col-md-6">

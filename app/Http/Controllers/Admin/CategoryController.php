@@ -16,7 +16,7 @@ class CategoryController extends Controller
 	Public function create()
 	{
     $module_name=$this->permission(Auth::user()->id);
-		return view('admin.category.add','module_name');
+		return view('admin.category.add',compact('module_name'));
 	}
    
 	Public function save( Request $request)

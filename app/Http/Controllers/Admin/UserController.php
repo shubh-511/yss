@@ -156,7 +156,7 @@ class UserController extends Controller
             $user_data->email = strtolower($request->email);
             $user_data->password = bcrypt($request->password);
             $user_data->timezone = $request->timezone;
-            $user_data->role_id = "3";
+            $user_data->role_id = $request->role;
             $user_data->account_enabled = '1';
             $user_data->save();
             event(new CounsellorRegisterEvent($user_data->id, $request->password));

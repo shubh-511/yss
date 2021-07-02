@@ -125,15 +125,6 @@
                               <label>Timezone:</label>
                               <label class="form-control">{{$listing->user->timezone}}</label>
                             </div>
-                        </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Cover Image:</label>
-                             <br>
-                      <span><img src="{{ "http://178.62.24.141/dev/".$listing->cover_img }}" width="50px" height="50px"></span>
-                       </div>
-                        </div>
-                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Gallery Image</label>
                               <br>
@@ -141,6 +132,13 @@
                                <span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
                                @endforeach
                             </div>
+							<div class="form-group">
+								<label>Cover Image:</label>
+								<br>
+								<span>
+									<img src="{{ "http://178.62.24.141/dev/".$listing->cover_img }}" width="50px" height="50px">
+								</span>
+							</div>
                         </div>
                        
                     </div>

@@ -10,7 +10,7 @@
 	   <div class="box-body">
 		   <div class="row">
 	        <form method="get" url="{{('/counsellors/revenue/')}}" enctype="multipart/form-data">
-               <div class="col-md-4">
+               <div class="col-md-4 col-lg-5">
                  <label>Select Year</label>
                  <select name="year" class="form-control" onchange="myFunction()" id="revenue">
                  	@php  $this_year = date("Y");
@@ -21,7 +21,7 @@
                     @endphp
                   </select>
              </div>
-             <div class="col-md-4">
+             <div class="col-md-4 col-lg-5">
                  <label>Select Month</label>
                  <select name="month" class="form-control">
                  	<option disabled selected value>select</option>
@@ -40,7 +40,7 @@
                  </select>
              </div>
 			 
-             <div class="col-md-4">
+             <div class="col-md-4 col-lg-2">
 				<label>&nbsp;</label>
 				<input type="submit" class="btn btn-primary" value="Filter" onclick="clickFunction()">
 			 </div>

@@ -8,7 +8,7 @@
       <div class="box">
 		<div class="box-header">
 			<div class="pull-left">
-				<h3 class="box-title">Bookings</h3>
+				<h3 class="box-title">Transaction</h3>
 			</div>
 		</div>
           <div class="box-body">

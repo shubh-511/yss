@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select User Or Counsellor:</label><br>
+                                <label>Select User Or Counsellor:</label>
                                 <input type="checkbox" id="checkbox" >Select All
                                 <select name="user[]" class="form-control" id="notification-tags" multiple>
                                     @foreach($users as $user)

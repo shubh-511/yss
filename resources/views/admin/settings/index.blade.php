@@ -82,7 +82,7 @@
                                     <p style="color:red">{{ $errors->first('input_img') }}</p>
                                   @enderror
 								  
-									<span style="margin-top: 1em;display: inline-block;"><img src="{{ asset('logo/'.$commission['logo_url']) }}" width="50px" height="50px"></span>
+									<span style="position: absolute;right: 1.5em;z-index: 1;top: 2.125em;"><img src="{{ asset('logo/'.$commission['logo_url']) }}" width="40px" height="40px"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">

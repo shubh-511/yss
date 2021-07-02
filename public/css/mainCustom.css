@@ -1,3 +1,7 @@
+body.skin-blue .wrapper, 
+body.skin-blue .left-side{
+	background: #ecf0f5;
+}
 body a{
 	color: #34558b;
 }
@@ -163,6 +167,9 @@ body .table > thead > tr > td,
 body .table > thead > tr > th{
 	padding: 1.5rem 1rem;
 	vertical-align: middle;
+}
+body .table > tbody > tr > td:last-child{
+	min-width: 10rem;
 }
 form input.form-control, 
 body input[type="submit"].btn {
@@ -377,9 +384,6 @@ html body.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active
 	background: #34558b !important;
 	border: #34558b !important;
 }
-.form-group label + br {
-    display: none;
-}
 .form-group .select2-container--default .select2-selection--multiple{
 	margin-bottom: 1.5em;
 }
@@ -505,17 +509,39 @@ body a.btn.btn-primary:active{
 form div .form-group + span img{
 	margin-bottom: 1.5em;
 }
+.content .alert {
+	/*position: absolute;
+	top: 4.625em;
+	right: 1em;
+	z-index: 99999;*/
+	max-width: 40em;
+	width: 100%;
+    border: none;
+	font-weight: 600;
+}
 .alert.alert-success.alert-block {
     background: #fff !important;
-    border-color: #34558b;
     color: #34558b !important;
 }
+.content .alert.alert-danger {
+    background: #fff !important;
+    color: #f00 !important;
+}
+/*.content .alert + .row,
+.content .alert + .box-header{
+	margin-top: 4.5em;
+}*/
 body .box-header:empty{
 	padding-top: 0;
 }
 div.revenue__block {
     border: 1px solid #d2d6de;
+	padding: 1.5rem;
 }
 div.revenue__block:empty {
     border: none;
+}
+div.revenue__block .highcharts-container,
+div.revenue__block .highcharts-root{
+	max-width: 100%;
 }

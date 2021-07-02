@@ -16,17 +16,22 @@
 </div>
 @endif
 
+
+<div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title">Edit List: #{{$list_data->id}}</h3>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-xs-12">
     <!-- Default box -->
         
-            <div class="box-header">
+            <div class="box">
 
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit List: #{{$list_data->id}}</h4>
-                    </div>
-                    <div class="modal-body">
+                <div class="box-body">
+                    <div class="">
                         <form action="{{url('login/counsellors/list/update',[$list_data->id])}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
@@ -112,26 +117,6 @@
                                     <input type="text" class="form-control" value="{{$list_data->video_url}}" name="video_url"  placeholder="Location">
                                 </div>
                             </div>
-                             <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Cover Image</label>
-                              <input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
-                               @error('cover_img')
-                                <p style="color:red">{{ $errors->first('cover_img') }}</p>
-                              @enderror
-
-                            </div>
-                             <span><img src="{{ "http://178.62.24.141/dev/".$list_data->cover_img }}" width="50px" height="50px"></span>
-                           </div>
-                            <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Gallery Image</label>
-                              <input type="file" name="gallery_images[]"  class="form-control" multiple>
-                              @foreach($gallery_data as $gallery)
-                               <span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
-                               @endforeach
-                            </div>
-                        </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Description:</label>
@@ -139,6 +124,26 @@
 
                                 </div>
                             </div>
+                            <div class="col-md-6">
+								<div class="form-group">
+									<label>Cover Image</label>
+									<input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
+									<br>
+									@error('cover_img')
+									<p style="color:red">{{ $errors->first('cover_img') }}</p>
+									@enderror
+									<span><img src="{{ "http://178.62.24.141/dev/".$list_data->cover_img }}" width="50px" height="50px"></span>
+								</div>
+								
+								<div class="form-group">
+									<label>Gallery Image</label>
+									<input type="file" name="gallery_images[]"  class="form-control" multiple>
+									<br>
+									@foreach($gallery_data as $gallery)
+									<span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
+									@endforeach
+								</div>
+							</div>
                             <div class="col-md-12">
                               <div class="form-group">
                                 <button style="float:right;" name="editcounsellor" type="submit" class="btn btn-primary ">Update</button>

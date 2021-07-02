@@ -23,7 +23,7 @@
               <form method="get" url="{{('/users')}}" enctype="multipart/form-data">
                 <div class="row">
                 <div class="col-md-3">
-				  <div class="form-group">
+		<div class="form-group">
                   <label>Name Or Email</label>
                   <input type="text" class="form-control" name="email" placeholder="Search by name or email">
                   </div>
@@ -38,13 +38,11 @@
                     <option value="0">Account Disabled</option>
                     <option value="3">Pending for verification</option>
                   </select>
-                  </div>
-                </div>
-				
+                  </div>		
                 <div class="col-md-3">
                   <div class="form-group">
-					<label>&nbsp;</label>
-				    <input type="submit" class="btn btn-primary" value="Filter">
+		   <label>&nbsp;</label>
+		    <input type="submit" class="btn btn-primary" value="Filter">
                   </div>
                 </div>
               </div>
@@ -52,7 +50,7 @@
                <div class="">
                 <div class="row">
                   <div class="col-md-3">
-				  <div class="form-group">
+		 <div class="form-group">
                   <label>Action</label>
                  <select name="action" class="form-control user-action" id="action">
                     <option disabled selected value>Bulk Action</option>
@@ -61,7 +59,7 @@
                     <option value="verification">Pending for verification</option>
                     <option value="delete">Delete</option>
                   </select>
-				  </div>
+	      </div>
               </div>
 			  
               <div class="col-md-3">
