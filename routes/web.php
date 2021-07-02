@@ -40,7 +40,9 @@ Route::group(['prefix'=>'login'], function(){
 	Route::get('/role/privilege', 'Admin\RoleController@rolePrivilege');
 	Route::get('create/privilege', 'Admin\RoleController@savePrivilege');
 	Route::post('/save/privilege', 'Admin\RoleController@storePrivilege');
+	Route::get('/edit/previlege/{id}', 'Admin\RoleController@editPrivilege');
 	Route::post('/update/privilege', 'Admin\RoleController@updatePrivilege');
+	Route::get('/previlege/destroy', 'Admin\RoleController@destroy');
 
     //Module
     Route::get('/module', 'Admin\ModuleController@module');

@@ -101,20 +101,29 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Website:</label>
-                                    <input type="text" class="form-control" value="{{$list_data->website}}" name="website" required placeholder="Website">
+                                  <label>Website Url:(Optional)</label>
+                                    <input type="text" class="form-control @error('website') is-invalid @enderror" value="{{$list_data->website}}" name="website" placeholder="Website">
+                                     @error('website')
+                                     <p style="color:red">{{ $errors->first('website') }}</p>
+                                    @enderror
                                 </div>
                             </div>
                              <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Phone Number:(Optional)</label>
-                                    <input type="text" class="form-control" value="{{$list_data->phone}}" name="phone"  placeholder="Phone">
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" value="{{$list_data->phone}}" name="phone"  placeholder="Phone">
+                                     @error('phone')
+                                     <p style="color:red">{{ $errors->first('phone') }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Video Url:(Optional)</label>
-                                    <input type="text" class="form-control" value="{{$list_data->video_url}}" name="video_url"  placeholder="Location">
+                                    <input type="text" class="form-control @error('video_url') is-invalid @enderror" value="{{$list_data->video_url}}" name="video_url"  placeholder="Location">
+                                    @error('video_url')
+                                     <p style="color:red">{{ $errors->first('video_url') }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">

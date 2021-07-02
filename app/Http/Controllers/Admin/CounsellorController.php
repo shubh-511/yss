@@ -122,10 +122,12 @@ class CounsellorController extends Controller
             'description' => 'required',
             'listing_category' => 'required',
             'listing_region' => 'required',
-            'website' => 'required',
             'listing_category' => 'required|not_in:0',
             'listing_region' => 'required',
-            'cover_img' => 'mimes:jpeg,jpg,png,gif',
+            'cover_img' => 'mimes:jpeg,jpg,png',
+            'phone'=>'nullable|numeric|digits:10',
+            'website'=>'nullable|url',
+            'video_url'=>'nullable|url',
             ]);
 
             if ($validator->fails()) 
@@ -491,10 +493,12 @@ class CounsellorController extends Controller
            $validator = Validator::make($request->all(), [ 
             'listing_name' => 'required',
             'location' => 'required',
-            'website' => 'required',
             'description' => 'required',
-            'cover_img' => 'mimes:jpeg,jpg,png,gif',
-            'gallery_images.*' => 'mimes:jpeg,jpg,png,gif',
+            'cover_img' => 'mimes:jpeg,jpg,png',
+            'gallery_images.*' => 'mimes:jpeg,jpg,png',
+            'phone'=>'nullable|numeric|digits:10',
+            'website'=>'nullable|url',
+            'video_url'=>'nullable|url',
            ]);
            if ($validator->fails()) 
            { 

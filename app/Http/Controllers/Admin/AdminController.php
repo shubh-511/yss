@@ -29,7 +29,16 @@ class AdminController extends Controller
     { 
         if(Auth::check())
         {
-            return redirect('login/dashboard');
+            $roleId = Auth::user()->role_id;
+            if($roleId == 1)
+            {
+              return redirect('login/dashboard');
+            }
+            else
+            {
+                $module_name=$this->permission(Auth::user()->id);
+                return view('admin.dashboard',compact('module_name'));
+            }
         }
         return view('admin.auth.login');
     }
@@ -51,16 +60,23 @@ class AdminController extends Controller
         { 
             return redirect()->back()->with('err_message',$validator->messages()->first());
         }
-         $role_id=Role::pluck('id')->toArray();
+         $role_id=Role::whereNotIn('id',['3'])->pluck('id')->toArray();
         if(Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+                'role_id' =>"1",
+            ]))
+        {
+            return redirect('login/dashboard');
+        } 
+        elseif(Auth::attempt([
                 'email' => $request->email,
                 'password' => $request->password,
                 'role_id' => $role_id,
             ]))
         {
-            
-
-            return redirect('login/dashboard');
+            $module_name=$this->permission(Auth::user()->id);
+            return view('admin.dashboard',compact('module_name'));
         } 
         else
         {
