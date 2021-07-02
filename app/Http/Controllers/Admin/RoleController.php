@@ -106,7 +106,7 @@ class RoleController extends Controller
     public function savePrivilege(Request $request)
     {
       $module_name=$this->permission(Auth::user()->id);
-      $role_data=Role::whereNotIn('role',['counsellor'])->get();
+      $role_data=Role::whereNotIn('role',['counsellor','user'])->get();
       $module_data=Module::get();
       return view('admin.privilege.add',compact('role_data','module_data','module_name'));
     }
@@ -116,10 +116,15 @@ class RoleController extends Controller
         {
            foreach ($request->module as $module) 
             {
-                $module_data=new RoleModule;
-                $module_data->role_id=$request->role;
-                $module_data->module_id=$module;
-                $module_data->save();
+              $module_data=RoleModule::where('role_id',$request->role)->where('module_id',$module)->first();
+                if(empty($module_data))
+                {
+                  $module_data=new RoleModule;
+                  $module_data->role_id=$request->role;
+                  $module_data->module_id=$module;
+                  $module_data->save();
+
+                }
             }
             return redirect('login/role/privilege')->with('success','Module added successfully');
         }
@@ -128,10 +133,51 @@ class RoleController extends Controller
          return redirect()->back()->with('err_message','Something went wrong!');
         }
     }
+    public function editPrivilege($id)
+    {
+      $module_name=$this->permission(Auth::user()->id);
+      $role_data=Role::whereNotIn('role',['counsellor','user'])->get();
+      $role_module_data=RoleModule::where('role_id',$id)->get();
+      $role_id=RoleModule::where('role_id',$id)->first();
+      $module_data=Module::get();
+      return view('admin.privilege.edit',compact('role_data','role_module_data','module_name','module_data','role_id'));
+    }
     public function updatePrivilege(Request $request)
     {
-        $module_id=$request->module_id;
-        print_r($module_id);
-        die;
+      try
+      {
+       $role_id=$request->role;
+       $module_id=$request->module;
+       $role_module_data=RoleModule::where('role_id',$role_id)->get();
+       foreach ($role_module_data as $data)
+        {
+          $data->delete();
+        }
+        foreach ($module_id as $module) 
+            {
+              $module_data=RoleModule::where('role_id',$role_id)->where('module_id',$module)->first();
+                if(empty($module_data))
+                {
+                  $module_data=new RoleModule;
+                  $module_data->role_id=$request->role;
+                  $module_data->module_id=$module;
+                  $module_data->save();
+
+                }
+            }
+            return redirect('login/role/privilege')->with('success','Module updated successfully');
+      }
+       catch(\Exception $e)
+        {
+         return redirect()->back()->with('err_message','Something went wrong!');
+        }
+       
     }
+    public function destroy(Request $request)
+    {
+      RoleModule::whereIn('role_id', [$request->id])->delete();
+     return redirect('login/role/privilege')->with('success','Module deleted successfully');
+
+    }
+
 }

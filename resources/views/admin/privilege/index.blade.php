@@ -49,6 +49,7 @@
                     <tr>
                       <th>Role</th>
                       <th>Module</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -66,6 +67,10 @@
                         @endforeach
                         @endforeach
                       </td>
+                      <td>
+                        <a class="fa fa-edit" href="{{ url('login/edit/previlege',$role->id) }}" title="Edit"></a>
+                       <a class="fa fa-trash" onClick="deletePrevilege({{$role->id}})" title="Delete"></a>
+                      </td>
                     </tr>
                     @endif
                     @endforeach
@@ -74,11 +79,6 @@
                   </tbody>
               </table>
               </div>
-                 <!-- <div class="col-md-12">
-                  <div class="form-group">
-                    <button style="float: right;" name="addrole" type="submit" class="btn btn-primary ">Update</button>
-                  </div>
-                </div> -->
           </div>
         </form>
       </div>
@@ -88,3 +88,20 @@
   </div>
 </div>
 @endsection
+<script type="text/javascript">
+  function deletePrevilege(id)
+      {
+        if (confirm("Are you sure you want to delete?") == true) {
+        $.ajax({
+        url:"{{url('login/previlege/destroy')}}",
+        type:'get',
+        data:{'id':id,'_token':'{{ csrf_token() }}'},
+        success: function(path){
+        location.reload();
+        }
+        });
+        } else {
+        return false;
+        }
+      }
+</script>

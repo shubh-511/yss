@@ -211,6 +211,675 @@
                    
                
               </ul>
+               @elseif(in_array("User", $module_name) && in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name) && in_array("Label", $module_name) && in_array("Transaction", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+               <li class="treeview">
+                  <a href="">
+                    <i class="fa fa-user"></i> <span>Users</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                     <li>
+                    <a href="{{url('login/module')}}">Module</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
+                    </li>
+                     <li>
+                    <li>
+                    <a href="{{url('login/users')}}">Users</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    </li>
+                  </ul>
+                </li>
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/label')}}">
+                    <i class="fa fa-globe"></i> <span>Labels</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>
+                 
+              </ul>
+               @elseif(in_array("User", $module_name) && in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name)  && in_array("Label", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+               <li class="treeview">
+                  <a href="">
+                    <i class="fa fa-user"></i> <span>Users</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                     <li>
+                    <a href="{{url('login/module')}}">Module</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
+                    </li>
+                     <li>
+                    <li>
+                    <a href="{{url('login/users')}}">Users</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    </li>
+                  </ul>
+                </li>
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/label')}}">
+                    <i class="fa fa-globe"></i> <span>Labels</span>
+                  </a>
+                </li>
+                 
+              </ul>
+              @elseif(in_array("User", $module_name) && in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name)  && in_array("Transaction", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+               <li class="treeview">
+                  <a href="">
+                    <i class="fa fa-user"></i> <span>Users</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                     <li>
+                    <a href="{{url('login/module')}}">Module</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
+                    </li>
+                     <li>
+                    <li>
+                    <a href="{{url('login/users')}}">Users</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    </li>
+                  </ul>
+                </li>
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>
+              </ul>
+               @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name) && in_array("Label", $module_name)  && in_array("Transaction", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+                <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/label')}}">
+                    <i class="fa fa-globe"></i> <span>Labels</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>
+              </ul>
+               @elseif(in_array("User", $module_name) && in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+               <li class="treeview">
+                  <a href="">
+                    <i class="fa fa-user"></i> <span>Users</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                     <li>
+                    <a href="{{url('login/module')}}">Module</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
+                    </li>
+                     <li>
+                    <li>
+                    <a href="{{url('login/users')}}">Users</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    </li>
+                  </ul>
+                </li>
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                 
+              </ul>
+               @elseif(in_array("User", $module_name) && in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Label", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+               <li class="treeview">
+                  <a href="">
+                    <i class="fa fa-user"></i> <span>Users</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                     <li>
+                    <a href="{{url('login/module')}}">Module</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
+                    </li>
+                     <li>
+                    <li>
+                    <a href="{{url('login/users')}}">Users</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    </li>
+                  </ul>
+                </li>
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/label')}}">
+                    <i class="fa fa-globe"></i> <span>Labels</span>
+                  </a>
+                </li>
+                 
+              </ul>
+              @elseif(in_array("User", $module_name) && in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Transaction", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+               <li class="treeview">
+                  <a href="">
+                    <i class="fa fa-user"></i> <span>Users</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                     <li>
+                    <a href="{{url('login/module')}}">Module</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
+                    </li>
+                     <li>
+                    <li>
+                    <a href="{{url('login/users')}}">Users</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    </li>
+                  </ul>
+                </li>
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>
+                 
+              </ul>
+               @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name) && in_array("Label", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+              
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/label')}}">
+                    <i class="fa fa-globe"></i> <span>Labels</span>
+                  </a>
+                </li>
+                 
+              </ul>
+
+               @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name) && in_array("Transaction", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+              
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>
+                 
+              </ul>
+               @elseif(in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) && in_array("Region", $module_name)  && in_array("Label", $module_name) && in_array("Transaction", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
+              
+                 <li class="treeview">
+                  <li>
+                    <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
+                  </li>
+
+                </li>
+                 <li class="treeview">
+                  <a href="{{url('login/bookings')}}">
+                    <i class="fa fa-ticket"></i> <span>Bookings</span>
+                  </a>
+
+                  <ul class="treeview-menu">
+               
+                    <li>
+                    <a href="{{url('login/bookings')}}">All Bookings</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/create-booking')}}">Create Booking</a>
+                    </li>
+                       
+                  </ul>
+
+                </li>
+                 <li class="">
+                  <a href="{{url('login/listings')}}">
+                    <i class="fa fa-list"></i> <span>Listings</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/send-notification')}}">
+                    <i class="fa fa-bell"></i> <span>Notification</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                  <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                   <li class="">
+                  <a href="{{url('login/label')}}">
+                    <i class="fa fa-globe"></i> <span>Labels</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>
+                 
+              </ul>
+
+
+
                @elseif(in_array("User", $module_name) && in_array("General Settings", $module_name)  && in_array("Booking", $module_name) && in_array("Listing", $module_name) && in_array("Notification", $module_name) && in_array("Category", $module_name) )
                <ul class="sidebar-menu" data-widget="tree">
                <li class="treeview">
@@ -2497,6 +3166,7 @@
                 </li>
               </ul>
                @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name)  && in_array("Listing", $module_name) )
+               <ul class="sidebar-menu" data-widget="tree">
                <li class="treeview">
                   
                   <li>
@@ -2526,7 +3196,9 @@
                     <i class="fa fa-list"></i> <span>Listings</span>
                   </a>
                 </li>
+              </ul>
                  @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name)  && in_array("Notification", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                <li class="treeview">
                   
                   <li>
@@ -2556,8 +3228,9 @@
                     <i class="fa fa-bell"></i> <span>Notification</span>
                   </a>
                 </li>
-
+                </ul>
                  @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name)  && in_array("Category", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                <li class="treeview">
                   
                   <li>
@@ -2587,7 +3260,9 @@
                     <i class="fa fa-hospital-o"></i> <span>Category</span>
                   </a>
                 </li>
+              </ul>
                 @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name)  && in_array("Region", $module_name) )
+                <ul class="sidebar-menu" data-widget="tree">
                <li class="treeview">
                   
                   <li>
@@ -2617,9 +3292,10 @@
                     <i class="fa fa-hospital-o"></i> <span>Regions</span>
                   </a>
                 </li>
+              </ul>
                  @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name)  && in_array("Label", $module_name) )
                  <ul class="sidebar-menu" data-widget="tree">
-               <li class="treeview">
+                 <li class="treeview">
                   
                   <li>
                     <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
@@ -2648,8 +3324,9 @@
                     <i class="fa fa-globe"></i> <span>Labels</span>
                   </a>
                 </li>
-
+               </ul>
                  @elseif(in_array("General Settings", $module_name)  && in_array("Booking", $module_name)  && in_array("Transaction", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                <li class="treeview">
                   
                   <li>
@@ -2681,7 +3358,7 @@
                 </li>
               </ul>
                  @elseif( in_array("Booking", $module_name)  && in_array("Listing", $module_name)  && in_array("Notification", $module_name) )
-              
+              <ul class="sidebar-menu" data-widget="tree">
                 <li class="treeview">
                   <a href="{{url('login/bookings')}}">
                     <i class="fa fa-ticket"></i> <span>Bookings</span>
@@ -2709,8 +3386,9 @@
                     <i class="fa fa-bell"></i> <span>Notification</span>
                   </a>
                 </li>
+              </ul>
                   @elseif( in_array("Booking", $module_name)  && in_array("Listing", $module_name)  && in_array("Category", $module_name) )
-              
+              <ul class="sidebar-menu" data-widget="tree">
                 <li class="treeview">
                   <a href="{{url('login/bookings')}}">
                     <i class="fa fa-ticket"></i> <span>Bookings</span>
@@ -2738,8 +3416,9 @@
                     <i class="fa fa-hospital-o"></i> <span>Category</span>
                   </a>
                 </li>
+              </ul>
              @elseif( in_array("Booking", $module_name)  && in_array("Listing", $module_name)  && in_array("Region", $module_name) )
-              
+              <ul class="sidebar-menu" data-widget="tree">
                 <li class="treeview">
                   <a href="{{url('login/bookings')}}">
                     <i class="fa fa-ticket"></i> <span>Bookings</span>
@@ -2767,9 +3446,9 @@
                     <i class="fa fa-hospital-o"></i> <span>Regions</span>
                   </a>
                 </li>
-
+               </ul>
              @elseif( in_array("Booking", $module_name)  && in_array("Listing", $module_name)  && in_array("Label", $module_name) )
-              
+              <ul class="sidebar-menu" data-widget="tree">
                 <li class="treeview">
                   <a href="{{url('login/bookings')}}">
                     <i class="fa fa-ticket"></i> <span>Bookings</span>
@@ -2797,9 +3476,10 @@
                     <i class="fa fa-globe"></i> <span>Labels</span>
                   </a>
                 </li>
+              </ul>
                
              @elseif( in_array("Booking", $module_name)  && in_array("Listing", $module_name)  && in_array("Transaction", $module_name) )
-              
+              <ul class="sidebar-menu" data-widget="tree">
                 <li class="treeview">
                   <a href="{{url('login/bookings')}}">
                     <i class="fa fa-ticket"></i> <span>Bookings</span>
@@ -2827,7 +3507,9 @@
                     <i class="fa fa-globe"></i> <span>Transaction</span>
                   </a>
                 </li>
+              </ul>
                  @elseif( in_array("Listing", $module_name)  && in_array("Notification", $module_name)  && in_array("Category", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                 <li class="">
                   <a href="{{url('login/listings')}}">
                     <i class="fa fa-list"></i> <span>Listings</span>
@@ -2843,7 +3525,9 @@
                     <i class="fa fa-hospital-o"></i> <span>Category</span>
                   </a>
                 </li>
+              </ul>
                  @elseif( in_array("Listing", $module_name)  && in_array("Notification", $module_name)  && in_array("Region", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                 <li class="">
                   <a href="{{url('login/listings')}}">
                     <i class="fa fa-list"></i> <span>Listings</span>
@@ -2859,7 +3543,9 @@
                     <i class="fa fa-hospital-o"></i> <span>Regions</span>
                   </a>
                 </li>
+              </ul>
                  @elseif( in_array("Listing", $module_name)  && in_array("Notification", $module_name)  && in_array("Label", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                 <li class="">
                   <a href="{{url('login/listings')}}">
                     <i class="fa fa-list"></i> <span>Listings</span>
@@ -2875,8 +3561,10 @@
                     <i class="fa fa-globe"></i> <span>Labels</span>
                   </a>
                 </li>
+              </ul>
 
                  @elseif( in_array("Listing", $module_name)  && in_array("Notification", $module_name)  && in_array("Transaction", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                 <li class="">
                   <a href="{{url('login/listings')}}">
                     <i class="fa fa-list"></i> <span>Listings</span>
@@ -2892,7 +3580,9 @@
                     <i class="fa fa-globe"></i> <span>Transaction</span>
                   </a>
                 </li>
+              </ul>
                  @elseif( in_array("Notification", $module_name)  && in_array("Category", $module_name)  && in_array("Region", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                  <li class="">
                   <a href="{{url('login/send-notification')}}">
                     <i class="fa fa-bell"></i> <span>Notification</span>
@@ -2908,7 +3598,9 @@
                     <i class="fa fa-hospital-o"></i> <span>Regions</span>
                   </a>
                 </li>
+              </ul>
                  @elseif( in_array("Notification", $module_name)  && in_array("Category", $module_name)  && in_array("Label", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                  <li class="">
                   <a href="{{url('login/send-notification')}}">
                     <i class="fa fa-bell"></i> <span>Notification</span>
@@ -2924,7 +3616,9 @@
                     <i class="fa fa-globe"></i> <span>Labels</span>
                   </a>
                 </li>
+              </ul>
                  @elseif( in_array("Notification", $module_name)  && in_array("Category", $module_name)  && in_array("Transaction", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                  <li class="">
                   <a href="{{url('login/send-notification')}}">
                     <i class="fa fa-bell"></i> <span>Notification</span>
@@ -2940,7 +3634,9 @@
                     <i class="fa fa-globe"></i> <span>Transaction</span>
                   </a>
                 </li>
+              </ul>
                  @elseif( in_array("Category", $module_name)  && in_array("Region", $module_name)  && in_array("Label", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
                  <li class="">
                   <a href="{{url('login/category')}}">
                     <i class="fa fa-hospital-o"></i> <span>Category</span>
@@ -2956,23 +3652,9 @@
                     <i class="fa fa-globe"></i> <span>Labels</span>
                   </a>
                 </li>
+              </ul>
                 @elseif( in_array("Category", $module_name)  && in_array("Region", $module_name)  && in_array("Transaction", $module_name) )
-                 <li class="">
-                  <a href="{{url('login/category')}}">
-                    <i class="fa fa-hospital-o"></i> <span>Category</span>
-                  </a>
-                </li>
-                 <li class="">
-                  <a href="{{url('login/region')}}">
-                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
-                  </a>
-                </li>
-                <li class="">
-                  <a href="{{url('login/transaction')}}">
-                    <i class="fa fa-globe"></i> <span>Transaction</span>
-                  </a>
-                </li>     
-                 @elseif( in_array("Category", $module_name)  && in_array("Region", $module_name)  && in_array("Transaction", $module_name) )
+                <ul class="sidebar-menu" data-widget="tree">
                  <li class="">
                   <a href="{{url('login/category')}}">
                     <i class="fa fa-hospital-o"></i> <span>Category</span>
@@ -2988,6 +3670,25 @@
                     <i class="fa fa-globe"></i> <span>Transaction</span>
                   </a>
                 </li>   
+                </ul>  
+                 @elseif( in_array("Category", $module_name)  && in_array("Region", $module_name)  && in_array("Transaction", $module_name) )
+                 <ul class="sidebar-menu" data-widget="tree">
+                 <li class="">
+                  <a href="{{url('login/category')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Category</span>
+                  </a>
+                </li>
+                 <li class="">
+                  <a href="{{url('login/region')}}">
+                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="{{url('login/transaction')}}">
+                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                  </a>
+                </li>   
+              </ul>
                 @elseif( in_array("User", $module_name)  && in_array("Region", $module_name)  && in_array("Category", $module_name) )
                  <ul class="sidebar-menu" data-widget="tree">
                <li class="treeview">
@@ -3440,9 +4141,7 @@
               </ul>
                @elseif(in_array("General Settings", $module_name) && in_array("Transaction", $module_name) )
                <ul class="sidebar-menu" data-widget="tree">
-              
-                
-                <li class="treeview">
+              <li class="treeview">
                   <li>
                     <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
                   </li>

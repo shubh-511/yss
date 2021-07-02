@@ -159,7 +159,7 @@
                         </div>
                          <div class="col-md-6">
                             <div class="form-group">
-                              <label>Website Url:</label>
+                              <label>Website Url:(Optional)</label>
                               <input type="text" name="website"  value="{{old('website')}}" class="form-control @error('website') is-invalid @enderror">
                               @error('website')
                                 <p style="color:red">{{ $errors->first('website') }}</p>
@@ -170,13 +170,20 @@
                          <div class="col-md-6">
                             <div class="form-group">
                               <label>Phone Number:(Optional)</label>
-                              <input type="text" name="phone" value="{{old('phone')}}" class="form-control">
+                              <input type="text" name="phone" value="{{old('phone')}}" class="form-control @error('phone') is-invalid @enderror">
+                              @error('phone')
+                                <p style="color:red">{{ $errors->first('phone') }}</p>
+                              @enderror
+
                             </div>
                         </div>
                          <div class="col-md-6">
                             <div class="form-group">
                               <label>Video Url:(Optional)</label>
-                              <input type="text" name="video_url" value="{{old('video_url')}}" class="form-control">
+                              <input type="text" name="video_url" value="{{old('video_url')}}" class="form-control @error('video_url') is-invalid @enderror">
+                               @error('video_url')
+                                <p style="color:red">{{ $errors->first('video_url') }}</p>
+                              @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -191,7 +198,7 @@
                         <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Counsellor Type:</label>
-                                  <select name="counsellor_type" class="form-control ">
+                                  <select name="counsellor_type" class="form-control counsellor-type">
                                     <option>select</option>
                                        <option value="0">Inside Counsellor</option>
                                        <option value="1">Outside Counsellor</option>
@@ -265,6 +272,9 @@ $(".select-category").select2({
   tags: false
 });
 $(".select-region").select2({
+  tags: false
+});
+$(".counsellor-type").select2({
   tags: false
 });
 
