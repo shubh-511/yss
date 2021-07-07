@@ -6,15 +6,39 @@
   <div class="col-xs-12">
     <!-- Default box -->
       <div class="box">
-		<div class="box-header">
-			<div class="pull-left">
-				<h3 class="box-title">Transaction</h3>
-			</div>
-		</div>
+
+          <div class="box-header">
+            
+             <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                       
+                    </div>
+                </div>
+                
+            </div>
+          </form>
+          <div class="row ">
+          <div class="col-md-12">
+            <ul class="pagination pagination-sm" style="margin: 0 0 5px 0;">
+            
+            </ul>
+          </div>
+        </div>
+          </div>
           <div class="box-body">
             <div class="row">
-              <form method="get" url="{{('/transaction')}}" enctype="multipart/form-data">
-                <div class="row">
+                 <div class="col-md-6">
+                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
+                  
+                </div>
+               <form method="get" url="{{('/transaction')}}" enctype="multipart/form-data">
+
               <div class="col-md-12">
                 <div class="col-md-3">
                   <label>Counsellor Name</label>

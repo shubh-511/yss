@@ -20,8 +20,10 @@
                     }
                     @endphp
                   </select>
-             </div>
-             <div class="col-md-4 col-lg-5">
+
+            </div>
+             <div class="col-md-4">
+
                  <label>Select Month</label>
                  <select name="month" class="form-control">
                  	<option disabled selected value>select</option>

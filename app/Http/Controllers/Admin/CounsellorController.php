@@ -428,7 +428,7 @@ class CounsellorController extends Controller
         $user = User::find($id);
         $userRole = $user->roles->pluck('name','name')->all();
         return view('admin.counsellor.edit',compact('user','userRole','module_name'));
-    }
+     }
 
 
     /**

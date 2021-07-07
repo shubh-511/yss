@@ -21,7 +21,7 @@ class TransactionController extends Controller
 	   public $successStatus = 200;
 	    public function transactionlist(Request $request)
 	    {
-	    	$module_name=$this->permission(Auth::user()->id);
+	      $module_name=$this->permission(Auth::user()->id);
 	    	$general_setting= GeneralSetting::where('id','=',1)->first();
 	    	$counsellor_data= User::where('role_id','2')->get();
 	    	$payment_data= Payment::get();

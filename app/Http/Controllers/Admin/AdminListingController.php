@@ -21,7 +21,7 @@ use App\Traits\CheckPermission;
 class AdminListingController extends Controller
 {
     use CheckPermission;
-    public $successStatus = 200;
+     public $successStatus = 200;
 	
 
     /** 

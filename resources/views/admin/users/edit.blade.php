@@ -67,7 +67,7 @@
                               @endforeach
                             </select>
                           </div> -->
-                            <div class="col-md-6">
+                          <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Name:</label>
                                     <input type="text" class="form-control" value="{{$user->name}}" name="name" required placeholder="Name"> 

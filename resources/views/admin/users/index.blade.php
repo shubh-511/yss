@@ -16,10 +16,13 @@
 			</div>
 		</div>
           <div class="box-body">
-            <div class="">
-                <!--<div class="title">
-                  <h4>Search</h4>
-                </div>-->
+
+             <div class="row">
+                 <div class="col-md-6">
+                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
+                  
+                </div>
+
               <form method="get" url="{{('/users')}}" enctype="multipart/form-data">
                 <div class="row">
                 <div class="col-md-3">

@@ -4571,7 +4571,7 @@
                     <i class="fa fa-hospital-o"></i> <span>Category</span>
                   </a>
                 </li>
-                 @elseif(in_array("Region", $module_name))
+                @elseif(in_array("Region", $module_name))
                   <li class="">
                   <a href="{{url('login/region')}}">
                     <i class="fa fa-hospital-o"></i> <span>Regions</span>

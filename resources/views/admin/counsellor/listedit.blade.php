@@ -16,14 +16,6 @@
 </div>
 @endif
 
-
-<div class="box-header">
-    <div class="pull-left">
-        <h3 class="box-title">Edit List: #{{$list_data->id}}</h3>
-    </div>
-</div>
-
-
 <div class="row">
     <div class="col-xs-12">
     <!-- Default box -->

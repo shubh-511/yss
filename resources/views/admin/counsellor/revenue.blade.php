@@ -67,7 +67,7 @@
   <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
   
-      <script type="text/javascript">
+    <script type="text/javascript">
     var arrayOfStrings =  <?php echo json_encode($users_data) ?>;
     var array_month =  <?php echo json_encode($users_mon_data) ?>;
     var users = arrayOfStrings.map(Number);
