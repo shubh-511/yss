@@ -12,7 +12,7 @@
 	        <form method="get" url="{{('/counsellors/revenue/')}}" enctype="multipart/form-data">
                <div class="col-md-4 col-lg-5">
                  <label>Select Year</label>
-                 <select name="year" class="form-control" onchange="myFunction()" id="revenue">
+                 <select name="year" class="form-control year" onchange="myFunction()" id="revenue">
                  	@php  $this_year = date("Y");
                  	for ($year = $this_year; $year >= $this_year - 1; $year--) 
                  	{
@@ -25,7 +25,7 @@
              <div class="col-md-4">
 
                  <label>Select Month</label>
-                 <select name="month" class="form-control">
+                 <select name="month" class="form-control month">
                  	<option disabled selected value>select</option>
                  	<option value="1">January</option>
                  	<option value="2">February</option>
@@ -117,4 +117,13 @@ function clickFunction() {
 }
   </script>
 
-  
+@push('select2')
+<script>
+$(".year").select2({
+  tags: false
+});
+$(".month").select2({
+  tags: false
+});
+</script>
+@endpush

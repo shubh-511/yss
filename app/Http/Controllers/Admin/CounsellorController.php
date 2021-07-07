@@ -123,9 +123,7 @@ class CounsellorController extends Controller
             'listing_region' => 'required',
             'listing_category' => 'required|not_in:0',
             'cover_img' => 'mimes:jpeg,jpg,png',
-            'gallery_images' => 'required',
-            'phone'=>'nullable|numeric|digits:10',
-            'website'=>'nullable|url',
+
             'video_url'=>'nullable|url',
             ]);
 
@@ -161,14 +159,11 @@ class CounsellorController extends Controller
             $listingData->user_id = $counsellor->id;
             $listingData->listing_name = $request->listing_name;
             $listingData->location = $request->location;
-            $listingData->contact_email_or_url = $request->contact_email_or_url;
             $listingData->description = $request->description;
             $listingData->listing_category = $request->listing_category;
             $listingData->listing_region = $request->listing_region;
             $listingData->lattitude = $request->latitude;
             $listingData->longitude = $request->longitude;
-            $listingData->website = $request->website;
-            $listingData->phone = $request->phone;
             $listingData->video_url = $request->video_url;
              if(!empty($request->cover_img))
             {
@@ -511,12 +506,9 @@ class CounsellorController extends Controller
             $list_update_data->location = $request->location;
             $list_update_data->longitude = $request->longitude;
             $list_update_data->lattitude = $request->latitude;
-            $list_update_data->contact_email_or_url = $request->contact_email_or_url;
             $list_update_data->listing_category = $request->listing_category;
             $list_update_data->listing_region = $request->listing_region;
             $list_update_data->status = $request->status;
-            $list_update_data->website = $request->website;
-            $list_update_data->phone = $request->phone;
             $list_update_data->video_url = $request->video_url;
             $list_update_data->description = $request->description;
             if(!empty($request->cover_img))

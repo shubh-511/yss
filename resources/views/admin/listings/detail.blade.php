@@ -72,24 +72,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label>Contact Email/URL:</label>
-                              <label class="form-control">{{$listing->contact_email_or_url}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Phone:</label>
-                              <label class="form-control">{{$listing->phone}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Website:</label>
-                              <label class="form-control">{{$listing->website}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
                               <label>Category:</label>
                               <label class="form-control">{{$listing->category->category_name}}</label>
                             </div>

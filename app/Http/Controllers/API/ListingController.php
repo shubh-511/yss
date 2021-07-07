@@ -330,6 +330,7 @@ class ListingController extends Controller
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         }
     }
+
     public function getListingById($listingId) 
     { 
         try

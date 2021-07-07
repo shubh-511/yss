@@ -44,12 +44,6 @@
                         
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Contact Email Or Url:(Optional)</label>
-                                    <input type="text" class="form-control" value="{{$list_data->contact_email_or_url}}" name="contact_email_or_url" placeholder="Contact Email Or Url">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
                                   <label>Listing Category:</label>
                                    <select name="listing_category" class="form-control select-category-edit">
                                     @foreach($list_category as $key =>$category)
@@ -90,24 +84,6 @@
                                 
                                   </select>
                                    </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                  <label>Website Url:(Optional)</label>
-                                    <input type="text" class="form-control @error('website') is-invalid @enderror" value="{{$list_data->website}}" name="website" placeholder="Website">
-                                     @error('website')
-                                     <p style="color:red">{{ $errors->first('website') }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                             <div class="col-md-6">
-                                <div class="form-group">
-                                  <label>Phone Number:(Optional)</label>
-                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" value="{{$list_data->phone}}" name="phone"  placeholder="Phone">
-                                     @error('phone')
-                                     <p style="color:red">{{ $errors->first('phone') }}</p>
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

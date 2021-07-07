@@ -313,9 +313,7 @@ class UserController extends Controller
         $user = User::find($id);
         //return $user;
         $user->name = $request->name;
-        $user->first_name = $request->first_name;
-        $user->middle_name = $request->middle_name;
-        $user->last_name = $request->last_name;
+        $user->timezone = $request->timezone;
         $user->save();
 
         return redirect('login/users')->with('success', 'Successfully updated');

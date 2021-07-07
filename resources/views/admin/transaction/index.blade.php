@@ -50,14 +50,14 @@
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <label>Date</label>
-                 <select name="date" class="form-control transaction-action">
-                    <option value="">select</option>
-                    <option value="0">Today</option>
-                    <option value="7">Past 7 days</option>
-                    <option value="30">Past 30 days</option>
-                    <option value="90">Past 90 days</option>
-                  </select>
+
+                  <label>From Date</label>
+                 <input type="date" class="form-control" name="from_date" placeholder="Search by From Date">
+                </div>
+                <div class="col-md-3">
+                  <label>To Date</label>
+                 <input type="date" class="form-control" name="to_date" placeholder="Search by To Date">
+
                 </div>
 				
                 <div class="col-md-3">
