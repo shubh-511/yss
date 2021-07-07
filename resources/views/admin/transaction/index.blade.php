@@ -24,7 +24,6 @@
           <div class="col-md-12">
             <ul class="pagination pagination-sm" style="margin: 0 0 5px 0;">
             
-                
             </ul>
           </div>
         </div>
@@ -35,7 +34,7 @@
                   <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
                   
                 </div>
-              <form method="get" url="{{('/transaction')}}" enctype="multipart/form-data">
+               <form method="get" url="{{('/transaction')}}" enctype="multipart/form-data">
               <div class="col-md-12">
                 <div class="col-md-3">
                   <label>Counsellor Name</label>

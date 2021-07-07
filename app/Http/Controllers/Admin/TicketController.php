@@ -17,7 +17,7 @@ use DB;
 
 class TicketController extends Controller
 {
-    public $successStatus = 200;
+   public $successStatus = 200;
 	
     /**
      * Display a listing of the tickets.

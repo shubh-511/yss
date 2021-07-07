@@ -29,7 +29,7 @@
     <div class="col-xs-12">
     <!-- Default box -->
 
-            <div class="box-header">
+          <div class="box-header">
               
                 <div class="modal-content">
                   <div class="modal-header">

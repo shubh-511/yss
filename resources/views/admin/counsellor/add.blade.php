@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
-
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">

@@ -32,7 +32,7 @@
         </div>
           </div>
           <div class="box-body">
-            <div class="row">
+             <div class="row">
                  <div class="col-md-6">
                   <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
                   
