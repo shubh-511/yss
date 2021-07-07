@@ -107,11 +107,11 @@ class CounsellorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+   public function store(Request $request)
     {
         
-         try
-         {
+          try
+          {
             $validator =  Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -120,11 +120,10 @@ class CounsellorController extends Controller
             'listing_name' => 'required|max:190',
             'location' => 'required|max:190',
             'description' => 'required',
-            'listing_category' => 'required',
             'listing_region' => 'required',
             'listing_category' => 'required|not_in:0',
-            'listing_region' => 'required',
             'cover_img' => 'mimes:jpeg,jpg,png',
+            'gallery_images' => 'required',
             'phone'=>'nullable|numeric|digits:10',
             'website'=>'nullable|url',
             'video_url'=>'nullable|url',
@@ -176,12 +175,15 @@ class CounsellorController extends Controller
                 $listingData->cover_img = $counsellor->cover_id;
             }
             $listingData->save();
+            if(!empty($request->listing_label))
+            {
             foreach($request->listing_label as $label_id) {
             multilabel::create([
             'listing_id' => $listingData->id,
             'label_id' => $label_id
                 ]);
                 }
+            }
             
              if($request->gallery_images)
             {
@@ -198,11 +200,11 @@ class CounsellorController extends Controller
 
             return redirect('login/counsellors')->with('success','Counsellor added successfully');
         
-        }
+         }
          catch(\Exception $e)
-        {
-             return redirect()->back()->with('err_message','Something went wrong!');
-     }
+         {
+              return redirect()->back()->with('err_message','Something went wrong!');
+      }
     }
 
 

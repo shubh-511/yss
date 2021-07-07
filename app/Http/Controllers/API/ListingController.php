@@ -8,6 +8,7 @@ use App\Package;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use App\ListingCategory;
+use App\Availability;
 use App\ListingLabel;
 use JWTAuth;
 use JWT;
@@ -165,11 +166,9 @@ class ListingController extends Controller
         $user_day=Carbon::now($user_data->timezone)->toDateString();        
         $counsellor_d= new DateTime($counsellor_day);
         $counsellor_d->format('l');
-        $user_d= new DateTime($user_day);
-        $user_d->format('l');
-        $day_of_user=$user_d->format('l');
         $day_of_counsellor=$counsellor_d->format('l');
-         if($day_of_user == $day_of_counsellor)
+        $availability=Availability::where('user_id',$counsellor_id)->where('availaible_days','$day_of_counsellor')->first();
+         if($availability)
            {
              return response()->json(['success' => true,
                                         'data' => true
@@ -300,7 +299,7 @@ class ListingController extends Controller
      */ 
     public function availability(Request $request)
     {
-        try
+       try
         {
         $user_id=$request->user_id;
         $counsellor_id=$request->counsellor_id;
@@ -310,11 +309,9 @@ class ListingController extends Controller
         $user_day=Carbon::now($user_data->timezone)->toDateString();        
         $counsellor_d= new DateTime($counsellor_day);
         $counsellor_d->format('l');
-        $user_d= new DateTime($user_day);
-        $user_d->format('l');
-        $day_of_user=$user_d->format('l');
-        $day_of_counsellor=$counsellor_d->format('l');
-         if($day_of_user == $day_of_counsellor)
+        $day_of_counsellor=strtolower($counsellor_d->format('l'));
+        $availability=Availability::where('user_id',$counsellor_id)->where('availaible_days',$day_of_counsellor)->first();
+         if(!empty($availability))
            {
              return response()->json(['success' => true,
                                         'data' => true
@@ -331,7 +328,7 @@ class ListingController extends Controller
        catch(\Exception $e)
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        } 
+        }
     }
     public function getListingById($listingId) 
     { 

@@ -4559,7 +4559,7 @@
                     <i class="fa fa-list"></i> <span>Listings</span>
                   </a>
                 </li>
-                 @elseif(in_array("Notitfication", $module_name))
+                 @elseif(in_array("Notification", $module_name))
                  <li class="">
                   <a href="{{url('login/send-notification')}}">
                     <i class="fa fa-bell"></i> <span>Notification</span>

@@ -5,15 +5,20 @@
 <div class="row">
   <div class="col-xs-12">
     <!-- Default box -->
-		<div class="box">
-			<div class="box-header">
-				<div class="pull-left">
-					<h3 class="box-title">Role</h3>
+      <div class="box">
+          <div class="box-header">
+            
+             <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        
+                    </div>
                 </div>
-				<div class="pull-right">
-					<a href="{{url('login/create/privilege')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Role Privilege</a>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                       
+                    </div>
                 </div>
-
                 
             </div>
           </form>
@@ -78,9 +83,9 @@
         </form>
       </div>
 
-
       <!-- /.box -->
     </div>
+  </div>
 </div>
 @endsection
 <script type="text/javascript">
