@@ -165,7 +165,7 @@
 				</tr>
 				<tr>
 					<td>{{'Session Duration'}}</td>
-					<td>{{$bookingData['package']['session_hours']}} :{{$bookingData['package']['session_minutes']}} hour</td>
+					<td>{{$bookingData['package']['session_hours']}} :{{$bookingData['package']['session_minutes']}} Hours</td>
 				</tr>
 				<tr>
 					<td>{{'Amount To Paid'}}</td>
