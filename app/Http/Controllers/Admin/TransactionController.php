@@ -21,39 +21,55 @@ class TransactionController extends Controller
 	   public $successStatus = 200;
 	    public function transactionlist(Request $request)
 	    {
-	      $module_name=$this->permission(Auth::user()->id);
+	    	$module_name=$this->permission(Auth::user()->id);
 	    	$general_setting= GeneralSetting::where('id','=',1)->first();
 	    	$counsellor_data= User::where('role_id','2')->get();
 	    	$payment_data= Payment::get();
 	        $bookings = Booking::with('payment_detail')->where(function ($query) use ($request)
-	                {
-             if ($request->get('counsellor') != null) 
+	        {
+	        	 if ($request->get('counsellor') != null && $request->get('from_date') != null && $request->get('to_date') != null) 
+                {
+                   
+  	                 $query->where('counsellor_id','=',$request->counsellor)->where('booking_date', '>=', $request->get('from_date'))->where('booking_date','<=', $request->get('to_date'));
+	                
+                }
+            	 if ($request->get('counsellor') != null && $request->get('from_date') != null) 
+                {
+                   
+  	                 $query->where('counsellor_id','=',$request->counsellor)->where('booking_date', '>=', $request->get('from_date'));
+	                
+                }
+                 if ($request->get('counsellor') != null && $request->get('to_date') != null) 
+                {
+                   
+  	                echo "<script>";
+					echo "alert('Please select from date');";
+					echo "</script>";
+	                
+                }
+	           if ($request->get('from_date') != null && $request->get('to_date') != null)
+                {
+                  $query->where('booking_date', '>=', $request->get('from_date'))
+                  ->where('booking_date','<=', $request->get('to_date'));
+                } 	
+              if ($request->get('counsellor') != null) 
                 { 
 			      $query->where('counsellor_id','=',$request->get('counsellor'));
 			    }
-			   if ($request->get('date') != null) 
+			   if ($request->get('from_date') != null) 
                 { 
-                  if ($request->get('date') == 0)
-                   {
-				      $query->whereDate('booking_date','=',date('Y-m-d'));
-                    }
-                    else
-                    {
-                       $query->where('booking_date','<=',Carbon::now())->where('booking_date','>=',Carbon::now()->subDays($request->get('date')));
-                    }
+                  
+                  $query->where('booking_date', '>=', $request->get('from_date'));
+                   
 			    }
-
-		            if ($request->get('counsellor') != null && $request->get('date') != null) 
-		                {
-	                        if ($request->get('counsellor') != null && $request->get('date') == 0)
-	                        {
-			                 $query->whereDate('booking_date','=',date('Y-m-d'));
-                            }
-                            else
-                            {
-          	                 $query->where('counsellor_id','=',$request->counsellor)->where('booking_date','<=',Carbon::now())->where('booking_date','>=',Carbon::now()->subDays($request->get('date')));
-			                }
-                        }
+			     if ($request->get('to_date') != null) 
+                { 
+                  
+                    echo "<script>";
+					echo "alert('Please select from date');";
+					echo "</script>";
+                   
+			    }
                    })->whereNotIn('payment_id',['0'])->orderBy('id','DESC')->paginate($general_setting->pagination_value);
 	               return view('admin.transaction.index',compact('bookings','counsellor_data','payment_data','module_name'))
 	            ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -63,8 +79,8 @@ class TransactionController extends Controller
 	      try
 	       {
 		      $counsellor=$request->counsellor;
-		      $date=$request->date;
-		      $date_format=Carbon::now()->subDays($date);
+		      $from_date=$request->from_date;
+		      $to_date=$request->to_date;
 		      if($counsellor != "" && $date !="")
 		       {
 			      $booking = Booking::with('payment_detail','counsellor','user','package')->where('counsellor_id', $counsellor)->where('booking_date','<=',Carbon::now())->where('booking_date','>=',$date_format->format('Y-m-d'))->get();

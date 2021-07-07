@@ -165,7 +165,7 @@
 				<tr class="total">
 					<td></td>
 
-					<td>Total Revenue:€ {{$totalCost}}</td>
+					<td>Total Revenue: €{{$totalCost}}</td>
 				</tr>
 			</table>
 		</div>

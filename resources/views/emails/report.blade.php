@@ -129,7 +129,6 @@
 								</td>
 
 								<td>
-									{{$bookingData['user']['name']}}<br />
 									{{$bookingData['user']['email']}}<br />
 								</td>
 							</tr>
@@ -140,7 +139,7 @@
 				<tr class="heading">
 					<td>Payment Method</td>
 
-					<td>@if($bookingData['created_by'] == 1) {{'Online'}} @else {{'Cash'}} @endif#</td>
+					<td>@if($bookingData['created_by'] == 1) {{'Online'}} @else {{'Cash'}} @endif</td>
 				</tr>
 
 				<tr class="details">
@@ -154,7 +153,10 @@
 					<td>Appointment Details</td>
 					<td></td>
 				</tr>
-
+                <tr class="details">
+					<td>{{'User Name'}}</td>
+					<td>{{$bookingData['user']['name']}}</td>
+				</tr>
 				<tr class="details">
 					<td>{{'Counsellor Name'}}</td>
 					<td>{{$bookingData['counsellor']['name']}}</td>
@@ -168,7 +170,7 @@
 					<td>{{$bookingData['package']['session_hours']}} :{{$bookingData['package']['session_minutes']}} Hours</td>
 				</tr>
 				<tr>
-					<td>{{'Amount To Paid'}}</td>
+					<td>{{'Amount Paid'}}</td>
 					<td>€{{($bookingData['payment_detail']['amount'])/100}}</td>
 				</tr>
 				

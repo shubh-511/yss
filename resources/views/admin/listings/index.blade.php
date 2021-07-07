@@ -92,7 +92,7 @@
                           <th><input type="checkbox" class='sub_chk' value="{{$listing->id}}" data-id="{{$listing->id}}" name="listing_id[]"></th>
                           <td>{{ $listing->listing_name ?? ''}}</td>
                           <td>{{ $listing->phone ?? ''}}</td>
-                          <td>{{ $listing->listing_category->category_name ?? ''}}</td>
+                          <td>{{ $listing->category->category_name ?? ''}}</td>
                           <td>{{ $listing->user->email ?? ''}}</td>
                           <td>{{ date('j F, Y', strtotime($listing->created_at)) }}</td>
                           <td>
