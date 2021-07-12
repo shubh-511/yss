@@ -98,15 +98,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="longitude" value="{{old('longitude')}}" id="longitude" class="form-control">
-                        <input type="hidden" id="latitude" value="{{old('latitude')}}" name="latitude" class="form-control">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Contact Email/URL-(Optional)</label>
-                              <input type="text" name="contact_email_or_url" value="{{old('contact_email_or_url')}}" class="form-control">
-                               
-                            </div>
-                        </div>
-                        
+                        <input type="hidden" id="latitude" value="{{old('latitude')}}" name="latitude" class="form-control">                        
                           <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Category:</label>
@@ -159,25 +151,7 @@
                               @enderror
                                </div>
                         </div>
-                         <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Website Url:(Optional)</label>
-                              <input type="text" name="website"  value="{{old('website')}}" class="form-control @error('website') is-invalid @enderror">
-                              @error('website')
-                                <p style="color:red">{{ $errors->first('website') }}</p>
-                              @enderror
-                            </div>
-                        </div>                          
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Phone Number:(Optional)</label>
-                              <input type="text" name="phone" value="{{old('phone')}}" class="form-control @error('phone') is-invalid @enderror">
-                              @error('phone')
-                                <p style="color:red">{{ $errors->first('phone') }}</p>
-                              @enderror
-                           </div>
-                        </div>  
-                          <div class="col-md-6">
+                           <div class="col-md-6">
                             <div class="form-group">
                               <label>Video Url:(Optional)</label>
                               <input type="text" name="video_url" value="{{old('video_url')}}" class="form-control @error('video_url') is-invalid @enderror">

@@ -62,10 +62,10 @@
                                    <select name="status" class="form-control edit-label">
                                     @if($label_edit->status==1)
                                         <option value="1" selected>Active</option>
-                                        <option value="0">InActive</option>
+                                        <option value="0">Inactive</option>
                                         @else
                                         <option value="1">Active</option>
-                                        <option value="0" selected>InActive</option>
+                                        <option value="0" selected>Inactive</option>
                                         @endif
                                     </select>
                                 </div>
@@ -100,10 +100,10 @@
                                    <select name="status" class="form-control ">
                                     @if($label_edit->status==1)
                                         <option value="1" selected>Active</option>
-                                        <option value="0">InActive</option>
+                                        <option value="0">Inactive</option>
                                         @else
                                         <option value="1">Active</option>
-                                        <option value="0" selected>InActive</option>
+                                        <option value="0" selected>Inactive</option>
                                         @endif
                                     </select>
                                 </div>

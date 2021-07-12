@@ -545,3 +545,41 @@ div.revenue__block .highcharts-container,
 div.revenue__block .highcharts-root{
 	max-width: 100%;
 }
+.custom-checkbox + .custom-checkbox {
+    margin-top: 1.5rem;
+}
+.custom-checkbox .custom-control-label{
+	position: relative;
+	padding-left: 2.5rem;
+	margin-bottom: 0;
+	cursor: pointer;
+}
+.custom-checkbox .custom-control-label span{
+	padding: 0;
+}
+.custom-checkbox .custom-control-label input{
+	display: none;
+}
+.custom-checkbox .custom-control-label span:before{
+	content: '';
+    width: 2rem;
+    height: 2rem;
+    top: 0rem;
+    border: 0.0625rem solid #aaa;
+    position: absolute;
+    left: 0;
+}
+.custom-checkbox .custom-control-label input:checked + span:before{
+	background-color: #34558b; 
+}
+.custom-checkbox .custom-control-label input:checked + span:after{
+	content: '';
+    width: .75rem;
+    height: 1.25rem;
+    border: solid #fff;
+    border-width: 0 0.3125rem 0.3125rem 0;
+    position: absolute;
+    left: 0.625rem;
+    top: 0.2rem;
+    transform: rotate(45deg);
+}

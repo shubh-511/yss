@@ -65,7 +65,6 @@
                     <tr>
                       <th><input type="checkbox" id="check_all_checkbox"></th>
                       <th>Listing Name</th>
-                      <th>Phone</th>
                       <th>Category</th>
                       <th>Created By</th>
                       <th>Created Date</th>
@@ -79,7 +78,6 @@
                           <th><input type="checkbox" class='sub_chk' value="{{$listing->id}}" data-id="{{$listing->id}}" name="listing_id[]"></th>
                           <td>{{ $listing->listing_name ?? ''}}</td>
 
-                          <td>{{ $listing->phone ?? ''}}</td>
                           <td>{{ $listing->category->category_name ?? ''}}</td>
 
                           <td>{{ $listing->user->email ?? ''}}</td>

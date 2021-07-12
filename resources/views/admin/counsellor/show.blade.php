@@ -55,40 +55,10 @@
                                     <label class="form-control">{{$user->email}}</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                  <label>First Name:</label>
-                                    <label class="form-control">{{$user->first_name}}</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                  <label>Middle Name:</label>
-                                    <label class="form-control">{{$user->middle_name}}</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                  <label>Last Name:</label>
-                                    <label class="form-control">{{$user->last_name}}</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Timezone:</label>
                                     <label class="form-control">{{$user->timezone}}</label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  <label>Country code:</label>
-                                    <label class="form-control">{{$user->country_code}}</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                  <label>Phone:</label>
-                                    <label class="form-control">{{$user->phone}}</label>
                                 </div>
                             </div>
                             <div class="col-md-6">

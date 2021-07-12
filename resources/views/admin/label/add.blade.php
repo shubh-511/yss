@@ -42,7 +42,7 @@
                                   <label>Status:</label>
                                    <select name="status" class="form-control add-label">
                                         <option value="1">Active</option>
-                                        <option value="0">InActive</option>
+                                        <option value="0">Inactive</option>
                                     </select>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                   <label>Status:</label>
                                    <select name="status" class="form-control add-label">
                                         <option value="1">Active</option>
-                                        <option value="0">InActive</option>
+                                        <option value="0">Inactive</option>
                                     </select>
                                 </div>
                             </div>

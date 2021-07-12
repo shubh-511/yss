@@ -12,6 +12,8 @@
 			<div class="pull-right">
 				<a href="{{url('login/counsellors/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Counsellor</a>
 			</div>
+                        
+                       
 		  </div>
           <div class="box-body">
             <div class="row">
@@ -40,32 +42,40 @@
 				  <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
+                       
                 </div>
               </div>
               </form>
                <div class="col-xs-12">
                 <div class="row">
-					<div class="col-md-3">
-					  <div class="form-group">
-						<label>Action</label>
-						<select name="action" class="form-control counsellor-action" id="action">
-							<option disabled selected value>Bulk Action</option>
-							<option value="active">Active</option>
-							<option value="disabled">Account Disabled</option>
-							<option value="verification">Pending for verification</option>
-							<option value="delete">Delete</option>
-						</select>
-					  </div>
-					</div>
+		   <div class="col-md-3">
+		       <div class="form-group">
+			  <label>Action</label>
+				<select name="action" class="form-control counsellor-action" id="action">
+					<option disabled selected value>Bulk Action</option>
+					<option value="active">Active</option>
+					<option value="disabled">Account Disabled</option>
+					<option value="verification">Pending for verification</option>
+					<option value="delete">Delete</option>
+				</select>
+			 </div>
+		     </div>
 					
-					<div class="col-md-3">
-					  <div class="form-group">
-					    <label>&nbsp;</label>
-						<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
-					  </div>
-					</div>
-				</div>
+		 <div class="col-md-3">
+		   <div class="form-group">
+		     <label>&nbsp;</label>
+			<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+		  </div>
+		   </div>
+             
+		</div>
+                 
               </div>
+
+                 <div class="col-md-2">                 
+                     <input type="submit" class="btn btn-primary" onclick="downloadCounsellor()" value="Download Counsellor">
+                   </div>
+
             </div>
 			<table id="table" class="table table-bordered table-striped">
 				<thead>
@@ -154,6 +164,37 @@ function myFunction() {
                 }
 
             });
+}
+function downloadCounsellor()
+{
+  var searchParams = new URLSearchParams(window.location.search);
+  let email = searchParams.get('email');
+  let status = searchParams.get('status');
+  var urlLike = '{{ url('login/download/counsellor') }}';
+       $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+    
+                type: 'GET',
+                url: urlLike,
+                data: {email:email,status:status},
+                 xhrFields: {
+                responseType: 'blob'
+            },
+             success: function(response)
+                {
+                var blob = new Blob([response]);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "Counsellor-Report.xlsx";
+                link.click()
+                  
+                }
+               
+            });
+     
+  
 }
 </script>
 @push('select2')

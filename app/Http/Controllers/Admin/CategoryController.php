@@ -9,6 +9,8 @@ use URL;
 use App\GeneralSetting;
 use App\Traits\CheckPermission;
 use Illuminate\Support\Facades\Auth;
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class CategoryController extends Controller
 {
@@ -98,4 +100,36 @@ class CategoryController extends Controller
           return response()->json(array('message' => 'success'));
        }
     }
+    public function download(Request $request)
+    {
+      try
+      {
+       $writer = WriterEntityFactory::createXLSXWriter(Type::XLSX);
+       $writer->openToBrowser('Category'.date('Y-m-d:hh:mm:ss').'.xlsx');
+       $listing_categories=ListingCategory::get();
+       $column = [
+              WriterEntityFactory::createCell('Category Id'),
+              WriterEntityFactory::createCell('Category Name'),
+              WriterEntityFactory::createCell('Status'),
+          ];
+        $singleRow = WriterEntityFactory::createRow($column);
+        $writer->addRow($singleRow);
+        foreach ($listing_categories as $key => $listing_category) 
+              {
+                $cells = [
+                WriterEntityFactory::createCell($listing_category->id),
+                WriterEntityFactory::createCell($listing_category->category_name),
+                WriterEntityFactory::createCell($listing_category->status),
+                ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+             }
+          $writer->close();
+          exit();
+      }
+      catch(\Exception $e)
+      {
+          return redirect()->back()->with('err_message','Something went wrong!');
+      }
+   }
 }

@@ -22,6 +22,8 @@ use Carbon\Carbon;
 use App\Events\CounsellorRegisterEvent;
 use App\GeneralSetting;
 use App\Traits\CheckPermission;
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 
 
@@ -580,5 +582,126 @@ class CounsellorController extends Controller
         {
             return redirect()->back()->with('err_message','Something went wrong!');
         }
+    }
+  public function download(Request $request)
+    {
+        $status=$request->status;
+        $email=$request->email;
+        $counsellors=User::where('role_id','=',2)->get();
+        $writer = WriterEntityFactory::createXLSXWriter(Type::XLSX);
+        $writer->openToBrowser('Revenue-Report'.date('Y-m-d:hh:mm:ss').'.xlsx');
+        $column = [
+                        WriterEntityFactory::createCell('Name'),
+                        WriterEntityFactory::createCell('Email'),
+                        WriterEntityFactory::createCell('Counsellor Type'),
+                        WriterEntityFactory::createCell('Status'),
+                    ];
+        $singleRow = WriterEntityFactory::createRow($column);
+        $writer->addRow($singleRow);
+        if($email != "" && $status != "")
+            {
+              $counsellors=User::where('role_id',"2")->where('account_enabled',"1")->where('name', 'like', '%' . $email . '%')
+             ->orwhere('email', 'like', '%' . $email . '%')->get();
+              foreach ($counsellors as $key => $counsellor) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($counsellor['name']),
+                            WriterEntityFactory::createCell($counsellor['email']),
+                            WriterEntityFactory::createCell($counsellor['counsellor_type']),
+                            WriterEntityFactory::createCell($counsellor['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }
+            } 
+         elseif($email != "")
+            {
+              $counsellors=User::where('role_id',"2")->where('name', 'like', '%' . $email . '%')
+             ->orwhere('email', 'like', '%' . $email . '%')->get();
+              foreach ($counsellors as $key => $counsellor) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($counsellor['name']),
+                            WriterEntityFactory::createCell($counsellor['email']),
+                            WriterEntityFactory::createCell($counsellor['counsellor_type']),
+                            WriterEntityFactory::createCell($counsellor['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }
+            } 
+            elseif($status == "1")
+            {
+              $counsellors=User::where('role_id',"2")->where('account_enabled',"1")->get();
+              foreach ($counsellors as $key => $counsellor) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($counsellor['name']),
+                            WriterEntityFactory::createCell($counsellor['email']),
+                            WriterEntityFactory::createCell($counsellor['counsellor_type']),
+                            WriterEntityFactory::createCell($counsellor['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }
+            } 
+             elseif ($status == "0")
+               {
+                 $counsellors=User::where('role_id',"2")->where('account_enabled',"0")->get();
+                  foreach ($counsellors as $key => $counsellor) 
+                        {
+                           
+                           $cells = [
+                                WriterEntityFactory::createCell($counsellor['name']),
+                                WriterEntityFactory::createCell($counsellor['email']),
+                                WriterEntityFactory::createCell($counsellor['counsellor_type']),
+                                WriterEntityFactory::createCell($counsellor['account_enabled']),
+                               
+                            ];
+                            $singleRow = WriterEntityFactory::createRow($cells);
+                            $writer->addRow($singleRow); 
+                        }
+                }   
+                elseif ($status == "3")
+               {
+                 $counsellors=User::where('role_id',"2")->where('account_enabled',"3")->get();
+                  foreach ($counsellors as $key => $counsellor) 
+                        {
+                           
+                           $cells = [
+                                WriterEntityFactory::createCell($counsellor['name']),
+                                WriterEntityFactory::createCell($counsellor['email']),
+                                WriterEntityFactory::createCell($counsellor['counsellor_type']),
+                                WriterEntityFactory::createCell($counsellor['account_enabled']),
+                               
+                            ];
+                            $singleRow = WriterEntityFactory::createRow($cells);
+                            $writer->addRow($singleRow); 
+                       }
+                }    
+            else
+            {
+              foreach ($counsellors as $key => $counsellor) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($counsellor['name']),
+                            WriterEntityFactory::createCell($counsellor['email']),
+                            WriterEntityFactory::createCell($counsellor['counsellor_type']),
+                            WriterEntityFactory::createCell($counsellor['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }  
+            }   
+                    $writer->close();
+                    exit();
     }
 }

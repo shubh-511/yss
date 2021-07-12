@@ -9,6 +9,8 @@ use Validator;
 use App\GeneralSetting;
 use App\Traits\CheckPermission;
 use Illuminate\Support\Facades\Auth;
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class LabelController extends Controller
 {
@@ -98,4 +100,36 @@ class LabelController extends Controller
        
        }
     }
+   public function download(Request $request)
+    {
+      try
+      {
+       $writer = WriterEntityFactory::createXLSXWriter(Type::XLSX);
+       $writer->openToBrowser('Label'.date('Y-m-d:hh:mm:ss').'.xlsx');
+       $listing_labels=ListingLabel::get();
+       $column = [
+              WriterEntityFactory::createCell('Label Id'),
+              WriterEntityFactory::createCell('Label Name'),
+              WriterEntityFactory::createCell('Status'),
+          ];
+        $singleRow = WriterEntityFactory::createRow($column);
+        $writer->addRow($singleRow);
+        foreach ($listing_labels as $key => $listing_label) 
+              {
+                $cells = [
+                WriterEntityFactory::createCell($listing_label->id),
+                WriterEntityFactory::createCell($listing_label->label_name),
+                WriterEntityFactory::createCell($listing_label->status),
+            ];
+            $singleRow = WriterEntityFactory::createRow($cells);
+            $writer->addRow($singleRow); 
+             }
+          $writer->close();
+          exit();
+        }
+        catch(\Exception $e)
+        {
+            return redirect()->back()->with('err_message','Something went wrong!');
+        }
+      }
 }

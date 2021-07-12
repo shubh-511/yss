@@ -62,6 +62,7 @@ Route::get('/counsellors/bulk','Admin\CounsellorController@active');
 Route::get('/counsellors/revenue/{id}', 'Admin\CounsellorController@revenue');
 Route::get('/counsellors/list/listedit/{id}','Admin\CounsellorController@listedit');
 Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupdate');
+Route::get('download/counsellor','Admin\CounsellorController@download');
 
 	//Category
 	Route::get('category/create','Admin\CategoryController@create');
@@ -71,6 +72,7 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
     Route::post('/category/update/{id}','Admin\CategoryController@update');
     Route::get('category/destroy/{id?}','Admin\CategoryController@destroy');
     Route::get('category/bulk','Admin\CategoryController@bulkaction');
+   Route::get('download/category','Admin\CategoryController@download');
 
     //region
     Route::get('region','Admin\RegionController@regionlist');
@@ -80,6 +82,7 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
     Route::post('/region/update/{id}','Admin\RegionController@update');
     Route::get('region/destroy/{id?}','Admin\RegionController@destroy');
     Route::get('region/bulk','Admin\RegionController@bulkaction');
+    Route::get('download/region','Admin\RegionController@download');
 
    //label
     Route::get('label','Admin\LabelController@labellist');
@@ -88,7 +91,8 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
     Route::get('/label/edit/{id}', 'Admin\LabelController@edit');
     Route::post('/label/update/{id}','Admin\LabelController@update');
     Route::get('label/destroy/{id?}','Admin\LabelController@destroy');
-   Route::get('label/bulk','Admin\LabelController@bulkaction');
+    Route::get('label/bulk','Admin\LabelController@bulkaction');
+    Route::get('download/label','Admin\LabelController@download');
 
   
 	Route::get('/profile', 'Admin\UserController@profile');
@@ -111,7 +115,7 @@ Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupda
 	Route::get('/tickets/detail/{id}', 'Admin\TicketController@getTicketDetail');
 
 	Route::get('/tickets/refund-ticket/{ticketId}', 'Admin\TicketController@refundTicket');
-    Route::get('/tickets/bulk', 'Admin\TicketController@active');
+        Route::get('/tickets/bulk', 'Admin\TicketController@active');
 
 	Route::get('/create-booking', 'Admin\BookingController@createBooking');
 	Route::get('/counsellor/select-package/{counsellorId}', 'Admin\BookingController@getAllPackages');

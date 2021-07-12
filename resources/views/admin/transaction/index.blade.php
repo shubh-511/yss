@@ -66,7 +66,7 @@
                 </div>
 				<div class="col-md-3 ">
 				  <label>&nbsp;</label>
-                  <input type="submit" class="btn btn-primary" onclick="Myfunction()" value="Download Report">
+                  <input type="submit" class="btn btn-primary" onclick="Report()" value="Download Report">
                 </div>
                 </div>
               </div>
@@ -115,17 +115,13 @@
 @endsection
 @push('select2')
 <script type="text/javascript">
-function Myfunction()
+function Report()
 {
   var searchParams = new URLSearchParams(window.location.search);
-  let counsellor = searchParams.get('counsellor');
-  let date = searchParams.get('date');
+  let counsellor_id = searchParams.get('counsellor');
+  let from_date = searchParams.get('from_date');
+  let to_date = searchParams.get('to_date');
   var urlLike = '{{ url('login/transaction/download') }}';
-  if(searchParams == "")
-      {
-       }
-      else
-      {
        $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -133,22 +129,22 @@ function Myfunction()
     
                 type: 'GET',
                 url: urlLike,
-                data: {counsellor: counsellor,date:date},
+                data: {counsellor_id:counsellor_id,from_date:from_date,to_date:to_date},
                  xhrFields: {
                 responseType: 'blob'
             },
-                success: function(response)
+             success: function(response)
                 {
                 var blob = new Blob([response]);
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = "revenuereport.pdf";
+                link.download = "Revenue-Report.xlsx";
                 link.click()
                   
                 }
-
+               
             });
-     }
+     
   
 }
 $(".transaction").select2({

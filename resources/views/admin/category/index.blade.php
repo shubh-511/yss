@@ -21,7 +21,7 @@
 					<label>Bulk Action</label>
 					<select name="action" class="form-control bulk-category" id="catdel">
 						<option value="active">Active</option>
-						<option value="inactive">InActive</option>
+						<option value="inactive">Inactive</option>
 						<option value="delete">Delete</option>
 					</select>
 				  </div>
@@ -33,6 +33,9 @@
 					<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
 				  </div>
 				</div>
+                                <div class="col-md-4">
+                                 <a href="{{url('login/download/category')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-download icon-white"></i> Download Category</a>
+                              </div>
 			</div>
 			<table id="table" class="table table-bordered table-striped">
 				<thead>
@@ -52,7 +55,7 @@
 						<td>{{ $category->category_name}}</td>
 						<td>
 							<span class="label  @if($category->status!='0') {{'label-success'}} @else {{'label-warning'}} @endif">
-							@if($category->status=='1') {{'Active'}} @else {{'InActive'}} @endif 
+							@if($category->status=='1') {{'Active'}} @else {{'Inactive'}} @endif 
 							</span>
 						</td>
 						<td>
