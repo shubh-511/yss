@@ -7,80 +7,55 @@
     <!-- Default box -->
       <div class="box">
           <div class="box-header">
-            
-             <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                        
-                    </div>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                       
-                    </div>
-                </div>
-                
-            </div>
-          </form>
-          <div class="row ">
-          <div class="col-md-12">
-            <ul class="pagination pagination-sm" style="margin: 0 0 5px 0;">
-            
-                
-            </ul>
-          </div>
-        </div>
+			<div class="pull-left">
+				<h3 class="box-title">Tickets</h3>
+			</div>
           </div>
           <div class="box-body">
             <div class="row">
-               <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
-                  
-                </div>
               <form method="get" url="{{('/tickets')}}" enctype="multipart/form-data">
               <div class="col-md-12">
-                <div class="col-md-3">
-                  <label>Username</label>
-                  <input type="text" class="form-control" name="name" placeholder="Search by User name">
-                </div>
-                <div class="col-md-3">
-                  <label>Date</label>
-                  <input type="date" class="form-control" name="date" placeholder="Search by Date">
-                </div>
-                 <div class="col-md-3">
-                  <label>Status</label>
-                 <select name="status" class="form-control">
-                  <option value="">select</option>
-                    <option value="1">Refund Initiated</option>
-                    <option value="0">Pending</option>
-                  </select>
-                </div>
-                <br>
-                <div class="col-md-3">
-                  <input type="submit" class="btn btn-primary" value="Filter">
-                </div>
-                </div>
+				  <div class="row">
+					<div class="col-md-3">
+					  <label>Username</label>
+					  <input type="text" class="form-control" name="name" placeholder="Search by User name">
+					</div>
+					<div class="col-md-3">
+					  <label>Date</label>
+					  <input type="date" class="form-control" name="date" placeholder="Search by Date">
+					</div>
+					 <div class="col-md-3">
+					  <label>Status</label>
+					 <select name="status" class="form-control">
+					  <option value="">select</option>
+						<option value="1">Refund Initiated</option>
+						<option value="0">Pending</option>
+					  </select>
+					</div>
+					<div class="col-md-3">
+					  <label>&nbsp;</label>
+					  <input type="submit" class="btn btn-primary" value="Filter">
+					</div>
+				  </div>
+				</div>
               </form>
               <div class="col-md-12">
+				<div class="row">
                   <div class="col-md-3">
-                  <label>Action</label>
-                 <select name="action" class="form-control" id="action">
-                    <option disabled selected value>Bulk Action</option>
-                    <option value="refund">Refund Initiated</option>
-                    <option value="pending">Pending</option>
-                    <option value="delete">Delete</option>
-                  </select>
+					<label>Action</label>
+					<select name="action" class="form-control" id="action">
+						<option disabled selected value>Bulk Action</option>
+						<option value="refund">Refund Initiated</option>
+						<option value="pending">Pending</option>
+						<option value="delete">Delete</option>
+					</select>
+				  </div>
+				  <div class="col-md-3">
+					<label>&nbsp;</label>
+					<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+				  </div>
+				</div>
               </div>
-               <br>
-              <div class="col-md-3">
-                  <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
-                </div>
-              </div>
-                <br>
-                <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Tickets</h3>
-                  
-                </div>
             </div>
             <div class="row">
               <div class="col-sm-12">
@@ -122,7 +97,7 @@
 
                       @empty
                           <tr>
-                          <td colspan="3" class="text-center">No records found</td>
+                          <td colspan="7" class="text-center">No records found</td>
                         </tr>
                       @endforelse
                   </tbody>

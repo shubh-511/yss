@@ -17,10 +17,6 @@
 		  </div>
           <div class="box-body">
             <div class="row">
-                <!-- <div class="col-md-6">
-                  <h3 class="control-label nopadding col-sm-3 " for="inputEmail">Search</h3>
-                  
-                </div> -->
               <form method="get" url="{{('/counsellors')}}" enctype="multipart/form-data">
                 <div class="row">
               <div class="col-md-12">
@@ -48,34 +44,31 @@
               </form>
                <div class="col-xs-12">
                 <div class="row">
-		   <div class="col-md-3">
-		       <div class="form-group">
-			  <label>Action</label>
-				<select name="action" class="form-control counsellor-action" id="action">
-					<option disabled selected value>Bulk Action</option>
-					<option value="active">Active</option>
-					<option value="disabled">Account Disabled</option>
-					<option value="verification">Pending for verification</option>
-					<option value="delete">Delete</option>
-				</select>
-			 </div>
-		     </div>
-					
-		 <div class="col-md-3">
-		   <div class="form-group">
-		     <label>&nbsp;</label>
-			<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
-		  </div>
-		   </div>
-             
-		</div>
+				 <div class="col-md-3">
+					<div class="form-group">
+						<label>Action</label>
+						<select name="action" class="form-control counsellor-action" id="action">
+							<option disabled selected value>Bulk Action</option>
+							<option value="active">Active</option>
+							<option value="disabled">Account Disabled</option>
+							<option value="verification">Pending for verification</option>
+							<option value="delete">Delete</option>
+						</select>
+					</div>
+				 </div>  
+				 <div class="col-md-3">
+				   <div class="form-group">
+					 <label>&nbsp;</label>
+					<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+				  </div>
+				   </div>
+				<div class="col-md-2 pull-right"> 
+					<label>&nbsp;</label>
+					<input type="submit" class="btn btn-primary" onclick="downloadCounsellor()" value="Download Counsellor">
+				</div>
+				</div>
                  
               </div>
-
-                 <div class="col-md-2">                 
-                     <input type="submit" class="btn btn-primary" onclick="downloadCounsellor()" value="Download Counsellor">
-                   </div>
-
             </div>
 			<table id="table" class="table table-bordered table-striped">
 				<thead>
