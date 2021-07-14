@@ -38,6 +38,15 @@
 							</div>
 						</div>
 					</form>
+					<div class="col-md-3">
+					</div>
+					<div class="col-md-3">
+					</div>
+					<div class="col-md-3">
+					</div>
+					<div class="col-md-3">
+                     <input type="submit" class="btn btn-primary" onclick="downloadBooking()" value="Download Booking">
+                    </div>
 					<table id="table" class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -235,6 +244,38 @@ function myFunction() {
                 }
 
             });
+}
+function downloadBooking()
+{
+  var searchParams = new URLSearchParams(window.location.search);
+  let name = searchParams.get('name');
+  let status = searchParams.get('status');
+  let booking_date = searchParams.get('booking_date');
+  var urlLike = '{{ url('login/download/bookings') }}';
+       $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+    
+                type: 'GET',
+                url: urlLike,
+                data: {name:name,status:status,booking_date:booking_date},
+                 xhrFields: {
+                responseType: 'blob'
+            },
+             success: function(response)
+                {
+                var blob = new Blob([response]);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "Booking-Report.xlsx";
+                link.click()
+                  
+                }
+               
+            });
+     
+  
 }
 </script>
 @push('select2')

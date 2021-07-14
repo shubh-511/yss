@@ -20,6 +20,7 @@ use App\multilabel;
 use App\Notification;
 use Carbon\Carbon;
 use App\Events\CounsellorRegisterEvent;
+use App\Events\ApproveListingEvent;
 use App\GeneralSetting;
 use App\Traits\CheckPermission;
 use Box\Spout\Common\Type;
@@ -489,6 +490,7 @@ class CounsellorController extends Controller
     {
          try
          {
+
            $validator = Validator::make($request->all(), [ 
             'listing_name' => 'required',
             'location' => 'required',
@@ -544,6 +546,7 @@ class CounsellorController extends Controller
             }
              else if($request->status=="1")
             {
+                
                 $newNotif = new Notification;
                 $newNotif->receiver = $list_update_data->user_id;
                 $newNotif->title = "Admin enable your listing";
@@ -551,6 +554,7 @@ class CounsellorController extends Controller
                 $time=Carbon::now($user->timezone)->toDateTimeString();
                 $newNotif->created_at=$time;
                 $newNotif->save();
+                event(new ApproveListingEvent($list_update_data->user_id));
             }
             else
             {

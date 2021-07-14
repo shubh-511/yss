@@ -106,6 +106,7 @@ Route::get('download/counsellor','Admin\CounsellorController@download');
 
 	Route::get('/bookings', 'Admin\BookingController@bookingList');
 	Route::get('/bookings/bulk', 'Admin\BookingController@active');
+	Route::get('/download/bookings', 'Admin\BookingController@download');
 	Route::get('/call-history/{bookingid}', 'Admin\BookingController@callHistory');
 	Route::get('/download/report/{bookingid}', 'Admin\BookingController@downloadreport');
 	Route::get('/send-notification', 'Admin\SendNotificationController@sendNotification');
@@ -122,8 +123,10 @@ Route::get('download/counsellor','Admin\CounsellorController@download');
 
 	Route::get('/listings', 'Admin\AdminListingController@getListings');
 	Route::get('/listingStatus', 'Admin\AdminListingController@listingStatus');
+	Route::get('/reject/listingStatus', 'Admin\AdminListingController@rejectListingStatus');
 	Route::get('/listings/detail/{listingid}', 'Admin\AdminListingController@getListingDetails');
 	Route::get('/listings/bulk/', 'Admin\AdminListingController@bulk');
+	 Route::get('download/listing','Admin\AdminListingController@download');
 
 	Route::get('/getCounsellorPackage', 'Admin\BookingController@getCounsellorPackage');
 	Route::get('/getSlotsByDate', 'Admin\BookingController@getSlotsByDate');

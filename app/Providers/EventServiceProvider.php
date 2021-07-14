@@ -45,9 +45,19 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ListingEvent' => [
             'App\Listeners\ListingEventListener',
         ],
-        /*'App\Events\CancelBookingByCounsellorEvent' => [
-            'App\Listeners\CancelBookingByCounsellorListner',
-        ],*/
+         'App\Events\ApproveListingEvent' => [
+            'App\Listeners\ApproveListingListner',
+        ],
+        'App\Events\BookLeftSession' => [
+            'App\Listeners\BookLeftSessionListner',
+        ],
+        'App\Events\RejectListingEvent' => [
+            'App\Listeners\RejectListingListner',
+        ],
+        'App\Events\AccountRelatedEvent' => [
+            'App\Listeners\AccountRelatedListner',
+        ],
+        
     ];
 
     /**

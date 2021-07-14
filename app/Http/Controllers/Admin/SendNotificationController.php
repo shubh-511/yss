@@ -11,6 +11,7 @@ use Validator;
 use Event;
 use Carbon\Carbon;
 use App\Traits\CheckPermission;
+use App\Events\AccountRelatedEvent;
 
 class SendNotificationController extends Controller
 {
@@ -61,6 +62,7 @@ class SendNotificationController extends Controller
                     $notif->body = strip_tags($request->body);
                     $notif->created_at =Carbon::now($data->timezone)->toDateTimeString();
                     $notif->save();
+                    event(new AccountRelatedEvent($data->id, strip_tags(trim($request->body))));
                 }
             return redirect('login/send-notification')->with('success','Notification sent successfully');
         }

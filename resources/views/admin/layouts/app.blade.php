@@ -195,7 +195,7 @@
                 </li>
                 <li class="">
                   <a href="{{url('login/region')}}">
-                    <i class="fa fa-hospital-o"></i> <span>Regions</span>
+                    <i class="fa fa-area-chart"></i> <span>Regions</span>
                   </a>
                 </li>
                 <li class="">
@@ -205,7 +205,7 @@
                 </li>
                 <li class="">
                   <a href="{{url('login/transaction')}}">
-                    <i class="fa fa-globe"></i> <span>Transaction</span>
+                    <i class="fa fa-exchange"></i> <span>Transaction</span>
                   </a>
                 </li>
                    

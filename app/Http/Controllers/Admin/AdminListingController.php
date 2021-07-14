@@ -15,8 +15,11 @@ use App\multilabel;
 use App\ListingGallery;
 use App\Events\UserRegisterEvent;
 use App\Events\ListingEvent;
+use App\Events\RejectListingEvent;
 use App\GeneralSetting;
 use App\Traits\CheckPermission;
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class AdminListingController extends Controller
 {
@@ -99,15 +102,17 @@ class AdminListingController extends Controller
                 $model->save();
             }
         }
-        else 
-        {
-             if($model) 
-            {
-                $model->status = $status;
-                $model->save();
-            }
+    }
+    public function rejectListingStatus()
+    {
+        $id=$_GET['id'];
+        $status=$_GET['value'];
+        $msg=$_GET['msg'];
+        $model = Listing::find($id);
+        $model->status = $status;
+        $model->save();
+        event(new RejectListingEvent($model->user_id,$msg));
 
-        }
     }
 
     public function bulk(Request $request)
@@ -127,5 +132,78 @@ class AdminListingController extends Controller
        return response()->json(array('message' => 'success'));
        }
     }
+    public function download(Request $request)
+    {
+      try
+      {
+       $listing_name=$request->listing_name;
+       $email=$request->email;
+       $writer = WriterEntityFactory::createXLSXWriter(Type::XLSX);
+       $writer->openToBrowser('Listing'.date('Y-m-d:hh:mm:ss').'.xlsx');
+       $column = [
+              WriterEntityFactory::createCell('Listing  Id'),
+              WriterEntityFactory::createCell('Listing Name'),
+              WriterEntityFactory::createCell('Listing Category'),
+              // WriterEntityFactory::createCell('Created By'),
+              WriterEntityFactory::createCell('Status'),
+
+          ];
+        $singleRow = WriterEntityFactory::createRow($column);
+        $writer->addRow($singleRow);
+          if($listing_name != "")
+          {
+              $listings=Listing::with('category')->where('listing_name', 'like', '%' . $listing_name . '%')->get();
+               foreach ($listings as $key => $listing) 
+                {
+                  $cells = [
+                  WriterEntityFactory::createCell($listing['id']),
+                  WriterEntityFactory::createCell($listing['listing_name']),
+                  WriterEntityFactory::createCell($listing['category']['category_name']),
+                  WriterEntityFactory::createCell($listing['status']),
+                ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+               }
+          }
+           elseif($email != "")
+          {
+             $listings= Listing::with(['category', 'user' => function($q) use($value) {
+               $q->where('email', 'LIKE', '%' . $email . '%');
+              }])->get();
+               foreach ($listings as $key => $listing) 
+                {
+                  $cells = [
+                  WriterEntityFactory::createCell($listing['id']),
+                  WriterEntityFactory::createCell($listing['listing_name']),
+                  WriterEntityFactory::createCell($listing['category']['category_name']),
+                  WriterEntityFactory::createCell($listing['status']),
+                ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+               }
+          }
+         else
+         {
+            $listings=Listing::with('category')->get();
+            foreach ($listings as $key => $listing) 
+                {
+                  $cells = [
+                  WriterEntityFactory::createCell($listing['id']),
+                  WriterEntityFactory::createCell($listing['listing_name']),
+                  WriterEntityFactory::createCell($listing['category']['category_name']),
+                  WriterEntityFactory::createCell($listing['status']),
+                ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+               }
+          }
+          $writer->close();
+          exit();
+        }
+        catch(\Exception $e)
+        {
+            return redirect()->back()->with('err_message','Something went wrong!');
+        }
+      }
 
 }

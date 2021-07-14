@@ -240,6 +240,7 @@ class UserController extends Controller
     {
     	try{
 
+
     		$validator = Validator::make($request->all(), [ 
 	            'name' => 'required|max:190',  
 	            'email' => 'required|max:190|email|unique:users', 
@@ -267,7 +268,7 @@ class UserController extends Controller
 	        $user = User::create($input); 
 	        
 	        //Send Register Email
-	        //event(new UserRegisterEvent($user->id));
+	        event(new UserRegisterEvent($user->id));
 
 	        return response()->json(['success' => true,
 	            					 'user' => $user,
@@ -308,7 +309,7 @@ class UserController extends Controller
 
                 //Send Forgot Password Mail
                 
-                //event(new ForgotPasswordEvent($userDetail->id,$userDetail->otp));
+                event(new ForgotPasswordEvent($userDetail->id,$userDetail->otp));
 
                 $url = env('LIVE_URL').''.$userDetail['key'];
 
@@ -408,7 +409,7 @@ class UserController extends Controller
                 $newNotif->body = "Your password has been reset!";
                 $newNotif->save();
 
-                //event(new ResetPasswordEvent($user->id));
+                event(new ResetPasswordEvent($user->id));
                 //$this->resetPasswordSMS($user->country_code, $user->phone);
 
                 return response()->json(['success' => true,

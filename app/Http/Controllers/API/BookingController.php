@@ -24,6 +24,7 @@ use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\BookingEvent;
 use App\Events\BookingCounsellorEvent;
+use App\Events\BookLeftSession;
 use App\Events\FailedBookingEvent;
 //use App\Events\CancelBookingByCounsellorEvent;
 use DateTime;
@@ -264,6 +265,7 @@ class BookingController extends Controller
                $left_session->payment_id=$sessionDetail->payment_id;
                $left_session->left_sessions=$left_session_val;
                $left_session->save();
+                event(new BookLeftSession($user->id,$left_session_val,$params['no_of_slots']));
                }
              else
               {
@@ -574,11 +576,11 @@ class BookingController extends Controller
 
                 //Send Mail
                 
-                //event(new BookingEvent($booking->id, $user->id));
+                event(new BookingEvent($booking->id, $user->id));
 
                 //Send Mail
                 
-                //event(new BookingCounsellorEvent($booking->id, $params['counsellor_id'], $user->id));
+                event(new BookingCounsellorEvent($booking->id, $params['counsellor_id'], $user->id));
 
                 //send sms for successful booking
                 /*if(!empty($user->phone) && !empty($user->country_code))

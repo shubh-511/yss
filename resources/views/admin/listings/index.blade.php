@@ -33,7 +33,7 @@
                 </div>
 				
                 <div class="col-md-2">
-				  <label>&nbsp;</label>
+				           <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
                 </div>
@@ -42,22 +42,32 @@
               <div class="col-md-12">
                 <div class="row">
                   <div class="col-md-5">
-				  <div class="form-group">
+				        <div class="form-group">
                   <label>Bulk Action</label>
                  <select name="action" class="form-control listing-action" id="listdel">
                    <option value="enable">Enabled</option>
                    <option value="disable">Disable</option>
                   </select>
-				  </div>
+				       </div>
               </div>
-			  
-              <div class="col-md-2">
-				<div class="form-group">
-				  <label>&nbsp;</label>
-                  <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
-				</div>
+               
+               <div class="col-md-2">
+				         <div class="form-group">
+				           <label>&nbsp;</label>
+                   <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
+				        </div>
                 </div>
               </div>
+               <div class="col-md-3">
+                </div>
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-3">
+                  <input type="submit" class="btn btn-primary" onclick="downloadListing()" value="Download Listing">
+                </div>
+        
               </div>
             </div>
                 <table id="table" class="table table-bordered table-striped">
@@ -83,7 +93,7 @@
                           <td>{{ $listing->user->email ?? ''}}</td>
                           <td style="width: 12rem; word-break: break-word;">{{ date('j F, Y', strtotime($listing->created_at)) }}</td>
                           <td>
-                            <!-- <a href="javascript:" onclick="update_status('{{ $listing->id}}',{{abs($listing->status-1)}})"> -->
+                             <a href="javascript:" class="Update" onclick="update_status('{{ $listing->id}}',{{abs($listing->status-1)}})">
                               <span class="label  @if($listing->status!='0') {{'label-success'}} @else {{'label-warning'}} @endif">
                                 @if($listing->status=='1') {{'Enabled'}} @else {{'Disabled'}} @endif 
                               </span>
@@ -116,19 +126,68 @@
 </div>
 @endsection
 
+<script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+<link rel="stylesheet" media="screen" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' />
+
+<center>
+    <a class="Update" href=""><i class="ace-icon fa fa-pencil-square-o"></i>|</a>
+</center>
+<div id="MyPopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;</button>
+            </div>
+            <div class="modal-body">
+              <textarea id="msg" value="" name="message" class="md-textarea form-control" rows="3" required></textarea>
+              <input type="hidden" name="id" id="id" value="">
+
+            </div>
+            <div class="modal-footer">
+                <button name="send" type="submit" class="btn btn-primary" onclick="SendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
  function update_status(id,value)
-      {     
+      {  
+      if(value == "0")
+      {
+          $("#MyPopup").modal("show");
+          $("#id").val(id);
+
+      }
+      else
+      {
         $.ajax({
           type: 'GET',
           data: {'id':id,'value':value},
           url: "../login/listingStatus",
            success: function(result){
-            //alert( 'Update Action Completed.');
+            alert( 'Update Action Completed.');
             location.reload();
             
            }});
       }
+      }
+    function SendMessage()
+    {
+      var msg = $("#msg").val();
+      var id= $("#id").val();
+      var value="0";
+      $.ajax({
+        type: 'GET',
+        data: {'msg':msg,'id':id,'value':value},
+        url: "../login/reject/listingStatus",
+         success: function(result){
+          alert( 'Update Action Completed.');
+          location.reload();
+        }});
+    }
 </script>
  <script>
     function myFunction() {
@@ -159,6 +218,37 @@
                 }
 
             });
+}
+function downloadListing()
+{
+  var searchParams = new URLSearchParams(window.location.search);
+  let listing_name = searchParams.get('listing_name');
+  let email = searchParams.get('email');
+  var urlLike = '{{ url('login/download/listing') }}';
+       $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+    
+                type: 'GET',
+                url: urlLike,
+                data: {listing_name:listing_name,email:email},
+                 xhrFields: {
+                responseType: 'blob'
+            },
+             success: function(response)
+                {
+                var blob = new Blob([response]);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "Listing-Report.xlsx";
+                link.click()
+                  
+                }
+               
+            });
+     
+  
 }
 </script>
 @push('select2')

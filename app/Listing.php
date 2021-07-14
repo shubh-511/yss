@@ -46,7 +46,7 @@ class Listing extends Model
         return $this->hasMany('App\ListingGallery','listing_id','id');
     }
 
- public function multilabel()
+   public function multilabel()
     {
         return $this->hasMany('App\multilabel','listing_id','id');
     }

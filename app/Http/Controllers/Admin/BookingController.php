@@ -17,10 +17,13 @@ use Event;
 use PDF;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
+use App\Events\BookLeftSession;
 use App\Notification;
 use App\GeneralSetting;
 use App\LeftSession;
 use App\Traits\CheckPermission;
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class BookingController extends Controller
 {
@@ -352,7 +355,7 @@ class BookingController extends Controller
               $customBooking->counsellor_booking_date = $request->date;
               
             }
-             $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
+            $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
             $customBooking->status = '1';
             $customBooking->save();
             $newNotif = new Notification;
@@ -381,6 +384,7 @@ class BookingController extends Controller
                $left_session->payment_id=1;
                $left_session->left_sessions=$left_session_val;
                $left_session->save();
+               event(new BookLeftSession($user->id,$left_session_val,count($myslots)));
               }
              
         echo 1;
@@ -410,5 +414,128 @@ class BookingController extends Controller
         return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
       } 
     }
+    public function download(Request $request)
+    {
+        $name=$request->name;
+        $status=$request->status;
+        $booking_date=$request->booking_date;
+        $writer = WriterEntityFactory::createXLSXWriter(Type::XLSX);
+        $writer->openToBrowser('Booking-Report'.date('Y-m-d:hh:mm:ss').'.xlsx');
+        $column = [
+                    WriterEntityFactory::createCell('User Name'),
+                    WriterEntityFactory::createCell('Package Name'),
+                    WriterEntityFactory::createCell('Appointment Date'),
+                    WriterEntityFactory::createCell('Slot'),
+                    WriterEntityFactory::createCell('Booking status'),
+                  ];
+                $singleRow = WriterEntityFactory::createRow($column);
+                $writer->addRow($singleRow);
+           if($status == "1")
+           {
+              $bookings = Booking::with('user','counsellor','package')->where('status',"1")->get();
+              foreach ($bookings as $key => $booking) 
+              {
+                $cells = [
+                  WriterEntityFactory::createCell($booking['user']['name']),
+                  WriterEntityFactory::createCell($booking['package']['package_name']),
+                  WriterEntityFactory::createCell($booking['booking_date']),
+                  WriterEntityFactory::createCell($booking['counsellor_timezone_slot']),
+                  WriterEntityFactory::createCell($booking['status']),
+               ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+              }
+            }
+            elseif($status == "0")
+            {
+              $bookings = Booking::with('user','counsellor','package')->where('status',"0")->get();
+              foreach ($bookings as $key => $booking) 
+              {
+                $cells = [
+                  WriterEntityFactory::createCell($booking['user']['name']),
+                  WriterEntityFactory::createCell($booking['package']['package_name']),
+                  WriterEntityFactory::createCell($booking['booking_date']),
+                  WriterEntityFactory::createCell($booking['counsellor_timezone_slot']),
+                  WriterEntityFactory::createCell($booking['status']),
+               ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+              }
+            }
+             elseif($status == "4")
+            {
+              $bookings = Booking::with('user','counsellor','package')->where('status',"4")->get();
+              foreach ($bookings as $key => $booking) 
+              {
+                $cells = [
+                  WriterEntityFactory::createCell($booking['user']['name']),
+                  WriterEntityFactory::createCell($booking['package']['package_name']),
+                  WriterEntityFactory::createCell($booking['booking_date']),
+                  WriterEntityFactory::createCell($booking['counsellor_timezone_slot']),
+                  WriterEntityFactory::createCell($booking['status']),
+               ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+              }
+            }
+            elseif($booking_date != "")
+            {
+              $bookings = Booking::with('user','counsellor','package')->where('counsellor_booking_date',$booking_date)->get();
+              foreach ($bookings as $key => $booking) 
+              {
+                $cells = [
+                  WriterEntityFactory::createCell($booking['user']['name']),
+                  WriterEntityFactory::createCell($booking['package']['package_name']),
+                  WriterEntityFactory::createCell($booking['booking_date']),
+                  WriterEntityFactory::createCell($booking['counsellor_timezone_slot']),
+                  WriterEntityFactory::createCell($booking['status']),
+               ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+              }
+            }
+            elseif($name != "")
+             {
+                 $bookings = Booking::with('user')->whereHas('counsellor', function ($query) use ($request)
+                 {
+                  
+                 });
+                 print_r($bookings);
+                 die;
+                foreach ($bookings as $key => $booking) 
+                {
+                  $cells = [
+                    WriterEntityFactory::createCell($booking['user']['name']),
+                    WriterEntityFactory::createCell($booking['package']['package_name']),
+                    WriterEntityFactory::createCell($booking['booking_date']),
+                    WriterEntityFactory::createCell($booking['counsellor_timezone_slot']),
+                    WriterEntityFactory::createCell($booking['status']),
+                 ];
+                  $singleRow = WriterEntityFactory::createRow($cells);
+                  $writer->addRow($singleRow); 
+                }
+            }
+            else
+            {
+              $bookings = Booking::with('user','counsellor','package')->get();
+              foreach ($bookings as $key => $booking) 
+              {
+                $cells = [
+                  WriterEntityFactory::createCell($booking['user']['name']),
+                  WriterEntityFactory::createCell($booking['package']['package_name']),
+                  WriterEntityFactory::createCell($booking['booking_date']),
+                  WriterEntityFactory::createCell($booking['counsellor_timezone_slot']),
+                  WriterEntityFactory::createCell($booking['status']),
+               ];
+                $singleRow = WriterEntityFactory::createRow($cells);
+                $writer->addRow($singleRow); 
+              }
+
+            }
+             $writer->close();
+             exit();
+    }
+
+
 
 }
