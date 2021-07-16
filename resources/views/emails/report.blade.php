@@ -171,7 +171,7 @@
 				</tr>
 				<tr>
 					<td>{{'Amount Paid'}}</td>
-					<td>€{{($bookingData['payment_detail']['amount'])/100}}</td>
+					<td>€{{($bookingData['payment_detail']['amount'])}}</td>
 				</tr>
 				
 				@if((count($logs) > 0))
@@ -217,7 +217,7 @@
 				<tr class="item">
 					<td>{{$bookingData['booking_date']}} - {{$bookingData['counsellor_timezone_slot']}}</td>
 
-					<td>€{{($bookingData['payment_detail']['amount'])/100}}</td>
+					<td>€{{($bookingData['payment_detail']['amount'])}}</td>
 				</tr>
 
 				
@@ -225,7 +225,7 @@
 				<tr class="total">
 					<td></td>
 
-					<td>Total:€ {{($bookingData['payment_detail']['amount'])/100}}</td>
+					<td>Total:€ {{($bookingData['payment_detail']['amount'])}}</td>
 				</tr>
 			</table>
 		</div>

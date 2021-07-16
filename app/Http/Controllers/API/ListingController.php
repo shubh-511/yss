@@ -434,7 +434,7 @@ class ListingController extends Controller
             if(!empty($request->all_records))
             {
                 
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
                 
             }
             elseif(!empty($request->listing_category) && !empty($request->listing_region) && !empty($request->listing_label))
@@ -450,7 +450,7 @@ class ListingController extends Controller
                 { 
                     return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
                 }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->whereIn('listing_label', $request->listing_label)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->whereIn('listing_label', $request->listing_label)->orderBy('id', 'DESC')->paginate(9);
             }
            elseif(!empty($request->listing_category) && !empty($request->listing_region))
             {
@@ -464,7 +464,7 @@ class ListingController extends Controller
                 { 
                     return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
                 }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->orderBy('id', 'DESC')->paginate(9);
             }
             elseif(!empty($request->lattitude) && !empty($request->longitude))
             {
@@ -478,7 +478,7 @@ class ListingController extends Controller
                 { 
                     return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
                 }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(8);
+                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(9);
             }
             else
             {
