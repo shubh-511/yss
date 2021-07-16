@@ -87,6 +87,9 @@
         yAxis: {
             title: {
                 text: 'Counsellors Revenue'
+            },
+            labels: {
+                format: '€{value}'
             }
         },
         legend: {

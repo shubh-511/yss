@@ -232,45 +232,52 @@ class PackageController extends Controller
             { 
                 return response()->json(['errors'=>$validator->errors()], $this->successStatus);       
             }
-
-            
-            $package = Package::where('id', $request->package_id)->first();
-            
-            if(isset($request->package_name) && !empty($request->package_name))
+             $booking = Booking::where('package_id', $request->package_id)->count();
+            if($booking > 0)
             {
-                $exits = Package::where('id','!=', $request->package_id)->where('user_id', Auth::user()->id)->where('package_name', $request->package_name)->count();
-                if ($exits > 0)
+
+                return response()->json(['success'=>false,'errors' =>['exception' => ['Can not update selected package as it is currently in use']]], $this->successStatus);
+            }
+            else
+            {
+                $package = Package::where('id', $request->package_id)->first();
+                
+                if(isset($request->package_name) && !empty($request->package_name))
                 {
-                    return response()->json(['success'=>false,'errors' =>['exception' => ['Package name already exist']]], $this->successStatus); 
+                    $exits = Package::where('id','!=', $request->package_id)->where('user_id', Auth::user()->id)->where('package_name', $request->package_name)->count();
+                    if ($exits > 0)
+                    {
+                        return response()->json(['success'=>false,'errors' =>['exception' => ['Package name already exist']]], $this->successStatus); 
+                    }
+                    $package->package_name = $request->package_name; 
                 }
-                $package->package_name = $request->package_name; 
-            }
-            if(isset($request->package_description) && !empty($request->package_description))
-            {
-                $package->package_description = $request->package_description; 
-            }
-            if(isset($request->session_minutes) && !empty($request->session_minutes))
-            {
-                $package->session_minutes = $request->session_minutes; 
-            }
-            if(isset($request->session_hours))
-            {
-                $package->session_hours = $request->session_hours; 
-            }
-            if(isset($request->amount) && !empty($request->amount))
-            {
-                $package->amount = $request->amount; 
-            }
-            if(isset($request->no_of_slots) && !empty($request->no_of_slots))
-            {
-                $package->no_of_slots = $request->no_of_slots; 
-            }
-            $package->save();
+                if(isset($request->package_description) && !empty($request->package_description))
+                {
+                    $package->package_description = $request->package_description; 
+                }
+                if(isset($request->session_minutes) && !empty($request->session_minutes))
+                {
+                    $package->session_minutes = $request->session_minutes; 
+                }
+                if(isset($request->session_hours))
+                {
+                    $package->session_hours = $request->session_hours; 
+                }
+                if(isset($request->amount) && !empty($request->amount))
+                {
+                    $package->amount = $request->amount; 
+                }
+                if(isset($request->no_of_slots) && !empty($request->no_of_slots))
+                {
+                    $package->no_of_slots = $request->no_of_slots; 
+                }
+                $package->save();
 
-            return response()->json(['success' => true,
-                                     'message' => 'Package updated',
-                                     'package' => $package,
-                                    ], $this->successStatus); 
+                return response()->json(['success' => true,
+                                         'message' => 'Package updated',
+                                         'package' => $package,
+                                        ], $this->successStatus); 
+            }
 
         }
         catch(\Exception $e)
@@ -342,8 +349,7 @@ class PackageController extends Controller
         } 
         
     }
-
-
+    
     /** 
      * Get Package with breaks 
      * 
