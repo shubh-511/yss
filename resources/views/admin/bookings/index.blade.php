@@ -181,11 +181,7 @@
 									  </div>
 									  @endif
 									  
-									  
-									  
 								  </div>
-
-
 
 								  </div>
 								  <div class="modal-footer">
