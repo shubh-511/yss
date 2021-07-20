@@ -11,6 +11,9 @@ use App\Traits\CheckPermission;
 use Illuminate\Support\Facades\Auth;
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Common\Entity\Style\CellAlignment;
+use Box\Spout\Common\Entity\Style\Color;
 
 class RegionController extends Controller
 {
@@ -112,17 +115,17 @@ class RegionController extends Controller
               WriterEntityFactory::createCell('Region Name'),
               WriterEntityFactory::createCell('Status'),
           ];
-        $singleRow = WriterEntityFactory::createRow($column);
-        $writer->addRow($singleRow);
-        foreach ($listing_regions as $key => $listing_region) 
+            $singleRow = WriterEntityFactory::createRow($column);
+            $writer->addRow($singleRow);
+           foreach ($listing_regions as $key => $listing_region) 
               {
                 $cells = [
                 WriterEntityFactory::createCell($listing_region->id),
                 WriterEntityFactory::createCell($listing_region->region_name),
                 WriterEntityFactory::createCell($listing_region->status),
-            ];
-            $singleRow = WriterEntityFactory::createRow($cells);
-            $writer->addRow($singleRow); 
+             ];
+              $singleRow = WriterEntityFactory::createRow($cells);
+              $writer->addRow($singleRow); 
              }
           $writer->close();
           exit();

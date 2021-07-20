@@ -73,7 +73,7 @@
                                   </select>
                                    </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Status:</label>
                                   <select name="status" class="form-control edit-list-status">
@@ -84,7 +84,7 @@
                                 
                                   </select>
                                    </div>
-                            </div>
+                            </div> -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Video Url:(Optional)</label>

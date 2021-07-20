@@ -379,7 +379,7 @@ class BookingController extends Controller
             //$netAmt = $params['amount'];
             $netAmt = 100;
             $conf = \Stripe\PaymentIntent::create([
-              'amount' => $netAmt * 100,
+              'amount' => str_replace([',', '.'], ['', ''], $packageDetail->amount),
               'description' => 'yoursafespaceonline.com',
               'customer' => $customer->id,
               'currency' => 'GBP',

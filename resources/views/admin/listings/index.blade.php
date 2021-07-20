@@ -93,11 +93,27 @@
                           <td>{{ $listing->user->email ?? ''}}</td>
                           <td style="width: 12rem; word-break: break-word;">{{ date('j F, Y', strtotime($listing->created_at)) }}</td>
                           <td>
-                             <a href="javascript:" class="Update" onclick="update_status('{{ $listing->id}}',{{abs($listing->status-1)}})">
+                             <!-- <a href="javascript:" class="Update" onclick="update_status('{{ $listing->id}}',{{abs($listing->status-1)}})">
                               <span class="label  @if($listing->status!='0') {{'label-success'}} @else {{'label-warning'}} @endif">
                                 @if($listing->status=='1') {{'Enabled'}} @else {{'Disabled'}} @endif 
                               </span>
-                            </a>
+                            </a> -->
+                            <select onchange="update_status((this),{{ $listing->id}})" id="mySelect" class="" value="{{$listing->id}}">
+                              @if($listing->status == "0")
+                              <option value="0" selected>Enabled</option>
+                              <option value="1">Disabled</option>
+                              <option value="2">Reject</option>
+                              @elseif($listing->status == "2")
+                              <option value="0">Enabled</option>
+                              <option value="1">Disabled</option>
+                              <option value="2" selected>Reject</option>
+                              @else
+                              <option value="0">Enabled</option>
+                              <option value="1" selected>Disabled</option>
+                              <option value="2">Reject</option>
+                              
+                              @endif
+                              <select>
                           </td>
                           <td>
                             <!-- <a data-toggle="modal" data-target="#myModal<?php echo $listing->id?>"><i class="fa fa-desktop" title="View Listing"></i></a> -->
@@ -141,6 +157,7 @@
                     &times;</button>
             </div>
             <div class="modal-body">
+              <center><label>Reason</label></center>
               <textarea id="msg" value="" name="message" class="md-textarea form-control" rows="3" required></textarea>
               <input type="hidden" name="id" id="id" value="">
 
@@ -153,32 +170,33 @@
 </div>
 
 <script>
- function update_status(id,value)
+ function update_status(current,id)
       {  
-      if(value == "0")
-      {
-          $("#MyPopup").modal("show");
-          $("#id").val(id);
+        var value = current.value;
+        if(value == "2")
+        {
+            $("#MyPopup").modal("show");
+            $("#id").val(id);
 
-      }
-      else
-      {
-        $.ajax({
-          type: 'GET',
-          data: {'id':id,'value':value},
-          url: "../login/listingStatus",
-           success: function(result){
-            alert( 'Update Action Completed.');
-            location.reload();
-            
-           }});
-      }
+        }
+        else
+        {
+          $.ajax({
+            type: 'GET',
+            data: {'id':id,'value':value},
+            url: "../login/listingStatus",
+             success: function(result){
+              alert( 'Update Action Completed.');
+              location.reload();
+              
+             }});
+        }
       }
     function SendMessage()
     {
       var msg = $("#msg").val();
       var id= $("#id").val();
-      var value="0";
+      var value="2";
       $.ajax({
         type: 'GET',
         data: {'msg':msg,'id':id,'value':value},
@@ -191,8 +209,7 @@
 </script>
  <script>
     function myFunction() {
-  
-  var urlLike = '{{ url('login/listings/bulk') }}';
+   var urlLike = '{{ url('login/listings/bulk') }}';
   var action = $("#listdel").val();
   var multiple_id = [];    
       $('input:checkbox[name="listing_id[]"]:checked').each(function() {
@@ -254,6 +271,9 @@ function downloadListing()
 @push('select2')
 <script>
 $(".listing-action").select2({
+  tags: false
+});
+$(".listing-status").select2({
   tags: false
 });
 </script>

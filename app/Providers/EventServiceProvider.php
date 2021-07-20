@@ -57,6 +57,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\AccountRelatedEvent' => [
             'App\Listeners\AccountRelatedListner',
         ],
+         'App\Events\DisableListingEvent' => [
+            'App\Listeners\DisableListingListner',
+        ],
         
     ];
 

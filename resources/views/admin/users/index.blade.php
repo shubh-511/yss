@@ -73,6 +73,9 @@
               <div class="col-md-3">
                   <input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
                 </div>
+                <div class="col-md-2">                 
+                 <input type="submit" class="btn btn-primary" onclick="downloadUser()" value="Download User">
+               </div>
               </div>
            
               
@@ -173,6 +176,38 @@ function myFunction() {
             });
 }
 </script>
+<script>
+function downloadUser()
+{
+  var searchParams = new URLSearchParams(window.location.search);
+  let email = searchParams.get('email');
+  let status = searchParams.get('status');
+  var urlLike = '{{ url('login/download/user') }}';
+       $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+    
+                type: 'GET',
+                url: urlLike,
+                data: {email:email,status:status},
+                 xhrFields: {
+                responseType: 'blob'
+            },
+             success: function(response)
+                {
+                var blob = new Blob([response]);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "User-Report.xlsx";
+                link.click()
+                  
+                }
+               
+            });
+     
+  
+}</script>
 @push('select2')
 <script>
 $(".user-status").select2({

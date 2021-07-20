@@ -89,7 +89,7 @@
                         <tr id='booking{{$booking->id}}'>
                           <td>@php echo $i; @endphp</td>
                            <td>{{$booking->payment_detail->balance_transaction}}</td>
-                           <td>€{{ $booking->payment_detail->amount ?? ''}}.00</td>
+                           <td>€{{ $booking->payment_detail->amount/100 ?? ''}}.00</td>
                           <td>{{ $booking->counsellor->name ?? ''}}</td>
                           <td>{{ $booking->package->package_name ?? ''}}</td>
                           <td>{{ date('j F, Y', strtotime($booking->booking_date)) }}</td>                     

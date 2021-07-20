@@ -10,14 +10,17 @@ use Validator;
 use App\Booking;
 use App\Listing;
 use Event;
+use App\User;
 use Carbon\Carbon;
 use App\multilabel;
 use App\ListingGallery;
 use App\Events\UserRegisterEvent;
 use App\Events\ListingEvent;
 use App\Events\RejectListingEvent;
+use App\Events\DisableListingEvent;
 use App\GeneralSetting;
 use App\Traits\CheckPermission;
+use App\Notification;
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
@@ -93,15 +96,36 @@ class AdminListingController extends Controller
         $id=$_GET['id'];
         $status=$_GET['value'];
         $model = Listing::find($id);
-        if($model->status==0)
+        $user = User::where('id', $model->user_id)->first();
+        if($model->status==1)
         {
             event(new ListingEvent($model->user_id));
             if($model) 
             {
                 $model->status = $status;
                 $model->save();
+                $newNotif = new Notification;
+                $newNotif->receiver = $model->user_id;
+                $newNotif->title = "Admin enable your listing";
+                $newNotif->body = "Listing enable by admin";
+                $time=Carbon::now($user->timezone)->toDateTimeString();
+                $newNotif->created_at=$time;
+                $newNotif->save();
             }
         }
+          else
+          {
+            event(new DisableListingEvent($model->user_id));
+            $model->status = $status;
+            $model->save();
+            $newNotif = new Notification;
+            $newNotif->receiver = $model->user_id;
+            $newNotif->title = "Admin disable your listing";
+            $newNotif->body = "Listing disable by admin";
+            $time=Carbon::now($user->timezone)->toDateTimeString();
+            $newNotif->created_at=$time;
+            $newNotif->save();
+          }
     }
     public function rejectListingStatus()
     {
@@ -109,9 +133,17 @@ class AdminListingController extends Controller
         $status=$_GET['value'];
         $msg=$_GET['msg'];
         $model = Listing::find($id);
+        $user = User::where('id', $model->user_id)->first();
         $model->status = $status;
         $model->save();
         event(new RejectListingEvent($model->user_id,$msg));
+        $newNotif = new Notification;
+        $newNotif->receiver = $model->user_id;
+        $newNotif->title = "Admin reject your listing";
+        $newNotif->body = "Listing reject by admin";
+        $time=Carbon::now($user->timezone)->toDateTimeString();
+        $newNotif->created_at=$time;
+        $newNotif->save();
 
     }
 

@@ -24,6 +24,8 @@ use Validator;
 use App\Events\CounsellorRegisterEvent;
 use App\GeneralSetting;
 use App\Traits\CheckPermission;
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class UserController extends Controller
 {
@@ -345,6 +347,120 @@ class UserController extends Controller
          {
              return redirect('login/users')->with('err_message','Something went wrong!');
          }
+    }
+    public function download(Request $request)
+    {
+        $status=$request->status;
+        $email=$request->email;
+        $users=User::where('role_id','=',3)->get();
+        $writer = WriterEntityFactory::createXLSXWriter(Type::XLSX);
+        $writer->openToBrowser('User-Report'.date('Y-m-d:hh:mm:ss').'.xlsx');
+        $column = [
+                        WriterEntityFactory::createCell('User Name'),
+                        WriterEntityFactory::createCell('Email'),
+                        WriterEntityFactory::createCell('Status'),
+                    ];
+        $singleRow = WriterEntityFactory::createRow($column);
+        $writer->addRow($singleRow);
+        if($email != "" && $status != "")
+            {
+              $users=User::where('role_id',"3")->where('account_enabled',"1")->where('name', 'like', '%' . $email . '%')
+             ->orwhere('email', 'like', '%' . $email . '%')->get();
+              foreach ($users as $key => $user) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($user['name']),
+                            WriterEntityFactory::createCell($user['email']),
+                            WriterEntityFactory::createCell($user['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }
+            } 
+         elseif($email != "")
+            {
+              $users=User::where('role_id',"3")->where('name', 'like', '%' . $email . '%')
+             ->orwhere('email', 'like', '%' . $email . '%')->get();
+              foreach ($users as $key => $user) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($user['name']),
+                            WriterEntityFactory::createCell($user['email']),
+                            WriterEntityFactory::createCell($user['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }
+            } 
+            elseif($status == "1")
+            {
+              $users=User::where('role_id',"3")->where('account_enabled',"1")->get();
+              foreach ($users as $key => $user) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($user['name']),
+                            WriterEntityFactory::createCell($user['email']),
+                            WriterEntityFactory::createCell($user['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }
+            } 
+             elseif ($status == "0")
+               {
+                 $users=User::where('role_id',"3")->where('account_enabled',"0")->get();
+                  foreach ($users as $key => $user) 
+                        {
+                           
+                           $cells = [
+                                WriterEntityFactory::createCell($user['name']),
+                                WriterEntityFactory::createCell($user['email']),
+                                WriterEntityFactory::createCell($user['account_enabled']),
+                               
+                            ];
+                            $singleRow = WriterEntityFactory::createRow($cells);
+                            $writer->addRow($singleRow); 
+                        }
+                }   
+                elseif ($status == "3")
+               {
+                 $users=User::where('role_id',"3")->where('account_enabled',"3")->get();
+                  foreach ($users as $key => $user) 
+                        {
+                           
+                           $cells = [
+                                WriterEntityFactory::createCell($user['name']),
+                                WriterEntityFactory::createCell($user['email']),
+                                WriterEntityFactory::createCell($user['account_enabled']),
+                               
+                            ];
+                            $singleRow = WriterEntityFactory::createRow($cells);
+                            $writer->addRow($singleRow); 
+                       }
+                }    
+            else
+            {
+              foreach ($users as $key => $user) 
+                    {
+                       
+                       $cells = [
+                            WriterEntityFactory::createCell($user['name']),
+                            WriterEntityFactory::createCell($user['email']),
+                            WriterEntityFactory::createCell($user['account_enabled']),
+                           
+                        ];
+                        $singleRow = WriterEntityFactory::createRow($cells);
+                        $writer->addRow($singleRow); 
+                   }  
+            }   
+                    $writer->close();
+                    exit();
     }
 
 }

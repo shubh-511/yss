@@ -39,7 +39,7 @@
                 </div>
 				
                 <div class="col-md-3">
-				  <label>&nbsp;</label>
+				         <label>&nbsp;</label>
                   <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
                        
@@ -50,14 +50,14 @@
                 <div class="row">
 		   <div class="col-md-3">
 		       <div class="form-group">
-			  <label>Action</label>
-				<select name="action" class="form-control counsellor-action" id="action">
-					<option disabled selected value>Bulk Action</option>
-					<option value="active">Active</option>
-					<option value="disabled">Account Disabled</option>
-					<option value="verification">Pending for verification</option>
-					<option value="delete">Delete</option>
-				</select>
+			        <label>Action</label>
+      				<select name="action" class="form-control counsellor-action" id="action">
+      					<option disabled selected value>Bulk Action</option>
+      					<option value="active">Active</option>
+      					<option value="disabled">Account Disabled</option>
+      					<option value="verification">Pending for verification</option>
+      					<option value="delete">Delete</option>
+      				</select>
 			 </div>
 		     </div>
 					
@@ -69,14 +69,12 @@
 		   </div>
              
 		</div>
-                 
-              </div>
+  </div>
 
-                 <div class="col-md-2">                 
-                     <input type="submit" class="btn btn-primary" onclick="downloadCounsellor()" value="Download Counsellor">
-                   </div>
-
-            </div>
+       <div class="col-md-2">                 
+           <input type="submit" class="btn btn-primary" onclick="downloadCounsellor()" value="Download Counsellor">
+         </div>
+        </div>
 			<table id="table" class="table table-bordered table-striped">
 				<thead>
 					<tr>
