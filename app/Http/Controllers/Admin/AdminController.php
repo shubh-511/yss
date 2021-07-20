@@ -144,7 +144,7 @@ class AdminController extends Controller
         $booking_mon_result = array_diff_key($bookin_mon,array_flip((array) ['0']));
         $booking_data=array_values($booking_mon_result);
         $module_name=$this->permission(Auth::user()->id);
-        $total_revenue = Payment::sum('amount');
+        $total_revenue = Payment::sum('amount')/100;
         return view('admin.home',compact('userCount','bookingCount','users','bookings','users_mon_data','booking_data','module_name','total_revenue'));
     }
 
