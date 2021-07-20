@@ -31,6 +31,7 @@ Route::group(['prefix'=>'login'], function(){
     Route::get('/users/bulk','Admin\UserController@active');
     Route::get('user/create','Admin\UserController@form');
     Route::post('user/save','Admin\UserController@save');
+    Route::get('download/user','Admin\UserController@download');
     //Role
     Route::get('/role', 'Admin\RoleController@role');
 	Route::get('/role/create', 'Admin\RoleController@createRole');

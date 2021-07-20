@@ -102,17 +102,33 @@ class TransactionController extends Controller
 			        foreach ($bookings->unique('payment_id') as $key => $booking) 
 			        {
 
-			       	   $totalCost += $booking['payment_detail']['amount'];
-			       	   $cells = [
-						    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
-						    WriterEntityFactory::createCell($booking['counsellor']['name']),
-						    WriterEntityFactory::createCell($booking['package']['package_name']),
-						    WriterEntityFactory::createCell($booking['booking_date']),
-						    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
-						   
-						];
-						$singleRow = WriterEntityFactory::createRow($cells);
-						$writer->addRow($singleRow); 
+			       	   $totalCost += $booking['payment_detail']['amount']/100;
+			       	   if($booking['payment_detail']['balance_transaction'] == "")
+			       	    {
+				       	   	$cells = [
+							    WriterEntityFactory::createCell("txn_1Ixm1456y009ofleXwVCW2EAdmin"),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell("0.00"),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow);
+			       	   }
+			       	   else
+			       	   {
+				       	   $cells = [
+							    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow); 
+						}
 			       }
 			       $total =[
 					    WriterEntityFactory::createCell($totalCost),
@@ -120,23 +136,40 @@ class TransactionController extends Controller
 					$total_revenue = WriterEntityFactory::createRow($total);
 					$writer->addRow($total_revenue);
 			    }   
-	                else if($counsellor != "" && $from_date != "")
+	           else if($counsellor != "" && $from_date != "")
 		       {
 			       $bookings = Booking::with('payment_detail','counsellor','user','package')->where('counsellor_id',$counsellor)->where('booking_date', '>=',$from_date)->get();
 			        foreach ($bookings->unique('payment_id') as $key => $booking) 
 			        {
 
-			       	   $totalCost += $booking['payment_detail']['amount'];
-			       	      $cells = [
-						    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
-						    WriterEntityFactory::createCell($booking['counsellor']['name']),
-						    WriterEntityFactory::createCell($booking['package']['package_name']),
-						    WriterEntityFactory::createCell($booking['booking_date']),
-						    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
-						   
-						];
-						$singleRow = WriterEntityFactory::createRow($cells);
-						$writer->addRow($singleRow); 
+
+			       	   $totalCost += $booking['payment_detail']['amount']/100;
+			       	   if($booking['payment_detail']['balance_transaction'] == "")
+			       	    {
+				       	   	$cells = [
+							    WriterEntityFactory::createCell("txn_1Ixm1456y009ofleXwVCW2EAdmin"),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell("0.00"),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow);
+			       	   }
+			       	   else
+			       	   {
+				       	      $cells = [
+							    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow); 
+					    }
 			       }
 			       $total =[
 					    WriterEntityFactory::createCell($totalCost),
@@ -149,18 +182,33 @@ class TransactionController extends Controller
 			       $bookings = Booking::with('payment_detail','counsellor','user','package')->where('booking_date', '>=',$from_date)->where('booking_date', '<=',$to_date)->get();
 			        foreach ($bookings->unique('payment_id') as $key => $booking) 
 			        {
-
-			       	   $totalCost += $booking['payment_detail']['amount'];
-			       	   $cells = [
-						    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
-						    WriterEntityFactory::createCell($booking['counsellor']['name']),
-						    WriterEntityFactory::createCell($booking['package']['package_name']),
-						    WriterEntityFactory::createCell($booking['booking_date']),
-						    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
-						   
-						];
-						$singleRow = WriterEntityFactory::createRow($cells);
-						$writer->addRow($singleRow); 
+			        	$totalCost += $booking['payment_detail']['amount']/100;
+			        	if($booking['payment_detail']['balance_transaction'] == "")
+			       	    {
+				       	   	$cells = [
+							    WriterEntityFactory::createCell("txn_1Ixm1456y009ofleXwVCW2EAdmin"),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell("0.00"),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow);
+			       	   }
+			       	   else
+			       	   {
+				       	   $cells = [
+							    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow);
+						} 
 			       }
 			       $total =[
 					    WriterEntityFactory::createCell($totalCost),
@@ -172,7 +220,7 @@ class TransactionController extends Controller
 
 			   else if($counsellor != "" && $to_date != "")
 		            {
-                                    echo "<script>";
+                    echo "<script>";
 				    echo "alert('Please select from date');";
 				    echo "</script>";
 
@@ -183,16 +231,32 @@ class TransactionController extends Controller
 			       $bookings = Booking::with('payment_detail','counsellor','user','package')->where('counsellor_id',$counsellor)->get();
 			        foreach ($bookings as $key => $booking) 
 			        {
-			       	   $totalCost += $booking['payment_detail']['amount'];
-			       	   $cells = [
-						    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
-						    WriterEntityFactory::createCell($booking['counsellor']['name']),
-						    WriterEntityFactory::createCell($booking['package']['package_name']),
-						    WriterEntityFactory::createCell($booking['booking_date']),
-						    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
-						];
-						$singleRow = WriterEntityFactory::createRow($cells);
-						$writer->addRow($singleRow); 
+			       	   $totalCost += $booking['payment_detail']['amount']/100;
+			       	    if($booking['payment_detail']['balance_transaction'] == "")
+			       	   {
+				       	   	$cells = [
+							    WriterEntityFactory::createCell("txn_1Ixm1456y009ofleXwVCW2EAdmin"),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell("0.00"),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow);
+			       	   }
+			       	   else
+			       	   {
+				       	   $cells = [
+							    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow); 
+					   }
 			       }
 			       $total =[
 					    WriterEntityFactory::createCell($totalCost),
@@ -202,20 +266,36 @@ class TransactionController extends Controller
 			    }    
 			     else if($from_date != "")
 		           {
-			       $bookings = Booking::with('payment_detail','counsellor','user','package')->where('booking_date','>=',$from_date)->get();
+			        $bookings = Booking::with('payment_detail','counsellor','user','package')->where('booking_date','>=',$from_date)->get();
 			        foreach ($bookings->unique('payment_id') as $key => $booking) 
 			        {
-			       	   $totalCost += $booking['payment_detail']['amount'];
-			       	   $cells = [
+			       	   $totalCost += $booking['payment_detail']['amount']/100;
+			       	   if($booking['payment_detail']['balance_transaction'] == "")
+			       	   {
+				       	   	$cells = [
+							    WriterEntityFactory::createCell("txn_1Ixm1456y009ofleXwVCW2EAdmin"),
+							    WriterEntityFactory::createCell($booking['counsellor']['name']),
+							    WriterEntityFactory::createCell($booking['package']['package_name']),
+							    WriterEntityFactory::createCell($booking['booking_date']),
+							    WriterEntityFactory::createCell("0.00"),
+							   
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow);
+			       	    }
+			       	   else
+			       	   {
+			       	     $cells = [
 						    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
 						    WriterEntityFactory::createCell($booking['counsellor']['name']),
 						    WriterEntityFactory::createCell($booking['package']['package_name']),
 						    WriterEntityFactory::createCell($booking['booking_date']),
 						    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
 						   
-						];
-						$singleRow = WriterEntityFactory::createRow($cells);
-						$writer->addRow($singleRow); 
+							];
+							$singleRow = WriterEntityFactory::createRow($cells);
+							$writer->addRow($singleRow);
+						} 
 			       }
 			       $total =[
 					    WriterEntityFactory::createCell($totalCost),
@@ -225,7 +305,7 @@ class TransactionController extends Controller
 			    }   
 			    else if($to_date != "")
 		             {
-                                   echo "<script>";
+                    echo "<script>";
 				    echo "alert('Please select from date');";
 				    echo "</script>";
 
@@ -235,7 +315,22 @@ class TransactionController extends Controller
 			   	 $bookings = Booking::with('payment_detail','counsellor','user','package')->get();
 			        foreach ($bookings as $key => $booking) 
 			        {
-			       	   $totalCost += $booking['payment_detail']['amount'];
+			       	   $totalCost += $booking['payment_detail']['amount']/100;
+			       	   if($booking['payment_detail']['balance_transaction'] == "")
+			       	   {
+			       	   	$cells = [
+						    WriterEntityFactory::createCell("txn_1Ixm1456y009ofleXwVCW2EAdmin"),
+						    WriterEntityFactory::createCell($booking['counsellor']['name']),
+						    WriterEntityFactory::createCell($booking['package']['package_name']),
+						    WriterEntityFactory::createCell($booking['booking_date']),
+						    WriterEntityFactory::createCell("0.00"),
+						   
+						];
+						$singleRow = WriterEntityFactory::createRow($cells);
+						$writer->addRow($singleRow);
+			       	   }
+			       	   else
+			       	   {
 			       	   $cells = [
 						    WriterEntityFactory::createCell($booking['payment_detail']['balance_transaction']),
 						    WriterEntityFactory::createCell($booking['counsellor']['name']),
@@ -246,6 +341,7 @@ class TransactionController extends Controller
 						];
 						$singleRow = WriterEntityFactory::createRow($cells);
 						$writer->addRow($singleRow); 
+					}
 			       }
 			       $total =[
 					    WriterEntityFactory::createCell($totalCost),

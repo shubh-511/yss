@@ -272,7 +272,7 @@ class CounsellorController extends Controller
             foreach ($array1 as $k=>$obj)
         {
 
-            $data[]=$obj['SUM(payments.amount)'];
+            $data[]=$obj['SUM(payments.amount)']/100;
         }
              $result = array_diff_key($data,array_flip((array) ['0']));
              $users_data=array_values($result);
@@ -315,7 +315,7 @@ class CounsellorController extends Controller
             foreach ($array1 as $k=>$obj)
         {
 
-            $data[]=$obj['SUM(payments.amount)'];
+            $data[]=$obj['SUM(payments.amount)']/100;
         }
              $result = array_diff_key($data,array_flip((array) ['0']));
              $users_data=array_values($result);
@@ -361,7 +361,7 @@ class CounsellorController extends Controller
             foreach ($array1 as $k=>$obj)
         {
 
-            $data[]=$obj['SUM(payments.amount)'];
+            $data[]=$obj['SUM(payments.amount)']/100;
         }
          $result = array_diff_key($data,array_flip((array) ['0']));
          $users_data=array_values($result);
@@ -512,7 +512,7 @@ class CounsellorController extends Controller
             $list_update_data->lattitude = $request->latitude;
             $list_update_data->listing_category = $request->listing_category;
             $list_update_data->listing_region = $request->listing_region;
-            $list_update_data->status = $request->status;
+            //$list_update_data->status = $request->status;
             $list_update_data->video_url = $request->video_url;
             $list_update_data->description = $request->description;
             if(!empty($request->cover_img))
@@ -534,39 +534,39 @@ class CounsellorController extends Controller
                 }
             }
             $user = User::where('id', $list_update_data->user_id)->first();
-            if($request->status=="0")
-            {
-                $newNotif = new Notification;
-                $newNotif->receiver = $list_update_data->user_id;
-                $newNotif->title = "Admin disable your listing";
-                $newNotif->body = "Listing disable by admin";
-                $time=Carbon::now($user->timezone)->toDateTimeString();
-                $newNotif->created_at=$time;
-                $newNotif->save();
-            }
-             else if($request->status=="1")
-            {
+            // if($request->status=="0")
+            // {
+            //     $newNotif = new Notification;
+            //     $newNotif->receiver = $list_update_data->user_id;
+            //     $newNotif->title = "Admin disable your listing";
+            //     $newNotif->body = "Listing disable by admin";
+            //     $time=Carbon::now($user->timezone)->toDateTimeString();
+            //     $newNotif->created_at=$time;
+            //     $newNotif->save();
+            // }
+            //  else if($request->status=="1")
+            // {
                 
-                $newNotif = new Notification;
-                $newNotif->receiver = $list_update_data->user_id;
-                $newNotif->title = "Admin enable your listing";
-                $newNotif->body = "Listing enable by admin";
-                $time=Carbon::now($user->timezone)->toDateTimeString();
-                $newNotif->created_at=$time;
-                $newNotif->save();
-                event(new ApproveListingEvent($list_update_data->user_id));
-            }
-            else
-            {
-                $newNotif = new Notification;
-                $newNotif->receiver = $list_update_data->user_id;
-                $newNotif->title = "Admin reject your listing";
-                $newNotif->body = "Listing reject by admin";
-                $time=Carbon::now($user->timezone)->toDateTimeString();
-                $newNotif->created_at=$time;
-                $newNotif->save();
+            //     $newNotif = new Notification;
+            //     $newNotif->receiver = $list_update_data->user_id;
+            //     $newNotif->title = "Admin enable your listing";
+            //     $newNotif->body = "Listing enable by admin";
+            //     $time=Carbon::now($user->timezone)->toDateTimeString();
+            //     $newNotif->created_at=$time;
+            //     $newNotif->save();
+            //     event(new ApproveListingEvent($list_update_data->user_id));
+            // }
+            // else
+            // {
+            //     $newNotif = new Notification;
+            //     $newNotif->receiver = $list_update_data->user_id;
+            //     $newNotif->title = "Admin reject your listing";
+            //     $newNotif->body = "Listing reject by admin";
+            //     $time=Carbon::now($user->timezone)->toDateTimeString();
+            //     $newNotif->created_at=$time;
+            //     $newNotif->save();
 
-            }
+            // }
              
 
             if(!empty($request->listing_label) && count($request->listing_label) > 0)
@@ -595,7 +595,7 @@ class CounsellorController extends Controller
         $writer = WriterEntityFactory::createXLSXWriter(Type::XLSX);
         $writer->openToBrowser('Revenue-Report'.date('Y-m-d:hh:mm:ss').'.xlsx');
         $column = [
-                        WriterEntityFactory::createCell('Name'),
+                        WriterEntityFactory::createCell('Counsellor Name'),
                         WriterEntityFactory::createCell('Email'),
                         WriterEntityFactory::createCell('Counsellor Type'),
                         WriterEntityFactory::createCell('Status'),
