@@ -456,58 +456,32 @@ class ListingController extends Controller
      */ 
     public function searchListing(Request $request) 
     { 
-        try
-        {
-            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where(function ($query) use ($request)
+        try {
+
+            $listingData = Listing::with('gallery','listing_category','listing_region','user','review')->where(function ($query) use ($request)
             {
              
-              if (!empty($request->listing_category))
+              if ($request->listing_category)
               {
                  $listingData = $query->where('listing_category','=',$request->listing_category);
               }
-              if (!empty($request->regions))
+              if ($request->regions)
               {
                  
                  $listingData = $query->where('listing_region','=',$request->regions);
               }
-              })->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
 
-               if (!empty($request->listing_label))
+              if ($request->regions)
               {
                 $labels=explode(",",$request->listing_label);
                 $listing_id=multilabel::whereIn('label_id',$labels)->pluck('listing_id')->toArray();
-                $listingData = Listing::with('gallery','listing_category','listing_region','user')->whereIn('id', $listing_id)->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
-                 
-              }             
-              if (!empty($request->sort_by))
-              {
-                $listingData = $this->getSortedCategoryData($request->sort_by);
-                                                   
+                $listingData = $query->whereIn('id',$listing_id);
               }
+              
+            })->where('status', '1')->orderBy($request->column,$request->order)->paginate(9);
 
-             if (!empty($request->sort_by) && !empty($request->listing_category))
-              {
-                $listingData = $this->getSortedListingData($request->sort_by, $request->listing_category);
-              }
-              if (!empty($request->sort_by) && !empty($request->listing_category) && !empty($request->regions))
-              {
-                $listingData = $this->getSortedListingCategoryRegionData($request->sort_by, $request->listing_category,$request->regions);
-              }
-              if (!empty($request->sort_by) && !empty($request->listing_category) && !empty($request->regions) && !empty($request->listing_label))
-              {
-                $listingData = $this->getSortedListingCategoryRegionLabelData($request->sort_by, $request->listing_category,$request->regions,$request->listing_label);
-              }
             if(count($listingData) > 0)
             {
-                foreach($listingData as $key => $data)
-                {
-                    $listingTotalReviews = ListingReview::where('listing_id',$data->id)->count();
-                    $listingAvgRating = ListingReview::where('listing_id',$data->id)->avg('rating');
-
-                    $listingData[$key]->total_reviews = $listingTotalReviews;
-                    $listingData[$key]->avg_rating = $listingAvgRating;
-                }
-
                 return response()->json(['success' => true,
                                       'data' => $listingData,
                                     ], $this->successStatus);
@@ -530,12 +504,12 @@ class ListingController extends Controller
                                         ],
                                     ], $this->successStatus);
             }
-           
-        }
-        catch(\Exception $e)
+
+        }catch(\Exception $e)
         {
             return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
         } 
+        
 
     }
     /** 

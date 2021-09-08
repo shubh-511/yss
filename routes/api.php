@@ -78,9 +78,9 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('confirm/booking', 'API\BookingController@confirmBooking');
 	Route::get('view/package', 'API\PackageController@viewPackage');
 
-        Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
-        Route::post('update/review', 'API\ReviewRatingController@updateReview');
-        Route::post('goggle/calender', 'API\CountryController@calender');
+    Route::post('reviewrating', 'API\ReviewRatingController@reviewrating');
+    Route::post('update/review', 'API\ReviewRatingController@updateReview');
+    Route::post('goggle/calender', 'API\CountryController@calender');
 
 	
 	Route::post('connect/account', 'API\StripeConnectController@connectUserAccount');

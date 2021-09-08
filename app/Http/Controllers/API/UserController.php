@@ -41,7 +41,6 @@ class UserController extends Controller
      */ 
     public function login(Request $request){
     	try{
-            
             $input = [];
 
     		if($request->getUser() || $request->getPassword()){

@@ -44,6 +44,10 @@ class ReviewRatingController extends Controller
 			$review_data->listing_id=$request->listing_id;
 			$review_data->save(); 
 
+			if(!empty($review_data)){
+				$this->updateListingAvgRating($request->listing_id)
+			}
+
 			return response()->json(['success' => true,
 	            					 'listingreview' => $review_data,
 	            					], $this->successStatus);
@@ -74,6 +78,10 @@ class ReviewRatingController extends Controller
 				$checkReview->rating = $request->rating;
 				$checkReview->save(); 
 
+				if(!empty($checkReview)){
+					$this->updateListingAvgRating($checkReview->listing_id)
+				}
+			
 				return response()->json(['success' => true,
 	            					 'listingreview' => $checkReview,
 	            					], $this->successStatus);
@@ -163,4 +171,16 @@ class ReviewRatingController extends Controller
     	} 
 	}
     
+    public function updateListingAvgRating($listingId){
+    	try{
+
+    		$listing = Listing::find($request->listing_id$listingId);
+			$listingAvgRating = ListingReview::where('listing_id',$listingId)->avg('rating');
+			$listing->avg_rating = $listingAvgRating;
+			$listing->save();
+
+    	}catch(\Exception $e){
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	}
+    }
 }
