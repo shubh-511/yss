@@ -480,7 +480,7 @@ class ListingController extends Controller
               
             })->where('status', '1')->orderBy($request->column,$request->order)->paginate(9);
 
-            if(count($listingData) > 0)
+            if(count($listingData) > 0) 
             {
                 return response()->json(['success' => true,
                                       'data' => $listingData,

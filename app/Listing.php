@@ -52,7 +52,7 @@ class Listing extends Model
     }
     public function review()
     {
-        return $this->hasMany('App\ListingReview','listing_id','id');
+        return $this->hasMany('App\ListingReview','listing_id','id'); 
     }
 
     
