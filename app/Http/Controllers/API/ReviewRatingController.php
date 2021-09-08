@@ -174,7 +174,7 @@ class ReviewRatingController extends Controller
     public function updateListingAvgRating($listingId){
     	try{
 
-    		$listing = Listing::find($request->listing_id$listingId);
+    		$listing = Listing::find($listingId);
 			$listingAvgRating = ListingReview::where('listing_id',$listingId)->avg('rating');
 			$listing->avg_rating = $listingAvgRating;
 			$listing->save();
