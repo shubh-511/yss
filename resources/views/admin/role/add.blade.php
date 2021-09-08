@@ -40,15 +40,6 @@
                               @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Name</label>
-                              <input type="name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}">
-                              @error('name')
-                                <p style="color:red">{{ $errors->first('name') }}</p>
-                              @enderror
-                            </div>
-                        </div>
                         <div class="col-md-12">
                           <div class="form-group">
                             <button name="addrole" type="submit" class="btn btn-primary ">Save</button>

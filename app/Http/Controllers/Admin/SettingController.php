@@ -43,7 +43,7 @@ class SettingController extends Controller
             'counsellor_commission' => 'required|numeric',
             'stripe_secret' => 'required',
             'stripe_public' => 'required',
-            'input_img' => 'required',
+            'input_img' => 'mimes:jpeg,jpg,png',
             'pagination_value' => 'required|integer|min:1',
         ]);
 

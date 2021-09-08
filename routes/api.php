@@ -29,6 +29,7 @@ Route::get('get/listing/category', 'API\ListingController@listingCategories');
 Route::post('add/listing', 'API\ListingController@createListing');
 Route::post('goggle/calender', 'API\CountryController@calender');
 Route::get('search/listing', 'API\ListingController@searchListing');
+Route::post('contact-us', 'API\ContactUsController@contactUs');
 
 //Route::post('verify/otp', 'API\UserController@verifyForgotPasswordOtp');
 Route::post('reset/password', 'API\UserController@resetPassword');

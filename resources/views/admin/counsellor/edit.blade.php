@@ -44,7 +44,7 @@
     <!-- Default box -->
         <div class="box">
             <!-- <div class="box-header">
-              <h3 class="box-title">Edit Counsellor: #{{$user->id}}</h3>
+              <h3 class="box-title">Edit Coach: #{{$user->id}}</h3>
             </div> -->
             <div class="box-body">
               <form action="{{url('login/counsellors/update',[$user->id])}}" method="post">
@@ -52,14 +52,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Counsellor Type:</label>
+                                  <label>Coach Type:</label>
                                    <select name="counsellor_type" class="form-control ">
                                        @if($user->counsellor_type==1)
-                                        <option value="1" selected>Outside Counsellor</option>
-                                        <option value="0">Inside Counsellor</option>
+                                        <option value="1" selected>Internal Coach</option>
+                                        <option value="0">External Coach</option>
                                         @else
-                                        <option value="1">Outside Counsellor</option>
-                                        <option value="0" selected>Inside Counsellor</option>
+                                        <option value="1">Internal Coach</option>
+                                        <option value="0" selected>External Coach</option>
                                         @endif
                                     </select>
                                 </div>

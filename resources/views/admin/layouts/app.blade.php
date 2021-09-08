@@ -124,31 +124,36 @@
                   </a>
 
                   <ul class="treeview-menu">
-                   <li>
-                    <a href="{{url('login/role')}}">Role</a>
-                    </li>
-                     <li>
-                    <a href="{{url('login/module')}}">Module</a>
-                    </li>
-                    <li>
-                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
-                    </li>
+                   
                      <li>
                     <li>
                     <a href="{{url('login/users')}}">Users</a>
                     </li>
                     <li>
-                    <a href="{{url('login/counsellors')}}">Counsellors</a>
+                    <a href="{{url('login/counsellors')}}">Coaches</a>
                     </li>
                        
                   </ul>
 
                 </li>
                 <li class="treeview">
-                  
-                  <li>
+                  <a href="">
+                    <i class="fa fa-tasks"></i> <span>General Settings</span>
+                  </a>
+                  <ul class="treeview-menu">
+                   <li>
+                    <a href="{{url('login/role')}}">Role</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/role/privilege')}}">Role Privilege</a>
+                    </li>
+                    <li>
+                    <a href="{{url('login/settings')}}">Settings</a>
+                    </li>
+                  </ul>
+                  <!-- <li>
                     <a href="{{url('login/settings')}}"><i class="fa fa-tasks"></i> <span>General Settings</span></a>
-                  </li>
+                  </li> -->
 
                 </li>
                 <li class="treeview">

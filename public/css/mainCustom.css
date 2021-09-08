@@ -239,7 +239,7 @@ body input.btn.btn-primary {
 body .table > tbody > tr > td span{
 	display: inline-block;
 	padding: 0.972em 1em;
-	min-width: 10em;
+	min-width: 11.25em;
 }
 body .table > tbody > tr > td span.label.label-success,
 .btn.create_list_margin{
@@ -582,4 +582,41 @@ div.revenue__block .highcharts-root{
     left: 0.625rem;
     top: 0.2rem;
     transform: rotate(45deg);
+}
+.form-radios-keys {
+    display: flex;
+}
+.form-radio + .form-radio {
+    margin-left: 1.5rem;
+}
+.form-radio input[type="radio"] {
+    display: none;
+}
+.form-radio label {
+    position: relative;
+    padding-left: 2.25rem;
+}
+.form-radio label:before {
+	content: '';
+	width: 1.5rem;
+	height: 1.5rem;
+	border: 0.0625rem solid #000;
+	position: absolute;
+	left: 0;
+	top: 0.1rem;
+}
+.form-radio input:checked + label:before {
+    border-color: #34558b;
+    background-color: #34558b;
+}
+.form-radio input:checked + label:after {
+	content: '';
+	width: 0.5rem;
+	height: 1rem;
+	left: 0.5rem;
+	position: absolute;
+	border: solid #fff;
+	border-width: 0 0.25rem 0.25rem 0;
+	top: 0.25rem;
+	transform: rotate(40deg);
 }

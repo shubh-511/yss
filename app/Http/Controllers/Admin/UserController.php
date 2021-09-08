@@ -142,10 +142,10 @@ class UserController extends Controller
             $validator =  Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
+            'password' => ['required','same:confirm-password','min:8','regex:/[0-9]/','regex:/[@$!%*#?&]/',],
             'timezone' => 'required',
             'role'=>  'required',
-            ]);
+            ],['password.regex' => 'Password must contain 8 characters including 1 special character and 1 numeric character.','password.min' => 'Password must contain 8 characters including 1 special character and 1 numeric character.',]);
 
             if ($validator->fails()) 
             {

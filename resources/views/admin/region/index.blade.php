@@ -33,9 +33,9 @@
 						<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
 					  </div>
 					</div>
-                                      <div class="col-md-4">
+                                      <!--<div class="col-md-4">
                                         <a href="{{url('login/download/region')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-download icon-white"></i> Download Region</a>
-                                       </div>
+                                       </div>-->
 				</div>
 				<table id="table" class="table table-bordered table-striped">
 					<thead>
@@ -72,7 +72,7 @@
 				</table>
 				<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($listing_region->currentpage()-1)*$listing_region->perpage()+1}} to {{$listing_region->currentpage()*$listing_region->perpage()}}
 				of  {{$listing_region->total()}} entries</div>
-				<div class="text-center">{{ $listing_region->links() }}</div>
+				<div class="text-center">{{ $listing_region->appends(Request::all())->links() }}</div>
 			</div>
           </div>        
       </div>

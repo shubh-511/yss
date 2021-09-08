@@ -73,7 +73,7 @@
     var users = arrayOfStrings.map(Number);
     Highcharts.chart('revenueChart', {
         title: {
-            text: 'Counsellors Revenue'
+            text: 'Coach Revenue'
         },
         chart: {
             type: 'area'
@@ -86,7 +86,7 @@
         },
         yAxis: {
             title: {
-                text: 'Counsellors Revenue'
+                text: 'Coach Revenue'
             },
             labels: {
                 format: '€{value}'
@@ -103,7 +103,7 @@
             }
         },
         series: [{
-            name: 'Counsellors Revenue',
+            name: 'Coach Revenue',
             data: users,
           //   tooltip: {
           //   valueDecimals: 2

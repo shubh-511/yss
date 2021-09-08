@@ -13,7 +13,7 @@
 
 <div class="box-header">
     <div class="pull-left">
-        <h3 class="box-title">Edit Role: #{{$edit_role->id}}</h3>
+        <h3 class="box-title">Edit Role</h3>
     </div>
     <div class="pull-right">
         <a class="btn btn-primary" href="{{ url('login/role') }}"> Back</a>
@@ -37,15 +37,6 @@
                               <input type="text" name="role" class="form-control @error('role') is-invalid @enderror" value="{{$edit_role->role}}">
                               @error('role')
                                 <p style="color:red">{{ $errors->first('role') }}</p>
-                              @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Name</label>
-                              <input type="name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$edit_role->name}}">
-                              @error('name')
-                                <p style="color:red">{{ $errors->first('name') }}</p>
                               @enderror
                             </div>
                         </div>

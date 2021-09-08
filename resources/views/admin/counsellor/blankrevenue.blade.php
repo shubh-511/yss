@@ -78,14 +78,14 @@
                 type: 'area'
             },
              title: {
-                text: 'Counsellors Revenue'
+                text: 'Coach Revenue'
             },
             xAxis: {
                  categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             },
             yAxis: {
                 title: {
-                    text: 'Counsellors Revenue'
+                    text: 'Coach Revenue'
                 }
             },
              legend: {
@@ -99,7 +99,7 @@
             }
         },
             series: [{
-                name: 'Counsellors Revenue',
+                name: 'Coach Revenue',
                 data: ['', '', '','','','','', '', '','','','']
             }]
         });

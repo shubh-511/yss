@@ -7,10 +7,10 @@
       <div class="box">
           <div class="box-header">
 			<div class="pull-left">
-				<h3 class="box-title">Counsellors</h3>
+				<h3 class="box-title">Coaches</h3>
 			</div>
 			<div class="pull-right">
-				<a href="{{url('login/counsellors/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Counsellor</a>
+				<a href="{{url('login/counsellors/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Coach</a>
 			</div>
                         
                        
@@ -68,9 +68,9 @@
 		</div>
   </div>
 
-       <div class="col-md-2">                 
+       <!-- <div class="col-md-2">                 
            <input type="submit" class="btn btn-primary" onclick="downloadCounsellor()" value="Download Counsellor">
-         </div>
+         </div> -->
         </div>
 
 			<table id="table" class="table table-bordered table-striped">
@@ -79,7 +79,7 @@
 					<th><input type="checkbox" id="check_all_checkbox"></th>
 					<th>Name</th>
 					<th>Email</th>
-					<th>Counsellor Type</th>
+					<th>Coach Type</th>
 					<th>Status</th>
 					<th>Action</th>
 					</tr>
@@ -93,7 +93,7 @@
 						<td>
 							<a>
 								<span class="label  @if($user->counsellor_type == '0') {{'label-success'}} @else {{'label-warning'}} @endif">
-								@if($user->counsellor_type == '1') {{'Outside Counsellor'}} @elseif($user->counsellor_type == '0') {{'Inside Counsellor'}}  @endif
+								@if($user->counsellor_type == '1') {{'External Coach'}} @elseif($user->counsellor_type == '0') {{'Internal Coach'}}  @endif
 								</span>
 							</a>
 						</td> 
@@ -121,7 +121,8 @@
 			</table>
 			<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($users->currentpage()-1)*$users->perpage()+1}} to {{$users->currentpage()*$users->perpage()}}
 			of  {{$users->total()}} entries</div>
-			<div class="text-center">{{ $users->links() }}</div>
+			<div class="text-center">{{ $users->appends(Request::all())->links() }}</div>
+
       </div>
 
       <!-- /.box -->

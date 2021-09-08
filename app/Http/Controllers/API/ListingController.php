@@ -20,13 +20,14 @@ use App\Listing;
 use App\ListingReview;
 use DateTime;
 use Event;
+use DB;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 
 class ListingController extends Controller
 {
     public $successStatus = 200;
-	
+    
 
     /** 
      * Create Listing api 
@@ -53,13 +54,9 @@ class ListingController extends Controller
                 'timezone' => 'required', 
                 'listing_name' => 'required|max:190',
                 'location' => 'required|max:190',
-                'contact_email_or_url' => 'required|max:190',
                 'description' => 'required',
                 'listing_category' => 'required',
-                'listing_region' => 'required',
-                'website' => 'required',
-                'phone' => 'required',
-                'video_url' => 'required',
+                'listing_region' => 'required'
             ],
             [   
                 'email.unique'  =>  'This email is already been registered'
@@ -90,7 +87,7 @@ class ListingController extends Controller
                 $coverImage = $this->createImage($requestedFields['cover_img']);
                 $user->cover_id = $coverImage;
             }
-            
+                       
             $user->save();
 
             $listingData = new Listing;
@@ -108,10 +105,25 @@ class ListingController extends Controller
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
             $listingData->status = "0";
+
             if(!empty($requestedFields['cover_img']))
             {
                 $listingData->cover_img = $user->cover_id;
             }
+            
+            if(!empty($requestedFields['insurance_certificate']))
+            {
+                $insurance_certificate = $this->createImage($requestedFields['insurance_certificate']);
+
+                $listingData->insurance_certificate = $insurance_certificate;
+            }
+            
+            if(!empty($requestedFields['business_certificate']))
+            {
+                $business_certificate = $this->createImage($requestedFields['business_certificate']);
+                $listingData->business_certificate = $business_certificate;
+            }
+
             $listingData->save();
 
 
@@ -224,11 +236,25 @@ class ListingController extends Controller
                 $listingData->website = $requestedFields['website'];
                 $listingData->phone = $requestedFields['phone'];
                 $listingData->video_url = $requestedFields['video_url'];
+
                 if(!empty($requestedFields['cover_image']))
                 {
                     $coverImage = $this->createImage($requestedFields['cover_image']);
                     $listingData->cover_img = $coverImage;
                 }
+                
+                if(!empty($requestedFields['insurance_certificate']))
+                {
+                    $insurance_certificate = $this->createImage($requestedFields['insurance_certificate']);
+                    $listingData->insurance_certificate = $insurance_certificate;
+                }
+                
+                if(!empty($requestedFields['business_certificate']))
+                {
+                    $business_certificate = $this->createImage($requestedFields['business_certificate']);
+                    $listingData->business_certificate = $business_certificate;
+                }
+
                 $listingData->save();
 
 
@@ -311,7 +337,7 @@ class ListingController extends Controller
         $counsellor_d->format('l');
         $day_of_counsellor=strtolower($counsellor_d->format('l'));
         $availability=Availability::where('user_id',$counsellor_id)->where('availaible_days',$day_of_counsellor)->first();
-         if(!empty($availability))
+         if(!empty($availability) && $counsellor_data->profile_percentage == "100")
            {
              return response()->json(['success' => true,
                                         'data' => true
@@ -320,6 +346,7 @@ class ListingController extends Controller
            else
           {
            return response()->json(['success' => false,
+
                                      'data' =>false
                                     ], $this->successStatus);
 
@@ -431,68 +458,45 @@ class ListingController extends Controller
     { 
         try
         {
-            if(!empty($request->all_records))
+            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where(function ($query) use ($request)
             {
-                
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
-                
-            }
-            elseif(!empty($request->listing_category) && !empty($request->listing_region) && !empty($request->listing_label))
-            {
-               $validator = Validator::make($request->all(), [ 
-                'listing_category' => 'required',
-                'listing_region' => 'required',
-                'listing_label' => 'required'   
+             
+              if (!empty($request->listing_category))
+              {
+                 $listingData = $query->where('listing_category','=',$request->listing_category);
+              }
+              if (!empty($request->regions))
+              {
+                 
+                 $listingData = $query->where('listing_region','=',$request->regions);
+              }
+              })->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
 
-                ]);
+               if (!empty($request->listing_label))
+              {
+                $labels=explode(",",$request->listing_label);
+                $listing_id=multilabel::whereIn('label_id',$labels)->pluck('listing_id')->toArray();
+                $listingData = Listing::with('gallery','listing_category','listing_region','user')->whereIn('id', $listing_id)->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
+                 
+              }             
+              if (!empty($request->sort_by))
+              {
+                $listingData = $this->getSortedCategoryData($request->sort_by);
+                                                   
+              }
 
-                if ($validator->fails()) 
-                { 
-                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-                }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->whereIn('listing_label', $request->listing_label)->orderBy('id', 'DESC')->paginate(9);
-            }
-           elseif(!empty($request->listing_category) && !empty($request->listing_region))
-            {
-               $validator = Validator::make($request->all(), [ 
-                'listing_category' => 'required',
-                'listing_region' => 'required'   
-
-                ]);
-
-                if ($validator->fails()) 
-                { 
-                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-                }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->orderBy('id', 'DESC')->paginate(9);
-            }
-            elseif(!empty($request->lattitude) && !empty($request->longitude))
-            {
-                $validator = Validator::make($request->all(), [ 
-                'listing_category' => 'required',
-                'listing_region' => 'required'   
-
-                ]);
-
-                if ($validator->fails()) 
-                { 
-                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-                }
-                $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $request->listing_category)->where('listing_region', $request->listing_region)->where('lattitude', $request->lattitude)->where('longitude', $request->longitude)->orderBy('id', 'DESC')->paginate(9);
-            }
-            else
-            {
-                $validator = Validator::make($request->all(), [ 
-                'listing_category' => 'required'
-                ]);
-
-                if ($validator->fails()) 
-                { 
-                    return response()->json(['errors'=>$validator->errors()], $this->successStatus);     
-                }
+             if (!empty($request->sort_by) && !empty($request->listing_category))
+              {
                 $listingData = $this->getSortedListingData($request->sort_by, $request->listing_category);
-            }
-            
+              }
+              if (!empty($request->sort_by) && !empty($request->listing_category) && !empty($request->regions))
+              {
+                $listingData = $this->getSortedListingCategoryRegionData($request->sort_by, $request->listing_category,$request->regions);
+              }
+              if (!empty($request->sort_by) && !empty($request->listing_category) && !empty($request->regions) && !empty($request->listing_label))
+              {
+                $listingData = $this->getSortedListingCategoryRegionLabelData($request->sort_by, $request->listing_category,$request->regions,$request->listing_label);
+              }
             if(count($listingData) > 0)
             {
                 foreach($listingData as $key => $data)
@@ -503,16 +507,30 @@ class ListingController extends Controller
                     $listingData[$key]->total_reviews = $listingTotalReviews;
                     $listingData[$key]->avg_rating = $listingAvgRating;
                 }
+
                 return response()->json(['success' => true,
                                       'data' => $listingData,
                                     ], $this->successStatus);
             }
             else
             {
-                return response()->json(['success' => false,
-                                     'errors' => [ 'exception' => 'No listing found'],
+               return response()->json(['success' => true,
+                                      'data'=>['data' =>[],
+                                      'current_page'=>0,
+                                      'first_page_url'=>"",
+                                      'from'=>0,
+                                      'last_page'=>0,
+                                      'last_page_url'=>"",
+                                      'next_page_url'=>"",
+                                      'path'=>"",
+                                      'per_page'=>0,
+                                      'prev_page_url'=>"",
+                                      'to'=>0,
+                                      'total'=>0,
+                                        ],
                                     ], $this->successStatus);
             }
+           
         }
         catch(\Exception $e)
         {
@@ -520,32 +538,106 @@ class ListingController extends Controller
         } 
 
     }
-
     /** 
      * Get Listing Categories
      * 
      * @return \Illuminate\Http\Response 
      */ 
+  public function getSortedListingCategoryRegionLabelData($sortBy, $listingCategory,$listingRegion,$listingLabel) 
+    { 
+        $labels=explode(",",$listingLabel);
+        $listing_id=multilabel::whereIn('label_id',$labels)->pluck('listing_id')->toArray();
+        switch ($sortBy) {
+        case 1:
+            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->whereIn('id',$listing_id)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        case 2:
+            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->whereIn('id',$listing_id)->orderBy('id', 'ASC')->paginate(9);
+        break;
+        case 3:
+            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->whereIn('id',$listing_id)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        case 4:
+            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->whereIn('id',$listing_id)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        case 5:
+            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->whereIn('id',$listing_id)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        default:
+            $listingData = Listing::with('gallery','listing_category','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->whereIn('id',$listing_id)->orderBy('id', 'DESC')->paginate(9);
+        }
+
+        return $listingData;
+    }
+
+         public function getSortedListingCategoryRegionData($sortBy, $listingCategory,$listingRegion) 
+     { 
+        switch ($sortBy) {
+        case 1:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        case 2:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->orderBy('id', 'ASC')->paginate(9);
+        break;
+        case 3:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        case 4:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        case 5:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->orderBy('id', 'DESC')->paginate(9);
+        break;
+        default:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->where('listing_region', $listingRegion)->orderBy('id', 'DESC')->paginate(9);
+        }
+
+        return $listingData;
+    }
     public function getSortedListingData($sortBy, $listingCategory) 
     { 
         switch ($sortBy) {
         case 1:
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(9);
         break;
         case 2:
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'ASC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'ASC')->paginate(9);
         break;
         case 3:
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(9);
         break;
         case 4:
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(9);
         break;
         case 5:
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(9);
         break;
         default:
-            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(8);
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->where('listing_category', $listingCategory)->orderBy('id', 'DESC')->paginate(9);
+        }
+
+        return $listingData;
+    }
+   public function getSortedCategoryData($sortBy) 
+    { 
+        switch ($sortBy) {
+        case 1:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
+        break;
+        case 2:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'ASC')->paginate(9);
+        break;
+        case 3:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->inRandomOrder()->paginate(9);
+        break;
+        case 4:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user','review')->where('status', '1')->orderBy('id', 'ASC')->paginate(9);
+        break;
+        case 5:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user','review')->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
+        break;
+        default:
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region','user')->where('status', '1')->orderBy('id', 'DESC')->paginate(9);
         }
 
         return $listingData;
@@ -604,10 +696,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required';
             }
-            else if($key == 'website')
+            /*else if($key == 'website')
             {
                 $rules[$key] = 'required';
-            }
+            }*/
             /*else if($key == 'phone')
             {
                 $rules[$key] = 'required';
@@ -655,10 +747,10 @@ class ListingController extends Controller
             {
                 $rules[$key] = 'required';
             }
-            else if($key == 'website')
+            /*else if($key == 'website')
             {
                 $rules[$key] = 'required';
-            }
+            }*/
             /*else if($key == 'phone')
             {
                 $rules[$key] = 'required';
@@ -680,16 +772,22 @@ class ListingController extends Controller
      */ 
     public function createImage($img)
     {
-        $folderPath = "public/uploads/";
-        $image_parts = explode(";base64,", $img);
-        $image_type_aux = explode("image/", $image_parts[0]);
-        $image_type = end($image_type_aux);
-        $img = str_replace("data:image/".$image_type.";base64,", '', $img);
-        $img = str_replace(' ', '+', $img);
-        $image_base64 = base64_decode($img);
-        $file = $folderPath . uniqid() . ".".$image_type;
-        file_put_contents($file, $image_base64);
-        return $file;
+
+        if(strpos($img,"data:image") > -1){
+            $folderPath = "public/uploads/";
+            $image_parts = explode(";base64,", $img);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = end($image_type_aux);
+            $img = str_replace("data:image/".$image_type.";base64,", '', $img);
+            $img = str_replace(' ', '+', $img);
+            $image_base64 = base64_decode($img);
+            $file = $folderPath . uniqid() . ".".$image_type;
+            file_put_contents($file, $image_base64);
+            return $file;
+        }else{
+            return $img;
+        }
+        
     }
 
     /** 

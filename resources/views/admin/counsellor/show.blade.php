@@ -15,7 +15,7 @@
 
 <div class="box-header">
     <div class="pull-left">
-        <h3 class="box-title">Counsellor Details: #{{$user->id}}</h3>
+        <h3 class="box-title">Coach Details</h3>
     </div>
     <div class="pull-right">
         <a class="btn btn-primary" href="{{ url('login/counsellors') }}"> Back</a>
@@ -39,7 +39,7 @@
     <!-- Default box -->
     <div class="box">
             <!-- <div class="box-header">
-                <h3 class="box-title">Counsellor Details: #{{$user->id}}</h3>
+                <h3 class="box-title">Coach Details: #{{$user->id}}</h3>
             </div> -->
             <div class="box-body">
                 <div class="row">
@@ -71,7 +71,7 @@
                         </div>
                 <!-- <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Counsellor Details: #{{$user->id}}</h4>
+                        <h4 class="modal-title">Coach Details: #{{$user->id}}</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">

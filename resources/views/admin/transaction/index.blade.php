@@ -41,9 +41,9 @@
 
               <div class="col-md-12">
                 <div class="col-md-3">
-                  <label>Counsellor Name</label>
+                  <label>Coach Name</label>
                   <select class="form-control transaction" name="counsellor">
-                    <option value="">Select Counsellor</option>
+                    <option value="">Select Coach</option>
                     @foreach($counsellor_data as $data)
                     <option value="{{$data->id}}">{{$data->name}}</option>
                     @endforeach
@@ -78,7 +78,7 @@
                       <th>Serial No</th>
                       <th>Transaction No</th>
                       <th>Total Revenue</th>
-                      <th>Counsellor Name</th>
+                      <th>Coach Name</th>
                       <th>Package Name</th>
                       <th>Date Of Booking</th>
                     </tr>
@@ -105,7 +105,7 @@
               </table>
 			  <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($bookings->currentpage()-1)*$bookings->perpage()+1}} to {{$bookings->currentpage()*$bookings->perpage()}}
               of  {{$bookings->total()}} entries</div>
-			  <div class="text-center">{{ $bookings->links() }}</div>
+			  <div class="text-center">{{ $bookings->appends(Request::all())->links() }}</div>
       </div>
 
       <!-- /.box -->
@@ -149,7 +149,7 @@ function Report()
 }
 $(".transaction").select2({
   tags: false,
-  placeholder: "Select Counsellor"
+  placeholder: "Select Coach"
 });
 $(".transaction-action").select2({
   tags: false

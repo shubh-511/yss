@@ -19,8 +19,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo" style="width:425px">
-            <b>YOUR SAFE SPACE</b>
-            <img src="{{asset('uploads/yss_new_logo4x.svg')}}" alt="Logo" style="width:80px;">
+            <b style="font-size: 1.5rem;">SOBERLISTIC</b>
+            <img src="{{asset('uploads/soberlistic_small_logo.png')}}" alt="Logo" style="width:80px;">
         </div>
         <div class="login-box-body">
             @yield('content')

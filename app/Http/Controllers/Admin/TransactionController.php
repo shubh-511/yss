@@ -41,15 +41,7 @@ class TransactionController extends Controller
   	                 $query->where('counsellor_id','=',$request->counsellor)->where('booking_date', '>=', $request->get('from_date'));
 	                
                 }
-                 if ($request->get('counsellor') != null && $request->get('to_date') != null) 
-                {
-                   
-  	                echo "<script>";
-					echo "alert('Please select from date');";
-					echo "</script>";
-	                
-                }
-	           if ($request->get('from_date') != null && $request->get('to_date') != null)
+                if ($request->get('from_date') != null && $request->get('to_date') != null)
                 {
                   $query->where('booking_date', '>=', $request->get('from_date'))
                   ->where('booking_date','<=', $request->get('to_date'));
@@ -64,15 +56,7 @@ class TransactionController extends Controller
                   $query->where('booking_date', '>=', $request->get('from_date'));
                    
 			    }
-			     if ($request->get('to_date') != null) 
-                { 
-                  
-                    echo "<script>";
-					echo "alert('Please select from date');";
-					echo "</script>";
-                   
-			    }
-                   })->whereNotIn('payment_id',['0'])->orderBy('id','DESC')->paginate($general_setting->pagination_value);
+                })->whereNotIn('payment_id',['0'])->orderBy('id','DESC')->paginate($general_setting->pagination_value);
 	               return view('admin.transaction.index',compact('bookings','counsellor_data','payment_data','module_name'))
 	            ->with('i', ($request->input('page', 1) - 1) * 5);
 	    }
@@ -123,7 +107,7 @@ class TransactionController extends Controller
 							    WriterEntityFactory::createCell($booking['counsellor']['name']),
 							    WriterEntityFactory::createCell($booking['package']['package_name']),
 							    WriterEntityFactory::createCell($booking['booking_date']),
-							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount']/100)),
 							   
 							];
 							$singleRow = WriterEntityFactory::createRow($cells);
@@ -164,7 +148,7 @@ class TransactionController extends Controller
 							    WriterEntityFactory::createCell($booking['counsellor']['name']),
 							    WriterEntityFactory::createCell($booking['package']['package_name']),
 							    WriterEntityFactory::createCell($booking['booking_date']),
-							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount']/100)),
 							   
 							];
 							$singleRow = WriterEntityFactory::createRow($cells);
@@ -203,7 +187,7 @@ class TransactionController extends Controller
 							    WriterEntityFactory::createCell($booking['counsellor']['name']),
 							    WriterEntityFactory::createCell($booking['package']['package_name']),
 							    WriterEntityFactory::createCell($booking['booking_date']),
-							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount']/100)),
 							   
 							];
 							$singleRow = WriterEntityFactory::createRow($cells);
@@ -252,7 +236,7 @@ class TransactionController extends Controller
 							    WriterEntityFactory::createCell($booking['counsellor']['name']),
 							    WriterEntityFactory::createCell($booking['package']['package_name']),
 							    WriterEntityFactory::createCell($booking['booking_date']),
-							    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+							    WriterEntityFactory::createCell(($booking['payment_detail']['amount']/100)),
 							];
 							$singleRow = WriterEntityFactory::createRow($cells);
 							$writer->addRow($singleRow); 
@@ -290,7 +274,7 @@ class TransactionController extends Controller
 						    WriterEntityFactory::createCell($booking['counsellor']['name']),
 						    WriterEntityFactory::createCell($booking['package']['package_name']),
 						    WriterEntityFactory::createCell($booking['booking_date']),
-						    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+						    WriterEntityFactory::createCell(($booking['payment_detail']['amount']/100)),
 						   
 							];
 							$singleRow = WriterEntityFactory::createRow($cells);
@@ -336,7 +320,7 @@ class TransactionController extends Controller
 						    WriterEntityFactory::createCell($booking['counsellor']['name']),
 						    WriterEntityFactory::createCell($booking['package']['package_name']),
 						    WriterEntityFactory::createCell($booking['booking_date']),
-						    WriterEntityFactory::createCell(($booking['payment_detail']['amount'])),
+						    WriterEntityFactory::createCell(($booking['payment_detail']['amount']/100)),
 						   
 						];
 						$singleRow = WriterEntityFactory::createRow($cells);

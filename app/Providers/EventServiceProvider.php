@@ -60,6 +60,9 @@ class EventServiceProvider extends ServiceProvider
          'App\Events\DisableListingEvent' => [
             'App\Listeners\DisableListingListner',
         ],
+       'App\Events\ContactEvent' => [
+            'App\Listeners\ContactListner',
+        ],
         
     ];
 

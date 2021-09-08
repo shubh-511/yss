@@ -15,7 +15,7 @@
 
 <div class="box-header">
     <div class="pull-left">
-        <h3 class="box-title">Create Counsellor</h3>
+        <h3 class="box-title">Create Coach</h3>
     </div>
     <div class="pull-right">
         <a class="btn btn-primary" href="{{ url('login/counsellors') }}"> Back</a>
@@ -44,7 +44,7 @@
                         @csrf
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label>Counsellor name:</label>
+                              <label>Coach name:</label>
                               <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}">
                               @error('name')
                                 <p style="color:red">{{ $errors->first('name') }}</p>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label>Counsellor email:</label>
+                              <label>Coach email:</label>
                               <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}">
                               @error('email')
                                 <p style="color:red">{{ $errors->first('email') }}</p>
@@ -135,7 +135,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Cover Image:</label>
-                              <input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror" required>
+                              <input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
                              @error('cover_img')
                                 <p style="color:red">{{ $errors->first('cover_img') }}</p>
                               @enderror
@@ -150,6 +150,18 @@
                                 <p style="color:red">{{ $errors->first('gallery_images') }}</p>
                               @enderror
                                </div>
+                        </div>
+                           <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Business Certificate:</label>
+                              <input type="file" name="business_certificate"  class="form-control ">
+                           </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Insurance Certificate:</label>
+                              <input type="file" name="insurance_certificate"  class="form-control ">
+                           </div>
                         </div>
                            <div class="col-md-6">
                             <div class="form-group">
@@ -171,11 +183,11 @@
                         </div>
                         <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Counsellor Type:</label>
+                                  <label>Coach Type:</label>
                                   <select name="counsellor_type" class="form-control counsellor-type">
                                     <option>select</option>
-                                       <option value="0">Inside Counsellor</option>
-                                       <option value="1">Outside Counsellor</option>
+                                       <option value="0">Internal Coach</option>
+                                       <option value="1">External Coach</option>
                                   </select>
                                    </div>
                               </div>

@@ -33,9 +33,9 @@
 						<input type="submit" class="btn btn-primary" value="Apply" onclick="myFunction()">
 					  </div>
 					</div>
-                                     <div class="col-md-4">
+                                     <!--<div class="col-md-4">
                                        <a href="{{url('login/download/label')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-download icon-white"></i> Download Label</a>
-                                    </div>
+                                    </div>-->
 				</div>
 				<table id="table" class="table table-bordered table-striped">
 					<thead>

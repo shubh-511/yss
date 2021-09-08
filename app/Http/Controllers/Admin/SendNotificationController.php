@@ -30,8 +30,6 @@ class SendNotificationController extends Controller
     	$users = User::where('role_id','!=',1)->get();
     	return view('admin.notification.send_notification',compact('users','module_name'));
     }
-
-
    /**
      * Store a newly created resource in storage.
      *
@@ -70,6 +68,30 @@ class SendNotificationController extends Controller
         {
             return redirect()->back()->with('err_message','Something went wrong!');
         }
+    }
+    public function sendnoti(Request $request)
+    {
+        $radioValue=$request->radioValue;
+        if($radioValue == "0")
+        {
+           $users = User::where('role_id','!=',1)->pluck('id','email')->toArray();
+           return response()->json($users);    
+        }
+        else if($radioValue == "1")
+        {
+           $users = User::where('role_id',3)->pluck('id','email')->toArray();
+           return response()->json($users);
+        }
+         else if($radioValue == "2")
+        {
+           $users = User::where('role_id',2)->pluck('id','email')->toArray();
+           return response()->json($users);
+        }
+        else
+        {
+           
+        }
+
     }
 
 }

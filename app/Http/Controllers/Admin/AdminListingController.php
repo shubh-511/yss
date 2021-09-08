@@ -80,9 +80,10 @@ class AdminListingController extends Controller
     {
         $module_name=$this->permission(Auth::user()->id);
         $listing = Listing::with('user','listing_category','listing_region')->where('id',$listingId)->first();
+        $user_data=User::where('id',$listing->user_id)->first();
         $gallery_data=ListingGallery::where('listing_id',$listingId)->get();
         $label_data=multilabel::where('listing_id',$listingId)->get();
-        return view('admin.listings.detail',compact('listing','label_data','gallery_data','module_name'));
+        return view('admin.listings.detail',compact('listing','label_data','gallery_data','module_name','user_data'));
         
     }
 

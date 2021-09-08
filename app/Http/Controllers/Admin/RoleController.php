@@ -32,7 +32,6 @@ class RoleController extends Controller
        	try
        	{
      	  $validator =  Validator::make($request->all(), [
-            'name' => 'required',
             'role' => 'required|unique:roles,role'
             ]);
 
@@ -41,7 +40,6 @@ class RoleController extends Controller
              return redirect()->back()->withErrors($validator)->withInput();
             }
             $role_data=new Role();
-            $role_data->name=$request->name;
             $role_data->role=$request->role;
             $role_data->save();
             if($role_data)
@@ -65,8 +63,7 @@ class RoleController extends Controller
     {
      try{
 	    	$validator =  Validator::make($request->all(), [
-	            'name' => 'required',
-	            'role' => 'required|unique:roles,role'
+	            'role' => 'required'
 	            ]);
 
 	        if ($validator->fails()) 
@@ -74,7 +71,6 @@ class RoleController extends Controller
              return redirect()->back()->withErrors($validator)->withInput();
 	        }
 	        $update_role=Role::find($id);
-	        $update_role->name=$request->name;
 	        $update_role->role=$request->role;
 	        $update_role->save();
 	        if($update_role)

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ListingReview extends Model
 {
+    protected $table = 'listing_reviews';
     protected $fillable =['user_id','listing_id','review','rating'];
 
     public function user()

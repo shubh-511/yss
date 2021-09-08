@@ -31,7 +31,7 @@
                     <tr>
                       <th>Role ID</th>
                       <th>Role</th>
-                      <th>Name</th>
+                     
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -40,7 +40,7 @@
                         <tr id='role{{$role->id}}'>
                           <td>#{{ $role->id}}</td>
                           <td>{{ $role->role ?? ''}}</td>                  
-                          <td>{{ $role->name ?? ''}}</td>  
+                           
                            <td>
                             <a class="fa fa-edit" href="{{url('login/role/edit',[$role->id])}}"></a>
                            

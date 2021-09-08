@@ -115,20 +115,20 @@ class CounsellorController extends Controller
         
           try
           {
-            $validator =  Validator::make($request->all(), [
+             $validator =  Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
+            'password' => ['required','same:confirm-password','min:8','regex:/[0-9]/','regex:/[@$!%*#?&]/',],
             'timezone' => 'required',
             'listing_name' => 'required|max:190',
             'location' => 'required|max:190',
             'description' => 'required',
             'listing_region' => 'required',
             'listing_category' => 'required|not_in:0',
-            'cover_img' => 'mimes:jpeg,jpg,png',
-
+            'cover_img' => 'required|mimes:jpeg,jpg,png',
+            'gallery_images' =>'required',
             'video_url'=>'nullable|url',
-            ]);
+            ],['password.regex' => 'Password must contain 8 characters including 1 special character and 1 numeric character.','password.min' => 'Password must contain 8 characters including 1 special character and 1 numeric character.',]);
 
             if ($validator->fails()) 
             {
@@ -156,7 +156,6 @@ class CounsellorController extends Controller
 
                 $counsellor->cover_id = $coverImage;
             }
-
             $counsellor->save();
             $listingData = new Listing;
             $listingData->user_id = $counsellor->id;
@@ -172,6 +171,19 @@ class CounsellorController extends Controller
             {
                 $listingData->cover_img = $counsellor->cover_id;
             }
+               if(!empty($request->business_certificate))
+            {
+                $business_certificate = $this->genImage($request->business_certificate);
+
+                $listingData->business_certificate = $business_certificate;
+            }
+            if(!empty($request->insurance_certificate))
+            {
+                $insurance_certificate = $this->genImage($request->insurance_certificate);
+
+                $listingData->insurance_certificate = $insurance_certificate;
+            }
+
             $listingData->save();
             if(!empty($request->listing_label))
             {
@@ -424,7 +436,7 @@ class CounsellorController extends Controller
     {
         $module_name=$this->permission(Auth::user()->id);
         $user = User::find($id);
-        $userRole = $user->roles->pluck('name','name')->all();
+        $userRole = "test";
         return view('admin.counsellor.edit',compact('user','userRole','module_name'));
      }
 
@@ -482,9 +494,10 @@ class CounsellorController extends Controller
         $list_region=ListingRegion::where('status', '1')->get();
         $list_label=ListingLabel::where('status', '1')->get();
         $list_data=Listing::where('id',$id)->first();
+        $user_data=User::where('id',$list_data->user_id)->first();
         $gallery_data=ListingGallery::where('listing_id',$list_data->id)->get();
-        $multilabel=multilabel::where('listing_id',$list_data->id)->get();
-       return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label','gallery_data','multilabel','module_name'));
+        $multilabel=multilabel::whereIn('listing_id',[$list_data->id])->pluck('label_id')->toArray();
+       return view('admin.counsellor.listedit',compact('list_data','list_category','list_region','list_label','gallery_data','multilabel','module_name','user_data'));
     }
     public function listupdate(Request $request, $id)
     {
@@ -521,8 +534,21 @@ class CounsellorController extends Controller
 
                 $list_update_data->cover_img = $coverImage;
             }
+             if(!empty($request->business_certificate))
+            {
+                $business_certificate = $this->genImage($request->business_certificate);
+
+               $list_update_data->business_certificate = $business_certificate;
+            }
+            if(!empty($request->insurance_certificate))
+            {
+                $insurance_certificate = $this->genImage($request->insurance_certificate);
+
+                $list_update_data->insurance_certificate = $insurance_certificate;
+            }
+
             $list_update_data->save();
-             if(!empty($request->gallery_images) && count($request->gallery_images) > 0)
+            if(!empty($request->gallery_images) && count($request->gallery_images) > 0)
             {
                 ListingGallery::where('listing_id', $list_update_data->id)->delete();
                 foreach($request->gallery_images as $galleryImages)

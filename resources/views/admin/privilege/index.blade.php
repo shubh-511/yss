@@ -11,7 +11,7 @@
 					<h3 class="box-title" for="inputEmail">Role Privilege</h3>
 				</div>
 				<div class="pull-right">
-					<a href="{{url('login/role/create')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Role Privilege</a>
+					<a href="{{url('login/create/privilege')}}" class="btn btnblack btn-mini plain create_list_margin pull-right"><i class="fa fa-plus-circle icon-white"></i> Add Role Privilege</a>
 				</div>
 			</div>
 			<div class="box-body">
@@ -32,7 +32,7 @@
 						  @foreach($r_role as $role)
 						  @if($role->id == $unique_role)
 						<tr>
-						  <td>{{$role->name}}</td>
+						  <td>{{$role->role}}</td>
 						  <td>
 							@foreach($r_module as $module)
 							@foreach($module_id as $id)

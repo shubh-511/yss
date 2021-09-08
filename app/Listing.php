@@ -50,5 +50,10 @@ class Listing extends Model
     {
         return $this->hasMany('App\multilabel','listing_id','id');
     }
+     public function review()
+    {
+        return $this->hasMany('App\ListingReview','listing_id','id');
+    }
+
     
 }

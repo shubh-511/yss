@@ -16,8 +16,8 @@
 					<form method="get" url="{{('/bookings')}}" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-3">
-								<label>User Name/Counsellor Name</label>
-								<input type="text" class="form-control" name="name" placeholder="Search by User name or Counsellor Name">
+								<label>User Name/Coach Name</label>
+								<input type="text" class="form-control" name="name" placeholder="Search by User name or Coach Name">
 							</div>
 							<div class="col-md-3">
 								<label>Appointment Date</label>
@@ -44,14 +44,14 @@
 					</div>
 					<div class="col-md-3">
 					</div>
-					<div class="col-md-3">
-                     <input type="submit" class="btn btn-primary" onclick="downloadBooking()" value="Download Booking">
-                    </div>
+					<!--<div class="col-md-3">
+                                            <input type="submit" class="btn btn-primary" onclick="downloadBooking()" value="Download Booking">
+                                         </div>-->
 					<table id="table" class="table table-bordered table-striped">
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="check_all_checkbox"></th>
-								<th>Counsellor Name</th>
+								<th>Coach Name</th>
 								<th>User Name</th>
 								<th>Package Name</th>
 								<th>Appointment Date</th>
@@ -103,7 +103,7 @@
 									  </div>
 									  <div class="col-md-6">
 										  <div class="form-group">
-											  <label>Counsellor name</label>
+											  <label>Coach name</label>
 											  <label class="form-control">{{ $booking->counsellor->name ?? ''}}</label>
 										  </div>
 									  </div>
@@ -201,8 +201,9 @@
 					</table>
 					<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($bookings->currentpage()-1)*$bookings->perpage()+1}} to {{$bookings->currentpage()*$bookings->perpage()}}
 					of  {{$bookings->total()}} entries</div>
-					<div class="text-center">{{ $bookings->links() }}</div>
-				</div>
+					<div class="text-center">{{ $bookings->appends(Request::all())->links() }}
+                                       </div>
+                                </div>
 			</div>
 		</div>
 	</div>

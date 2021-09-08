@@ -111,6 +111,7 @@ Route::get('download/counsellor','Admin\CounsellorController@download');
 	Route::get('/call-history/{bookingid}', 'Admin\BookingController@callHistory');
 	Route::get('/download/report/{bookingid}', 'Admin\BookingController@downloadreport');
 	Route::get('/send-notification', 'Admin\SendNotificationController@sendNotification');
+        Route::get('/sendnoti', 'Admin\SendNotificationController@sendnoti');
 	Route::post('/send', 'Admin\SendNotificationController@send');
 
 	Route::get('/tickets', 'Admin\TicketController@getTickets');

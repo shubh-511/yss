@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label>Counsellor Commission:</label>
+                                  <label>Coach Commission:</label>
                                     <input type="text" class="form-control @error('counsellor_commission') is-invalid @enderror" value="{{$commission->counsellor_commission}}" name="counsellor_commission" required>
                                     @error('counsellor_commission')
                                     <p style="color:red">{{ $errors->first('counsellor_commission') }}</p>

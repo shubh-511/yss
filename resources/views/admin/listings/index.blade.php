@@ -58,9 +58,9 @@
                 </div>
                 <div class="col-md-3">
                 </div>
-                <div class="col-md-3">
+                <!--<div class="col-md-3">
                   <input type="submit" class="btn btn-primary" onclick="downloadListing()" value="Download Listing">
-                </div>
+                </div>-->
         
               </div>
             </div>
@@ -94,20 +94,20 @@
                             </a> -->
                             <select onchange="update_status((this),{{ $listing->id}})" id="mySelect" class="" value="{{$listing->id}}">
                               @if($listing->status == "0")
-                              <option value="0" selected>Enabled</option>
-                              <option value="1">Disabled</option>
+                              <option value="1">Enabled</option>
+                              <option value="0" selected>Disabled</option>
                               <option value="2">Reject</option>
                               @elseif($listing->status == "2")
-                              <option value="0">Enabled</option>
-                              <option value="1">Disabled</option>
+                              <option value="1">Enabled</option>
+                              <option value="0">Disabled</option>
                               <option value="2" selected>Reject</option>
                               @else
-                              <option value="0">Enabled</option>
-                              <option value="1" selected>Disabled</option>
+                              <option value="1" selected>Enabled</option>
+                              <option value="0" >Disabled</option>
                               <option value="2">Reject</option>
                               
                               @endif
-                              <select>
+                              <select>                      
                           </td>
                           <td>
                             <!-- <a data-toggle="modal" data-target="#myModal<?php echo $listing->id?>"><i class="fa fa-desktop" title="View Listing"></i></a> -->
@@ -127,7 +127,7 @@
                   </tbody>
               </table><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($listings->currentpage()-1)*$listings->perpage()+1}} to {{$listings->currentpage()*$listings->perpage()}}
 			  of  {{$listings->total()}} entries</div>
-			  <div class="text-center">{{ $listings->links() }}</div>
+			  <div class="text-center">{{ $listings->appends(Request::all())->links() }}</div>
       </div>
 
       <!-- /.box -->
@@ -139,10 +139,6 @@
 <script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
 <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
 <link rel="stylesheet" media="screen" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' />
-
-<center>
-    <a class="Update" href=""><i class="ace-icon fa fa-pencil-square-o"></i>|</a>
-</center>
 <div id="MyPopup" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">

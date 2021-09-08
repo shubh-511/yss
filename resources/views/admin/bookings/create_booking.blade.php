@@ -27,12 +27,12 @@
 
 
                     <div class="form-group">
-                    <h4 class="control-label nopadding " style="margin-bottom: 25px;">1. Select counsellor and user from droplist you want to make booking:</h4>
+                    <h4 class="control-label nopadding " style="margin-bottom: 25px;">Create booking</h4>
                     <div class="row">
                      <div class="col-md-6">
-                      <label>Select Counsellor</label>
+                      <label>Select Coach</label>
                          <select id="select-counsellor" class="form-control counsellor-tags">
-                          <option value="">Select Counsellor</option>
+                          <option value="">Select Coach</option>
                           @foreach($counsellors as $counsellor)
                           <option data-counsellor="{{$counsellor->id}}" value="{{$counsellor->email}}">{{$counsellor->name}} - {{$counsellor->email}}</option>
                           @endforeach
@@ -92,7 +92,7 @@
  
 $(".counsellor-tags").select2({
   tags: false,
-  placeholder: "Select Counsellor"
+  placeholder: "Select Coach"
 });
 $(".user-tags").select2({
   tags: false,

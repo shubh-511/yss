@@ -1,5 +1,18 @@
 @extends('admin.layouts.app')
 @section('content')
+
+
+<div class="box-header">
+    <div class="pull-left">
+        <h3 class="box-title">Edit Listing details</h3>
+    </div>
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ url('login/listings') }}"> Back</a>
+    </div>
+</div>
+
+
+
 @if (count($errors) > 0)
   <div class="alert alert-danger">
     <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -63,12 +76,15 @@
                                   </select>
                                    </div>
                             </div>
-                            <div class="col-md-6">
+                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Listing label:</label>
                                   <select  name="listing_label[]" class="form-control label-edit" multiple>
+                                       
                                        @foreach($list_label as $key => $label)
-                                       <option value="{{$label->id}}" {{ ( $label->id == $list_data->listing_label) ? 'selected' : '' }}>{{$label->label_name}}</option>
+                                     
+                                       <option value="{{$label->id}}" {{in_array($label->id, $multilabel ?: []) ? "selected": ""}}>{{$label->label_name}}</option>
+                                       
                                        @endforeach
                                   </select>
                                    </div>
@@ -88,7 +104,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Video Url:(Optional)</label>
-                                    <input type="text" class="form-control @error('video_url') is-invalid @enderror" value="{{$list_data->video_url}}" name="video_url"  placeholder="Location">
+                                    <input type="text" class="form-control @error('video_url') is-invalid @enderror" value="{{$list_data->video_url}}" name="video_url"  placeholder="Video Url">
                                     @error('video_url')
                                      <p style="color:red">{{ $errors->first('video_url') }}</p>
                                     @enderror
@@ -121,6 +137,27 @@
 									@endforeach
 								</div>
 							</div>
+                               <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Business Certificate</label>
+                                    <input type="file" name="business_certificate" class="form-control">
+                                    <br>
+                                    @if($list_data->business_certificate)
+                                    <span><img src="{{ "http://178.62.24.141/dev/".$list_data->business_certificate }}" width="50px" height="50px"></span>
+                                    @endif
+                                </div>
+                            </div>
+                           <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Insurance Certificate</label>
+                                    <input type="file" name="insurance_certificate" class="form-control">
+                                    <br>
+                                    @if($list_data->insurance_certificate)
+                                    <span><img src="{{ "http://178.62.24.141/dev/".$list_data->insurance_certificate}}" width="50px" height="50px"></span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                               <div class="form-group">
                                 <button style="float:right;" name="editcounsellor" type="submit" class="btn btn-primary ">Update</button>
