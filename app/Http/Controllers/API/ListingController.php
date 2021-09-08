@@ -458,11 +458,11 @@ class ListingController extends Controller
     { 
         try {
 
-            if($request->column == undefined){
+            if($request->column == 'undefined'){
                 $request->column = "id";
             }
 
-            if($request->order == undefined){
+            if($request->order == 'undefined'){
                 $request->order = "desc";
             }
 
