@@ -45,7 +45,7 @@ class ReviewRatingController extends Controller
 			$review_data->save(); 
 
 			if(!empty($review_data)){ 
-				$this->updateListingAvgRating($request->listing_id)
+				$this->updateListingAvgRating($request->listing_id);
 			}
 
 			return response()->json(['success' => true,
@@ -79,7 +79,7 @@ class ReviewRatingController extends Controller
 				$checkReview->save(); 
 
 				if(!empty($checkReview)){
-					$this->updateListingAvgRating($checkReview->listing_id)
+					$this->updateListingAvgRating($checkReview->listing_id);
 				}
 
 				return response()->json(['success' => true,
