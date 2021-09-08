@@ -459,11 +459,11 @@ class ListingController extends Controller
         try {
 
             if($request->column == undefined){
-                $request->column = "id"
+                $request->column = "id";
             }
 
             if($request->order == undefined){
-                $request->order = "desc"
+                $request->order = "desc";
             }
 
             $listingData = Listing::with('gallery','listing_category','listing_region','user','review')->where(function ($query) use ($request)
