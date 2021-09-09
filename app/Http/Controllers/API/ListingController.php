@@ -479,7 +479,7 @@ class ListingController extends Controller
                  $listingData = $query->where('listing_region','=',$request->regions);
               }
 
-              if ($request->regions)
+              if ($request->listing_label)
               {
                 $labels=explode(",",$request->listing_label);
                 $listing_id=multilabel::whereIn('label_id',$labels)->pluck('listing_id')->toArray();
