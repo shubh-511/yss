@@ -136,7 +136,25 @@ class CallLogsController extends Controller
 	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
 			}
 
-			DB::table("call_log_status")->where('name', Input::get('name'))->get();
+			$callStatus = DB::table("call_log_status")->where('call_id', $request->call_id)->first();
+
+			if(!empty($callStatus)){
+
+				if($callStatus->status == 1){
+
+					return response()->json(['success'=>true,'status' => 1], $this->successStatus); 
+
+				}else{
+
+					DB::table('call_log_status')
+		                ->where('id', $callStatus->id)
+		                ->update(['status' => 1]);
+
+					return response()->json(['success'=>true,'status' => 0], $this->successStatus); 
+				}
+			}
+			
+
     	}
     	catch(\Exception $e)
         {
