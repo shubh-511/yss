@@ -151,16 +151,22 @@
                               @enderror
                                </div>
                         </div>
-                           <div class="col-md-6">
+                          <div class="col-md-6">
                             <div class="form-group">
                               <label>Business Certificate:</label>
                               <input type="file" name="business_certificate"  class="form-control ">
+                               @error('business_certificate')
+                                <p style="color:red">{{ $errors->first('business_certificate') }}</p>
+                              @enderror
                            </div>
                         </div>
                          <div class="col-md-6">
                             <div class="form-group">
                               <label>Insurance Certificate:</label>
                               <input type="file" name="insurance_certificate"  class="form-control ">
+                                 @error('insurance_certificate')
+                                <p style="color:red">{{ $errors->first('insurance_certificate') }}</p>
+                              @enderror
                            </div>
                         </div>
                            <div class="col-md-6">

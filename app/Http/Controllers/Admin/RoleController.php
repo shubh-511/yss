@@ -133,7 +133,7 @@ class RoleController extends Controller
     {
       $module_name=$this->permission(Auth::user()->id);
       $role_data=Role::whereNotIn('role',['counsellor','user'])->get();
-      $role_module_data=RoleModule::where('role_id',$id)->get();
+      $role_module_data=RoleModule::whereIn('role_id',[$id])->pluck('module_id')->toArray();
       $role_id=RoleModule::where('role_id',$id)->first();
       $module_data=Module::get();
       return view('admin.privilege.edit',compact('role_data','role_module_data','module_name','module_data','role_id'));

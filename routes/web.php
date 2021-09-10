@@ -65,6 +65,12 @@ Route::get('/counsellors/list/listedit/{id}','Admin\CounsellorController@listedi
 Route::post('/counsellors/list/update/{id}','Admin\CounsellorController@listupdate');
 Route::get('download/counsellor','Admin\CounsellorController@download');
 
+//SubAdmin
+Route::get('sub/admin','Admin\SubAdminController@subAdmin');
+Route::get('sub/admin/destroy','Admin\SubAdminController@destroy');
+Route::get('sub/admin/bulk','Admin\SubAdminController@bulk');
+Route::get('sub/admin/edit/{id}','Admin\SubAdminController@edit');
+Route::post('sub/admin/update/{id}','Admin\SubAdminController@update');
 	//Category
 	Route::get('category/create','Admin\CategoryController@create');
 	Route::post('category/save','Admin\CategoryController@save');	

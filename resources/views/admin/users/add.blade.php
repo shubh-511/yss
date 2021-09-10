@@ -55,6 +55,7 @@
                             <label>User Role</label>
                             <select class="form-control role @error('role') is-invalid @enderror" name="role">
                               <option value="">Select Role</option>
+                              <option value="3">User</option>
                               @foreach($role_data as $role)
                               <option value="{{$role->id}}">{{$role->role}}</option>
                               @endforeach

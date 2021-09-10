@@ -126,6 +126,8 @@ class CounsellorController extends Controller
             'listing_region' => 'required',
             'listing_category' => 'required|not_in:0',
             'cover_img' => 'required|mimes:jpeg,jpg,png',
+            'business_certificate' => 'mimes:jpeg,jpg,png',
+            'insurance_certificate' => 'mimes:jpeg,jpg,png',
             'gallery_images' =>'required',
             'video_url'=>'nullable|url',
             ],['password.regex' => 'Password must contain 8 characters including 1 special character and 1 numeric character.','password.min' => 'Password must contain 8 characters including 1 special character and 1 numeric character.',]);
