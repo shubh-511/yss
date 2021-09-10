@@ -45,6 +45,7 @@
 										<th><input type="checkbox" class='sub_chk bulk-action-btn' data-id="{{$module->id}}" value="{{$module->id}}" {{in_array($module->id, $role_module_data ?: []) ? "checked": ""}} name="module[]"></th>
 									</tr>
 									@endforeach
+
 								</tbody>
 							</table>
 						</div>

@@ -219,9 +219,6 @@
 
 					<td>€{{($bookingData['payment_detail']['amount'])}}</td>
 				</tr>
-
-				
-				
 				<tr class="total">
 					<td></td>
 
