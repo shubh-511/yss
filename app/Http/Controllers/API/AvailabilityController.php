@@ -584,14 +584,11 @@ class AvailabilityController extends Controller
 					{
 						$common['saturday'] = [];
 					}
-
-					
-
-					
 				}
+				
 				return response()->json(['success' => true,
 	            					 'data' => $common,
-	            					 'breaks' => $breaks,
+	            					 'breaks' => (!empty($breaks)) ? $breaks->breaks : 10,
 	            					], $this->successStatus);
 			}
 			else
