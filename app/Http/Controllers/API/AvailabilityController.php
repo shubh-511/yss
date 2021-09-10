@@ -508,7 +508,7 @@ class AvailabilityController extends Controller
 			$user = Auth::user()->id;
 			$myAvailability = Availability::where('user_id', $user)->get();
 
-			$avlbleDays = $myAvailability->pluck('availaible_days');
+			$avlbleDays = $myAvailability->pluck('availaible_days','breaks');
 			$avlbleDays = $avlbleDays->toArray();
 
 
