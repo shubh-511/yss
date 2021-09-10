@@ -40,7 +40,9 @@
 						@forelse($subAdmin as $sub_admin_user)
 						<tr id='{{$sub_admin_user->id}}'>
 							<th><input type="checkbox" class='sub_chk' value="{{$sub_admin_user->id}}" data-id="{{$sub_admin_user->id}}" name="user_id[]"></th>
-							<td>{{ $sub_admin_user->name}}</td>
+
+							<td>#{{ $sub_admin_user->name}}</td>
+
 							<td>{{ $sub_admin_user->email}}</td>
 							<td><a href="javascript:void();">
                               <span class="label  @if($sub_admin_user->account_enabled == '1' || $sub_admin_user->account_enabled == '2') {{'label-success'}} @else {{'label-warning'}} @endif">

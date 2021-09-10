@@ -17,14 +17,17 @@ class SubAdminController extends Controller
     }
     public function destroy(Request $request)
     {
-        User::where('id', $request->id)->delete();
-        return redirect('login/sub/admin')->with('success','subAdmin deleted successfully');
+
+         User::where('id', $request->id)->delete();
+         return redirect('login/sub/admin')->with('success','subAdmin deleted successfully');
+
     }
     public function bulk(Request $request)
     {
          $id=$request->id;
          $data=\App\User::whereIn('id',$id)->delete();
-          return response()->json(array('message' => 'success'));
+
+         return response()->json(array('message' => 'success'));
     }
     public function edit($id)
     {

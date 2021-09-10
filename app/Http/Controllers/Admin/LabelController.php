@@ -17,7 +17,7 @@ class LabelController extends Controller
     use CheckPermission;
     Public function create()
 	{
-    $module_name=$this->permission(Auth::user()->id);
+       $module_name=$this->permission(Auth::user()->id);
 		return view('admin.label.add',compact('module_name'));
 	}
 	Public function save( Request $request)

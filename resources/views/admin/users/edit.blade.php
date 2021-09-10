@@ -49,24 +49,6 @@
                         <form action="{{url('login/users/update',[$user->id])}}" method="post">
                         @csrf
                         <div class="row">
-                             <!-- <div class="col-md-6">
-                            <label>User Role</label>
-                            <select class="form-control role_edit" name="role">
-                              <option value="">Select Role</option>
-                              @foreach($role_data as $role)
-                              <option value="{{$role->id}}" {{ ( $role->id == $user->role_id) ? 'selected' : '' }}>{{$role->role}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                           <div class="col-md-6">
-                            <label>User Module</label>
-                            <select class="form-control module_edit" name="module">
-                              <option value="">Select Module</option>
-                              @foreach($module_data as $module)
-                              <option value="{{$module->id}}" {{ ( $module->id == $user->module_id) ? 'selected' : '' }}>{{$module->module_name}}</option>
-                              @endforeach
-                            </select>
-                          </div> -->
                           <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Name:</label>

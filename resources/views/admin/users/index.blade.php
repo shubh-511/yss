@@ -40,7 +40,7 @@
 				</div>
               </form>
                <div class="col-md-12">
-		<div class="row">
+		         <div class="row">
                   <div class="col-md-3">
                   <label>Action</label>
                  <select name="action" class="form-control user-action" id="action">
@@ -109,7 +109,7 @@
           <div class="row">
             <div class="col-sm-5">
               <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing {{($users->currentpage()-1)*$users->perpage()+1}} to {{$users->currentpage()*$users->perpage()}}
-    of  {{$users->total()}} entries</div>
+              of  {{$users->total()}} entries</div>
             </div>
             <div class="col-sm-7">{{ $users->appends(Request::all())->links() }}</div>
           </div>
