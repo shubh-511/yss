@@ -50,7 +50,7 @@ Route::post('get/availability', 'API\ListingController@availability');
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
 Route::post('join-session', 'API\ChannelController@joinSession');
 Route::post('remove-channel', 'API\ChannelController@removeChannel');
-Route::get('create/call-log-status', 'API\CallLogsController@createCallLogStatus');
+Route::post('create/call-log-status', 'API\CallLogsController@createCallLogStatus');
 Route::get('call-log/status', 'API\CallLogsController@getCallLogStatus');
 
 Route::middleware('jwt.auth')->get('users', function () {
