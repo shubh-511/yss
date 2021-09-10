@@ -124,7 +124,7 @@
 						<table>
 							<tr>
 								<td>
-									Your Safe Space<br />
+									Soberlistic<br />
 									United Kingdom
 								</td>
 
@@ -158,7 +158,7 @@
 					<td>{{$bookingData['user']['name']}}</td>
 				</tr>
 				<tr class="details">
-					<td>{{'Counsellor Name'}}</td>
+					<td>{{'Coach Name'}}</td>
 					<td>{{$bookingData['counsellor']['name']}}</td>
 				</tr>
 				<tr>

@@ -83,6 +83,14 @@ body.skin-blue .main-header .logo{
 	border-color: #34558b;
 	border-radius: 0;
 }
+body.skin-blue .main-header .logo{
+	padding-top: .875rem;
+    padding-bottom: .875rem;
+}
+body.skin-blue .main-header .logo svg{
+	margin-left: -7rem;
+	height: 100%;
+}
 body .btn-primary:hover,
 body .btn:hover,
 body .btn-primary:focus,

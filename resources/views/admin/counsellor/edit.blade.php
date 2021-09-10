@@ -15,7 +15,7 @@
 
 <div class="box-header">
     <div class="pull-left">
-        <h3 class="box-title">Edit Counsellor: #{{$user->id}}</h3>
+        <h3 class="box-title">Edit Counsellor</h3>
     </div>
     <div class="pull-right">
         <a class="btn btn-primary" href="{{ url('login/counsellors') }}"> Back</a>
@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label>Coach Type:</label>
-                                   <select name="counsellor_type" class="form-control ">
+                                   <select name="counsellor_type" class="form-control" id="counsellor-type">
                                        @if($user->counsellor_type==1)
                                         <option value="1" selected>Internal Coach</option>
                                         <option value="0">External Coach</option>
@@ -167,6 +167,9 @@
 
 <script type="text/javascript">
     $("#coun-timezone-tags").select2({
+  tags: false
+});
+$("#counsellor-type").select2({
   tags: false
 });
 </script>

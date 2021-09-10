@@ -21,10 +21,10 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="pull-left">
-					<h3 class="box-title">Call History for booking ID #{{$bookingId}}</h3>
+					<h3 class="box-title">Call History</h3>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-primary" href="{{ url('login/tickets') }}"> Back</a>
+					<a class="btn btn-primary" href="{{ url('login/bookings') }}"> Back</a>
 				</div>
 			</div>
 			<div class="box-body">   

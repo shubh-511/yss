@@ -62,7 +62,7 @@ class AvailabilityController extends Controller
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
-				    	//$availDay->breaks = $request->breaks;
+				    	$availDay->breaks = $request->breaks;
 				    	$availDay->save();
 
 				    	foreach ($reqJSONs as $hours) 
@@ -90,7 +90,7 @@ class AvailabilityController extends Controller
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
-				    	//$availDay->breaks = $request->breaks;
+				    	$availDay->breaks = $request->breaks;
 				    	$availDay->save();
 
 				    	foreach ($reqJSONs as $hours) 
@@ -118,7 +118,7 @@ class AvailabilityController extends Controller
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
-				    	//$availDay->breaks = $request->breaks;
+				    	$availDay->breaks = $request->breaks;
 				    	$availDay->save();
 
 				    	foreach ($reqJSONs as $hours) 
@@ -146,7 +146,7 @@ class AvailabilityController extends Controller
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
-				    	//$availDay->breaks = $request->breaks;
+				    	$availDay->breaks = $request->breaks;
 				    	$availDay->save();
 
 				    	foreach ($reqJSONs as $hours) 
@@ -174,7 +174,7 @@ class AvailabilityController extends Controller
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
-				    	//$availDay->breaks = $request->breaks;
+				    	$availDay->breaks = $request->breaks;
 				    	$availDay->save();
 
 				    	foreach ($reqJSONs as $hours) 
@@ -202,7 +202,7 @@ class AvailabilityController extends Controller
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
-				    	//$availDay->breaks = $request->breaks;
+				    	$availDay->breaks = $request->breaks;
 				    	$availDay->save();
 
 				    	foreach ($reqJSONs as $hours) 
@@ -230,7 +230,7 @@ class AvailabilityController extends Controller
 						$availDay = new Availability;
 				    	$availDay->user_id = $user;
 				    	$availDay->availaible_days = $key;
-				    	//$availDay->breaks = $request->breaks;
+				    	$availDay->breaks = $request->breaks;
 				    	$availDay->save();
 
 				    	foreach ($reqJSONs as $hours) 

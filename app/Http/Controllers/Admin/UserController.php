@@ -74,7 +74,8 @@ class UserController extends Controller
     public function form()
     {
      $module_name=$this->permission(Auth::user()->id);   
-     $role_data=Role::whereNotIn('role',['counsellor'])->get();
+     $data=RoleModule::all()->pluck('role_id')->toArray();
+     $role_data=Role::whereIn('id',$data)->get();
      $module_data=Module::get();
      return view('admin.users.add',compact('role_data','module_data','module_name'));
     }

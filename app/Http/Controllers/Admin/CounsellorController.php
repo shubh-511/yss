@@ -125,6 +125,8 @@ class CounsellorController extends Controller
             'description' => 'required',
             'listing_region' => 'required',
             'listing_category' => 'required|not_in:0',
+            'business_certificate' => 'mimes:jpeg,jpg,png',
+            'insurance_certificate' => 'mimes:jpeg,jpg,png',  
             'cover_img' => 'required|mimes:jpeg,jpg,png',
             'gallery_images' =>'required',
             'video_url'=>'nullable|url',
