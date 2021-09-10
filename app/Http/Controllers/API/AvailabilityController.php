@@ -508,7 +508,8 @@ class AvailabilityController extends Controller
 			$user = Auth::user()->id;
 			$myAvailability = Availability::where('user_id', $user)->get();
 
-			$avlbleDays = $myAvailability->pluck('availaible_days','breaks');
+			$avlbleDays = $myAvailability->pluck('availaible_days');
+			$breaks = $myAvailability->pluck('breaks');
 			$avlbleDays = $avlbleDays->toArray();
 
 
@@ -590,6 +591,7 @@ class AvailabilityController extends Controller
 				}
 				return response()->json(['success' => true,
 	            					 'data' => $common,
+	            					 'breaks' => $breaks,
 	            					], $this->successStatus);
 			}
 			else
