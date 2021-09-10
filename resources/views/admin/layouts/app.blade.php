@@ -132,6 +132,9 @@
                     <li>
                     <a href="{{url('login/counsellors')}}">Coaches</a>
                     </li>
+                     <li>
+                    <a href="{{url('login/sub/admin')}}">Sub Admin</a>
+                    </li>
                        
                   </ul>
 
