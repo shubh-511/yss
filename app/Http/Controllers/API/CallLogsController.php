@@ -12,6 +12,7 @@ use Validator;
 use Stripe;
 use Event;
 use App\Traits\ProfileStatusTrait;
+use DB;
 
 class CallLogsController extends Controller
 {
@@ -96,6 +97,51 @@ class CallLogsController extends Controller
     		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
     	} 
         
+    }
+
+    public function createCallLogStatus(Request $request){
+    	try
+    	{
+    		$validator = Validator::make($request->all(), [ 
+	            'call_id' => 'required'
+	        ]);
+
+    		if ($validator->fails()) 
+            { 
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
+			}
+
+			$status = DB::table('call_log_status')->insert([
+			    'call_id' => $request->call_id
+			]);
+
+			return response()->json(['success'=>true,'status' => $status ], $this->successStatus); 
+
+    	}
+    	catch(\Exception $e)
+        {
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	}
+    }
+
+    public function getCallLogStatus(Request $request){
+    	try
+    	{
+    		$validator = Validator::make($request->all(), [ 
+	            'call_id' => 'required'
+	        ]);
+
+    		if ($validator->fails()) 
+            { 
+	            return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
+			}
+
+			DB::table("call_log_status")->where('name', Input::get('name'))->get();
+    	}
+    	catch(\Exception $e)
+        {
+    		return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+    	} 
     }
 
 }
