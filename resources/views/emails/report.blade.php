@@ -96,6 +96,41 @@
 			.rtl table tr td:nth-child(2) {
 				text-align: left;
 			}
+
+			.styled-table {
+			    border-collapse: collapse;
+			    margin: 25px 0;
+			    font-size: 0.9em;
+			    font-family: sans-serif;
+			    min-width: 400px;
+			    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+			}
+
+			.styled-table thead tr {
+			    background-color: #315289;
+			    color: #ffffff;
+			    text-align: left;
+			}
+
+			.styled-table th,
+			.styled-table td {
+			    padding: 12px 15px;
+			}
+			.styled-table tbody tr {
+			    border-bottom: 1px solid #dddddd;
+			}
+
+			.styled-table tbody tr:nth-of-type(even) {
+			    background-color: #f3f3f3;
+			}
+
+			.styled-table tbody tr:last-of-type {
+			    border-bottom: 2px solid #009879;
+			}
+			.styled-table tbody tr.active-row {
+			    font-weight: bold;
+			    color: #009879;
+			}
 		</style>
 	</head>
 
@@ -107,7 +142,7 @@
 						<table>
 							<tr>
 								<td class="title">
-									<img src="https://connect.yoursafespaceonline.com/images/yss_new_logo4x.svg" style="width: 100%; max-width: 100px;" />
+									<img src="{{ asset('uploads/logo.png') }}" style="width: 100%; max-width: 200px;" />
 								</td>
 
 								<td>
@@ -142,10 +177,10 @@
 					<td>@if($bookingData['created_by'] == 1) {{'Online'}} @else {{'Cash'}} @endif</td>
 				</tr>
 
-				<tr class="details">
-					<td>@if($bookingData['created_by'] == 1) {{'Online'}} @else {{'Cash'}} @endif</td>
+				<tr>
+					<td></td>
 
-					
+					<td></td>
 				</tr>
 
 				<tr class="heading">
@@ -173,57 +208,35 @@
 					<td>{{'Amount Paid'}}</td>
 					<td>€{{($bookingData['payment_detail']['amount'])}}</td>
 				</tr>
-				
-				@if((count($logs) > 0))
 				<tr class="heading">
 
 					<td>Call Logs</td>
 					<td></td>
 				</tr>
-
-				@foreach($logs as  $index => $log)
-				<tr class="details">
-				<td>{{$index+1}}-</td></tr>
-				<tr>
-						<td>{{'Initiated By'}}</td>
-						<td>{{$log->initiated_by->name ?? '--'}}</td>
-				</tr>
-				<tr>
-						<td>{{'Call Pick By'}}</td>
-						<td>{{$log->picked_by->name ?? '--'}}</td>
-				</tr>
-				<tr>
-						<td>{{'Call Cut By'}}</td>
-						<td>{{$log->cutted_by->name ?? '--'}}</td>
-				</tr>
-				<tr>
-						<td>{{'Call Status'}}</td>
-						<td>{{$log['status']}}</td>
-				</tr>
-				<tr>
-						<td>{{'Call Duration'}}</td>
-						<td>{{$log['call_duration']?? '--'}}</td>
-				</tr>
-				@endforeach
-				
-				@endif
-				<tr class="heading">
-
-					<td>Selected Date & Slot</td>
-
-					<td>Price</td>
-				</tr>
-
-				<tr class="item">
-					<td>{{$bookingData['booking_date']}} - {{$bookingData['counsellor_timezone_slot']}}</td>
-
-					<td>€{{($bookingData['payment_detail']['amount'])}}</td>
-				</tr>
-				<tr class="total">
-					<td></td>
-
-					<td>Total:€ {{($bookingData['payment_detail']['amount'])}}</td>
-				</tr>
+			</table>
+			<table id="table" class="styled-table">
+	                  <thead>
+	                    <tr>
+	                      <th>Caller</th>
+	                      <th>Receiver</th>
+	                      <th>Start Date & Time</th>
+	                      <th>Call Duration</th>
+	                    </tr>
+	                  </thead>
+	                  <tbody>
+	                  @forelse($logs as $callLog) 
+					  <tr>
+					  	<td style="text-align: center;">{{ $callLog->initiated_by->name ?? ''}}</td>
+					  	<td style="text-align: center;">{{ $callLog->picked_by->name ?? ''}}</td>
+					  	<td style="text-align: center;">{{ $callLog->created_at}}</td>
+					  	<td style="text-align: center;">{{ $callLog->call_duration}}</td>
+					  </tr>
+						@empty
+                          <tr>
+                          <td colspan="4" class="text-center">No records found</td>
+                        </tr>
+                      @endforelse
+                  </tbody>
 			</table>
 		</div>
 	</body>

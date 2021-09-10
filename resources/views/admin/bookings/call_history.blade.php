@@ -27,47 +27,36 @@
 					<a class="btn btn-primary" href="{{ url('login/bookings') }}"> Back</a>
 				</div>
 			</div>
-			<div class="box-body">   
-			  <?php $i = 1; ?>
-			  @foreach($callLogs as $callLog)
-				<div style="margin-bottom: 1.5em;">
-				  <p style="font-weight: 700;">Attempt: {{$i}}</p>
-				  <div class="row">
-					<div class="col-md-3">
-						<div class="form-group">
-						  <label>Call initiated by:</label>
-						  <label class="form-control">{{ $callLog->initiated_by->name ?? ''}}</label>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-						  <label>Call pick by:</label>
-						  <label class="form-control">{{ $callLog->picked_by->name ?? '--'}}</label>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-						  <label>Call disconnected by:</label>
-						  <label class="form-control">{{ $callLog->cutted_by->name ?? ''}}</label>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-						  <label>Call status:</label>
-						  <label class="form-control">{{ $callLog->status}}</label>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-						  <label>Call duration:</label>
-						  <label class="form-control">{{ $callLog->call_duration}}</label>
-						</div>
-					</div>
-				   </div>
-				</div>
-				<?php $i++; ?>
-			   @endforeach 
-
+			<div class="box-body">
+				<table id="table" class="table table-bordered table-striped">
+	                  <thead>
+	                    <tr>
+	                      <th>S.No</th>
+	                      <th>Caller</th>
+	                      <th>Receiver</th>
+	                      <th>Call Start Date & Time</th>
+	                      <th>Call Duration</th>
+	                    </tr>
+	                  </thead>
+	                  <tbody>   
+					  <?php $i = 1; ?>
+					  @forelse($callLogs as $callLog) 
+					  <tr>
+					  	<td>{{$i}}</td>
+					  	<td>{{ $callLog->initiated_by->name ?? ''}}</td>
+					  	<td>{{ $callLog->picked_by->name ?? ''}}</td>
+					  	<td>{{ $callLog->created_at}}</td>
+					  	<td>{{ $callLog->call_duration}}</td>
+					  	<!-- <td>{{ $callLog->cutted_by->name ?? ''}}</td> -->
+					  </tr>
+						<?php $i++; ?>
+			   			@empty
+                          <tr>
+                          <td colspan="4" class="text-center">No records found</td>
+                        </tr>
+                      @endforelse
+                  </tbody>
+              </table>
 			</div>
 		</div>
 	</div>	
