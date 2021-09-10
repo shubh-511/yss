@@ -6,6 +6,11 @@
   <div class="col-xs-12">
     <!-- Default box -->
       <div class="box">
+            <div class="box-header">
+			<div class="pull-left">
+				<h3 class="box-title">Transaction</h3>
+			</div>
+		</div>
 
           <div class="box-header">
             

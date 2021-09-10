@@ -432,7 +432,15 @@ class PackageController extends Controller
                     foreach($data as $key => $datta)
                     {
                         $dates = Carbon::createFromFormat('g:i A', $datta);
-                        $count1 = $count * 15;
+                        if(!empty($myAvailableHours->breaks))
+                        {
+                            $breakTime = $myAvailableHours->breaks;
+                        }
+                        else
+                        {
+                            $breakTime = 15;  
+                        } 
+                        $count1 = $count * $breakTime;
                         $ss = Carbon::parse($dates)->addMinutes($count1)->format('g:i A');
                         $data[$key] = $ss;
                         $count++;
