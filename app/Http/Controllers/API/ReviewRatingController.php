@@ -123,7 +123,7 @@ class ReviewRatingController extends Controller
 						$bookingIds[] = $checkIfPackageBooked->id;
 					}
 
-					$chackIfCallDone = CallLog::whereIn('booking_id', $bookingIds)->where('call_duration','>',0)->first();
+					$chackIfCallDone = CallLog::whereIn('booking_id', $bookingIds)->where('duration','>',0)->first();
 				}
 
 				$checkIfAlreadyReviewed=ListingReview::where('user_id',$user->id)->where('listing_id',$request->listing_id)->first();

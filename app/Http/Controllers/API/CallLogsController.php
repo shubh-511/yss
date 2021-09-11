@@ -67,6 +67,7 @@ class CallLogsController extends Controller
 	            'cut_by' => 'required',
 	            'status' => 'required',
 	            'call_duration' => 'required',
+	            'duration' => 'required',
 	        ]);
 
 			if ($validator->fails()) 
@@ -82,6 +83,7 @@ class CallLogsController extends Controller
 			$log->cut_by = $request->cut_by;
 			$log->status = $request->status;
 			$log->call_duration = $request->call_duration;
+			$log->duration = $request->duration;
 			$log->save();
 			
 			
