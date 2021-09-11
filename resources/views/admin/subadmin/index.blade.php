@@ -41,7 +41,7 @@
 						<tr id='{{$sub_admin_user->id}}'>
 							<th><input type="checkbox" class='sub_chk' value="{{$sub_admin_user->id}}" data-id="{{$sub_admin_user->id}}" name="user_id[]"></th>
 
-							<td>#{{ $sub_admin_user->name}}</td>
+							<td>{{ $sub_admin_user->name}}</td>
 
 							<td>{{ $sub_admin_user->email}}</td>
 							<td><a href="javascript:void();">
