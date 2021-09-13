@@ -35,6 +35,7 @@
 	                      <th>Caller</th>
 	                      <th>Receiver</th>
 	                      <th>Call Start Date & Time</th>
+	                      <!-- <th>Call End Date & Time</th> -->
 	                      <th>Call Duration</th>
 	                    </tr>
 	                  </thead>
@@ -45,7 +46,8 @@
 					  	<td>{{$i}}</td>
 					  	<td>{{ $callLog->initiated_by->name ?? ''}}</td>
 					  	<td>{{ $callLog->picked_by->name ?? ''}}</td>
-					  	<td>{{ $callLog->created_at}}</td>
+					  	<td>{{ date("Y-m-d H:i:s", strtotime($callLog->created_at) - $callLog->duration) }}</td>
+					  	<!-- <td>{{ $callLog->created_at }}</td> -->
 					  	<td>{{ $callLog->call_duration}}</td>
 					  	<!-- <td>{{ $callLog->cutted_by->name ?? ''}}</td> -->
 					  </tr>
