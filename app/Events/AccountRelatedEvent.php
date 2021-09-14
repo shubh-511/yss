@@ -25,7 +25,7 @@ class AccountRelatedEvent
     {
         $this->body = $body;
         $this->id = $id;
-        $this->subject = $subject
+        $this->subject = $subject;
     }
 
     /**
