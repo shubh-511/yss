@@ -38,8 +38,8 @@ class SendNotificationController extends Controller
      */
     public function send(Request $request)
     {
-     try
-       {
+     // try
+     //   {
             $validator = Validator::make($request->all(), [ 
                 'user' => 'required', 
                 'title' => 'required',
@@ -60,14 +60,14 @@ class SendNotificationController extends Controller
                     $notif->body = strip_tags($request->body);
                     $notif->created_at =Carbon::now($data->timezone)->toDateTimeString();
                     $notif->save();
-                    event(new AccountRelatedEvent($data->id, strip_tags(trim($request->body))));
+                    event(new AccountRelatedEvent($data->id, $request->body,$request->title));
                 }
             return redirect('login/send-notification')->with('success','Notification sent successfully');
-        }
-        catch(\Exception $e)
-        {
-            return redirect()->back()->with('err_message','Something went wrong!');
-        }
+        //}
+        // catch(\Exception $e)
+        // {
+        //     return redirect()->back()->with('err_message','Something went wrong!');
+        // }
     }
     public function sendnoti(Request $request)
     {

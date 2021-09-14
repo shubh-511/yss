@@ -355,7 +355,7 @@ class BookingController extends Controller
               $customBooking->counsellor_booking_date = $request->date;
               
             }
-            $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
+            $userBody = "Your booking for ".$packageDetail->package_name." Package has been successful.";
             $customBooking->status = '1';
             $customBooking->save();
             $newNotif = new Notification;

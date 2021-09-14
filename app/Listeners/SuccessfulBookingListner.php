@@ -35,7 +35,7 @@ class SuccessfulBookingListner
         Mail::send('emails.success_booking', ["user"=>$user, "booking"=>$booking], function($message) use ($user) {
             $message->from('no-reply@yss.com');
             $message->to($user['email']);
-            $message->subject('Payment Successful');
+            $message->subject('Booking Successful');
         });
     }
 }

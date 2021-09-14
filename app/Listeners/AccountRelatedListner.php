@@ -30,9 +30,9 @@ class AccountRelatedListner
     {
         $user = User::find($event->id)->toArray(); 
         Mail::send('emails.account_related', ["user"=>$user,"body"=>$event->body], function($message) use ($user) {
-            $message->from('no-reply@yss.com');
+            $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
-            $message->subject('Your Safe Space');
+            $message->subject($event->subject);
         });
     }
 }
