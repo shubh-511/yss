@@ -28,11 +28,12 @@ class AccountRelatedListner
      */
     public function handle(AccountRelatedEvent $event)
     {
-        $user = User::find($event->id)->toArray(); 
+        $user = User::find($event->id)->toArray();
+        $user['subject'] = $event->subject;
         Mail::send('emails.account_related', ["user"=>$user,"body"=>$event->body], function($message) use ($user) {
             $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
-            $message->subject($event->subject);
+            $message->subject($user['subject']);
         });
     }
 }
