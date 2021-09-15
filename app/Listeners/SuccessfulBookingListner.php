@@ -33,7 +33,7 @@ class SuccessfulBookingListner
         $booking = Booking::find($event->bookingDetail)->toArray();
 
         Mail::send('emails.success_booking', ["user"=>$user, "booking"=>$booking], function($message) use ($user) {
-            $message->from('no-reply@yss.com');
+            $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
             $message->subject('Booking Successful');
         });

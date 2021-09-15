@@ -19,7 +19,7 @@
     				</h4>
     				<p style="margin-bottom: 10px;">
    						<span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
-    						Your opt is {{ $user['otp'] }}
+    						Your Otp is {{ $user['otp'] }}
     					</span>
     				</p>
                     
