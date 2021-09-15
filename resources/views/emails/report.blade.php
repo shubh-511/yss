@@ -189,24 +189,24 @@
 					<td></td>
 				</tr>
                 <tr class="details">
-					<td>{{'User Name'}}</td>
+					<td><b>{{'User Name'}}</b></td>
 					<td>{{$bookingData['user']['name']}}</td>
 				</tr>
 				<tr class="details">
-					<td>{{'Coach Name'}}</td>
+					<td><b>{{'Coach Name'}}</b></td>
 					<td>{{$bookingData['counsellor']['name']}}</td>
 				</tr>
 				<tr>
-					<td>{{'Package Name'}}</td>
+					<td><b>{{'Package Name'}}</b></td>
 					<td>{{$bookingData['package']['package_name']}}</td>
 				</tr>
 				<tr>
-					<td>{{'Session Duration'}}</td>
-					<td>{{$bookingData['package']['session_hours']}} :{{$bookingData['package']['session_minutes']}} Hours</td>
+					<td><b>{{'Session Duration'}}</b></td>
+					<td>{{$bookingData['package']['session_hours']}} : {{$bookingData['package']['session_minutes']}} Hours</td>
 				</tr>
 				<tr>
-					<td>{{'Amount Paid'}}</td>
-					<td>€{{($bookingData['payment_detail']['amount'])}}</td>
+					<td><b>{{'Amount Paid'}}</b></td>
+					<td>€{{($bookingData['payment_detail']['amount'])/100}}</td>
 				</tr>
 				<tr class="heading">
 
@@ -228,7 +228,7 @@
 					  <tr>
 					  	<td style="text-align: center;">{{ $callLog->initiated_by->name ?? ''}}</td>
 					  	<td style="text-align: center;">{{ $callLog->picked_by->name ?? ''}}</td>
-					  	<td style="text-align: center;">{{ $callLog->created_at}}</td>
+					  	<td>{{ date("Y-m-d H:i:s", strtotime($callLog->created_at) - $callLog->duration) }}</td>
 					  	<td style="text-align: center;">{{ $callLog->call_duration}}</td>
 					  </tr>
 						@empty

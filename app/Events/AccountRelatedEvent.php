@@ -21,10 +21,11 @@ class AccountRelatedEvent
      *
      * @return void
      */
-    public function __construct($id,$body)
+    public function __construct($id,$body,$subject)
     {
         $this->body = $body;
         $this->id = $id;
+        $this->subject = $subject;
     }
 
     /**

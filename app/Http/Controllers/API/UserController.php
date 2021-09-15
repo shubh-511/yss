@@ -617,7 +617,7 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request){
         try{
-            $wordpressProfileUrl = "https://yoursafespaceonline.com/profile_update.php?";
+            $wordpressProfileUrl = "https://soberlistic.com/profile_update.php?";
 
             if(Auth::user()->role_id == 2)
             {
@@ -904,14 +904,14 @@ class UserController extends Controller
             }
             else
             {
-                $url = "https://yoursafespaceonline.com/login.php?email=".urlencode($email)."&password=".urlencode($requestedFields['old_password']);
+                $url = "https://soberlistic.com/login.php?email=".urlencode($email)."&password=".urlencode($requestedFields['old_password']);
                
                 $cURL = $this->url_get_contents($url); 
                 $cURL = json_decode($cURL, true);
               
                 if($cURL['status'] == true) 
                 {
-                    $urlReset = "https://yoursafespaceonline.com/reset_password.php?email=".urlencode($email)."&new_password=".urlencode($requestedFields['new_password']);
+                    $urlReset = "https://soberlistic.com/reset_password.php?email=".urlencode($email)."&new_password=".urlencode($requestedFields['new_password']);
                
                     $cURLReset = $this->url_get_contents($urlReset); 
                     $cURLReset = json_decode($cURLReset, true);

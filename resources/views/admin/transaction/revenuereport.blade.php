@@ -107,7 +107,7 @@
 						<table>
 							<tr>
 								<td class="title">
-									<img src="https://connect.yoursafespaceonline.com/images/yss_new_logo4x.svg" style="width: 100%; max-width: 100px;" />
+									<img src="https://soberlistic.com/images/yss_new_logo4x.svg" style="width: 100%; max-width: 100px;" />
 								</td>
 
 								<td>

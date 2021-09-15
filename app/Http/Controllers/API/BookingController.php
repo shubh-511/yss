@@ -283,7 +283,7 @@ class BookingController extends Controller
 
                 $counselorCreatedNotification = Carbon::now($counsellorTimeZone);
                 $counselorCreatedNotification = Carbon::parse($counselorCreatedNotification)->format('Y-m-d H:i:s');
-                $userBody = "Your booking for ".$packageId->package_name." Package has been successfull.";
+                $userBody = "Your booking for ".$packageId->package_name." Package has been successful.";
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking Successful";
@@ -380,7 +380,7 @@ class BookingController extends Controller
             $netAmt = 100;
             $conf = \Stripe\PaymentIntent::create([
               'amount' => str_replace([',', '.'], ['', ''], $packageDetail->amount),
-              'description' => 'yoursafespaceonline.com',
+              'description' => $packageDetail->package_name,
               'customer' => $customer->id,
               'currency' => 'GBP',
               'confirmation_method' => 'manual',
@@ -553,7 +553,7 @@ class BookingController extends Controller
                 //notification to user
 
                 //$userBody = "You have successfully booked ".$packageDetail->package_name." package for amount £".$packageDetail->amount.", ".$selectedSlots;
-                $userBody = "Your booking for ".$packageDetail->package_name." Package has been successfull.";
+                $userBody = "Your booking for ".$packageDetail->package_name." Package has been successful.";
                 $newNotif = new Notification;
                 $newNotif->receiver = $user->id;
                 $newNotif->title = "Booking Successful";
