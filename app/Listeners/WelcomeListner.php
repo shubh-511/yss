@@ -30,9 +30,9 @@ class WelcomeListner
     {
         $user = User::find($event->userDetail)->toArray();
         Mail::send('emails.welcome', ["user"=>$user], function($message) use ($user) {
-            $message->from('no-reply@yss.com');
+            $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
-            $message->subject('Welcome to YSS');
+            $message->subject('Soberlistic');
         });
     }
 }

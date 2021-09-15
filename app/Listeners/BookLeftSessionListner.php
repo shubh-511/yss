@@ -30,9 +30,9 @@ class BookLeftSessionListner
     {
          $user = User::find($event->user_id)->toArray(); 
          Mail::send('emails.leftsession', ["user"=>$user,"left_session_val"=>$event->left_session_val,"myslots"=>$event->myslots], function($message) use ($user) {
-            $message->from('no-reply@yss.com');
+            $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
-            $message->subject('Your Safe Space');
+            $message->subject('Soberlistic');
         });
     }
 }

@@ -111,7 +111,7 @@
                           </td>
                           <td>
                             <!-- <a data-toggle="modal" data-target="#myModal<?php echo $listing->id?>"><i class="fa fa-desktop" title="View Listing"></i></a> -->
-                            <a href="{{url('login/listings/detail',[$listing->id])}}"><i class="fa fa-desktop" title="View Listing"></i></a>
+                            <a href="{{url('login/listings/detail',[$listing->id])}}"><i class="fa fa-eye" title="View Listing"></i></a>
                             <a class="fa fa-edit" href="{{ url('login/counsellors/list/listedit',$listing->id) }}" title="ListEdit"></a>
 
                             <!-- <button type="button" class="btn btn-info btn-lg" >Open Modal</button> -->

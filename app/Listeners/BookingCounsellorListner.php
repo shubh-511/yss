@@ -34,7 +34,7 @@ class BookingCounsellorListner
         $booking = Booking::find($event->bookingDetail)->toArray();
 
         Mail::send('emails.success_booking_counsellor', ["user"=>$user, "booking"=>$booking, "bookedUser"=>$bookedUser], function($message) use ($user) {
-            $message->from('no-reply@yss.com');
+            $message->from('support@soberlistic.com');
             $message->to($user['email']);
             $message->subject('New Booking');
         });

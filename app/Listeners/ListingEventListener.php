@@ -33,9 +33,9 @@ class ListingEventListener
         $listing=Listing::where('user_id',$event->id)->first();
         
         Mail::send('emails.listing', ["user"=>$user,"listing"=>$listing], function($message) use ($user) {
-            $message->from('no-reply@yss.com');
+            $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
-            $message->subject('Your Safe Space');
+            $message->subject('Soberlistic');
         });
     }
 }

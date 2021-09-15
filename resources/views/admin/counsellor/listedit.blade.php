@@ -118,32 +118,32 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-								<div class="form-group">
-									<label>Cover Image</label>
-									<input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
-									<br>
-									@error('cover_img')
-									<p style="color:red">{{ $errors->first('cover_img') }}</p>
-									@enderror
-									<span><img src="{{ "http://178.62.24.141/dev/".$list_data->cover_img }}" width="50px" height="50px"></span>
-								</div>
-								
-								<div class="form-group">
-									<label>Gallery Image</label>
-									<input type="file" name="gallery_images[]"  class="form-control" multiple>
-									<br>
-									@foreach($gallery_data as $gallery)
-									<span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
-									@endforeach
-								</div>
-							</div>
+                                <div class="form-group">
+                                    <label>Cover Image</label>
+                                    <input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
+                                    <br>
+                                    @error('cover_img')
+                                    <p style="color:red">{{ $errors->first('cover_img') }}</p>
+                                    @enderror
+                                    <span><img src="{{ "http://www.soberlistic.com/".$list_data->cover_img }}" width="50px" height="50px"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Gallery Image</label>
+                                    <input type="file" name="gallery_images[]"  class="form-control" multiple>
+                                    <br>
+                                    @foreach($gallery_data as $gallery)
+                                    <span><img src="{{ "http://www.soberlistic.com/".$gallery->gallery_img }}" width="50px" height="50px"></span>
+                                    @endforeach
+                                </div>
+                            </div>
                                <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Business Certificate</label>
                                     <input type="file" name="business_certificate" class="form-control">
                                     <br>
                                     @if($list_data->business_certificate)
-                                    <span><img src="{{ "http://178.62.24.141/dev/".$list_data->business_certificate }}" width="50px" height="50px"></span>
+                                    <span><img src="{{ "http://www.soberlistic.com/".$list_data->business_certificate }}" width="50px" height="50px"></span>
                                     @endif
                                 </div>
                             </div>
@@ -153,7 +153,7 @@
                                     <input type="file" name="insurance_certificate" class="form-control">
                                     <br>
                                     @if($list_data->insurance_certificate)
-                                    <span><img src="{{ "http://178.62.24.141/dev/".$list_data->insurance_certificate}}" width="50px" height="50px"></span>
+                                    <span><img src="{{ "http://www.soberlistic.com/".$list_data->insurance_certificate}}" width="50px" height="50px"></span>
                                     @endif
                                 </div>
                             </div>
