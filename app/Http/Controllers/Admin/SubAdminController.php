@@ -19,7 +19,7 @@ class SubAdminController extends Controller
     {
 
          User::where('id', $request->id)->delete();
-         return redirect('login/sub/admin')->with('success','subAdmin deleted successfully');
+         return redirect('login/sub/admin')->with('success','Sub-admin deleted successfully');
 
     }
     public function bulk(Request $request)
@@ -41,6 +41,6 @@ class SubAdminController extends Controller
         $update_subadmin->name=$request->name;
         $update_subadmin->timezone=$request->timezone;
         $update_subadmin->save();
-        return redirect('login/sub/admin/')->with('success','subAdmin updated successfully');
+        return redirect('login/sub/admin/')->with('success','Sub-admin updated successfully');
     }
 }

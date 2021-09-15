@@ -32,7 +32,7 @@ class ContactListner
         Mail::send('emails.contact', ["user"=>$user,"msg"=>"test"], function($message) use ($user) {
             $message->from($user['email']);
             $message->to('ashishibyte@gmail.com');
-            $message->subject('Your Safe Space');
+            $message->subject('Soberlistic');
         });
     }
 }

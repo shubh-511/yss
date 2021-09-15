@@ -118,25 +118,27 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-								<div class="form-group">
-									<label>Cover Image</label>
-									<input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
-									<br>
-									@error('cover_img')
-									<p style="color:red">{{ $errors->first('cover_img') }}</p>
-									@enderror
-									<span><img src="{{ "http://www.soberlistic.com/".$list_data->cover_img }}" width="50px" height="50px"></span>
-								</div>
-								
-								<div class="form-group">
-									<label>Gallery Image</label>
-									<input type="file" name="gallery_images[]"  class="form-control" multiple>
-									<br>
-									@foreach($gallery_data as $gallery)
-									<span><img src="{{ "http://www.soberlistic.com/".$gallery->gallery_img }}" width="50px" height="50px"></span>
-									@endforeach
-								</div>
-							</div>
+
+                                <div class="form-group">
+                                    <label>Cover Image</label>
+                                    <input type="file" name="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
+                                    <br>
+                                    @error('cover_img')
+                                    <p style="color:red">{{ $errors->first('cover_img') }}</p>
+                                    @enderror
+                                    <span><img src="{{ "http://www.soberlistic.com/".$list_data->cover_img }}" width="50px" height="50px"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Gallery Image</label>
+                                    <input type="file" name="gallery_images[]"  class="form-control" multiple>
+                                    <br>
+                                    @foreach($gallery_data as $gallery)
+                                    <span><img src="{{ "http://www.soberlistic.com/".$gallery->gallery_img }}" width="50px" height="50px"></span>
+                                    @endforeach
+                                </div>
+                            </div>
+
                                <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Business Certificate</label>
