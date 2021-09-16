@@ -32,10 +32,10 @@ class FailedBookingListner
         $user = User::find($event->userDetail)->toArray();
         $booking = Booking::find($event->bookingDetail)->toArray();
 
-        Mail::send('emails.failed_booking', ["user"=>$user, "booking"=>$booking], function($message) use ($user) {
-            $message->from(env('MAIL_FROM_ADDRESS'));
-            $message->to($user['email']);
-            $message->subject('Payment Failed');
-        });
+        // Mail::send('emails.failed_booking', ["user"=>$user, "booking"=>$booking], function($message) use ($user) {
+        //     $message->from(env('MAIL_FROM_ADDRESS'));
+        //     $message->to($user['email']);
+        //     $message->subject('Payment Failed');
+        // });
     }
 }

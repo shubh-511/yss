@@ -29,9 +29,9 @@ class ForgotOtpListner
     public function handle(ForgotPasswordEvent $event)
     {
         $user = User::find($event->userDetail)->toArray();
-        Mail::send('emails.forgot_otp', ["user"=>$user], function($message) use ($user) {
-            $message->to($user['email']);
-            $message->subject('Forgot Password');
-        });
+        // Mail::send('emails.forgot_otp', ["user"=>$user], function($message) use ($user) {
+        //     $message->to($user['email']);
+        //     $message->subject('Forgot Password');
+        // });
     }
 }
