@@ -1,8 +1,5 @@
 @extends('admin.layouts.app')
 @section('content')
-<!-- <style type="text/css">
- .select2-results__option--selected { display: none;}
-</style> -->
 <div class="box-header">
     <div class="pull-left">
         <h3 class="box-title">Send Notification</h3>
@@ -37,36 +34,24 @@
                         <div class="col-md-6">
                             <div class="form-group desc">
                                 <div class="form-radios-keys">
-                                    <div class="form-radio">
-                                        <input type="radio" id="all" name="radio" value="0">
-                                        <label for="all">Select All </label>
-                                    </div>
-                                    <div class="form-radio">
-                                        <input type="radio" id="allcoach" name="radio" value="2">
-                                        <label for="allcoach">Select All Coach</label>
-                                    </div>
-                                    <div class="form-radio">
-                                        <input type="radio" id="allUsers" name="radio" value="1">
-                                        <label for="allUsers">Select All User </label>
-                                    </div>
+                                   <label>
+                                    <input type="checkbox"  id="check_id" value="0" name="radio" />Select All</label>
+                                  <label>
+                                    <input type="checkbox"   id="check_id" value="2" name="radio" />Select All Coach</label>
+                                  <label>
+                                    <input type="checkbox"  id="check_id" value="1" name="radio" />Select All User</label>
                                 </div>
                                 <select name="user[]" class="form-control" id="notification-tags" multiple>
                                 </select>
                             </div>
                             <div class="form-group asc">
                                 <div class="form-radios-keys">
-                                    <div class="form-radio">
-                                        <input type="radio" id="all" name="radio" value="0">
-                                        <label for="all">Select All </label>
-                                    </div>
-                                    <div class="form-radio">
-                                        <input type="radio" id="allcoach" name="radio" value="2">
-                                        <label for="allcoach">Select All Coach</label>
-                                    </div>
-                                    <div class="form-radio">
-                                        <input type="radio" id="allUsers" name="radio" value="1">
-                                        <label for="allUsers">Select All User </label>
-                                    </div>
+                                     <label>
+                                    <input type="checkbox"  id="check_id" value="0" name="radio" />Select All</label>
+                                  <label>
+                                    <input type="checkbox"   id="check_id" value="2" name="radio" />Select All Coach</label>
+                                  <label>
+                                    <input type="checkbox"  id="check_id" value="1" name="radio" />Select All User</label>
                                 </div>
                                 <select name="user[]" class="form-control" id="notification" multiple>
                                     @foreach($users as $user)
@@ -75,6 +60,8 @@
                                 </select>
 
                             </div>
+                        </div>
+                        <div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -101,32 +88,22 @@
 
 @endsection
 @push('select2')
-
 <script type="text/javascript">
-    $("#notification-tags").select2({
-  tags: false
-});
-$("#notification").select2({
-  tags: false
-});
-$(document).ready(function()
-    {
-     $('.ckeditor').ckeditor();
-    });
-$(document).ready(function() {
-    $("div.desc").hide();
-    $("input[name$='radio']").click(function() {
-        $("div.desc").show();
-        $("div.asc").hide();
-    });
-});
-</script>
-<script>
-    $(document).ready(function(){
-        $("input[type='radio']").click(function(){
-            var urlLike = '{{ url('login/sendnoti') }}';
-            var radioValue = $("input[name='radio']:checked").val();
-            $.ajax({
+  $("input:checkbox").on('click', function() {
+   var $box = $(this);
+   if ($box.is(":checked")) {
+    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    $(group).prop("checked", false);
+    $box.prop("checked", true);
+    $('input:checkbox[name=radio]').each(function() 
+    {    
+      if($(this).is(':checked') == true)
+      {
+         $("div.desc").show();
+         $("div.asc").hide();
+         var radioValue=$(this).val();
+         var urlLike = '{{ url('login/sendnoti') }}';
+         $.ajax({
           headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           },
@@ -150,7 +127,28 @@ $(document).ready(function() {
                 }
 
             });
-        });
+        }
+      });
+  } else {
+    $box.prop("checked", false);
+    $("div.desc").hide();
+    $("div.asc").show();
+  }
+});
+</script>
+<script type="text/javascript">
+    $("#notification-tags").select2({
+  tags: false
+});
+$("#notification").select2({
+  tags: false
+});
+$(document).ready(function()
+    {
+     $('.ckeditor').ckeditor();
     });
+  $(document).ready(function() {
+    $("div.desc").hide();
+});
 </script>
 @endpush
