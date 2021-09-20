@@ -985,6 +985,7 @@ class BookingController extends Controller
 
                     ->orderBy('booking_date','ASC')
                     ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%A')"), 'ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%l:%i %p')"), 'ASC')
                     //->orderBy('slot','ASC')
                     ->paginate(5);
                     
@@ -1039,8 +1040,8 @@ class BookingController extends Controller
                         $query->whereIn('id', $common);
                     })
                     ->orderBy('counsellor_booking_date','ASC')
-                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%A')"), 'ASC')
-                    //->orderBy('counsellor_timezone_slot','ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%A')"), 'ASC')
+                    ->orderBy('counsellor_timezone_slot','ASC')
                     ->paginate(5);
                     //->get();
 

@@ -32,27 +32,29 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group desc">
-                                <div class="form-radios-keys">
-                                   <label>
-                                    <input type="checkbox"  id="check_id" value="0" name="radio" />Select All</label>
-                                  <label>
+                             <div class="form-checkboxes">
+								<div class="form-checkbox">
+                                    <input type="checkbox"  id="check_id" value="0" name="radio" />
+									<label for="check_id">Select All</label>
+								</div>
+								<div class="form-checkbox">
+                                    <input type="checkbox"  id="check_id-2" value="2" name="radio" />
+									<label for="check_id-2">Select All Coach</label>
+								</div>
+								<div class="form-checkbox">
+                                    <input type="checkbox"  id="check_id-1" value="1" name="radio" />
+									<label for="check_id-1">Select All User</label>
+								</div>
+                                  <!--<label>
                                     <input type="checkbox"   id="check_id" value="2" name="radio" />Select All Coach</label>
                                   <label>
-                                    <input type="checkbox"  id="check_id" value="1" name="radio" />Select All User</label>
-                                </div>
+                                    <input type="checkbox"  id="check_id" value="1" name="radio" />Select All User</label>-->
+                            </div>
+                            <div class="form-group desc">
                                 <select name="user[]" class="form-control" id="notification-tags" multiple>
                                 </select>
                             </div>
                             <div class="form-group asc">
-                                <div class="form-radios-keys">
-                                     <label>
-                                    <input type="checkbox"  id="check_id" value="0" name="radio" />Select All</label>
-                                  <label>
-                                    <input type="checkbox"   id="check_id" value="2" name="radio" />Select All Coach</label>
-                                  <label>
-                                    <input type="checkbox"  id="check_id" value="1" name="radio" />Select All User</label>
-                                </div>
                                 <select name="user[]" class="form-control" id="notification" multiple>
                                     @foreach($users as $user)
                                         <option value="{{$user->id}}">{{$user->name}}     -      {{$user->email}}</option>
