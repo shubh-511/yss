@@ -105,7 +105,7 @@
 							</a>
 						</td> 
 						<td>
-							<a class="fa fa-desktop" href="{{ url('login/counsellors/show',$user->id) }}" title="View"></a>
+							<a class="fa fa-eye" href="{{ url('login/counsellors/show',$user->id) }}" title="View"></a>
 							<a class="fa fa-edit" href="{{ url('login/counsellors/edit',$user->id) }}" title="Edit"></a>
 							<!-- <a class="fa fa-edit" href="{{ url('login/counsellors/list/listedit',$user->id) }}" title="ListEdit"></a> -->
 							<a class="fa fa-trash" onClick="deleteCounsellor({{$user->id}})" title="Delete"></a>

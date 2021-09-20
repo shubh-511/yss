@@ -591,20 +591,25 @@ div.revenue__block .highcharts-root{
     top: 0.2rem;
     transform: rotate(45deg);
 }
-.form-radios-keys {
+.form-radios-keys,
+.form-checkboxes {
     display: flex;
 }
-.form-radio + .form-radio {
+.form-radio + .form-radio,
+.form-checkbox + .form-checkbox {
     margin-left: 1.5rem;
 }
-.form-radio input[type="radio"] {
+.form-radio input[type="radio"],
+.form-checkbox input[type="checkbox"] {
     display: none;
 }
-.form-radio label {
+.form-radio label,
+.form-checkbox label {
     position: relative;
     padding-left: 2.25rem;
 }
-.form-radio label:before {
+.form-radio label:before,
+.form-checkbox label:before {
 	content: '';
 	width: 1.5rem;
 	height: 1.5rem;
@@ -613,11 +618,13 @@ div.revenue__block .highcharts-root{
 	left: 0;
 	top: 0.1rem;
 }
-.form-radio input:checked + label:before {
+.form-radio input:checked + label:before,
+.form-checkbox input:checked + label:before {
     border-color: #34558b;
     background-color: #34558b;
 }
-.form-radio input:checked + label:after {
+.form-radio input:checked + label:after,
+.form-checkbox input:checked + label:after {
 	content: '';
 	width: 0.5rem;
 	height: 1rem;

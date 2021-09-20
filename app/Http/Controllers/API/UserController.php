@@ -27,6 +27,7 @@ use App\VideoChannel;
 use App\Events\ForgotPasswordEvent;
 use App\Events\ProfileCompleteEvent;
 use App\Events\WelcomeUserEvent;
+use App\Events\ResetPasswordEvent;
 use App\Traits\ProfileStatusTrait;
 use URL;
 
@@ -408,7 +409,7 @@ class UserController extends Controller
                 $newNotif->body = "Your password has been reset!";
                 $newNotif->save();
 
-                event(new ResetPasswordEvent($user->id));
+                event(new ResetPasswordEvent($userDetail->id));
                 //$this->resetPasswordSMS($user->country_code, $user->phone);
 
                 return response()->json(['success' => true,

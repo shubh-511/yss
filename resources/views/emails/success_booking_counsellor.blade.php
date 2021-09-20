@@ -19,9 +19,7 @@
     				</h4>
     				<p style="margin-bottom: 10px;">
    						<span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
-    						<h2>Booking Details</h2>
-    						<p>Booking Date:{{$booking->booking_date}}</p>
-							<p>Package Name:{{$booking->package->package_name}}</p>
+    						
     					</span>
     				</p>
                     

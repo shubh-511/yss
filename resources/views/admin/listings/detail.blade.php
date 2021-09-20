@@ -116,13 +116,13 @@
 							<div class="form-group">
 								<label>Cover Image:</label>
 								<br>
-								<span><img src="{{ "http://178.62.24.141/dev/".$listing->cover_img }}" width="50px" height="50px"></span>
+								<span><img src="{{ "http://www.soberlistic.com/".$listing->cover_img }}" width="50px" height="50px"></span>
 							</div>
 							<div class="form-group">
                               <label>Gallery Image</label>
                               <br>
                               @foreach($gallery_data as $gallery)
-                               <span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
+                               <span><img src="{{ "http://www.soberlistic.com/".$gallery->gallery_img }}" width="50px" height="50px"></span>
                                @endforeach
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                             <div class="form-group">
 								<label>Cover Image:</label>
 								<br>
-								<span><img src="{{ "http://178.62.24.141/dev/".$listing->cover_img }}" width="50px" height="50px"></span>
+								<span><img src="{{ "http://www.soberlistic.com/".$listing->cover_img }}" width="50px" height="50px"></span>
 							</div>
                         </div>
                          <div class="col-md-6">
@@ -144,7 +144,7 @@
                               <label>Gallery Image</label>
                               <br>
                               @foreach($gallery_data as $gallery)
-                               <span><img src="{{ "http://178.62.24.141/dev/".$gallery->gallery_img }}" width="50px" height="50px"></span>
+                               <span><img src="{{ "http://www.soberlistic.com/".$gallery->gallery_img }}" width="50px" height="50px"></span>
                                @endforeach
                             </div>
                         </div>-->
@@ -152,14 +152,14 @@
                                 <div class="form-group">
                                     <label>Business Certificate</label>
                                     <br>
-                                    <span><img src="{{ "http://178.62.24.141/dev/".$listing->business_certificate }}" width="50px" height="50px"></span>
+                                    <span><img src="{{ "http://www.soberlistic.com/".$listing->business_certificate }}" width="50px" height="50px"></span>
                                 </div>
                             </div>
                              <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Insurance Certificate</label>
                                      <br>
-                                    <span><img src="{{ "http://178.62.24.141/dev/".$listing->insurance_certificate}}" width="50px" height="50px"></span>
+                                    <span><img src="{{ "http://www.soberlistic.com/".$listing->insurance_certificate}}" width="50px" height="50px"></span>
                                 </div>
                             </div>
                        

@@ -183,7 +183,7 @@
                 </li>
                 <li class="">
                   <a href="{{url('login/listings')}}">
-                    <i class="fa fa-list"></i> <span>Listings</span>
+                    <i class="fa fa-list"></i> <span>Listings </span>
                   </a>
                 </li>
                <!--  <li class="">

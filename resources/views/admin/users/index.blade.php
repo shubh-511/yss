@@ -91,7 +91,7 @@
                               </span>
                             </a></td>
                            <td>
-                             <a class="fa fa-desktop" href="{{ url('login/users/show',$user->id) }}" title="View"></a>
+                             <a class="fa fa-eye" href="{{ url('login/users/show',$user->id) }}" title="View"></a>
                              <a class="fa fa-edit" href="{{ url('login/users/edit',$user->id) }}" title="Edit"></a>
                              <a class="fa fa-trash" onClick="deleteUser({{$user->id}})" title="Delete"></a>
                           </td>

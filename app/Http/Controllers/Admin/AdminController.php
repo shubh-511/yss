@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Role; 
 use App\Booking;
+use App\Listing;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
@@ -105,6 +106,7 @@ class AdminController extends Controller
             return view('admin.counsellor.home',compact('bookingCount','bookings','month_name','module_name'));
 
         }
+        $total_listing=Listing::where('status','0')->count();
         $userCount = User::where('role_id','!=',1)->count();
         $bookingCount = Booking::where('status', '1')->count();
 
@@ -145,7 +147,7 @@ class AdminController extends Controller
         $booking_data=array_values($booking_mon_result);
         $module_name=$this->permission(Auth::user()->id);
         $total_revenue = Payment::sum('amount')/100;
-        return view('admin.home',compact('userCount','bookingCount','users','bookings','users_mon_data','booking_data','module_name','total_revenue'));
+        return view('admin.home',compact('userCount','bookingCount','users','bookings','users_mon_data','booking_data','module_name','total_revenue','total_listing'));
     }
 
 
