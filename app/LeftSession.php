@@ -24,4 +24,9 @@ class LeftSession extends Model
     {
         return $this->belongsTo('App\Package','package_id','id');
     }
+
+    public function last_payment()
+    {
+        return $this->belongsTo('App\Payment','payment_id','id');
+    }
 }

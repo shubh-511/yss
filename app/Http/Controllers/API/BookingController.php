@@ -783,7 +783,13 @@ class BookingController extends Controller
                     $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '<', Carbon::today($counsellorTimeZone))
-                    ->where('slot', '<', Carbon::now($counsellorTimeZone))
+
+                    ->Where(function ($query) use ($counsellorTimeZone) {
+                    $query->orWhere('booking_date', '=', Carbon::today($counsellorTimeZone))
+                      ->Where('slot', '<', Carbon::now($counsellorTimeZone));
+                    })
+
+                    //->where('slot', '<', Carbon::now($counsellorTimeZone))
                     ->orderBy('booking_date','DESC')
                     ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
                     ->paginate(5);
@@ -809,7 +815,13 @@ class BookingController extends Controller
                     $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', '<', Carbon::today($userTimeZone))
-                    ->where('counsellor_timezone_slot', '<', Carbon::now($userTimeZone))
+
+                    ->orWhere(function ($query) use ($userTimeZone) {
+                    $query->Where('counsellor_booking_date', '=', Carbon::today($userTimeZone))
+                      ->Where('counsellor_timezone_slot', '<', Carbon::now($userTimeZone));
+                    })
+
+                    //->where('counsellor_timezone_slot', '<', Carbon::now($userTimeZone))
                     ->orderBy('counsellor_booking_date','DESC')
                     ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
                     ->paginate(5);
@@ -1074,6 +1086,13 @@ class BookingController extends Controller
             if(count($myLeftSessions) > 0)
             {
                 $getMyPlannedSessions = LeftSession::with('package')->with('package.user:id,name,email,avatar_id')->where('user_id',$user->id)->paginate(5);
+                foreach($getMyPlannedSessions as $key => $myPlannedSession)
+                {
+                    $bookingDetails = Booking::where('payment_id', $myPlannedSession->payment_id)->orderBy('id', 'DESC')->first();
+                    $getMyPlannedSessions[$key]->last_appointment_date = !empty($bookingDetails->booking_date) ? $bookingDetails->booking_date : "";
+
+                    $getMyPlannedSessions[$key]->last_appointment_slot = !empty($bookingDetails->counsellor_timezone_slot) ? $bookingDetails->counsellor_timezone_slot : "";
+                }
 
                 return response()->json(['success' => true,
                                          'leftsession' => $getMyPlannedSessions
