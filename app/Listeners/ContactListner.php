@@ -29,10 +29,10 @@ class ContactListner
     public function handle(ContactEvent $event)
     {
         $user = Contact::find($event->userId)->toArray();
-        // Mail::send('emails.contact', ["user"=>$user,"msg"=>"test"], function($message) use ($user) {
-        //     $message->from($user['email']);
-        //     $message->to('ashishibyte@gmail.com');
-        //     $message->subject('Soberlistic');
-        // });
+        Mail::send('emails.contact', ["user"=>$user,"msg"=>"test"], function($message) use ($user) {
+            $message->from($user['email']);
+            $message->to('ashishibyte@gmail.com');
+            $message->subject('Soberlistic');
+        });
     }
 }

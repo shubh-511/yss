@@ -31,10 +31,10 @@ class CounsellorRegisterListner
     {
         $user = User::find($event->userId)->toArray();
         $userPassword = $event->userPassword;
-        // Mail::send('emails.counsellor_register_by_admin', ["user"=>$user, "userPassword"=>$userPassword], function($message) use ($user, $userPassword) {
-        //     $message->from(env('MAIL_FROM_ADDRESS'));
-        //     $message->to($user['email']);
-        //     $message->subject('Welcome to Soberlistic');
-        // });
+        Mail::send('emails.counsellor_register_by_admin', ["user"=>$user, "userPassword"=>$userPassword], function($message) use ($user, $userPassword) {
+            $message->from(env('MAIL_FROM_ADDRESS'));
+            $message->to($user['email']);
+            $message->subject('Welcome to Soberlistic');
+        });
     }
 }

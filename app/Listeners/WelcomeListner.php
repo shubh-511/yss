@@ -29,10 +29,10 @@ class WelcomeListner
     public function handle(WelcomeUserEvent $event)
     {
         $user = User::find($event->userDetail)->toArray();
-        // Mail::send('emails.welcome', ["user"=>$user], function($message) use ($user) {
-        //     $message->from(env('MAIL_FROM_ADDRESS'));
-        //     $message->to($user['email']);
-        //     $message->subject('Soberlistic');
-        // });
+        Mail::send('emails.welcome', ["user"=>$user], function($message) use ($user) {
+            $message->from(env('MAIL_FROM_ADDRESS'));
+            $message->to($user['email']);
+            $message->subject('Soberlistic');
+        });
     }
 }
