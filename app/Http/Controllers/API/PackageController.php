@@ -551,11 +551,13 @@ $date6 = DateTime::createFromFormat('g:i A', $extendedBookedSlot);
                                         if (($date1 > $date2 && $date1 < $date3) || ($date4 > $date5 && $date4 < $date6) || (in_array($datas, $books)))
                                         {
                                             $existingBookedSlotArray[] = $datas;
+                                            if(strtotime($datas) < strtotime($hours->to_time))
                                             $existingSlotArray[] = $datas;
                                             //break;
                                         }
                                         else
                                         {
+                                            if(strtotime($datas) < strtotime($hours->to_time))
                                             $existingSlotArray[] = $datas;
                                             //break;
                                         }
@@ -572,7 +574,7 @@ $date6 = DateTime::createFromFormat('g:i A', $extendedBookedSlot);
                                     $currentTimestamp = Carbon::now($user->timezone);
                                     $idate = Carbon::parse($dateAndTime)->format('d');
                                     $uDate = Carbon::parse($date)->format('d');
-                                    if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate))
+                                    if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate) && (strtotime($datas) < strtotime($hours->to_time)))
                                     {
                                         $existingSlotArray[] = $datas;
                                     }
@@ -693,6 +695,7 @@ $date6 = DateTime::createFromFormat('g:i A', $extendedBookedSlot);
                                      
                                         if( ($inputTimestamp > $currentTimestamp) && ($idate == $uDate)) 
                                         {
+                                            if(strtotime($datas) < strtotime($utimesTo))
                                             $existingSlotArray[] = $userTimeSlot;
                                         }
                                         if( (in_array($datas, $books) && in_array($datas, $existingBookedSlotArray) )) 
@@ -720,7 +723,7 @@ $date6 = DateTime::createFromFormat('g:i A', $extendedBookedSlot);
                                         
                                         $idate = Carbon::parse($dateAndTime)->format('d');
                                   
-                                        if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                        if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate) && (strtotime($datas) < strtotime($utimesTo))) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
                                         {
                                             $existingSlotArray[] = $userTimeSlot;
                                         }

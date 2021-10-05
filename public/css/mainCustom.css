@@ -86,9 +86,10 @@ body.skin-blue .main-header .logo{
 body.skin-blue .main-header .logo{
 	padding-top: .875rem;
     padding-bottom: .875rem;
+	text-align: left;
+	transition: .2s;
 }
 body.skin-blue .main-header .logo svg{
-	margin-left: -7rem;
 	height: 100%;
 }
 body .btn-primary:hover,
@@ -140,7 +141,7 @@ html body.skin-blue .main-header li.user-header{
 	color: #fff;
 }
 .sidebar-mini.sidebar-collapse .wrapper .main-header .logo{
-	padding: 0;
+	padding: 0.875rem 0;
 }
 .sidebar-mini.sidebar-collapse .wrapper .main-header .logo > .logo-lg{
 	display: block;

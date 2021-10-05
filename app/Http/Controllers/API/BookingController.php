@@ -780,25 +780,41 @@ class BookingController extends Controller
                 if(count($allBookings) > 0)
                 { 
                     
-                    $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    /*$pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', '<', Carbon::today($counsellorTimeZone))
-
-                    ->Where(function ($query) use ($counsellorTimeZone) {
-                    $query->orWhere('booking_date', '=', Carbon::today($counsellorTimeZone))
-                      ->Where('slot', '<', Carbon::now($counsellorTimeZone));
-                    })
-
-                    //->where('slot', '<', Carbon::now($counsellorTimeZone))
                     ->orderBy('booking_date','DESC')
-                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
-                    ->paginate(5);
+                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%A')"), 'ASC')
+                    ->paginate(5);*/
+                    $arr = [];
+                    
+                    $currentTime = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now($counsellorTimeZone))->format('h:i a');
+
+                    $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(slot, '%H:%i') as timesort")
+                    ->where('user_id', $user->id)
+                    ->where('booking_date', '<', Carbon::today($counsellorTimeZone))
+                    ->orderBy(DB::raw("DATE(booking_date)"), 'DESC')
+                    ->orderBy('timesort', 'DESC')
+                    ->paginate(5)->toArray();
+                  
+
+                    $newArr = [];
+                    foreach($pastBookings['data'] as $key => $pastBooking)
+                    {
+                        if(!(($pastBookings['data'][$key]['booking_date'] == Carbon::today($counsellorTimeZone)->format('Y-m-d')) && (strtotime($pastBookings['data'][$key]['slot']) > strtotime($currentTime))))
+                        {
+                            $newArr[] = $pastBookings['data'][$key];
+                        }
+                    }
                     
 
-
+                    if(!empty($newArr)){
+                      $pastBookings['data'] = $newArr;
                     return response()->json(['success' => true,
                                             'past' => $pastBookings
                                         ], $this->successStatus);
+                   }
                 }
                 else
                 {
@@ -812,24 +828,38 @@ class BookingController extends Controller
 
                 if(count($allBookings) > 0)
                 { 
+                    $arr = [];
+                    
+                    $currentTime = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now($userTimeZone))->format('h:i a');
+
                     $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(counsellor_timezone_slot, '%H:%i') as timesort")
                     ->where('user_id', $user->id)
-                    ->where('counsellor_booking_date', '<', Carbon::today($userTimeZone))
+                    ->where('counsellor_booking_date', '<=', Carbon::today($userTimeZone))
+                    ->orderBy(DB::raw("DATE(counsellor_booking_date)"), 'DESC')
+                    ->orderBy('timesort', 'DESC')
+                    ->paginate(5)->toArray();
+                  
 
-                    ->orWhere(function ($query) use ($userTimeZone) {
-                    $query->Where('counsellor_booking_date', '=', Carbon::today($userTimeZone))
-                      ->Where('counsellor_timezone_slot', '<', Carbon::now($userTimeZone));
-                    })
+                    $newArr = [];
+                    foreach($pastBookings['data'] as $key => $pastBooking)
+                    {
+                        $packageTime = Package::where('id', $pastBooking['package_id'])->first();
+                        $utimesFrom = Carbon::parse($pastBookings['data'][$key]['counsellor_timezone_slot'])->addMinutes($packageTime->session_minutes)->format('g:i A');
+                        
+                        if(!(($pastBookings['data'][$key]['counsellor_booking_date'] == Carbon::today($userTimeZone)->format('Y-m-d')) && (strtotime($utimesFrom) > strtotime($currentTime))))
+                        {
+                            $newArr[] = $pastBookings['data'][$key];
+                        }
+                    }
 
-                    //->where('counsellor_timezone_slot', '<', Carbon::now($userTimeZone))
-                    ->orderBy('counsellor_booking_date','DESC')
-                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
-                    ->paginate(5);
-                    //->get();
-
-                    return response()->json(['success' => true,
-                                         'past' => $pastBookings
+                    if(!empty($newArr)){
+                      $pastBookings['data'] = $newArr;
+                      return response()->json(['success' => true,
+                                         'past' => $pastBookings,
+                                         'array_split'=>$newArr
                                         ], $this->successStatus);
+                    }
                 }
                 else
                 {
@@ -867,18 +897,22 @@ class BookingController extends Controller
                   {
                    
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(slot, '%H:%i') as timesort")
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
-                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
+                    ->orderBy('slot')
                     ->get();
                   }
                   else
                   {
                     
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(slot, '%H:%i') as timesort")
                     ->where('counsellor_id', $user->id)
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
-                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
+                    ->orderBy('slot')
                     ->paginate(5);
                   }
                     
@@ -904,18 +938,22 @@ class BookingController extends Controller
                   if($request->page == -1)
                   {
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(counsellor_timezone_slot, '%H:%i') as timesort")
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', Carbon::today($userTimeZone))
-                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
+                    ->orderBy('counsellor_timezone_slot')
                     ->get();
                   }
                   else
                   {
                     $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(counsellor_timezone_slot, '%H:%i') as timesort")
                     ->where('user_id', $user->id)
                     ->where('counsellor_booking_date', Carbon::today($userTimeZone))
                     //->orderBy('counsellor_timezone_slot','ASC')
-                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
+                    ->orderBy('counsellor_timezone_slot')
                     ->paginate(5);
                   }
 
@@ -990,6 +1028,7 @@ class BookingController extends Controller
 
                     $upcomingBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->where('counsellor_id', $user->id)
+                    ->selectRaw("*, TIME_FORMAT(slot, '%H:%i') as timesort")
 
                     ->where(function ($query) use ($counsellorTimeZone){
                         $query->where('booking_date', '>', Carbon::today($counsellorTimeZone));
@@ -998,7 +1037,8 @@ class BookingController extends Controller
                     })
 
                     ->orderBy('booking_date','ASC')
-                    ->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
+                    ->orderBy('slot')
                     //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%l:%i %p')"), 'ASC')
                     //->orderBy('slot','ASC')
                     ->paginate(5);
@@ -1046,6 +1086,7 @@ class BookingController extends Controller
 
 
                     $upcomingBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(counsellor_timezone_slot, '%H:%i') as timesort")
                     ->where('user_id', $user->id)
                     
                     ->where(function ($query) use ($userTimeZone){
@@ -1056,7 +1097,7 @@ class BookingController extends Controller
                     ->orderBy('counsellor_booking_date','ASC')
                     //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
                     ->orderBy('counsellor_timezone_slot','ASC')
-                    ->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
+                    //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
                     //->orderBy('counsellor_timezone_slot','ASC')
                     ->paginate(5);
                     //->get();
