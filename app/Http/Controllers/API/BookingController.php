@@ -461,14 +461,24 @@ class BookingController extends Controller
                     $booking->user_id = $user->id;
                     $booking->payment_id = $payment->id;
                     $booking->counsellor_id = $params['counsellor_id'];
+                    $booking->package_time = $sessionTime;
+
+                    $time = date("H:i:s", strtotime($slot));
+                    $endTime = strtotime("+".$sessionTime." minutes", strtotime($time));
+                    $extendedTime =  date('H:i:s', $endTime);
 
                     if($counsellorTimeZone == $userTimeZone)
                     {
                       $booking->slot = $slot;
+                      $booking->user_start_datetime = $date.' '.$time;
+                      $booking->user_end_datetime = $date.' '.$extendedTime;
                       $booking->booking_date = $date;
 
                       $booking->counsellor_timezone_slot = $slot;
                       $booking->counsellor_booking_date = $date;
+
+                      $booking->counsellor_start_datetime = $date.' '.$time;
+                      $booking->counsellor_end_datetime = $date.' '.$extendedTime;
                     }
                     else
                     {
@@ -482,13 +492,30 @@ class BookingController extends Controller
                       $counsellorTime = $ucc->format('g:i A');
                       $convertedDateCounsellor = $ucc->format('Y-m-d');
 
+                      $time1 = date("H:i:s", strtotime($counsellorTime));
+                      $endTime1 = strtotime("+".$sessionTime." minutes", strtotime($time1));
+                      $extendedTime1 =  date('H:i:s', $endTime1);
+
+                      $time2 = date("H:i:s", strtotime($counsellorTime));
+                      $endTime2 = strtotime("+".$sessionTime." minutes", strtotime($time2));
+                      $extendedTime2 =  date('H:i:s', $endTime2);
+
+                      $time = date("H:i:s", strtotime($slot));
+                      $endTime = strtotime("+".$sessionTime." minutes", strtotime($time));
+                      $extendedTime =  date('H:i:s', $endTime);
                      
                          
                       $booking->slot = $counsellorTime; //$convertedSlotCounsellor;
                       $booking->booking_date = $convertedDateCounsellor;
 
+                      $booking->user_start_datetime = $date.' '.$time1;
+                      $booking->user_end_datetime = $date.' '.$extendedTime1;
+
                       $booking->counsellor_timezone_slot = $slot;
                       $booking->counsellor_booking_date = $date;
+
+                      $booking->counsellor_start_datetime = $date.' '.$time;
+                      $booking->counsellor_end_datetime = $date.' '.$extendedTime;
                     }
                     
 
@@ -767,8 +794,8 @@ class BookingController extends Controller
      */ 
     public function getPastBooking(Request $request) 
     {
-        try
-        {
+        // try
+        // {
             
             $user = Auth::user();
             if($user->role_id == 2)
@@ -809,12 +836,12 @@ class BookingController extends Controller
                     }
                     
 
-                    if(!empty($newArr)){
+                    //if(!empty($newArr)){
                       $pastBookings['data'] = $newArr;
                     return response()->json(['success' => true,
                                             'past' => $pastBookings
                                         ], $this->successStatus);
-                   }
+                   //}
                 }
                 else
                 {
@@ -830,18 +857,25 @@ class BookingController extends Controller
                 { 
                     $arr = [];
                     
-                    $currentTime = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now($userTimeZone))->format('h:i a');
+                    $currentTime = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now($userTimeZone))->format('g:i A');
+                    $time = date("H:i:s", strtotime($currentTime));
 
                     $pastBookings = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
                     ->selectRaw("*, TIME_FORMAT(counsellor_timezone_slot, '%H:%i') as timesort")
                     ->where('user_id', $user->id)
-                    ->where('counsellor_booking_date', '<=', Carbon::today($userTimeZone))
+                    ->where('counsellor_booking_date', '<', Carbon::today($userTimeZone))
+                      ->orWhere(function ($query) use ($userTimeZone, $time) {
+                          $query->where('counsellor_booking_date','=', Carbon::today($userTimeZone))
+                                ->whereTime('counsellor_end_datetime', '<', $time);
+
+                      })
                     ->orderBy(DB::raw("DATE(counsellor_booking_date)"), 'DESC')
                     ->orderBy('timesort', 'DESC')
-                    ->paginate(5)->toArray();
+                    ->paginate(5);
+                    //->toSql();
                   
 
-                    $newArr = [];
+                    /*$newArr = [];
                     foreach($pastBookings['data'] as $key => $pastBooking)
                     {
                         $packageTime = Package::where('id', $pastBooking['package_id'])->first();
@@ -851,15 +885,15 @@ class BookingController extends Controller
                         {
                             $newArr[] = $pastBookings['data'][$key];
                         }
-                    }
+                    }*/
 
-                    if(!empty($newArr)){
-                      $pastBookings['data'] = $newArr;
+                    //if(!empty($newArr)){
+                      //$pastBookings['data'] = $newArr;
                       return response()->json(['success' => true,
                                          'past' => $pastBookings,
-                                         'array_split'=>$newArr
+                                         //'array_split'=>$newArr
                                         ], $this->successStatus);
-                    }
+                    //}
                 }
                 else
                 {
@@ -867,11 +901,11 @@ class BookingController extends Controller
                 }
             }
             
-        }
-        catch(\Exception $e)
-        {
-            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        }  
+        //}
+        // catch(\Exception $e)
+        // {
+        //     return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        // }  
         
     }
 

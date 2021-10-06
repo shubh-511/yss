@@ -19,7 +19,7 @@
     				</h4>
     				<p style="margin-bottom: 10px;">
    						<span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
-    						Sorry to inform you that your listing has been rejected by admin for some reason i.e.<br />
+    						Sorry to inform you that your listing has been rejected by admin for the below reasons i.e.<br />
 
     						{{ $msg }}
 
@@ -47,7 +47,7 @@
             <tr style="background: #f5f8fa;">
                 <td style="padding-left: 50px; padding-right: 50px; padding-top: 20px;font-family: 'Quicksand', sans-serif;">
                     <p style="font-size: 16px; padding-bottom: 20px; color: #6B6B6B;; text-align: center; font-weight: 200;">
-                        Copyright © 2021, Soberlisting. All rights reserved.
+                        Copyright © 2021, Soberlistic. All rights reserved.
                     </p>
                 </td>
             </tr>

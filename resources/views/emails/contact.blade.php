@@ -49,7 +49,7 @@
             <tr style="background: #f5f8fa;">
                 <td style="padding-left: 50px; padding-right: 50px; padding-top: 20px;font-family: 'Quicksand', sans-serif;">
                     <p style="font-size: 16px; padding-bottom: 20px; color: #6B6B6B;; text-align: center; font-weight: 200;">
-                        Copyright © 2021, Soberlisting. All rights reserved.
+                        Copyright © 2021, Soberlistic. All rights reserved.
                     </p>
                 </td>
             </tr>
