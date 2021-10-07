@@ -232,7 +232,7 @@ class CounsellorController extends Controller
 
         $fileName = uniqid().'.'.$img->extension(); 
         $img->move(public_path().'/uploads/', $fileName);
-        return "public/uploads/".$fileName;
+        return "uploads/".$fileName;
     }
 
     /**

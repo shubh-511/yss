@@ -126,7 +126,7 @@
                                     @error('cover_img')
                                     <p style="color:red">{{ $errors->first('cover_img') }}</p>
                                     @enderror
-                                    <span><img src="{{ "http://www.soberlistic.com/".$list_data->cover_img }}" width="50px" height="50px"></span>
+                                    <span><img src="{{ asset($list_data->cover_img) }}" width="50px" height="50px"></span>
                                 </div>
                                 
                                 <div class="form-group">
@@ -134,18 +134,18 @@
                                     <input type="file" name="gallery_images[]"  class="form-control" multiple>
                                     <br>
                                     @foreach($gallery_data as $gallery)
-                                    <span><img src="{{ "http://www.soberlistic.com/".$gallery->gallery_img }}" width="50px" height="50px"></span>
+                                    <span><img src="{{ asset($gallery->gallery_img) }}" width="50px" height="50px"></span>
                                     @endforeach
                                 </div>
                             </div>
-
+                               
                                <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Business Certificate</label>
                                     <input type="file" name="business_certificate" class="form-control">
                                     <br>
                                     @if($list_data->business_certificate)
-                                    <span><img src="{{ "http://www.soberlistic.com/".$list_data->business_certificate }}" width="50px" height="50px"></span>
+                                    <span><img src=" {{ asset($list_data->business_certificate) }}" width="50px" height="50px"></span>
                                     @endif
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                                     <input type="file" name="insurance_certificate" class="form-control">
                                     <br>
                                     @if($list_data->insurance_certificate)
-                                    <span><img src="{{ "http://www.soberlistic.com/".$list_data->insurance_certificate}}" width="50px" height="50px"></span>
+                                    <span><img src="{{ asset($list_data->insurance_certificate) }}" width="50px" height="50px"></span>
                                     @endif
                                 </div>
                             </div>
@@ -181,10 +181,7 @@
 @push('select2')
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    
-        <script src='http://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=AIzaSyCzf8RXQS27SPKYkdq6UMdZV0JctvWNFv0'></script>
-  <script>
+ <script src='https://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=AIzaSyCzf8RXQS27SPKYkdq6UMdZV0JctvWNFv0'></script>
 @push('select2')
 <script type="text/javascript">
     $(".label-edit").select2({
