@@ -448,7 +448,7 @@ $(".counsellor-type").select2({
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     
-        <script src='http://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=AIzaSyCzf8RXQS27SPKYkdq6UMdZV0JctvWNFv0'></script>
+        <script src='https://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=AIzaSyCzf8RXQS27SPKYkdq6UMdZV0JctvWNFv0'></script>
 
     <script>
         $(document).ready(function () {
