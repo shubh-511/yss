@@ -121,8 +121,8 @@ trait ProfileStatusTrait
             }
             
             
-            //event(new ProfileCompleteEvent($user->id));
-            //$this->sendProfileCompletionSMS($user->country_code, $user->phone);
+            event(new ProfileCompleteEvent($user->id));
+            $this->sendProfileCompletionSMS($user->country_code, $user->phone);
         }
         $userUpdate = User::where('id', $userId)->update(['profile_percentage' => $profilePercentage]);
 

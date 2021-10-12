@@ -29,9 +29,9 @@ class ContactListner
     public function handle(ContactEvent $event)
     {
         $user = Contact::find($event->userId)->toArray();
-        Mail::send('emails.contact', ["user"=>$user,"msg"=>"test"], function($message) use ($user) {
-            $message->from($user['email']);
-            $message->to('ashishibyte@gmail.com');
+        Mail::send('emails.contact', ["user"=>$user,"msg"=>"Contact"], function($message) use ($user) {
+            $message->from(env('MAIL_FROM_ADDRESS'));
+            $message->to(env('MAIL_FROM_ADDRESS'));
             $message->subject('Soberlistic');
         });
     }

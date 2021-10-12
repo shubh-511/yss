@@ -36,7 +36,7 @@
                     <hr />
                     <p style="margin-bottom: 20px;">
                         <span style="max-width: 50%; width: 100%; font-size: 16px; font-weight: 500; color: #6B6B6B;">
-                            If you're having trouble clicking the "Notification Action" button, copy nd paste the URL below into your web browser: <a href="javascript:void(0)">test.com</a>
+                            If you're having trouble clicking the "Notification Action" button, copy and paste the URL below into your web browser: <a href="javascript:void(0)">test.com</a>
                         </span>
                     </p>
     			</td>
