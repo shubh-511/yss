@@ -18,6 +18,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 use App\Events\BookLeftSession;
+use App\Events\CounsellorLeftSessionEvent;
 use App\Notification;
 use App\GeneralSetting;
 use App\LeftSession;
@@ -385,6 +386,7 @@ class BookingController extends Controller
                $left_session->left_sessions=$left_session_val;
                $left_session->save();
                event(new BookLeftSession($user->id,$left_session_val,count($myslots)));
+               event(new CounsellorLeftSessionEvent($counsellor->id,$left_session_val,count($myslots)));
               }
              
         echo 1;

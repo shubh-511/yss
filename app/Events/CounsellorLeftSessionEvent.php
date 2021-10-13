@@ -12,6 +12,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class CounsellorLeftSessionEvent
 {
+    public $counsellor_id;
+    public $left_session_val;
+    public $myslots;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -19,9 +22,11 @@ class CounsellorLeftSessionEvent
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($counsellor_id,$left_session_val,$myslots)
     {
-        //
+        $this->counsellor_id = $counsellor_id;
+        $this->left_session_val = $left_session_val;
+        $this->myslots=$myslots;
     }
 
     /**
@@ -31,6 +36,7 @@ class CounsellorLeftSessionEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        //return new PrivateChannel('channel-name');
+        return [];
     }
 }
