@@ -171,6 +171,9 @@ class CounsellorController extends Controller
             $listingData->lattitude = $request->latitude;
             $listingData->longitude = $request->longitude;
             $listingData->video_url = $request->video_url;
+            $slug = \Str::slug($request->listing_name);
+            $count = Listing::whereRaw("slug_url RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+            $listingData->slug_url = $count ? "{$slug}-{$count}" : $slug;
              if(!empty($request->cover_img))
             {
                 $listingData->cover_img = $counsellor->cover_id;

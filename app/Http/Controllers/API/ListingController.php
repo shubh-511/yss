@@ -105,6 +105,9 @@ class ListingController extends Controller
             $listingData->phone = $requestedFields['phone'];
             $listingData->video_url = $requestedFields['video_url'];
             $listingData->status = "0";
+            $slug = \Str::slug($requestedFields['listing_name']);
+            $count = Listing::whereRaw("slug_url RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+            $listingData->slug_url = $count ? "{$slug}-{$count}" : $slug;
 
             if(!empty($requestedFields['cover_img']))
             {
