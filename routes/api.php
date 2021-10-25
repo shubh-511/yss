@@ -45,6 +45,7 @@ Route::post('verify/register/account', 'API\UserController@verifyAccount');
 Route::get('get/user/notification', 'API\NotificationController@getUserNotification');
 
 Route::get('get/listing/by/id/{listingid}', 'API\ListingController@getListingById');
+Route::get('get/listing/by/slug/{slug}', 'API\ListingController@getListingBySlug');
 
 Route::post('get/availability', 'API\ListingController@availability');
 Route::post('insurance/save', 'API\InsuranceLeadController@insurance');
@@ -129,5 +130,6 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('save/logs', 'API\CallLogsController@saveLogs');
 
 	Route::get('get/invoice/{bookingid}', 'API\InvoiceController@getInvoiceOverEmail');
+	Route::post('cancel/booking', 'API\BookingController@cancelBooking');
 	
 });

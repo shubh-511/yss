@@ -9,7 +9,7 @@
   		<tbody style="">
   			<tr style="vertical-align: top;">
     			<td style="padding: 20px; background: #f5f8fa; word-break: break-word;border-collapse: collapse !important;vertical-align: top; text-align: center;font-family: 'Quicksand', sans-serif;">
-    				<img src="{{ $message->embed(asset('/uploads/logo.png'))}}" style="max-width: 40%; width: 100%;" alt="Logo" />
+    				<img src="https://{{env('APP_URL')}}{{('/uploads/logo.png')}}" style="max-width: 40%; width: 100%;" alt="Logo" />
     			</td>
     		</tr>
     		<tr>

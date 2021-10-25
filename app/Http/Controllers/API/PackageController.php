@@ -172,7 +172,7 @@ class PackageController extends Controller
     {
         try
         {
-            $validator = Validator::make($request->all(), [ 
+        	$validator = Validator::make($request->all(), [ 
                 'listing_id' => 'required',
             ]);
 
@@ -722,8 +722,11 @@ $date6 = DateTime::createFromFormat('g:i A', $extendedBookedSlot);
 
                                         
                                         $idate = Carbon::parse($dateAndTime)->format('d');
-                                  
-                                        if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate) && (strtotime($datas) < strtotime($utimesTo))) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
+                                        
+                                        /**
+                                         * if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate) && (strtotime($datas) < strtotime($utimesTo)))
+                                         * **/
+                                        if( !in_array($datas, $books) && ($inputTimestamp > $currentTimestamp) && ($idate == $uDate)) //($datas >= $bookingSlot->slot) && ($datas <= $fdate))
                                         {
                                             $existingSlotArray[] = $userTimeSlot;
                                         }

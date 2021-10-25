@@ -410,6 +410,60 @@ class ListingController extends Controller
     }
 
     /** 
+     * Listing By Slug
+     * 
+     * @return \Illuminate\Http\Response 
+     */
+
+    public function getListingBySlug($slug) 
+    { 
+        try
+        {
+            $user = Auth::user();
+            $listingData = Listing::with('gallery','listing_category','listing_label','listing_region')->with('user:id,avatar_id,email,profile_percentage,name')->where('slug_url', $slug)->where('status', '1')->first();
+
+            if(!empty($listingData))
+            {
+                $listing_label = multilabel::where('listing_id',$listingData->id)->get();
+                $listingTotalReviews = ListingReview::where('listing_id',$listingData->id)->count();
+                $listingAvgRating = ListingReview::where('listing_id',$listingData->id)->avg('rating');
+
+                if(count($listing_label) > 0)
+                {
+                    $listing_label = $listing_label->pluck('label_id');
+                    $listingLabel = ListingLabel::whereIn('id', $listing_label)->get();
+                    $listingData->multilabel = $listingLabel;
+                }
+                else
+                {
+                    $listingData->multilabel = [];   
+                }
+
+
+                $listingData->total_reviews = $listingTotalReviews;
+                $listingData->avg_rating = $listingAvgRating;
+
+                return response()->json(['success' => true,
+                                        //'profile_percentage' => $user->profile_percentage,
+                                        'data' => $listingData
+                                        ], $this->successStatus);
+            
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                     'errors' => [ 'exception' => 'Invalid listing Id'],
+                                    ], $this->successStatus);
+            }
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        } 
+
+    }
+
+    /** 
      * Delete Listing Gallery Image By ID
      * 
      * @return \Illuminate\Http\Response 
