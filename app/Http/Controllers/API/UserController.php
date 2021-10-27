@@ -78,7 +78,7 @@ class UserController extends Controller
                     {
                         //Send Welcome Mail
                 
-                        event(new WelcomeUserEvent($user->id));
+                        //event(new WelcomeUserEvent($user->id));
                         return response()->json(['success' => true,
                                                  'user' => $user,
                                                  'token'=> $token,

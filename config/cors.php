@@ -33,7 +33,7 @@ return [
     /*
      * Matches the request origin. `[*]` allows all origins. Wildcards can be used, eg `*.mydomain.com`
      */
-    'allowed_origins' => ['https://soberlistic.com','http://localhost:3000',"https:socket.soberlistic.com"],
+    'allowed_origins' => ['https://soberlistic.com','http://localhost:3000',"https:socket.soberlistic.com","http://stagesoberlistic.ibyteworkshop.com","http://droidlar.com","https://droidlar.com","http://www.droidlar.com","https://www.droidlar.com"],
 
     /*
      * Patterns that can be used with `preg_match` to match the origin.

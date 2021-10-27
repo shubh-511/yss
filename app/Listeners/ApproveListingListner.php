@@ -29,10 +29,10 @@ class ApproveListingListner
     public function handle(ApproveListingEvent $event)
     {
         $user = User::find($event->user_id)->toArray(); 
-        Mail::send('emails.approve_listing', ["user"=>$user], function($message) use ($user) {
+        /*Mail::send('emails.approve_listing', ["user"=>$user], function($message) use ($user) {
             $message->from('support@soberlistic.com');
             $message->to($user['email']);
             $message->subject('Soberlistic');
-        });
+        });*/
     }
 }

@@ -29,10 +29,10 @@ class CounsellorLeftSessionListner
     public function handle(CounsellorLeftSessionEvent $event)
     {
           $user = User::find($event->counsellor_id)->toArray(); 
-          Mail::send('emails.counsellor_left_session', ["user"=>$user,"left_session_val"=>$event->left_session_val,"myslots"=>$event->myslots], function($message) use ($user) {
+          /*Mail::send('emails.counsellor_left_session', ["user"=>$user,"left_session_val"=>$event->left_session_val,"myslots"=>$event->myslots], function($message) use ($user) {
             $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
             $message->subject('Soberlistic');
-        });
+        });*/
     }
 }
