@@ -7,6 +7,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Availability; 
+use App\Booking;
 use App\User; 
 use App\AvailaibleHours;
 use Illuminate\Support\Facades\Auth; 
@@ -508,7 +509,7 @@ class AvailabilityController extends Controller
 			$user = Auth::user()->id;
 			$myAvailability = Availability::where('user_id', $user)->get();
 			$breaks = Availability::select("breaks")->where('user_id', $user)->first();
-			
+			$getBooking = Booking::where('counsellor_id', $user)->first();
 			$avlbleDays = $myAvailability->pluck('availaible_days');
 			$avlbleDays = $avlbleDays->toArray();
 
@@ -587,6 +588,7 @@ class AvailabilityController extends Controller
 				}
 				
 				return response()->json(['success' => true,
+									 'is_package_booked' => (!empty($getBooking)) ? 1 : 0,
 	            					 'data' => $common,
 	            					 'breaks' => (!empty($breaks)) ? $breaks->breaks : 10,
 	            					], $this->successStatus);

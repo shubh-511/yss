@@ -4622,9 +4622,9 @@
 
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.13
+                
             </div>
-            <strong>Copyright &copy; 2014-2019 <a href="#">Admin</a>.</strong> All rights reserved.
+            <strong>©2021 Wellness Tech Ltd - 13156843. All rights reserved.
         </footer>
     </div>
 
