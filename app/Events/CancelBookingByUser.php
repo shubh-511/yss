@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CancelBookingEvent
+class CancelBookingByUser
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,7 +21,7 @@ class CancelBookingEvent
      */
     public function __construct($userId)
     {
-        $this->userId = $userId;
+         $this->userId = $userId;
     }
 
     /**

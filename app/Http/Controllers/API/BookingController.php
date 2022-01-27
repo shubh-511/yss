@@ -24,10 +24,11 @@ use Carbon\Carbon;
 use Twilio\Rest\Client;
 use App\Events\UserRegisterEvent;
 use App\Events\BookingEvent;
+use App\Events\CancelBookingEvent;
+use App\Events\CancelBookingByUser;
 use App\Events\BookingCounsellorEvent;
 use App\Events\BookLeftSession;
 use App\Events\FailedBookingEvent;
-use App\Events\CancelBookingEvent;
 //use App\Events\CancelBookingByCounsellorEvent;
 use DateTime;
 use DateTimeZone;
@@ -85,13 +86,15 @@ class BookingController extends Controller
         
     }
 
+    
+    
     /** 
      * Cancel booking
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function cancelBooking(Request $request) 
-    {
+       public function cancelBooking(Request $request) 
+      {
         try
         {
             $validator = Validator::make($request->all(), [ 
@@ -100,62 +103,112 @@ class BookingController extends Controller
 
             if ($validator->fails()) 
             { 
-                return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
+             return response()->json(['errors'=>$validator->errors()], $this->successStatus);  
             }
             $user = Auth::user()->id;
-            
-            $userBooking = Booking::where('id', $request->booking_id)->where('user_id', $user)->where('status', '1')->first();
-
+            $user_data=User::where('id',$user)->first();
+            if($user_data->role_id == 2)
+            {   
+            event(new CancelBookingEvent($user_data->id));   
+            $counsellorTimeZone = $user_data->timezone;    
+            $userBooking = Booking::where('id', $request->booking_id)->where('counsellor_id', $user)->where('status', '1')->first();
+            $userBooking_count= Booking::where('payment_id',$userBooking->payment_id)->get();
+            $count=count($userBooking_count);
             if(!empty($userBooking))
             {
+                  $currentTime = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now($counsellorTimeZone))->format('g:i A');
+                    $time = date("H:i:s", strtotime($currentTime));
+                   $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(slot, '%H:%i') as timesort")
+                    ->where('status', '!=', '4')
+                    ->where('payment_id',$userBooking->payment_id)
+                    ->where('counsellor_id', $user)
+                    ->where('booking_date', '<', Carbon::today($counsellorTimeZone))
+                    ->where(function ($query) use ($counsellorTimeZone, $time) {
+                          $query->where('booking_date','=', Carbon::today($counsellorTimeZone))
+                                ->whereTime('user_end_datetime', '<', $time);
+
+                      })
+                    ->get();
+                $todaysCount= count($todaysBooking);
                 $payment = Payment::where('id', $userBooking->payment_id)->first();
                 $package = Package::where('id', $userBooking->package_id)->first();
-
                 if($package->no_of_slots == 1)
                 {
-                    //refund
-                    $stripe = new \Stripe\StripeClient(
-                      'sk_test_51IVk6mInEL6a47XwZYFPim5hOAN95WkN46LgAJHAMzu6FnnH1xPZ0C9HoK4xXRwtZiBWUrbX5OpKThxiO0HpmZsi001GW383pW'
-                    );
+                    if($package->no_of_slots == 1 && $todaysCount > 0)
+                    {
+                       Booking::where('payment_id', $userBooking->payment_id)->where('counsellor_id', $user)->update(['status' => '4']); //refunded
+                        return response()->json(['success' => true,
+                                             'message' => 'Your booking has been cancelled successfully.'
+                                            ], $this->successStatus);
+                    }    
+                    else
+                    {
+                      $stripe = new \Stripe\StripeClient(
+                          'sk_test_51IVk6mInEL6a47XwZYFPim5hOAN95WkN46LgAJHAMzu6FnnH1xPZ0C9HoK4xXRwtZiBWUrbX5OpKThxiO0HpmZsi001GW383pW'
+                        );
 
-                    $refundPayment = $stripe->refunds->create([
-                      'charge' => $payment->charge_id,
-                    ]);
+                        $refundPayment = $stripe->refunds->create([
+                          'charge' => $payment->charge_id,
+                        ]);
 
-                    $refund = new Refund;
-                    $refund->user_id = $user;
-                    $refund->payment_id = $userBooking->payment_id;
-                    $refund->refund_id = $refundPayment->id;
-                    $refund->object = $refundPayment->object;
-                    $refund->amount = $refundPayment->amount;
-                    $refund->balance_transaction = $refundPayment->balance_transaction;
-                    $refund->charge_id = $refundPayment->charge;
-                    $refund->created = $refundPayment->created;
-                    $refund->currency = $refundPayment->currency;
-                    $refund->payment_intent = $refundPayment->payment_intent;
-                    $refund->reason = $refundPayment->reason;
-                    $refund->receipt_number = $refundPayment->receipt_number;
-                    $refund->source_transfer_reversal = $refundPayment->source_transfer_reversal;
-                    $refund->status = $refundPayment->status;
-                    $refund->transfer_reversal = $refundPayment->transfer_reversal;
-                    $refund->save();
+                        $refund = new Refund;
+                        $refund->user_id = $user;
+                        $refund->payment_id = $userBooking->payment_id;
+                        $refund->refund_id = $refundPayment->id;
+                        $refund->object = $refundPayment->object;
+                        $refund->amount = $refundPayment->amount;
+                        $refund->balance_transaction = $refundPayment->balance_transaction;
+                        $refund->charge_id = $refundPayment->charge;
+                        $refund->created = $refundPayment->created;
+                        $refund->currency = $refundPayment->currency;
+                        $refund->payment_intent = $refundPayment->payment_intent;
+                        $refund->reason = $refundPayment->reason;
+                        $refund->receipt_number = $refundPayment->receipt_number;
+                        $refund->source_transfer_reversal = $refundPayment->source_transfer_reversal;
+                        $refund->status = $refundPayment->status;
+                        $refund->transfer_reversal = $refundPayment->transfer_reversal;
+                        $refund->save();
 
-                    Booking::where('id', $request->booking_id)->where('user_id', $user)->update(['status' => '4']); //refunded
-                    Payment::where('id', $userBooking->payment_id)->where('user_id', $user)->update(['status' => 'refunded', 'amount_refunded' => $refundPayment->amount, 'refunded' => 1]);
+                        Booking::where('payment_id', $userBooking->payment_id)->where('counsellor_id', $user)->update(['status' => '4']); //refunded
+                        Payment::where('id', $userBooking->payment_id)->where('user_id', $user)->update(['status' => 'refunded', 'amount_refunded' => $refundPayment->amount, 'refunded' => 1]);
+                        return response()->json(['success' => true,
+                                             'message' => 'Your booking has been cancelled successfully. Refund if applicable will be issued.'
+                                            ], $this->successStatus);
+                    }
                 }
-                else
-                {
-                    //move to planned session
-                    $leftSessions = LeftSession::where('user_id', $user)->where('package_id', $package->id)->first();
-                    $leftSessions->left_sessions = $leftSessions->left_sessions + 1;
-                    $leftSessions->save();
+            else
+            { 
+               
+                  $userBooking = Booking::where('id', $request->booking_id)->where('counsellor_id', $user)->where('status', '1')->first();
+                  $leftSessions = LeftSession::where('user_id', $userBooking->user_id)->where('payment_id', $userBooking->payment_id)->first();
+                   if(!empty($leftSessions))
+                   {
+                      $leftSessions->left_sessions = $leftSessions->left_sessions + 1;
+                       $leftSessions->save();
+                     Booking::where('id', $request->booking_id)->where('user_id',$userBooking->user_id)->update(['status' => '4']);
+                      return response()->json(['success' => true,
+                                             'message' => 'User booking has been cancelled successfully. User session will be show in plan your session.'
+                                            ], $this->successStatus);
+                   }
+                   else
+                   {
+                     Booking::where('id', $request->booking_id)->where('user_id',$userBooking->user_id)->update(['status' => '4']);
+                       $left_session=new LeftSession();
+                       $left_session->user_id=$userBooking->user_id;
+                       $left_session->package_id=$userBooking->package_id;
+                       $left_session->payment_id=$userBooking->payment_id;
+                       $left_session->left_sessions=1;
+                       $left_session->save();
+                        return response()->json(['success' => true,
+                                             'message' => 'User booking has been cancelled successfully. User session will be show in plan your session.'
+                                            ], $this->successStatus);
 
-                    Booking::where('id', $request->booking_id)->where('user_id', $user)->update(['status' => '4']); //cancelled or refunded
-                }
-                event(new CancelBookingEvent($user));
-                return response()->json(['success' => true,
-                                         'message' => 'Your booking has been cancelled successfully. Refund if applicable will be issued.'
-                                        ], $this->successStatus);
+                   }
+                 
+            }
+              
+                
             }
             else
             {
@@ -163,6 +216,122 @@ class BookingController extends Controller
                                       'message' => 'Invalid booking id'
                                     ], $this->successStatus);
             } 
+        }
+          else
+            {
+            event(new CancelBookingByUser($user_data->id));
+             $userBooking = Booking::where('id', $request->booking_id)->where('user_id', $user)->where('status', '1')->first();
+             $userBooking_count= Booking::where('payment_id',$userBooking->payment_id)->get();
+             $count=count($userBooking_count);
+             $userTimeZone = $user_data->timezone;
+            if(!empty($userBooking))
+            {
+                $currentTime = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now($userTimeZone))->format('g:i A');
+                    $time = date("H:i:s", strtotime($currentTime));
+                 $todaysBooking = Booking::with('counsellor','package','user','listing.listing_category','listing.listing_label','listing.listing_region','listing.gallery')
+                    ->selectRaw("*, TIME_FORMAT(counsellor_timezone_slot, '%H:%i') as timesort")
+                    ->where('status', '!=', '4')
+                    ->where('payment_id',$userBooking->payment_id)
+                    ->where('user_id', $user)
+                    ->where('counsellor_booking_date', '<', Carbon::today($userTimeZone))
+                    ->where(function ($query) use ($userTimeZone, $time) {
+                          $query->where('counsellor_booking_date','=', Carbon::today($userTimeZone))
+                                ->whereTime('counsellor_end_datetime', '<', $time);
+
+                      })->get();
+                $user_booking_count=count($todaysBooking);
+                $payment = Payment::where('id', $userBooking->payment_id)->first();
+                $package = Package::where('id', $userBooking->package_id)->first();
+                if($package->no_of_slots == 1)
+                {
+                    if($package->no_of_slots == 1 && $user_booking_count > 0)
+                    {
+
+                        Booking::where('payment_id', $userBooking->payment_id)->where('user_id', $user)->update(['status' => '4']); //refunded
+                        return response()->json(['success' => true,
+                                             'message' => 'Your booking has been cancelled successfully.'
+                                            ], $this->successStatus);
+                    }     
+                    else
+                    {
+                        $stripe = new \Stripe\StripeClient(
+                          'sk_test_51IVk6mInEL6a47XwZYFPim5hOAN95WkN46LgAJHAMzu6FnnH1xPZ0C9HoK4xXRwtZiBWUrbX5OpKThxiO0HpmZsi001GW383pW'
+                        );
+
+                        $refundPayment = $stripe->refunds->create([
+                          'charge' => $payment->charge_id,
+                        ]);
+
+                        $refund = new Refund;
+                        $refund->user_id = $user;
+                        $refund->payment_id = $userBooking->payment_id;
+                        $refund->refund_id = $refundPayment->id;
+                        $refund->object = $refundPayment->object;
+                        $refund->amount = $refundPayment->amount;
+                        $refund->balance_transaction = $refundPayment->balance_transaction;
+                        $refund->charge_id = $refundPayment->charge;
+                        $refund->created = $refundPayment->created;
+                        $refund->currency = $refundPayment->currency;
+                        $refund->payment_intent = $refundPayment->payment_intent;
+                        $refund->reason = $refundPayment->reason;
+                        $refund->receipt_number = $refundPayment->receipt_number;
+                        $refund->source_transfer_reversal = $refundPayment->source_transfer_reversal;
+                        $refund->status = $refundPayment->status;
+                        $refund->transfer_reversal = $refundPayment->transfer_reversal;
+                        $refund->save();
+
+                        Booking::where('payment_id', $userBooking->payment_id)->where('user_id', $user)->update(['status' => '4']); //refunded
+                        Payment::where('id', $userBooking->payment_id)->where('user_id', $user)->update(['status' => 'refunded', 'amount_refunded' => $refundPayment->amount, 'refunded' => 1]);
+                        return response()->json(['success' => true,
+                                             'message' => 'Your booking has been cancelled successfully. Refund if applicable will be issued.'
+                                            ], $this->successStatus);
+
+                    }
+               }
+             
+                 else
+                { 
+               
+                  $userBooking = Booking::where('id', $request->booking_id)->where('user_id', $user)->where('status', '1')->first();
+                  $leftSessions = LeftSession::where('user_id', $userBooking->user_id)->where('payment_id', $userBooking->payment_id)->first();
+                   if(!empty($leftSessions))
+                   {
+                      $leftSessions->left_sessions = $leftSessions->left_sessions + 1;
+                       $leftSessions->save();
+                     Booking::where('id', $request->booking_id)->where('user_id',$userBooking->user_id)->update(['status' => '4']);
+                      return response()->json(['success' => true,
+                                             'message' => 'User booking has been cancelled successfully. User session will be show in plan your session.'
+                                            ], $this->successStatus);
+                   }
+                   else
+                   {
+                     Booking::where('id', $request->booking_id)->where('user_id',$userBooking->user_id)->update(['status' => '4']);
+                       $left_session=new LeftSession();
+                       $left_session->user_id=$userBooking->user_id;
+                       $left_session->package_id=$userBooking->package_id;
+                       $left_session->payment_id=$userBooking->payment_id;
+                       $left_session->left_sessions=1;
+                       $left_session->save();
+                        return response()->json(['success' => true,
+                                             'message' => 'User booking has been cancelled successfully. User session will be show in plan your session.'
+                                            ], $this->successStatus);
+
+                   }
+                 
+            }
+
+            
+                
+            }
+            else
+            {
+                return response()->json(['success' => false,
+                                      'message' => 'Invalid booking id'
+                                    ], $this->successStatus);
+            } 
+
+
+                }
         }
         catch(\Exception $e)
         {
@@ -882,8 +1051,8 @@ class BookingController extends Controller
      */ 
     public function getPastBooking(Request $request) 
     {
-        // try
-        // {
+        try
+        {
             
             $user = Auth::user();
             if($user->role_id == 2)
@@ -917,7 +1086,7 @@ class BookingController extends Controller
 
                       })
                     ->orderBy(DB::raw("DATE(booking_date)"), 'DESC')
-                    ->orderBy('user_start_datetime', 'DESC')
+                    ->orderBy('counsellor_start_datetime', 'DESC')
                     //->orderBy(DB::raw("STR_TO_DATE('user_start_datetime','%Y-%m-%d %H:%i:%s')"), 'DESC')
                     ->paginate(5);
 
@@ -980,7 +1149,8 @@ class BookingController extends Controller
 
                       })
                     ->orderBy(DB::raw("DATE(counsellor_booking_date)"), 'DESC')
-                    ->orderBy('timesort', 'DESC')
+                    //->orderBy('timesort', 'DESC')
+                    ->orderBy('user_start_datetime', 'DESC')
                     ->paginate(5);
                     //->toSql();
                   
@@ -1011,11 +1181,11 @@ class BookingController extends Controller
                 }
             }
             
-        //}
-        // catch(\Exception $e)
-        // {
-        //     return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
-        // }  
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['success'=>false,'errors' =>['exception' => [$e->getMessage()]]], $this->successStatus); 
+        }  
         
     }
 
@@ -1046,7 +1216,7 @@ class BookingController extends Controller
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
                     ->where('status', '!=', '4')
                     //->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
-                    ->orderBy('slot')
+                    ->orderBy('counsellor_start_datetime', 'DESC')
                     ->get();
                   }
                   else
@@ -1058,7 +1228,7 @@ class BookingController extends Controller
                     ->where('booking_date', Carbon::today($counsellorTimeZone))
                     ->where('status', '!=', '4')
                     //->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
-                    ->orderBy('slot')
+                    ->orderBy('counsellor_start_datetime', 'DESC')
                     ->paginate(5);
                   }
                     
@@ -1089,7 +1259,7 @@ class BookingController extends Controller
                     ->where('counsellor_booking_date', Carbon::today($userTimeZone))
                     ->where('status', '!=', '4')
                     //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
-                    ->orderBy('counsellor_timezone_slot')
+                    ->orderBy('user_start_datetime', 'DESC')
                     ->get();
                   }
                   else
@@ -1101,7 +1271,7 @@ class BookingController extends Controller
                     ->where('status', '!=', '4')
                     //->orderBy('counsellor_timezone_slot','ASC')
                     //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
-                    ->orderBy('counsellor_timezone_slot')
+                    ->orderBy('user_start_datetime', 'DESC')
                     ->paginate(5);
                   }
 
@@ -1189,7 +1359,8 @@ class BookingController extends Controller
                     ->orderBy('booking_date','ASC')
                     
                     //->orderBy(DB::raw("STR_TO_DATE(slot,'%h.%i%a')"), 'ASC')
-                    ->orderBy('slot')
+                    //->orderBy('slot')
+                    ->orderBy('counsellor_start_datetime', 'ASC')
                     //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%l:%i %p')"), 'ASC')
                     //->orderBy('slot','ASC')
                     ->paginate(5);
@@ -1249,7 +1420,8 @@ class BookingController extends Controller
                     })
                     ->orderBy('counsellor_booking_date','ASC')
                     //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
-                    ->orderBy('counsellor_timezone_slot','ASC')
+                    //->orderBy('counsellor_timezone_slot','ASC')
+                    ->orderBy('user_start_datetime', 'ASC')
                     //->orderBy(DB::raw("STR_TO_DATE(counsellor_timezone_slot,'%h.%i%a')"), 'ASC')
                     //->orderBy('counsellor_timezone_slot','ASC')
                     ->paginate(5);

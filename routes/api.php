@@ -131,5 +131,6 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 
 	Route::get('get/invoice/{bookingid}', 'API\InvoiceController@getInvoiceOverEmail');
 	Route::post('cancel/booking', 'API\BookingController@cancelBooking');
+	Route::get('get/cancel/booking', 'API\BookingController@getCancelBooking');
 	
 });
