@@ -14,17 +14,17 @@
     				</h4>
     				<p style="margin-bottom: 10px;">
    						<span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
-    						Your listing has been approved, thank you for joining us. Please make sure you have completed all the necessary sections such as you Stripe details, your availability, your link to Google Calendar (if you require) and make sure you mark our emails as safe to make sure you receive all our notifications, sometimes email providers send emails to junk or spam so if this is where our email arrives, please mark ‘not junk’ and move to inbox, thank you! <a href="mailto:support@soberlistics.com">click here</a>
+    						You have a review, navigate to your listing page to check out what people are saying about you! Only people you have worked with can leave you a review so I’m sure your review is great, if not and you believe it’s unfair, please <a href ="mailto:support@soberlistics.com">contact us</a> to see if we can help.
     					</span>
     				</p>
                     
                     <p style="margin-bottom: 20px; margin-top: 50px;">
                         <span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
-                            Kind regards,
+                            Kind regards
                         </span>
                     </p>
                     <p style="margin-bottom: 20px;">
-                        <span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
+                       <span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
                             {{ config('app.name') }}
                             <br>
                             <a href="https://soberlistic.com">{{ config('app.name') }}.com
@@ -34,10 +34,10 @@
                         <td style="padding: 20px; background: #f5f8fa; word-break: break-word;border-collapse: collapse !important;vertical-align: top; text-align: center;font-family: 'Quicksand', sans-serif;">
                             <img src="{{ $message->embed(asset('/uploads/logo.png'))}}" style="max-width: 40%; width: 100%;" alt="Logo" />
                         </td>
-                     </tr>
+                    </tr>
                     <hr />
-                    <p style="margin-bottom: 20px;">
-                        <span style="max-width: 50%; width: 100%; font-size: 16px; font-weight: 500; color: #6B6B6B;">
+                     <p style="margin-bottom: 20px;">
+                         <span style="max-width: 50%; width: 100%; font-size: 16px; font-weight: 500; color: #6B6B6B;">
                             This e-mail is intended only for the person(s) or entity to which it is addressed and may contain confidential information. Any review, distribution, copying, printing, or other use of this e-mail by anyone other than the name recipient is prohibited. If you have received this e-mail in error or are not the named recipient, please notify the sender immediately and permanently delete this e-mail and all copies of it. Thank you. If you no longer wish to receive these emails please Unsubscribe (link) but be aware if you do you will not receive any notifications you may need to book, amend booking or have the full booking functionality of SoberListic. <a href="https://soberlistic.com/privacy-policy">Privacy Policy</a><br><a href="https://soberlistic.com/terms-and-conditions">Terms & Conditions </a>
                         </span>
                     </p>
@@ -45,8 +45,8 @@
     		</tr>
             <tr style="background: #f5f8fa;">
                 <td style="padding-left: 50px; padding-right: 50px; padding-top: 20px;font-family: 'Quicksand', sans-serif;">
-                    <p style="font-size: 16px; padding-bottom: 20px; color: #6B6B6B;; text-align: center; font-weight: 200;">
-                        ©2022 Wellness Tech LTD Company Number 13156843 <a href="https://find-and-update.company-information.service.gov.uk/company/13156843">link to company’s house </a>
+                   <p style="font-size: 16px; padding-bottom: 20px; color: #6B6B6B;; text-align: center; font-weight: 200;">
+                         ©2022 Wellness Tech LTD Company Number 13156843 <a href="https://find-and-update.company-information.service.gov.uk/company/13156843">link to company’s house </a>
                     </p>
                 </td>
             </tr>

@@ -29,9 +29,9 @@ class OtpSendListner
     public function handle(UserRegisterEvent $event)
     {
         $user = User::find($event->userId)->toArray();
-        /*Mail::send('emails.otp', ["user"=>$user], function($message) use ($user) {
+        Mail::send('emails.otp', ["user"=>$user], function($message) use ($user) {
             $message->to($user['email']);
             $message->subject('OTP for registration');
-        });*/
+        });
     }
 }

@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::get('login', 'Admin\AdminController@login');
 Route::get('/logout', 'Admin\AdminController@logout');
 Route::post('login/admin-login', 'Admin\AdminController@adminLogin');
-
+Route::get('/booking/mail', 'Admin\BookingController@bookingMail');
 Route::group(['prefix'=>'login'], function(){
 	//users
 	Route::get('/dashboard', 'Admin\AdminController@dashboard');

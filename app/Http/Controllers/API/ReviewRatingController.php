@@ -9,6 +9,7 @@ use App\Booking;
 use App\CallLog;
 use App\Listing;
 use App\User;
+use App\Events\LeaveReviewEvent;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewRatingController extends Controller
@@ -30,6 +31,7 @@ class ReviewRatingController extends Controller
 
 			$user = Auth::user();
 			$user_alreday_exist=ListingReview::where('user_id',$user->id)->where('listing_id',$request->listing_id)->first();
+			$listing_data=Listing::where('id',$request->listing_id)->first();
 			if($user_alreday_exist)
 			{
                 return response()->json(['success' => false,
@@ -43,7 +45,7 @@ class ReviewRatingController extends Controller
 			$review_data->rating = $request->rating;
 			$review_data->listing_id=$request->listing_id;
 			$review_data->save(); 
-
+			event(new LeaveReviewEvent($listing_data->user_id));
 			if(!empty($review_data)){ 
 				$this->updateListingAvgRating($request->listing_id);
 			}

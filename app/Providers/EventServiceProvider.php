@@ -66,6 +66,12 @@ class EventServiceProvider extends ServiceProvider
        'App\Events\ContactEvent' => [
             'App\Listeners\ContactListner',
         ],
+         'App\Events\LeaveReviewEvent' => [
+            'App\Listeners\LeaveReviewListner',
+        ],
+        'App\Events\CancelBookingEvent' => [
+            'App\Listeners\CancelBookingListner',
+        ],
         
     ];
 

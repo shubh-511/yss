@@ -2,14 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\BookingEvent;
+use App\Events\LeaveReviewEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
-use App\Booking;
 use Mail;
 
-class SuccessfulBookingListner
+class LeaveReviewListner
 {
     /**
      * Create the event listener.
@@ -24,18 +23,16 @@ class SuccessfulBookingListner
     /**
      * Handle the event.
      *
-     * @param  BookingEvent  $event
+     * @param  LeaveReviewEvent  $event
      * @return void
      */
-    public function handle(BookingEvent $event)
+    public function handle(LeaveReviewEvent $event)
     {
-        $user = User::find($event->userDetail)->toArray();
-        $booking = Booking::find($event->bookingDetail)->toArray();
-
-        Mail::send('emails.success_booking', ["user"=>$user, "booking"=>$booking], function($message) use ($user) {
+         $user = User::find($event->userId)->toArray();
+        Mail::send('emails.profile_review', ["user"=>$user], function($message) use ($user) {
             $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
-            $message->subject('Booking Successful');
+            $message->subject('Someone view your profile');
         });
     }
 }

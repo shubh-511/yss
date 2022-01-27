@@ -27,6 +27,7 @@ use App\Events\BookingEvent;
 use App\Events\BookingCounsellorEvent;
 use App\Events\BookLeftSession;
 use App\Events\FailedBookingEvent;
+use App\Events\CancelBookingEvent;
 //use App\Events\CancelBookingByCounsellorEvent;
 use DateTime;
 use DateTimeZone;
@@ -151,7 +152,7 @@ class BookingController extends Controller
 
                     Booking::where('id', $request->booking_id)->where('user_id', $user)->update(['status' => '4']); //cancelled or refunded
                 }
-
+                event(new CancelBookingEvent($user));
                 return response()->json(['success' => true,
                                          'message' => 'Your booking has been cancelled successfully. Refund if applicable will be issued.'
                                         ], $this->successStatus);
