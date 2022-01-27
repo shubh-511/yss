@@ -30,7 +30,7 @@ class CancelBookingListner
     {
         $user = User::find($event->userId)->toArray();
         Mail::send('emails.cancel_booking_counsellor', ["user"=>$user], function($message) use ($user) {
-            $message->from(env('MAIL_FROM_ADDRESS'));
+            //$message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
             $message->subject('Soberlistic');
         });

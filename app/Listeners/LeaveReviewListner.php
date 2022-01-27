@@ -30,7 +30,7 @@ class LeaveReviewListner
     {
          $user = User::find($event->userId)->toArray();
         Mail::send('emails.profile_review', ["user"=>$user], function($message) use ($user) {
-            $message->from(env('MAIL_FROM_ADDRESS'));
+            //$message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($user['email']);
             $message->subject('Someone view your profile');
         });

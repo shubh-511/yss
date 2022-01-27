@@ -35,7 +35,7 @@ class BookingCounsellorListner
 
         Mail::send('emails.success_booking_counsellor', ["user"=>$user, "booking"=>$booking, "bookedUser"=>$bookedUser], function($message) use ($user) {
 
-            $message->from('support@soberlistic.com');
+          //  $message->from('support@soberlistic.com');
 
             $message->to($user['email']);
             $message->subject('New Booking');
