@@ -75,6 +75,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CancelBookingByUser' => [
             'App\Listeners\CancelBookingByUserListner',
         ],
+        'App\Events\BookingCronCounsellorEvent' => [
+            'App\Listeners\BookingCronCounsellorListner',
+        ],
+
+        
 
         
         

@@ -14,28 +14,28 @@
     		</tr>
     		<tr>
     			<td style="padding-left: 50px; padding-right: 50px;font-family: 'Quicksand', sans-serif;">
-    				<h4 style="line-height: 10px; margin: auto;padding:35px 0 10px 0; font-size: 25px; color: #000; font-weight: 700;">
+    				<h4 style="line-height: 10px; margin: auto;padding:35px 0 10px 0; font-size: 20px; color: #000; font-weight: 700;">
     					Hello {{ $user['name'] }}
     				</h4>
     				<p style="margin-bottom: 10px;">
-   						<span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
+   						<span style="max-width: 50%; width: 100%; font-size: 15px; font-weight: 500; color: #6B6B6B;">
     						Sorry for the inconvenience, Your payment has been failed, If you have any further query regarding your payment, Please contact to admin <a href="mailto:support@soberlistics.com">click here</a>
     					</span>
     				</p>
                     
                     <p style="margin-bottom: 20px; margin-top: 50px;">
-                        <span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
+                        <span style="max-width: 50%; width: 100%; font-size: 15px; font-weight: 500; color: #6B6B6B;">
                             Regards,
                         </span>
                     </p>
                     <p style="margin-bottom: 20px;">
-                        <span style="max-width: 50%; width: 100%; font-size: 18px; font-weight: 500; color: #6B6B6B;">
+                        <span style="max-width: 50%; width: 100%; font-size: 15px; font-weight: 500; color: #6B6B6B;">
                             {{ config('app.name') }}
                         </span>
                     </p>
                     <hr />
                     <p style="margin-bottom: 20px;">
-                        <span style="max-width: 50%; width: 100%; font-size: 16px; font-weight: 500; color: #6B6B6B;">
+                        <span style="max-width: 50%; width: 100%; font-size: 13px; font-weight: 500; color: #6B6B6B;">
                             If you're having trouble clicking the "Notification Action" button, copy and paste the URL below into your web browser: <a href="javascript:void(0)">test.com</a>
                         </span>
                     </p>
@@ -43,7 +43,7 @@
     		</tr>
             <tr style="background: #f5f8fa;">
                 <td style="padding-left: 50px; padding-right: 50px; padding-top: 20px;font-family: 'Quicksand', sans-serif;">
-                    <p style="font-size: 16px; padding-bottom: 20px; color: #6B6B6B;; text-align: center; font-weight: 200;">
+                    <p style="font-size: 13px; padding-bottom: 20px; color: #6B6B6B;; text-align: center; font-weight: 200;">
                         Copyright © 2021, Soberlistic. All rights reserved.
                     </p>
                 </td>

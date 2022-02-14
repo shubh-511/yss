@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use App\Events\UserRegisterEvent;
 use App\Events\BookLeftSession;
 use App\Events\CounsellorLeftSessionEvent;
+use App\Events\BookingCronCounsellorEvent;
 use App\Notification;
 use App\GeneralSetting;
 use App\LeftSession;
@@ -502,8 +503,7 @@ class BookingController extends Controller
                  {
                   
                  });
-                 print_r($bookings);
-                 die;
+                
                 foreach ($bookings as $key => $booking) 
                 {
                   $cells = [
@@ -536,6 +536,14 @@ class BookingController extends Controller
             }
              $writer->close();
              exit();
+    }
+
+    public function bookingMail(Request $request)
+    {
+        $current_date=date('Y-m-d');
+        $counsellor_data=Booking::where('counsellor_booking_date',$current_date)->pluck('counsellor_id')->toArray();
+         event(new BookingCronCounsellorEvent($counsellor_data));
+
     }
 
 

@@ -68,7 +68,7 @@
                   <thead>
                     <tr>
                       <th><input type="checkbox" id="check_all_checkbox"></th>
-                      <th>Listing Name</th>
+                      <th>Listing Name </th>
                       <th>Category</th>
                       <th>Created By</th>
                       <th>Created Date</th>
